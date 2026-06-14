@@ -1,0 +1,65 @@
+[
+  {
+    "id": "bazi_daily_wealth_001",
+    "system": "bazi",
+    "category": "wealth",
+    "scope": "daily",
+    "sourceReference": "子平法：財星得用而日主能任之概念",
+    "condition": {
+      "all": [
+        { "field": "dayFortuneTenGod", "op": "in", "value": ["正財", "偏財"] },
+        { "field": "dayMasterStrength", "op": "gte", "value": 50 },
+        { "field": "dayBranchRelation", "op": "not_in", "value": ["沖", "刑"] }
+      ]
+    },
+    "weight": 7,
+    "scoreEffect": 12,
+    "level": "positive",
+    "explanationTemplate": "今日財星臨日且日主有力，對財務事項的判斷較清晰，適合檢視部位、整理帳務與既定計畫內的資金安排。",
+    "strategyTemplate": "依既有紀律執行即可，不因環境偏佳而放大部位。",
+    "riskWarning": "偏財旺時易高估勝率，留意過度交易。",
+    "needsVerification": false,
+    "enabled": true
+  },
+  {
+    "id": "bazi_daily_wealth_002",
+    "system": "bazi",
+    "category": "wealth",
+    "scope": "daily",
+    "sourceReference": "子平法：比劫奪財概念",
+    "condition": {
+      "all": [
+        { "field": "dayFortuneTenGod", "op": "in", "value": ["比肩", "劫財"] },
+        { "field": "favorableElements", "op": "not_in", "value": ["{{dayFortuneElement}}"] }
+      ]
+    },
+    "weight": 7,
+    "scoreEffect": -12,
+    "level": "caution",
+    "explanationTemplate": "今日比劫氣強而非喜用，財務上傾向衝動與競逐，容易因他人意見或情緒追價。",
+    "strategyTemplate": "建議以觀望為主，避免臨時起意的進出；重要資金決定可延後一天。",
+    "riskWarning": "需特別留意追高與放大槓桿的衝動。",
+    "needsVerification": true,
+    "enabled": true
+  },
+  {
+    "id": "bazi_daily_career_001",
+    "system": "bazi",
+    "category": "career",
+    "scope": "daily",
+    "sourceReference": "子平法概念：印星護身利文書",
+    "condition": {
+      "all": [
+        { "field": "dayFortuneTenGod", "op": "in", "value": ["正印", "偏印"] },
+        { "field": "dayMasterStrength", "op": "lte", "value": 50 }
+      ]
+    },
+    "weight": 6,
+    "scoreEffect": 10,
+    "level": "positive",
+    "explanationTemplate": "今日印星有助，思緒沉穩，較適合處理文書、簽核、整理資料與向上報告。",
+    "strategyTemplate": "適合先準備充分再溝通；長官面前以條理與依據取勝。",
+    "needsVerification": true,
+    "enabled": true
+  }
+]
