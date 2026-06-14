@@ -1,0 +1,18 @@
+{
+  "systemWeights": {
+    "daily":    { "bazi": 0.35, "ziwei": 0.20, "qimen": 0.45 },
+    "monthly":  { "bazi": 0.45, "ziwei": 0.35, "qimen": 0.20 },
+    "yearly":   { "bazi": 0.45, "ziwei": 0.45, "qimen": 0.10 },
+    "decision": { "bazi": 0.30, "ziwei": 0.25, "qimen": 0.45 }
+  },
+  "confidenceFactor": { "exact": 1.0, "approximate": 0.8, "unknown": 0.5 },
+  "needsVerificationFactor": 0.5,
+  "baseScore": 50,
+  "scoreLabels": [
+    { "min": 80, "label": "佳" },
+    { "min": 65, "label": "偏佳" },
+    { "min": 45, "label": "平" },
+    { "min": 30, "label": "需留意" },
+    { "min": 0,  "label": "宜守" }
+  ]
+}
