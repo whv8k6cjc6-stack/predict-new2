@@ -4,7 +4,7 @@ import { computeZiwei, ziweiFacts } from "../ziwei";
 import { computeQimen, qimenFacts } from "../qimen";
 import { runRules } from "../rule-engine/match";
 import { STEMS } from "../calendar/ganzhi";
-import { flowPillars } from "../bazi";
+import { lunarDate } from "../calendar/lunar";
 import type { Profile } from "@/types/profile";
 import type { FortuneResult, Scores, Topic, TriggeredRule } from "@/types/fortune";
 import baziRules from "@/data/rules/bazi-rules.json";
@@ -132,7 +132,10 @@ export function computeFortune(p: Profile, q: ComputeQuery): FortuneResult {
   const triggered: TriggeredRule[] = [];
   const zw = computeZiwei(p);
   if (zw) {
-    const flowYearStem = STEMS[flowPillars(qy, qm, qd).year.index % 10];
+    // 紫微年界採農曆正月初一（與安星一致），不用八字的立春界
+    const qlu = lunarDate(qy, qm, qd);
+    const zwYear = qlu.month >= 11 && qm <= 2 ? qy - 1 : qy;
+    const flowYearStem = STEMS[((zwYear - 4) % 10 + 10) % 10];
     const zf = ziweiFacts(zw, flowYearStem);
     const hit = (k: string, pal: string, d: Partial<Scores>, msg: string) => {
       if (zf.hua[k] === pal) { bump(d, W.ziwei * 2.2); triggered.push({ ruleId: `zw_${k}_${pal}`, system: "ziwei", level: (d.risk ?? 0) > 0 || (d.wealth ?? 0) < 0 ? "caution" : "positive", explanation: msg, strategy: "", weight: 6 }); }
@@ -164,7 +167,8 @@ export function computeFortune(p: Profile, q: ComputeQuery): FortuneResult {
     qimenDoor: qf.dayPalaceDoor, qimenGod: qf.dayPalaceGod,
   };
   const rr = runRules(baziRules as unknown as FortuneRule[], facts, scope);
-  Object.entries(rr.deltas).forEach(([k, v]) => (add[k] = (add[k] ?? 0) + v * W.bazi * conf));
+  // conf 於合成階段統一乘一次，這裡不可再乘（否則 JSON 規則被打 conf²）
+  Object.entries(rr.deltas).forEach(([k, v]) => (add[k] = (add[k] ?? 0) + v * W.bazi));
   triggered.push(...rr.triggered);
 
   // —— 合成 ——

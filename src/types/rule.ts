@@ -1,6 +1,6 @@
 export type ConditionOp =
   | "eq" | "neq" | "in" | "not_in" | "gte" | "lte"
-  | "contains" | "conflictsWith" | "combinesWith";
+  | "contains" | "not_contains" | "conflictsWith" | "combinesWith";
 
 export interface ConditionLeaf {
   field: string;        // 引擎輸出欄位名，見 docs/RULE_ENGINE.md

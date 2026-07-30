@@ -15,6 +15,14 @@ function newMoonBefore(jdUT: number): { k: number; day: number } {
 
 export interface LunarDate { year: number; month: number; day: number; isLeap: boolean }
 
+/** 含冬至之月（朔日 ≤ 冬至日）；朔落在冬至時刻後 12 小時內但已跨 UTC+8 曆日時需回退一月 */
+function moonContainingSolstice(ws: number): { k: number; day: number } {
+  const wsDay = localDayNumber(ws);
+  let moon = newMoonBefore(ws + 0.5);
+  if (wsDay < dnOfMoonStart(moon.k)) moon = { k: moon.k - 1, day: dnOfMoonStart(moon.k - 1) };
+  return moon;
+}
+
 export function lunarDate(y: number, m: number, d: number): LunarDate {
   const jd = jdFromLocal(y, m, d, 12);
   const dn = localDayNumber(jd);
@@ -22,22 +30,16 @@ export function lunarDate(y: number, m: number, d: number): LunarDate {
   const cur = newMoonBefore(jd + 0.5);
   // 取本日所屬「歲」：前一個冬至所在月為 11 月
   let wsYear = y;
-  let ws = winterSolsticeJD(wsYear);
-  const wsDay = localDayNumber(ws);
-  // 含冬至之月（朔日 ≤ 冬至日）
-  let wsMoon = newMoonBefore(ws + 0.5);
-  if (wsDay < dnOfMoonStart(wsMoon.k)) wsMoon = { k: wsMoon.k - 1, day: dnOfMoonStart(wsMoon.k - 1) };
+  let wsMoon = moonContainingSolstice(winterSolsticeJD(wsYear));
   if (cur.day < wsMoon.day) { // 本日在去年冬至月之前 → 用前一年冬至
     wsYear = y - 1;
-    ws = winterSolsticeJD(wsYear);
-    wsMoon = newMoonBefore(ws + 0.5);
+    wsMoon = moonContainingSolstice(winterSolsticeJD(wsYear));
   }
   // 下一個冬至，界定本歲共幾個朔望月
-  const ws2 = winterSolsticeJD(wsYear + 1);
-  const ws2Moon = newMoonBefore(ws2 + 0.5);
+  const ws2Moon = moonContainingSolstice(winterSolsticeJD(wsYear + 1));
   const monthsInSui = ws2Moon.k - wsMoon.k; // 12 或 13
-  // 閏月：歲內第一個無中氣之月
-  let leapK = -1;
+  // 閏月：歲內第一個無中氣之月（k 為朔望月序號，2000 年前為負值，不可用 -1 當哨兵）
+  let leapK: number | null = null;
   if (monthsInSui === 13) {
     for (let k = wsMoon.k + 1; k <= ws2Moon.k; k++) {
       const start = dnOfMoonStart(k), end = dnOfMoonStart(k + 1);
@@ -49,8 +51,8 @@ export function lunarDate(y: number, m: number, d: number): LunarDate {
   let isLeap = false;
   let monthNum: number;
   let effOffset = offset;
-  if (leapK >= 0 && cur.k === leapK) { isLeap = true; effOffset = offset - 1; }
-  else if (leapK >= 0 && cur.k > leapK) effOffset = offset - 1;
+  if (leapK !== null && cur.k === leapK) { isLeap = true; effOffset = offset - 1; }
+  else if (leapK !== null && cur.k > leapK) effOffset = offset - 1;
   monthNum = ((11 - 1 + effOffset) % 12) + 1;
   const day = dn - cur.day + 1;
   // 農曆年：正月初一所屬年份近似（顯示用）

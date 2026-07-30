@@ -11,7 +11,7 @@
 npm install
 npm run dev        # http://localhost:3000
 npm run build      # 產線建置
-npx vitest run     # 48 項測試（含奇門旬首遁儀與起局一致性）
+npx vitest run     # 59 項測試（含奇門旬首遁儀、閏月與冬至月界回歸）
 ```
 
 ## 部署（GitHub + Vercel）

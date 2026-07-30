@@ -3,16 +3,22 @@ import type { TriggeredRule } from "@/types/fortune";
 
 type Facts = Record<string, unknown>;
 
+/** value 可寫成 "{{欄位名}}" 引用另一個 fact 欄位的值 */
+const resolveRef = (val: unknown, f: Facts): unknown =>
+  typeof val === "string" && val.startsWith("{{") && val.endsWith("}}") ? f[val.slice(2, -2)] : val;
+
 function leaf(c: ConditionLeaf, f: Facts): boolean {
   const v = f[c.field];
+  const value = Array.isArray(c.value) ? c.value.map(x => resolveRef(x, f)) : resolveRef(c.value, f);
   switch (c.op) {
-    case "eq": return v === c.value;
-    case "neq": return v !== c.value;
-    case "in": return Array.isArray(c.value) && c.value.includes(v);
-    case "not_in": return Array.isArray(c.value) && !c.value.includes(v);
-    case "gte": return typeof v === "number" && v >= (c.value as number);
-    case "lte": return typeof v === "number" && v <= (c.value as number);
-    case "contains": return Array.isArray(v) && v.includes(c.value);
+    case "eq": return v === value;
+    case "neq": return v !== value;
+    case "in": return Array.isArray(value) && value.includes(v);
+    case "not_in": return Array.isArray(value) && !value.includes(v);
+    case "gte": return typeof v === "number" && v >= (value as number);
+    case "lte": return typeof v === "number" && v <= (value as number);
+    case "contains": return Array.isArray(v) && v.includes(value);
+    case "not_contains": return Array.isArray(v) && !v.includes(value);
     default: return false;
   }
 }

@@ -30,7 +30,7 @@
     "condition": {
       "all": [
         { "field": "dayFortuneTenGod", "op": "in", "value": ["比肩", "劫財"] },
-        { "field": "favorableElements", "op": "not_in", "value": ["{{dayFortuneElement}}"] }
+        { "field": "favorableElements", "op": "not_contains", "value": "{{dayFortuneElement}}" }
       ]
     },
     "weight": 7,

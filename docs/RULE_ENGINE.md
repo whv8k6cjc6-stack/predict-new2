@@ -25,7 +25,7 @@ interface FortuneRule {
 }
 ```
 
-`RuleCondition` 為遞迴結構，支援 `all` / `any` / `not` 組合與引擎輸出欄位的比對運算子（eq / in / gte / contains / conflictsWith / combinesWith…），由 `engines/rule-engine` 統一解譯，三系統共用。
+`RuleCondition` 為遞迴結構，支援 `all` / `any` / `not` 組合與引擎輸出欄位的比對運算子（eq / in / gte / contains / not_contains / conflictsWith / combinesWith…），由 `engines/rule-engine` 統一解譯，三系統共用。`value` 可寫成 `"{{欄位名}}"` 引用另一個引擎輸出欄位的值（例：`{ "field": "favorableElements", "op": "not_contains", "value": "{{dayFortuneElement}}" }` 表「流日五行不在喜用之列」）。
 
 ## 2. 各系統條件欄位（引擎輸出 → 規則可引用）
 

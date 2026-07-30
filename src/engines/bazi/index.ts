@@ -40,7 +40,7 @@ export function branchRelation(a: number, b: number): "沖" | "六合" | "三合
   if (sanhe.some(g => g.includes(a) && g.includes(b) && a!==b)) return "三合";
   const xing = [[2,5,8],[1,10,7],[0,3]];
   if (xing.some(g => g.includes(a) && g.includes(b) && a!==b)) return "刑";
-  if ([3,5,8,11].includes(a) && a===b) return "刑"; // 自刑
+  if ([4,6,9,11].includes(a) && a===b) return "刑"; // 自刑：辰午酉亥
   return "";
 }
 
