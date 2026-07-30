@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { computeQimen, PALACE_DIR, type QimenChart } from "@/engines/qimen";
 import { qimenNotes } from "@/ai/chart-notes";
 import { NotesPanel } from "@/components/fortune/NotesPanel";
@@ -8,12 +8,18 @@ import { NotesPanel } from "@/components/fortune/NotesPanel";
 const GRID = [4,9,2, 3,5,7, 8,1,6]; // 九宮排列（上南下北亦可，這裡採文王卦序顯示）
 
 export default function QimenPage() {
-  const now = new Date();
-  const [date, setDate] = useState(`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`);
-  const [time, setTime] = useState(`${String(now.getHours()).padStart(2,"0")}:00`);
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("12:00");
   const [c, setC] = useState<QimenChart | null>(null);
 
+  useEffect(() => {
+    const now = new Date();
+    setDate(`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`);
+    setTime(`${String(now.getHours()).padStart(2,"0")}:00`);
+  }, []);
+
   const run = () => {
+    if (!date || !time) return;
     const [y, m, d] = date.split("-").map(Number);
     try { setC(computeQimen(y, m, d, time)); } catch { setC(null); }
   };
@@ -24,7 +30,7 @@ export default function QimenPage() {
       <Link href="/" className="text-sm text-[var(--ink-dim)]">← 返回</Link>
       <h1 className="mt-3 text-2xl font-semibold">奇門遁甲</h1>
       <div className="mt-4 flex gap-2">
-        <input type="date" className={cls + " flex-1"} value={date} onChange={e => setDate(e.target.value)} />
+        <input type="date" className={cls + " flex-1"} value={date} onChange={e => e.target.value && setDate(e.target.value)} />
         <input type="time" className={cls} value={time} onChange={e => setTime(e.target.value)} />
         <button onClick={run} className="rounded-lg bg-[var(--gold)] px-4 text-sm font-medium text-black">起局</button>
       </div>

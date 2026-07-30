@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   title: "玄機決策",
   description: "個人命理決策系統：八字、紫微、奇門三式合參",
   manifest: "/manifest.json",
+  icons: {
+    icon: [{ url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "玄機決策" },
 };
 

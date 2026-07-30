@@ -34,9 +34,7 @@ const SCENARIOS: Scenario[] = [
 ];
 
 export default function QuantPage() {
-  const now = new Date();
-  const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-  const [date, setDate] = useState(today);
+  const [date, setDate] = useState("");
   const [strategies, setStrategies] = useState<string[]>([]);
   const [strategy, setStrategy] = useState("");
   const [newStrat, setNewStrat] = useState("");
@@ -46,12 +44,15 @@ export default function QuantPage() {
   const [log, setLog] = useState<QuantLogEntry[]>([]);
 
   useEffect(() => {
+    const now = new Date();
+    setDate(`${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`);
     const s = getStrategies(); setStrategies(s); setStrategy(s[0] ?? "");
     setLog(getQuantLog());
   }, []);
 
   const run = () => {
     setErr("");
+    if (!date) return;
     const p = getProfiles()[0];
     if (!p || !p.birthDate) { setErr("尚無命盤，請先到「命盤」建立出生資料。"); return; }
     try { setSt(quantState(p, date)); } catch { setErr("計算失敗，請檢查命盤資料。"); }
@@ -64,7 +65,7 @@ export default function QuantPage() {
 
   const logAction = (action: QuantLogEntry["action"], scenario?: string) => {
     const entry: QuantLogEntry = {
-      id: uid(), date, strategy: strategy || "（未指定）", action, scenario,
+      id: uid(), date: st?.date ?? date, strategy: strategy || "（未指定）", action, scenario,
       disciplineRisk: st?.disciplineRisk ?? -1, note: "", loggedAt: new Date().toISOString(),
     };
     const next = [entry, ...log]; setLog(next); saveQuantLog(next);
@@ -110,7 +111,7 @@ export default function QuantPage() {
           {/* 行為向度卡 */}
           <div className="rounded-2xl border border-white/10 bg-[var(--panel)] p-4">
             <div className="flex items-center justify-between">
-              <p className="text-sm">{date}・決策狀態</p>
+              <p className="text-sm">{st.date}・決策狀態</p>
               <span className="rounded-full px-3 py-1 text-xs" style={{ background: URGE_COLOR[st.overrideUrge] + "22", color: URGE_COLOR[st.overrideUrge] }}>
                 凌駕系統傾向：{st.overrideUrge}
               </span>

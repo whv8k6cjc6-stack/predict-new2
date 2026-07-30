@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
-import { getProfiles, getHistory, saveHistory, uid } from "@/lib/storage/store";
+import { useEffect, useState } from "react";
+import { getProfiles, getHistory, saveHistory, getSettings, uid } from "@/lib/storage/store";
 import { computeFortune } from "@/engines/scoring";
 import { templateExplain } from "@/ai/explanation-generator";
 import { INVESTMENT_DISCLAIMER } from "@/ai/prompt-builder";
@@ -42,10 +42,9 @@ function periodList(mode: Mode, start: string, span: number) {
 type ScanRow = { date: string; label: string; overall: number; topical: number };
 
 export default function QueryPage() {
-  const now = new Date();
-  const today = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
   const [mode, setMode] = useState<Mode>("daily");
-  const [date, setDate] = useState(today);
+  const [date, setDate] = useState("");
+  const [aiOn, setAiOn] = useState(false);
   const [topic, setTopic] = useState<Topic>("overall");
   const [intent, setIntent] = useState("觀望");
   const [scan, setScan] = useState(false);
@@ -56,14 +55,25 @@ export default function QueryPage() {
   const [aiBusy, setAiBusy] = useState(false);
   const [err, setErr] = useState("");
 
+  useEffect(() => {
+    const now = new Date();
+    setDate(`${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`);
+    setAiOn(getSettings().aiEnabled);
+  }, []);
+
   const periodDate = mode === "monthly" ? date.slice(0, 7) : mode === "yearly" ? date.slice(0, 4) : date;
 
   const runOne = (qDate: string) => {
     setErr("");
+    if (!qDate) return;
     const p = getProfiles()[0];
     if (!p) { setErr("尚無命盤，請先至「命盤」建立。"); return; }
     try {
-      const res = computeFortune(p, { type: mode, date: qDate, topic });
+      // 查「今日」時帶入目前時辰，與首頁今日運勢一致；其他日期以正午為代表時辰
+      const now = new Date();
+      const todayStr = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+      const time = mode === "daily" && qDate === todayStr ? `${pad(now.getHours())}:00` : undefined;
+      const res = computeFortune(p, { type: mode, date: qDate, topic, time });
       setR(res);
       setText(templateExplain(res, topic === "wealth"));
       const h = getHistory();
@@ -79,6 +89,7 @@ export default function QueryPage() {
 
   const runScan = () => {
     setErr(""); setR(null); setText("");
+    if (!date) return;
     const p = getProfiles()[0];
     if (!p) { setErr("尚無命盤，請先至「命盤」建立。"); return; }
     const key = topicKey(topic);
@@ -222,9 +233,11 @@ export default function QueryPage() {
           <div className="rounded-xl border border-white/10 bg-[var(--panel)] p-4 text-sm leading-relaxed whitespace-pre-line">{text}</div>
           <div className="flex items-center justify-between">
             <p className="text-xs leading-relaxed text-[var(--ink-dim)]">查詢：{r.targetDate}<br />吉方 {r.bestDirection}<br />吉時 {r.bestTimeRange}</p>
-            <button onClick={askAI} disabled={aiBusy} className="rounded-lg border border-white/20 px-3 py-1.5 text-xs disabled:opacity-50">
-              {aiBusy ? "AI 解讀中…" : "AI 白話解讀"}
-            </button>
+            {aiOn && (
+              <button onClick={askAI} disabled={aiBusy} className="rounded-lg border border-white/20 px-3 py-1.5 text-xs disabled:opacity-50">
+                {aiBusy ? "AI 解讀中…" : "AI 白話解讀"}
+              </button>
+            )}
           </div>
           <p className="text-[11px] leading-relaxed text-[var(--ink-dim)]">
             {topic === "wealth" ? INVESTMENT_DISCLAIMER : r.disclaimer}

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { getSettings, saveSettings, exportAll, importAll, type Settings } from "@/lib/storage/store";
+import { getSettings, saveSettings, exportAll, importAll, clearAll as clearStore, type Settings } from "@/lib/storage/store";
 
 export default function SettingsPage() {
   const [s, setS] = useState<Settings>({ aiEnabled: false });
@@ -24,8 +24,9 @@ export default function SettingsPage() {
     setMsg(ok ? "匯入成功，請回首頁重新整理。" : "匯入失敗，檔案格式不符。");
   };
   const clearAll = () => {
-    if (!confirm("確定清除此裝置上的所有命盤、紀錄與設定？此動作無法復原。")) return;
-    ["dd:profiles", "dd:history", "dd:settings"].forEach(k => localStorage.removeItem(k));
+    if (!confirm("確定清除此裝置上的所有命盤、紀錄、策略、紀律日誌與設定？此動作無法復原。")) return;
+    clearStore();
+    setS({ aiEnabled: false });
     setMsg("已清除全部資料。");
   };
 
@@ -39,7 +40,7 @@ export default function SettingsPage() {
           <span>AI 白話解讀（需於 Vercel 設定 ANTHROPIC_API_KEY）</span>
           <input type="checkbox" checked={s.aiEnabled} onChange={e => upd({ aiEnabled: e.target.checked })} />
         </label>
-        <p className="mt-2 text-[11px] text-[var(--ink-dim)]">未設定金鑰時，查詢頁會自動使用本機模板解釋，不影響功能。</p>
+        <p className="mt-2 text-[11px] text-[var(--ink-dim)]">關閉時查詢頁不顯示「AI 白話解讀」按鈕；未設定金鑰時亦會自動退回本機模板解釋，不影響功能。</p>
       </div>
 
       <div className="mt-3 rounded-xl border border-white/10 bg-[var(--panel)] p-4">

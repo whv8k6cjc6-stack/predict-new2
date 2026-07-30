@@ -72,7 +72,8 @@ export default function ProfilePage() {
           <option value="exact">確定</option><option value="approximate">大約</option><option value="unknown">不確定</option>
         </select>
         <label className={lbl}>出生地（選縣市自動帶入經度，真太陽時用）</label>
-        <select className={cls} value={TW_CITIES.find(c => Math.abs(c.lng - p.birthPlace.longitude) < 0.02)?.name ?? "custom"}
+        <select className={cls} value={(TW_CITIES.find(c => c.name === p.birthPlace.city && Math.abs(c.lng - p.birthPlace.longitude) < 0.005)
+            ?? TW_CITIES.find(c => Math.abs(c.lng - p.birthPlace.longitude) < 0.005))?.name ?? "custom"}
           onChange={e => { const c = TW_CITIES.find(x => x.name === e.target.value); if (c) upd({ birthPlace: { ...p.birthPlace, city: c.name, longitude: c.lng, latitude: c.lat } }); }}>
           {TW_CITIES.map(c => <option key={c.name} value={c.name}>{c.name}（{c.lng}）</option>)}
           <option value="custom">其他／自訂經度</option>

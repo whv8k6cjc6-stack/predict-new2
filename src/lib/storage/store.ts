@@ -41,15 +41,30 @@ export const saveQuantLog = (l: QuantLogEntry[]) => write(K.quantlog, l.slice(0,
 export function exportAll(): string {
   return JSON.stringify({ exportedAt: new Date().toISOString(), profiles: getProfiles(), history: getHistory(), settings: getSettings(), strategies: getStrategies(), quantlog: getQuantLog() }, null, 2);
 }
+const ACCURACIES = ["exact", "approximate", "unknown"];
+const isObj = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
+const isValidProfile = (p: unknown): boolean =>
+  isObj(p) && typeof p.id === "string" && typeof p.birthDate === "string" &&
+  ACCURACIES.includes(p.birthTimeAccuracy as string) &&
+  isObj(p.birthPlace) && typeof p.birthPlace.longitude === "number";
+
+/** 匯入前逐鍵驗證結構；任何一鍵格式不符即整批拒絕，避免壞備份蓋掉好資料。 */
 export function importAll(json: string): boolean {
   try {
     const d = JSON.parse(json);
-    if (d.profiles) saveProfiles(d.profiles);
-    if (d.history) saveHistory(d.history);
-    if (d.settings) saveSettings(d.settings);
-    if (d.strategies) saveStrategies(d.strategies);
-    if (d.quantlog) saveQuantLog(d.quantlog);
+    if (!isObj(d)) return false;
+    if (d.profiles !== undefined && !(Array.isArray(d.profiles) && d.profiles.every(isValidProfile))) return false;
+    if (d.history !== undefined && !(Array.isArray(d.history) && d.history.every(isObj))) return false;
+    if (d.settings !== undefined && !isObj(d.settings)) return false;
+    if (d.strategies !== undefined && !(Array.isArray(d.strategies) && d.strategies.every(s => typeof s === "string"))) return false;
+    if (d.quantlog !== undefined && !(Array.isArray(d.quantlog) && d.quantlog.every(isObj))) return false;
+    if (d.profiles) saveProfiles(d.profiles as Profile[]);
+    if (d.history) saveHistory(d.history as unknown as HistoryRecord[]);
+    if (d.settings) saveSettings(d.settings as unknown as Settings);
+    if (d.strategies) saveStrategies(d.strategies as string[]);
+    if (d.quantlog) saveQuantLog(d.quantlog as unknown as QuantLogEntry[]);
     return true;
   } catch { return false; }
 }
+export function clearAll() { Object.values(K).forEach(k => { try { localStorage.removeItem(k); } catch {} }); }
 export const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
