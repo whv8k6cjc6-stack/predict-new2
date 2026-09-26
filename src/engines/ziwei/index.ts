@@ -23,6 +23,7 @@ export interface ZiweiChart {
   palaceOf: (starOrName: string) => number | null;
   palaceNames: Record<number, string>;    // 宮支 index → 宮名
   daxian: { palace: number; range: [number, number] }[];
+  birthLunarMonth: number; birthHourBranch: number;
 }
 
 const SIHUA_TABLE: Record<string, [string,string,string,string]> = {
@@ -121,6 +122,7 @@ export function computeZiwei(p: Profile): ZiweiChart | null {
     lunar: { month: lu.month, day: lu.day, isLeap: lu.isLeap },
     mingGong: ming, shenGong: shen, ju, juElement: juEl,
     stars, sihua: yearSihua(STEMS[ys]), palaceOf, palaceNames, daxian,
+    birthLunarMonth: lm, birthHourBranch: hb,
   };
 }
 
@@ -133,5 +135,24 @@ export function ziweiFacts(chart: ZiweiChart, flowYearStem: string): ZiweiFacts 
     hua[k] = pal === null ? null : chart.palaceNames[pal];
   });
   return { hua };
+}
+/** 斗君（流年正月所在宮）：自流年太歲宮起正月，逆數至生月，再從該宮起子時順數至生時。
+ *  流月＝斗君順數至該月；流日＝流月宮起初一順數至該日。 */
+export function flowDayPalace(chart: ZiweiChart, flowYearBranch: number, lunarMonth: number, lunarDay: number) {
+  const doujun = (((flowYearBranch - (chart.birthLunarMonth - 1) + chart.birthHourBranch) % 12) + 12) % 12;
+  const month = (doujun + lunarMonth - 1) % 12;
+  const day = (month + lunarDay - 1) % 12;
+  return { doujun, month, day };
+}
+
+/** 任一天干之四化落入本命哪一宮（宮名）。 */
+export function stemSihuaPalaces(chart: ZiweiChart, stem: string) {
+  const sh = yearSihua(stem);
+  const out = {} as Record<"祿" | "權" | "科" | "忌", { star: string; palace: string | null }>;
+  (Object.keys(sh) as (keyof typeof sh)[]).forEach(k => {
+    const pal = chart.palaceOf(sh[k]);
+    out[k] = { star: sh[k], palace: pal === null ? null : chart.palaceNames[pal] };
+  });
+  return out;
 }
 export { BRANCHES, ganzhiFromIndex };

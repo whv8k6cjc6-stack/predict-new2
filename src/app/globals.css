@@ -1,19 +1,63 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0c0a14;
-  --panel: #16121f;
-  --ink: #ece7f4;
-  --ink-dim: #9a92ab;
-  --gold: #d4af6a;
-  --jade: #4fb286;
-  --vermilion: #d4604f;
+  --bg: #0e0b16;
+  --bg-2: #141020;
+  --panel: #1a1527;
+  --panel-2: #221c33;
+  --line: rgba(255, 255, 255, 0.08);
+  --ink: #f1ecf8;
+  --ink-2: #c9c1d8;
+  --ink-dim: #948ba6;
+  --gold: #e3b866;
+  --jade: #5cc59a;
+  --vermilion: #e0715f;
+
+  /* 運勢等級（暖＝吉、冷＝宜守；一律搭配文字標示） */
+  --g-great: #f5c451;
+  --g-good: #f0a35e;
+  --g-fair: #d8c792;
+  --g-flat: #9ba7ba;
+  --g-low: #82a0d6;
+  --g-bad: #a08ae3;
 }
 
 html { background: var(--bg); }
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(1200px 500px at 50% -200px, rgba(227, 184, 102, 0.10), transparent 60%),
+    var(--bg);
   color: var(--ink);
-  font-family: "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+  font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
+
+.font-serif-tc { font-family: "Songti TC", "Noto Serif TC", "PMingLiU", serif; }
+
+.card {
+  background: linear-gradient(180deg, var(--panel), var(--bg-2));
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+.tone-great { --tone: var(--g-great); }
+.tone-good { --tone: var(--g-good); }
+.tone-fair { --tone: var(--g-fair); }
+.tone-flat { --tone: var(--g-flat); }
+.tone-low { --tone: var(--g-low); }
+.tone-bad { --tone: var(--g-bad); }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.animate-sheet { animation: sheet-up 260ms cubic-bezier(.2,.8,.2,1); }
+.animate-fade { animation: fade-in 200ms ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sheet, .animate-fade { animation: none; }
+}
+
+.pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 84px); }

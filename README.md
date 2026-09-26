@@ -1,6 +1,6 @@
-# 玄機決策 Destiny Decision System（v1.2）
+# 玄機決策 Destiny Decision System（v2.0）
 
-自用型命理決策系統：八字＋紫微斗數＋奇門遁甲三式合參，輸入生辰後可查詢特定日／月／年的運勢分數與應對策略，支援投資決策模式。Next.js 15 PWA，手機優先（iPhone 15 Pro Max）。
+自用型命理決策系統：八字＋滴天髓＋紫微斗數＋奇門遁甲＋易經（梅花易數）＋神煞六式合參。每天提供八大運勢（綜合、工作、財運投資、感情、健康、人際貴人、出行旅遊、學習文書）的分數、六級評等、白話結論、具體宜忌、最佳時段，以及可逐條點開的專業依據與古籍原文。Next.js 15 PWA，手機優先（iPhone 15 Pro Max）。
 
 ## 架構原則
 排盤引擎 → 規則引擎 → 評分引擎 → 結構化 JSON → AI 白話轉譯。
@@ -11,7 +11,7 @@
 npm install
 npm run dev        # http://localhost:3000
 npm run build      # 產線建置
-npx vitest run     # 48 項測試（含奇門旬首遁儀與起局一致性）
+npx vitest run     # 66 項測試（含梅花易數觀梅占、奇門旬首遁儀與起局一致性）
 ```
 
 ## 部署（GitHub + Vercel）
@@ -19,10 +19,10 @@ npx vitest run     # 48 項測試（含奇門旬首遁儀與起局一致性）
 2. Vercel 匯入該 repo，框架自動偵測 Next.js，直接 Deploy。
 3. （選用）Vercel → Settings → Environment Variables 加入 `ANTHROPIC_API_KEY` 啟用 AI 白話解讀；`AI_MODEL` 可覆寫模型。
 4. iPhone Safari 開啟網址 → 分享 → 加入主畫面，即以全螢幕 PWA 使用。
-詳見 `docs/DEPLOYMENT.md`。演算法正確性稽核見 `docs/VERIFICATION.md`。
+詳見 `docs/DEPLOYMENT.md`。每日運勢演算法見 `docs/DAILY_ENGINE.md`，正確性稽核見 `docs/VERIFICATION.md`。
 
 ## 頁面
-首頁(今日運勢)・命盤・八字・紫微・奇門・查詢(日/月/年×區間掃描)・量化策略運勢專區・紀錄(準/普通/不準回饋)・設定(備份/AI)。
+今日（綜合運分數環、八大運勢、幸運色／數字／吉方／貴人生肖、十二時辰、前後七日、今日卦象、滴天髓日主、等級說明、準確度回饋）・查詢（單日完整報告／依用途找好日子／月年運）・命盤・八字・紫微・奇門・量化策略運勢專區・名詞辭典・紀錄・設定。
 
 ## 流派定版（詳 docs/RULE_ENGINE.md）
 - 八字：節氣換月、立春換年、晚子時不換日（可切早子時）、真太陽時可選、得令40/得地30/得勢30。

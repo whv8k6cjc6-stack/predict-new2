@@ -149,3 +149,59 @@ export function qimenFacts(c: QimenChart): QimenFacts {
     kongHit: false,
   };
 }
+
+// —— 宮位評估（用神落宮） ——
+export const PALACE_BRANCHES: Record<number, number[]> = { 1: [0], 8: [1, 2], 3: [3], 4: [4, 5], 9: [6], 2: [7, 8], 7: [9], 6: [10, 11], 5: [] };
+export const PALACE_ELEMENT = PAL_EL;
+const BR = "子丑寅卯辰巳午未申酉戌亥";
+
+/** 天盤干加地盤干之常用格局 */
+const STEM_PATTERNS: { sky: string; ground: string; name: string; delta: number; plain: string }[] = [
+  { sky: "戊", ground: "丙", name: "青龍返首", delta: 3, plain: "大吉格，資本遇貴，所謀易成、有意外助力。" },
+  { sky: "丙", ground: "戊", name: "飛鳥跌穴", delta: 3, plain: "大吉格，機會自己送上門，利求財與求職。" },
+  { sky: "乙", ground: "辛", name: "青龍逃走", delta: -3, plain: "凶格，易有財物損失、人事離散，宜守。" },
+  { sky: "辛", ground: "乙", name: "白虎猖狂", delta: -3, plain: "凶格，外力強勢壓迫，易有衝突耗損。" },
+  { sky: "丙", ground: "庚", name: "熒入太白", delta: -2, plain: "凶格，主紛擾、口舌、財物流失。" },
+  { sky: "庚", ground: "丙", name: "太白入熒", delta: -2, plain: "凶格，主外來干擾、防小人暗算。" },
+  { sky: "庚", ground: "癸", name: "大格", delta: -2, plain: "凶格，行事受阻、出行不利。" },
+  { sky: "庚", ground: "己", name: "刑格", delta: -2, plain: "凶格，易有官非口角、事多刑剋。" },
+];
+
+export interface PalaceNote { term: string; plain: string; delta: number }
+export interface PalaceEval {
+  palace: number; dir: string; door: string; star: string; god: string; sky: string; ground: string;
+  score: number; kong: boolean; notes: PalaceNote[];
+}
+
+export function evalPalace(c: QimenChart, palIn: number): PalaceEval {
+  const pal = palIn === 5 ? 2 : palIn;
+  const door = c.doors[pal] ?? "—", star = (c.starsP[pal] ?? "—").replace("(禽)", ""), god = c.godsP[pal] ?? "—";
+  const sky = c.sky[pal] ?? "", ground = c.ground[pal] ?? "";
+  const notes: PalaceNote[] = [];
+  if (GOOD_DOORS.includes(door)) notes.push({ term: door, plain: "吉門臨宮", delta: 2 });
+  else if (BAD_DOORS.includes(door)) notes.push({ term: door, plain: "凶門臨宮", delta: -2 });
+  if (GOOD_STARS.includes(star)) notes.push({ term: star, plain: "吉星臨宮", delta: 1 });
+  else if (BAD_STARS.includes(star)) notes.push({ term: star, plain: "凶星臨宮", delta: -1 });
+  if (GOOD_GODS.includes(god)) notes.push({ term: god, plain: "吉神臨宮", delta: 1 });
+  else if (["白虎", "玄武", "螣蛇"].includes(god)) notes.push({ term: god, plain: "凶神臨宮", delta: -1 });
+  if (KE[DOOR_EL[door]] === PAL_EL[pal]) notes.push({ term: "門迫", plain: `${door}剋宮，吉門減吉、凶門更凶`, delta: -1 });
+  for (const s of sky.split("/")) {
+    const pt = STEM_PATTERNS.find(p => p.sky === s && p.ground === ground);
+    if (pt) notes.push({ term: pt.name, plain: pt.plain, delta: pt.delta });
+  }
+  if (["乙", "丙", "丁"].some(q => sky.startsWith(q)) && GOOD_DOORS.includes(door))
+    notes.push({ term: "三奇得門", plain: "三奇（乙丙丁）與吉門同宮，事情有轉機與貴氣", delta: 1 });
+  const kong = PALACE_BRANCHES[pal].some(b => c.kong.includes(BR[b]));
+  let score = notes.reduce((s, n) => s + n.delta, 0);
+  if (kong) { notes.push({ term: "空亡", plain: "所臨宮位逢旬空，吉凶皆減半、事多落空待時", delta: 0 }); score *= 0.5; }
+  return { palace: pal, dir: PALACE_DIR[pal], door, star, god, sky, ground, score, kong, notes };
+}
+
+export function findPalace(c: QimenChart, kind: "door" | "god" | "star" | "sky", name: string): number | null {
+  const map = kind === "door" ? c.doors : kind === "god" ? c.godsP : kind === "star" ? c.starsP : c.sky;
+  for (const pal of RING) {
+    const v = map[pal] ?? "";
+    if (kind === "sky" ? v.split("/").includes(name) : v.replace("(禽)", "") === name) return pal;
+  }
+  return null;
+}
