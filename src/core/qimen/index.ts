@@ -1,0 +1,304 @@
+/** Qimen Engine：時家奇門・轉盤・拆補法。
+ *  以精確節氣定局，夜子時（23 時後）日柱算次日；天禽寄坤二宮；八神命名可選現代（白虎、玄武）或古法（陽遁勾陳、朱雀）。 */
+import { BRANCHES, STEMS, type GanZhi } from "../calendar/ganzhi";
+import { fourPillars } from "../calendar/pillars";
+import { resolveBirth, resolveCivil } from "../calendar/resolve";
+import { preciseTermNear } from "../calendar/precise";
+import { SOLAR_TERMS, sunLongitude, termDeg } from "../calendar/astro";
+import type { DivinationEngine, EngineMeta, Fact } from "../engine";
+
+export const PALACE_DIR: Record<number, string> = { 1: "北", 8: "東北", 3: "東", 4: "東南", 9: "南", 2: "西南", 7: "西", 6: "西北", 5: "中" };
+export const PALACE_GUA: Record<number, string> = { 1: "坎", 8: "艮", 3: "震", 4: "巽", 9: "離", 2: "坤", 7: "兌", 6: "乾", 5: "中" };
+export const PALACE_ELEMENT: Record<number, string> = { 1: "水", 8: "土", 3: "木", 4: "木", 9: "火", 2: "土", 7: "金", 6: "金", 5: "土" };
+export const PALACE_BRANCHES: Record<number, number[]> = { 1: [0], 8: [1, 2], 3: [3], 4: [4, 5], 9: [6], 2: [7, 8], 7: [9], 6: [10, 11], 5: [] };
+const RING = [1, 8, 3, 4, 9, 2, 7, 6];
+const STAR_OF: Record<number, string> = { 1: "天蓬", 8: "天任", 3: "天沖", 4: "天輔", 9: "天英", 2: "天芮", 7: "天柱", 6: "天心", 5: "天禽" };
+const DOOR_OF: Record<number, string> = { 1: "休門", 8: "生門", 3: "傷門", 4: "杜門", 9: "景門", 2: "死門", 7: "驚門", 6: "開門" };
+const GODS_MODERN = ["值符", "螣蛇", "太陰", "六合", "白虎", "玄武", "九地", "九天"];
+const GODS_CLASSIC_YANG = ["值符", "螣蛇", "太陰", "六合", "勾陳", "朱雀", "九地", "九天"];
+export const GOOD_DOORS = ["開門", "休門", "生門"]; export const BAD_DOORS = ["死門", "驚門", "傷門"];
+export const GOOD_STARS = ["天輔", "天禽", "天心", "天任"]; export const BAD_STARS = ["天蓬", "天芮", "天柱"];
+export const GOOD_GODS = ["值符", "九天", "九地", "太陰", "六合"]; export const BAD_GODS = ["白虎", "玄武", "螣蛇", "勾陳", "朱雀"];
+const DOOR_EL: Record<string, string> = { 休門: "水", 生門: "土", 傷門: "木", 杜門: "木", 景門: "火", 死門: "土", 驚門: "金", 開門: "金" };
+const KE: Record<string, string> = { 木: "土", 土: "水", 水: "火", 火: "金", 金: "木" };
+
+const JU_TABLE: Record<string, [number, number, number]> = {
+  冬至: [1, 7, 4], 小寒: [2, 8, 5], 大寒: [3, 9, 6], 立春: [8, 5, 2], 雨水: [9, 6, 3], 驚蟄: [1, 7, 4],
+  春分: [3, 9, 6], 清明: [4, 1, 7], 穀雨: [5, 2, 8], 立夏: [4, 1, 7], 小滿: [5, 2, 8], 芒種: [6, 3, 9],
+  夏至: [-9, -3, -6], 小暑: [-8, -2, -5], 大暑: [-7, -1, -4], 立秋: [-2, -5, -8], 處暑: [-1, -4, -7], 白露: [-9, -3, -6],
+  秋分: [-7, -1, -4], 寒露: [-6, -9, -3], 霜降: [-5, -8, -2], 立冬: [-6, -9, -3], 小雪: [-5, -8, -2], 大雪: [-4, -7, -1],
+};
+
+export type QimenGodNaming = "modern" | "classic";
+
+export interface QimenChart {
+  term: string; yang: boolean; ju: number; yuan: "上元" | "中元" | "下元";
+  pillars: { year: string; month: string; day: string; hour: string };
+  hourGz: GanZhi; xunHead: string; fuShou: string;
+  ground: Record<number, string>; sky: Record<number, string>;
+  doors: Record<number, string>; stars: Record<number, string>; gods: Record<number, string>;
+  zhiFu: string; zhiShi: string; zhiFuPalace: number; zhiShiPalace: number;
+  kong: number[]; yima: number; yimaPalace: number;
+  method: "chaibu"; godNaming: QimenGodNaming;
+}
+
+export function xunYi(index: number) {
+  const head = (((index % 60) + 60) % 60) - ((((index % 60) + 60) % 60) % 10);
+  return { head, yi: ({ 0: "戊", 10: "己", 20: "庚", 30: "辛", 40: "壬", 50: "癸" } as Record<number, string>)[head], headText: "甲" + BRANCHES[head % 12] };
+}
+
+/** 精確判定所在節氣（24 氣） */
+function preciseTerm(jdUT: number) {
+  const lon = sunLongitude(jdUT);
+  let i = Math.floor((((lon - 315) % 360) + 360) % 360 / 15);
+  const at = (k: number) => { const idx = ((k % 24) + 24) % 24; return preciseTermNear(jdUT + ((((termDeg(idx) - lon) + 540) % 360) - 180) / 0.98565); };
+  if (jdUT < at(i)) i -= 1; else if (jdUT >= at(i + 1)) i += 1;
+  return SOLAR_TERMS[((i % 24) + 24) % 24];
+}
+
+export function computeQimenChart(date: string, time: string, timeZone: string, godNaming: QimenGodNaming = "modern"): QimenChart {
+  const r = resolveCivil({ date, time, timeZone });
+  const p = fourPillars(r, "earlyZiNextDay");
+  const dp = p.day, hp = p.hour!;
+  const term = preciseTerm(r.jdUT);
+  const back = dp.index % 5;
+  const headBranch = (((dp.index - back) % 12) + 12) % 12;
+  const yuanIdx = [0, 6, 3, 9].includes(headBranch) ? 0 : [2, 8, 5, 11].includes(headBranch) ? 1 : 2;
+  const raw = JU_TABLE[term][yuanIdx];
+  const yang = raw > 0, ju = Math.abs(raw);
+  const SEQ = ["戊", "己", "庚", "辛", "壬", "癸", "丁", "丙", "乙"];
+  const ground: Record<number, string> = {};
+  for (let i = 0; i < 9; i++) ground[(((ju - 1 + (yang ? i : -i)) % 9) + 9) % 9 + 1] = SEQ[i];
+  const { head: xunHead, yi, headText } = xunYi(hp.index);
+  const findPal = (g: string) => Number(Object.keys(ground).find(k => ground[Number(k)] === g));
+  const p0 = findPal(yi);
+  const zhiFu = STAR_OF[p0], zhiShi = p0 === 5 ? DOOR_OF[2] : DOOR_OF[p0];
+  const hourStem = STEMS[hp.stem];
+  let p1 = findPal(hourStem === "甲" ? yi : hourStem); if (p1 === 5) p1 = 2;
+  const p0r = p0 === 5 ? 2 : p0;
+  const ringPos = (pal: number) => RING.indexOf(pal);
+  const stars: Record<number, string> = {}, sky: Record<number, string> = {};
+  const shift = ringPos(p1) - ringPos(p0r);
+  for (let i = 0; i < 8; i++) {
+    const from = RING[i], to = RING[(i + shift + 8) % 8];
+    stars[to] = STAR_OF[from];
+    sky[to] = ground[from] + (from === 2 ? "/" + ground[5] : "");
+  }
+  stars[5] = "天禽"; sky[5] = ground[5];
+  const steps = hp.index - xunHead;
+  let pd = (((p0 - 1 + (yang ? steps : -steps)) % 9) + 9) % 9 + 1;
+  if (pd === 5) pd = 2;
+  const doors: Record<number, string> = {};
+  const dShift = ringPos(pd) - ringPos(p0 === 5 ? 2 : p0);
+  for (let i = 0; i < 8; i++) doors[RING[(i + dShift + 8) % 8]] = DOOR_OF[RING[i]];
+  doors[5] = "";
+  const gods: Record<number, string> = {};
+  const names = godNaming === "classic" && yang ? GODS_CLASSIC_YANG : GODS_MODERN;
+  for (let i = 0; i < 8; i++) gods[RING[((ringPos(p1) + (yang ? i : -i)) % 8 + 8) % 8]] = names[i];
+  gods[5] = "";
+  const hb0 = xunHead % 12;
+  const kong = [(hb0 + 10) % 12, (hb0 + 11) % 12];
+  const yimaB = [2, 8, 11, 5][[8, 0, 4].includes(hp.branch) ? 0 : [2, 6, 10].includes(hp.branch) ? 1 : [5, 9, 1].includes(hp.branch) ? 2 : 3];
+  const yimaPalace = Number(Object.entries(PALACE_BRANCHES).find(([, bs]) => bs.includes(yimaB))![0]);
+  return {
+    term, yang, ju, yuan: (["上元", "中元", "下元"] as const)[yuanIdx],
+    pillars: { year: p.year.text, month: p.month.text, day: dp.text, hour: hp.text },
+    hourGz: hp, xunHead: headText, fuShou: yi, ground, sky, doors, stars, gods,
+    zhiFu, zhiShi, zhiFuPalace: p1, zhiShiPalace: pd, kong, yima: yimaB, yimaPalace, method: "chaibu", godNaming,
+  };
+}
+
+// ───────── 宮位評估 ─────────
+const STEM_PATTERNS: { sky: string; ground: string; name: string; delta: number; plain: string }[] = [
+  { sky: "戊", ground: "丙", name: "青龍返首", delta: 3, plain: "大吉格，資本遇貴，所謀易成、有意外助力。" },
+  { sky: "丙", ground: "戊", name: "飛鳥跌穴", delta: 3, plain: "大吉格，機會自己送上門，利求財與求職。" },
+  { sky: "乙", ground: "辛", name: "青龍逃走", delta: -3, plain: "凶格，易有財物損失、人事離散，宜守。" },
+  { sky: "辛", ground: "乙", name: "白虎猖狂", delta: -3, plain: "凶格，外力強勢壓迫，易有衝突耗損。" },
+  { sky: "丙", ground: "庚", name: "熒入太白", delta: -2, plain: "凶格，主紛擾、口舌、財物流失。" },
+  { sky: "庚", ground: "丙", name: "太白入熒", delta: -2, plain: "凶格，主外來干擾、防小人暗算。" },
+  { sky: "庚", ground: "癸", name: "大格", delta: -2, plain: "凶格，行事受阻、出行不利。" },
+  { sky: "庚", ground: "己", name: "刑格", delta: -2, plain: "凶格，易有官非口角、事多刑剋。" },
+];
+
+export interface PalaceNote { term: string; plain: string; delta: number }
+export interface PalaceEval { palace: number; dir: string; door: string; star: string; god: string; sky: string; ground: string; score: number; kong: boolean; yima: boolean; notes: PalaceNote[] }
+
+export function evalPalace(c: QimenChart, palIn: number): PalaceEval {
+  const pal = palIn === 5 ? 2 : palIn;
+  const door = c.doors[pal], star = c.stars[pal], god = c.gods[pal], sky = c.sky[pal], ground = c.ground[pal];
+  const notes: PalaceNote[] = [];
+  if (GOOD_DOORS.includes(door)) notes.push({ term: door, plain: "吉門臨宮", delta: 2 });
+  else if (BAD_DOORS.includes(door)) notes.push({ term: door, plain: "凶門臨宮", delta: -2 });
+  if (GOOD_STARS.includes(star)) notes.push({ term: star, plain: "吉星臨宮", delta: 1 });
+  else if (BAD_STARS.includes(star)) notes.push({ term: star, plain: "凶星臨宮", delta: -1 });
+  if (GOOD_GODS.includes(god)) notes.push({ term: god, plain: "吉神臨宮", delta: 1 });
+  else if (BAD_GODS.includes(god)) notes.push({ term: god, plain: "凶神臨宮", delta: -1 });
+  if (KE[DOOR_EL[door]] === PALACE_ELEMENT[pal]) notes.push({ term: "門迫", plain: `${door}剋宮，吉門減吉、凶門更凶`, delta: -1 });
+  for (const s of sky.split("/")) {
+    const pt = STEM_PATTERNS.find(x => x.sky === s && x.ground === ground);
+    if (pt) notes.push({ term: pt.name, plain: pt.plain, delta: pt.delta });
+  }
+  if (["乙", "丙", "丁"].some(q => sky.startsWith(q)) && GOOD_DOORS.includes(door)) notes.push({ term: "三奇得門", plain: "三奇與吉門同宮，事情有轉機與貴氣", delta: 1 });
+  const kong = PALACE_BRANCHES[pal].some(b => c.kong.includes(b));
+  const yima = c.yimaPalace === pal;
+  let score = notes.reduce((s, n) => s + n.delta, 0);
+  if (kong) { notes.push({ term: "空亡", plain: "所臨宮位逢旬空，吉凶皆減半、事多落空待時", delta: 0 }); score *= 0.5; }
+  if (yima) notes.push({ term: "驛馬", plain: "時辰驛馬臨宮，主動、主速、主遠行", delta: 0 });
+  return { palace: pal, dir: PALACE_DIR[pal], door, star, god, sky, ground, score, kong, yima, notes };
+}
+
+export function findPalace(c: QimenChart, kind: "door" | "god" | "star" | "sky", name: string): number | null {
+  const map = kind === "door" ? c.doors : kind === "god" ? c.gods : kind === "star" ? c.stars : c.sky;
+  for (const pal of RING) { const v = map[pal] ?? ""; if (kind === "sky" ? v.split("/").includes(name) : v === name) return pal; }
+  return null;
+}
+
+const REL = (self: string, other: string) => {
+  const GEN: Record<string, string> = { 木: "火", 火: "土", 土: "金", 金: "水", 水: "木" };
+  if (self === other) return { name: "比和", delta: 1 };
+  if (GEN[other] === self) return { name: "生我", delta: 1.5 };
+  if (KE[other] === self) return { name: "剋我", delta: -1.5 };
+  if (KE[self] === other) return { name: "我剋", delta: 0.5 };
+  return { name: "我生", delta: -0.5 };
+};
+
+// ───────── 事件用神 ─────────
+export type EventKind = "overall" | "career" | "wealth" | "investment" | "social" | "love" | "travel" | "health" | "decision"
+  | "interview" | "jobchange" | "trip" | "contract" | "house" | "car" | "negotiation" | "confession" | "move" | "medical" | "meeting" | "visitBoss" | "apply";
+export const YONGSHEN: Record<EventKind, { label: string; use: { kind: "door" | "god" | "star"; name: string }[]; plain: string }> = {
+  overall: { label: "整體", use: [], plain: "以年命代表自身" },
+  career: { label: "工作", use: [{ kind: "door", name: "開門" }], plain: "開門主事業、公務與開展" },
+  wealth: { label: "財運", use: [{ kind: "door", name: "生門" }], plain: "生門主利潤與生財" },
+  investment: { label: "投資", use: [{ kind: "door", name: "生門" }, { kind: "god", name: "值符" }], plain: "生門主利潤、值符主大勢" },
+  social: { label: "人際", use: [{ kind: "god", name: "六合" }, { kind: "god", name: "值符" }], plain: "六合主合作、值符主貴人上司" },
+  love: { label: "感情", use: [{ kind: "god", name: "六合" }], plain: "六合主婚姻與感情" },
+  travel: { label: "出行", use: [{ kind: "door", name: "開門" }, { kind: "god", name: "九天" }], plain: "開門主出行開展、九天主遠行" },
+  health: { label: "健康", use: [{ kind: "star", name: "天心" }], plain: "天心主醫藥調養（兼看天芮病星是否臨年命）" },
+  decision: { label: "決策", use: [{ kind: "god", name: "值符" }], plain: "值符主大局與主導" },
+  interview: { label: "面試", use: [{ kind: "door", name: "開門" }, { kind: "door", name: "景門" }], plain: "開門主職位、景門主表現與文書" },
+  jobchange: { label: "換工作", use: [{ kind: "door", name: "開門" }], plain: "開門主新職、開展" },
+  trip: { label: "旅行", use: [{ kind: "door", name: "開門" }, { kind: "god", name: "九天" }], plain: "開門主出行、九天主遠行" },
+  contract: { label: "簽約", use: [{ kind: "god", name: "六合" }, { kind: "door", name: "景門" }], plain: "六合主契約合作、景門主文書" },
+  house: { label: "買房", use: [{ kind: "door", name: "生門" }, { kind: "god", name: "九地" }], plain: "生門主房產利益、九地主土地穩固" },
+  car: { label: "買車", use: [{ kind: "door", name: "生門" }, { kind: "god", name: "九天" }], plain: "生門主財物、九天主動" },
+  negotiation: { label: "談判", use: [{ kind: "god", name: "六合" }, { kind: "door", name: "開門" }], plain: "六合主協議、開門主局面開展" },
+  confession: { label: "告白", use: [{ kind: "god", name: "六合" }], plain: "六合主感情撮合" },
+  move: { label: "搬家", use: [{ kind: "door", name: "開門" }, { kind: "god", name: "九地" }], plain: "開門主遷動、九地主安居" },
+  medical: { label: "醫療安排", use: [{ kind: "star", name: "天心" }], plain: "天心主醫生與療法（天芮為病）" },
+  meeting: { label: "重要會議", use: [{ kind: "door", name: "開門" }, { kind: "god", name: "值符" }], plain: "開門主公務、值符主主持者" },
+  visitBoss: { label: "拜訪主管", use: [{ kind: "god", name: "值符" }], plain: "值符主上司與貴人" },
+  apply: { label: "提出申請", use: [{ kind: "door", name: "開門" }, { kind: "door", name: "景門" }], plain: "開門主公門、景門主文書" },
+};
+
+export interface YongshenEval { label: string; palace: number | null; eval: PalaceEval | null; relation: string; score: number; detail: string }
+
+/** 某時辰盤中，某事件用神對年命（自身）的吉凶 */
+export function evalYongshen(c: QimenChart, nianMing: string, kind: EventKind): { self: PalaceEval; items: YongshenEval[]; score: number } {
+  const sp = findPalace(c, "sky", nianMing) ?? 2;
+  const self = evalPalace(c, sp);
+  const items: YongshenEval[] = YONGSHEN[kind].use.map(u => {
+    const pal = findPalace(c, u.kind, u.name);
+    if (pal === null) return { label: u.name, palace: null, eval: null, relation: "—", score: 0, detail: `${u.name}不在外八宮` };
+    const ev = evalPalace(c, pal);
+    const rel = REL(PALACE_ELEMENT[self.palace], PALACE_ELEMENT[ev.palace]);
+    return { label: u.name, palace: pal, eval: ev, relation: rel.name, score: ev.score + rel.delta, detail: `${u.name}落${ev.dir}宮（${ev.god}、${ev.star}、${ev.door}${ev.kong ? "、空亡" : ""}），與年命宮${rel.name}` };
+  });
+  let score = items.length ? items.reduce((s, x) => s + x.score, 0) / items.length : self.score;
+  if (kind === "health" || kind === "medical") { const rui = findPalace(c, "star", "天芮"); if (rui === self.palace) score -= 2; }
+  if (kind === "overall") score = self.score;
+  return { self, items, score };
+}
+
+export const SHI_CHEN = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+export const SHI_RANGE = ["23–01", "01–03", "03–05", "05–07", "07–09", "09–11", "11–13", "13–15", "15–17", "17–19", "19–21", "21–23"];
+export const hourTimeOf = (i: number) => `${String(i === 0 ? 0 : i * 2).padStart(2, "0")}:30`;
+
+export interface DayScan {
+  charts: QimenChart[];
+  byKind: Partial<Record<EventKind, { hourScores: number[]; best: number[]; avoid: number[]; daytimeAvg: number; bestDetail: string }>>;
+  goodDirs: string[]; badDirs: string[];
+}
+
+/** 掃描一日 12 時辰：各事件用神分數、最佳與應避開時辰、吉方與不利方 */
+export function scanDay(date: string, timeZone: string, nianMing: string, kinds: EventKind[], godNaming: QimenGodNaming = "modern"): DayScan {
+  const charts = SHI_CHEN.map((_, i) => computeQimenChart(date, hourTimeOf(i), timeZone, godNaming));
+  const ACTIVE = [3, 4, 5, 6, 7, 8, 9, 10];
+  const DAY = [4, 5, 6, 7, 8, 9];
+  const byKind: DayScan["byKind"] = {};
+  for (const k of kinds) {
+    const evs = charts.map(c => evalYongshen(c, nianMing, k));
+    const hs = evs.map(e => Math.round(e.score * 10) / 10);
+    const sorted = ACTIVE.slice().sort((a, b) => hs[b] - hs[a]);
+    const best = sorted.filter(i => hs[i] >= 1.5).slice(0, 2);
+    const avoid = ACTIVE.slice().sort((a, b) => hs[a] - hs[b]).filter(i => hs[i] <= -1.5).slice(0, 2);
+    const bi = sorted[0];
+    const e = evs[bi];
+    byKind[k] = {
+      hourScores: hs, best, avoid, daytimeAvg: DAY.reduce((s, i) => s + hs[i], 0) / DAY.length,
+      bestDetail: `${SHI_CHEN[bi]}時：${e.items.map(x => x.detail).join("；") || `年命落${e.self.dir}宮（${e.self.god}、${e.self.star}、${e.self.door}）`}`,
+    };
+  }
+  const tally: Record<string, number> = {};
+  DAY.forEach(i => {
+    for (const pal of RING) { const ev = evalPalace(charts[i], pal); tally[ev.dir] = (tally[ev.dir] ?? 0) + ev.score; }
+  });
+  const dirs = Object.entries(tally).sort((a, b) => b[1] - a[1]);
+  return { charts, byKind, goodDirs: dirs.filter(d => d[1] > 2).slice(0, 2).map(d => d[0]), badDirs: dirs.reverse().filter(d => d[1] < -2).slice(0, 2).map(d => d[0]) };
+}
+
+/** 年命：出生年干（甲年遁於旬首六儀） */
+export function nianMingOf(yearGz: GanZhi) { return STEMS[yearGz.stem] === "甲" ? xunYi(yearGz.index).yi : STEMS[yearGz.stem]; }
+
+export function qimenFacts(scan: DayScan, kinds: EventKind[], nianMing: string): Fact[] {
+  const f: Fact[] = [];
+  const add = (key: string, value: unknown, label: string, derivation: string) => f.push({ key, value, label, derivation, system: "qimen" });
+  add("qimen.nianMing", nianMing, "年命", "出生年干（甲年取旬首遁儀）");
+  const c = scan.charts[6];
+  add("qimen.term", `${c.term}${c.yuan}${c.yang ? "陽" : "陰"}遁${c.ju}局`, "定局", `拆補法：${c.term}${c.yuan}，${c.yang ? "陽" : "陰"}遁${c.ju}局`);
+  add("qimen.goodDirs", scan.goodDirs, "吉方", "白天各時辰各宮門星神格局積分");
+  add("qimen.badDirs", scan.badDirs, "不利方位", "白天各時辰各宮門星神格局積分");
+  for (const k of kinds) {
+    const x = scan.byKind[k]!;
+    const lvl = x.daytimeAvg >= 1.5 ? "good" : x.daytimeAvg <= -1 ? "bad" : "mixed";
+    add(`qimen.${k}.level`, lvl, `${YONGSHEN[k].label}用神白天態勢`, `用神：${YONGSHEN[k].use.map(u => u.name).join("、") || "年命"}（${YONGSHEN[k].plain}）；白天平均 ${x.daytimeAvg.toFixed(1)}`);
+    add(`qimen.${k}.avg`, Math.round(x.daytimeAvg * 10) / 10, `${YONGSHEN[k].label}白天平均`, "辰至酉六個時辰平均");
+    const hrs = (a: number[], none: string) => a.length ? a.map(i => `${SHI_CHEN[i]}時（${SHI_RANGE[i]}）`) : [none];
+    add(`qimen.${k}.best`, hrs(x.best, "無特別突出的時辰"), `${YONGSHEN[k].label}最佳時辰`, x.bestDetail);
+    add(`qimen.${k}.avoid`, hrs(x.avoid, "無特別需避開的時辰"), `${YONGSHEN[k].label}應避開時辰`, "用神落凶門凶神、剋年命或逢凶格");
+    add(`qimen.${k}.bestDetail`, x.bestDetail, `${YONGSHEN[k].label}最佳時辰盤面`, x.bestDetail);
+    add(`qimen.${k}.yongshen`, YONGSHEN[k].use.map(u => u.name).join("、") || "年命", `${YONGSHEN[k].label}用神`, YONGSHEN[k].plain);
+  }
+  return f;
+}
+
+export const QIMEN_META: EngineMeta = {
+  id: "qimen", name: "奇門遁甲", phase: 5, status: "verified",
+  stamp: { school: "時家轉盤・拆補法", engine_version: "3.0.0", rule_version: "3.0.0", source_version: "通行格局表" },
+  summary: "九宮八門九星八神、值符值使、空亡、驛馬、事件用神與吉時方位",
+};
+
+export const QIMEN_KINDS: EventKind[] = ["overall", "career", "wealth", "investment", "social", "love", "travel", "health", "decision"];
+
+export interface QimenNatal { nianMing: string; birthYearGz: string }
+export interface QimenTransit { date: string; scan: DayScan; kinds: EventKind[] }
+
+/** 奇門以「時」為主：本命只取年命，行運為當日 12 時辰盤掃描 */
+export const QimenEngine: DivinationEngine<QimenNatal, QimenTransit> = {
+  meta: QIMEN_META,
+  computeNatal(input) {
+    try {
+      const r = resolveBirth(input.birth);
+      const p = fourPillars(r, input.school.bazi.ziHour);
+      const nianMing = nianMingOf(p.year);
+      const facts: Fact[] = [{ key: "qimen.nianMing", value: nianMing, label: "年命", derivation: `出生年柱${p.year.text}${STEMS[p.year.stem] === "甲" ? "，甲遁旬首六儀" : ""}`, system: "qimen" }];
+      return { ok: true, data: { nianMing, birthYearGz: p.year.text }, facts, stamp: QIMEN_META.stamp, warnings: [] };
+    } catch (e) {
+      return { ok: false, reason: "invalid_input", message: (e as Error).message, stamp: QIMEN_META.stamp };
+    }
+  },
+  computeTransit(natal, input, at) {
+    const naming: QimenGodNaming = "modern";
+    const scan = scanDay(at.civilDate, at.timeZone, natal.nianMing, QIMEN_KINDS, naming);
+    return { ok: true, data: { date: at.civilDate, scan, kinds: QIMEN_KINDS }, facts: qimenFacts(scan, QIMEN_KINDS, natal.nianMing), stamp: QIMEN_META.stamp, warnings: [] };
+  },
+};
