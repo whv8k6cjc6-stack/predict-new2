@@ -2,6 +2,7 @@
 import type { DomainKey } from "@/core/domains";
 import type { RuleDefinition } from "@/core/sources";
 import { YONGSHEN, type EventKind } from "@/core/qimen";
+import { EVENT_TYPES } from "@/core/events";
 
 export const QIMEN_RULE_VERSION = "3.0.0";
 const DOMAIN_KINDS: DomainKey[] = ["overall", "career", "wealth", "investment", "social", "love", "travel", "health", "decision"];
@@ -40,6 +41,43 @@ export const QIMEN_RULES: RuleDefinition[] = DOMAIN_KINDS.flatMap(k => {
         actions: [`${Y.label}相關的重要事項避開{避開}`, `非做不可時，選相對最好的{最佳}`],
       },
       slots, terms: ["用神", "年命", "空亡"], priority: 60,
+    }),
+  ];
+});
+
+/** 事件模式（時辰層級）：指定時刻事件用神的吉凶 */
+export const QIMEN_EVENT_RULES: RuleDefinition[] = EVENT_TYPES.flatMap(ev => {
+  const Y = YONGSHEN[ev.qimen];
+  const slots = { 事件: "qimen.event.label", 用神: "qimen.event.yongshen", 盤面: "qimen.event.detail", 時辰: "qimen.event.hour", 定局: "qimen.event.term", 分數: "qimen.event.score" };
+  const cond = (lv: string) => ({ all: [{ fact: "qimen.event.kind", op: "eq" as const, value: ev.qimen }, { fact: "qimen.event.level", op: "eq" as const, value: lv }] });
+  return [
+    base(`qimen.event.${ev.key}.good`, {
+      timescale: "hour",
+      based_on: { text_ids: [], commentary_ids: [], principle: `${Y.plain}；事件時辰用神得吉門吉神、生扶年命則宜行` },
+      applies_when: `${ev.label}所選時辰，用神落吉位`,
+      condition: cond("good"),
+      effects: [{ domain: ev.domain, polarity: 1, strength: 2 }],
+      templates: {
+        conclusion: `{時辰}做「{事件}」，奇門用神{用神}落在有利位置。`,
+        plain: `奇門看「做這件事的當下」：{時辰}這個時段，代表{事件}的{用神}遇到吉門吉神，時機站在你這邊。`,
+        pro: `{定局}；{盤面}；用神分數 {分數}。`,
+        actions: [`維持在{時辰}進行{事件}`],
+      },
+      slots, terms: ["用神", "年命"], priority: 65,
+    }),
+    base(`qimen.event.${ev.key}.bad`, {
+      timescale: "hour",
+      based_on: { text_ids: [], commentary_ids: [], principle: `${Y.plain}；事件時辰用神落凶門凶神、空亡或剋年命則不宜` },
+      applies_when: `${ev.label}所選時辰，用神落凶位`,
+      condition: cond("bad"),
+      effects: [{ domain: ev.domain, polarity: -1, strength: 2 }],
+      templates: {
+        conclusion: `{時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。`,
+        plain: `{時辰}這個時段，代表{事件}的{用神}遇到凶門凶神、空亡或剋你的年命；事情可以做，但建議改時間。`,
+        pro: `{定局}；{盤面}；用神分數 {分數}。`,
+        actions: [`把{事件}改到較佳時段，或先做準備、正式行動延後`],
+      },
+      slots, terms: ["用神", "年命", "空亡"], priority: 65,
     }),
   ];
 });

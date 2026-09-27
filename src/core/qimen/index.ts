@@ -302,3 +302,22 @@ export const QimenEngine: DivinationEngine<QimenNatal, QimenTransit> = {
     return { ok: true, data: { date: at.civilDate, scan, kinds: QIMEN_KINDS }, facts: qimenFacts(scan, QIMEN_KINDS, natal.nianMing), stamp: QIMEN_META.stamp, warnings: [] };
   },
 };
+
+/** 事件模式：指定時刻的奇門盤，針對事件用神產生事實 */
+export function qimenEventFacts(c: QimenChart, nianMing: string, kind: EventKind, hourLabel: string): Fact[] {
+  const e = evalYongshen(c, nianMing, kind);
+  const s = Math.round(e.score * 10) / 10;
+  const level = s >= 1.5 ? "good" : s <= -1.5 ? "bad" : "mixed";
+  const detail = e.items.map(x => x.detail).join("；") || `年命落${e.self.dir}宮（${e.self.god}、${e.self.star}、${e.self.door}）`;
+  const add = (key: string, value: unknown, label: string, derivation: string): Fact => ({ key: `qimen.event.${key}`, value, label, derivation, system: "qimen" });
+  return [
+    add("kind", kind, "事件類型", YONGSHEN[kind].label),
+    add("label", YONGSHEN[kind].label, "事件", YONGSHEN[kind].plain),
+    add("level", level, "事件用神態勢", `分數 ${s}（≥1.5 有利、≤−1.5 不利）`),
+    add("score", s, "事件用神分數", detail),
+    add("detail", detail, "事件時辰盤面", `${c.term}${c.yuan}${c.yang ? "陽" : "陰"}遁${c.ju}局，${c.pillars.hour}時`),
+    add("yongshen", YONGSHEN[kind].use.map(u => u.name).join("、") || "年命", "事件用神", YONGSHEN[kind].plain),
+    add("hour", hourLabel, "事件時辰", hourLabel),
+    add("term", `${c.term}${c.yuan}${c.yang ? "陽" : "陰"}遁${c.ju}局`, "定局", "拆補法"),
+  ];
+}
