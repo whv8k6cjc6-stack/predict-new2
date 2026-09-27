@@ -271,7 +271,7 @@ describe("驗收標準（6 組命例 × 6 天 × 17 主題）", () => {
       expect(zv.participates).toBe(coveredTopics.includes(topic));
       const zf = a.trace.flatMap(t => t.findings.filter(f => f.system === "ziwei"));
       if (!coveredTopics.includes(topic)) expect(zf).toEqual([]);
-      for (const f of zf) expect(f.ruleId.startsWith("ZW_STAR_")).toBe(true);
+      for (const f of zf) expect(ZIWEI_INTERPRETATION_RULES.find(r => r.ruleId === f.ruleId)?.verificationStatus, f.ruleId).toBe("verified");
     }
     const n = natals[0];
     const c = collect(n, { civilDate: "2026-10-21", civilTime: "12:00", timeZone: TZ }, "day", { legacyZiwei: true });

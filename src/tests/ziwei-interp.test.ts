@@ -13,7 +13,8 @@ import {
   DEFAULT_KB, interpretZiwei, ruleUsability, ziweiCoverage, ziweiInterpretationResult, ziweiInterpretationStatus, type InterpretationKB,
 } from "@/core/ziwei/interp/engine";
 import type { ZiweiInterpretationRule } from "@/core/ziwei/interp/rules";
-import { ZIWEI_CITATIONS, ZIWEI_SOURCES, sourceOf } from "@/kb/ziwei/sources";
+import { ZIWEI_CITATIONS, ZIWEI_SOURCES, JIWEN_SOURCE, sourceOf } from "@/kb/ziwei/sources";
+import { ZIWEI_PENDING, PENDING_COUNTS } from "@/kb/ziwei/pending";
 import { PALACE_SEMANTICS, STAR_SEMANTICS, palaceSemantic } from "@/kb/ziwei/semantics";
 import { ZIWEI_INTERPRETATION_RULES, ZIWEI_PATTERN_RULES, ZIWEI_SOURCE_CONFLICTS } from "@/kb/ziwei/interpretationRules";
 import { IMPORTED_ZIWEI_TEXTS, GUANGYI_SOURCE, GUANGYI_TRANSCRIPTION } from "@/kb/ziwei/texts/imported";
@@ -34,11 +35,11 @@ describe("ClassicalSourceRegistry", () => {
   it("來源層級：《全書》廣益版掃描 Tier 1（已匯入）、維基文庫本 Tier 1（未匯入）、《捷覽》《全集》集文版 Tier 2、iztro Tier 4、一般網路 Tier 5", () => {
     expect(ZIWEI_SOURCES.map(s => [s.sourceId, s.tier, s.role, s.contentStatus])).toEqual([
       ["ziwei-doushu-quanshu-guangyi-scan", 1, "primaryClassical", "imported"], ["ziwei.quanshu", 1, "primaryClassical", "notInRepository"],
-      ["ziwei.jielan", 2, "secondaryClassical", "unavailable"], ["ziwei-doushu-quanji-jiwen-scan", 2, "secondaryClassical", "unavailable"],
+      ["ziwei.jielan", 2, "secondaryClassical", "unavailable"], ["ziwei-doushu-quanji-jiwen-scan", 2, "secondaryClassical", "notInRepository"],
       ["software.iztro", 4, "softwareDataset", "imported"], ["web.general", 5, "webArticle", "unavailable"],
     ]);
     expect(sourceOf("software.iztro")!.notFor).toEqual(expect.arrayContaining(["古籍來源", "紫微判讀權威", "格局原文來源", "吉凶權重來源"]));
-    expect(sourceOf("ziwei-doushu-quanji-jiwen-scan")!.notes).toContain("尚未比對");
+    expect(sourceOf("ziwei-doushu-quanji-jiwen-scan")!.notFor.join()).toContain("逐字引用");
   });
   it("登錄為已匯入的古籍來源必須真的有原文與雜湊；只收已校驗段落", () => {
     for (const s of ZIWEI_SOURCES.filter(s => s.tier <= 3 && s.contentStatus === "imported")) expect(IMPORTED_ZIWEI_TEXTS.some(t => t.sourceId === s.sourceId && t.sha256)).toBe(true);
@@ -57,10 +58,40 @@ describe("廣益版掃描：PDF 影像為 Source of Truth，雜湊可重現", ()
     expect(rec["source.json"]).toBe(sha(readFileSync(join(dir, "source.json"))));
     expect(rec["transcription.json"]).toBe(sha(readFileSync(join(dir, "transcription.json"))));
     expect([rec.pdf, GUANGYI_TRANSCRIPTION.pdfSha256]).toEqual([GUANGYI_SOURCE.sha256, GUANGYI_SOURCE.sha256]);
+    expect(rec["../quanji-jiwen/source.json"]).toBe(sha(readFileSync(join(dir, "../quanji-jiwen/source.json"))));
+    expect([rec.jiwenPdf, JIWEN_SOURCE.sha256]).toEqual(["6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6", "6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6"]);
     expect([GUANGYI_SOURCE.pageCount, GUANGYI_SOURCE.textLayer, GUANGYI_SOURCE.verificationPolicy.ocrMayActivateRules]).toEqual([86, false, false]);
   });
   it.skipIf(!process.env.ZIWEI_SCAN_PDF)("本地有 PDF 原檔時（ZIWEI_SCAN_PDF），原檔 SHA-256 相符", () => {
     expect(sha(readFileSync(process.env.ZIWEI_SCAN_PDF!))).toBe(GUANGYI_SOURCE.sha256);
+  });
+  it.skipIf(!process.env.ZIWEI_JIWEN_PDF)("本地有集文版原檔時（ZIWEI_JIWEN_PDF），原檔 SHA-256 相符", () => {
+    expect(sha(readFileSync(process.env.ZIWEI_JIWEN_PDF!))).toBe(JIWEN_SOURCE.sha256);
+  });
+  it("來源包 v3：保存於 repo 的說明、索引與人工初稿，雜湊與 manifest_v3.json 相符；兩本 PDF 雜湊與登錄相符", () => {
+    const pkg = join(dir, "../package-v3");
+    const man = JSON.parse(readFileSync(join(pkg, "manifest_v3.json"), "utf8")) as { files: { path: string; sha256: string }[]; primarySource: { sha256: string }; secondarySource: { sha256: string } };
+    expect([man.primarySource.sha256, man.secondarySource.sha256]).toEqual([GUANGYI_SOURCE.sha256, JIWEN_SOURCE.sha256]);
+    const kept = man.files.filter(f => !f.path.startsWith("source/") && !f.path.startsWith("ocr/"));
+    expect(kept.length).toBe(10);
+    for (const f of kept) expect(sha(readFileSync(join(pkg, f.path))), f.path).toBe(f.sha256);
+  });
+  it("集文版：只登錄平行段落與大意（visualVerified=false），不建立異文；掃描解析度不足以逐字核對", () => {
+    expect(JIWEN_SOURCE.scanQuality.characterLevelVerification).toBe("notPossibleForMostPassages");
+    for (const p of JIWEN_SOURCE.parallelSections) expect(p.visualVerified).toBe(false);
+    expect(JIWEN_SOURCE.parallelSections[0].gistReadings!.map(g => g.star)).toEqual(MAJOR);
+    expect(ZIWEI_CITATIONS.every(c => c.textualVariants.length === 0 && c.sourceId === "ziwei-doushu-quanshu-guangyi-scan")).toBe(true);
+    expect(ZIWEI_SOURCE_CONFLICTS).toEqual([]);
+    expect(GUANGYI_SOURCE.navigationDiscrepancy.decision).toContain("GY-P26-MING-HEAD");
+  });
+  it("待校驗登錄：人工初稿、OCR、格局候選一律 pending，不會被匯入或引用", () => {
+    expect(ZIWEI_PENDING.every(e => e.status === "pendingVerification" && e.visualVerified === false)).toBe(true);
+    expect(ZIWEI_PENDING).toHaveLength(29);
+    expect(PENDING_COUNTS).toMatchObject({ patternCandidate: 4, ocrSearchOnly: 2 });
+    expect(ZIWEI_PENDING.filter(e => e.pendingId.endsWith("_JUE"))).toHaveLength(14);
+    const imported = new Set(IMPORTED_ZIWEI_TEXTS.flatMap(t => t.sections.map(x => x.sectionId)));
+    for (const e of ZIWEI_PENDING) expect(imported.has(e.pendingId)).toBe(false);
+    expect(ZIWEI_PATTERN_RULES).toEqual([]);
   });
   it("每段轉錄：有 PDF 頁碼、版心頁碼、卷、篇、條目、裁切範圍；只含原書文字（無標點、無省略號、無疑字標記）", () => {
     const ids = new Set<string>();
@@ -79,7 +110,7 @@ describe("廣益版掃描：PDF 影像為 Source of Truth，雜湊可重現", ()
 
 describe("ClassicalCitation：每條原文都能回到 PDF 頁面與轉錄段落", () => {
   it("14 主星、12 宮、大限／流年原則：全部 verified，原文為該段連續子字串，保留頁碼、核對者與日期", () => {
-    expect(ZIWEI_CITATIONS).toHaveLength(14 + 12 + 3);
+    expect(ZIWEI_CITATIONS).toHaveLength(14 + 12 + 3 + 6);
     for (const c of ZIWEI_CITATIONS) {
       const sp = GUANGYI_TRANSCRIPTION.spans.find(x => x.spanId === c.locator?.spanId)!;
       expect(sp, c.citationId).toBeTruthy();
@@ -180,8 +211,8 @@ describe("判讀語境（客觀）", () => {
 describe("正式規則庫：第一批已校驗規則", () => {
   const FATAL = /短命|夭|貧窮|貧賤|離婚|犯罪|刑|病|死|必定|一定會|注定|下賤|孤寒/;
   const LOOKS = /面|肥|瘦|胖|眉|腰|背|眼|身長|形/;
-  it("14 條主星坐命規則全部可用；2 條運限原則不單獨觸發；0 條待校驗", () => {
-    expect(ZIWEI_INTERPRETATION_RULES).toHaveLength(16);
+  it("14 條主星坐命規則＋2 條運限規則可用；5 條判讀原則不單獨觸發；0 條待校驗", () => {
+    expect(ZIWEI_INTERPRETATION_RULES).toHaveLength(21);
     const stars = ZIWEI_INTERPRETATION_RULES.filter(r => r.kind === "star");
     expect(stars).toHaveLength(14);
     for (const r of stars) {
@@ -192,10 +223,16 @@ describe("正式規則庫：第一批已校驗規則", () => {
     }
     const principles = ZIWEI_INTERPRETATION_RULES.filter(r => r.kind === "principle");
     expect(principles.map(r => [r.ruleId, r.timeLayer, r.role, ruleUsability(r).usable])).toEqual([
+      ["ZW_PRINCIPLE_RUGE", "natal", "baseNatalMeaning", false], ["ZW_PRINCIPLE_GEXING", "natal", "baseNatalMeaning", false],
+      ["ZW_PRINCIPLE_NANBEI", "decade", "periodModifier", false],
       ["ZW_PERIOD_DAXIAN_PRINCIPLE", "decade", "periodModifier", false], ["ZW_PERIOD_ANNUAL_PRINCIPLE", "annual", "annualModifier", false],
     ]);
+    const periods = ZIWEI_INTERPRETATION_RULES.filter(r => r.kind === "period");
+    expect(periods.map(r => [r.ruleId, r.timeLayer, r.role, ruleUsability(r).usable, r.lifeFactors.map(l => l.factorId).join()])).toEqual([
+      ["ZW_DECADE_SHA_IN_LIMIT", "decade", "periodModifier", true, "instability"], ["ZW_ANNUAL_TAISUI_AT_MING", "annual", "annualModifier", true, ""],
+    ]);
     expect(ZIWEI_INTERPRETATION_RULES.filter(r => r.verificationStatus === "pendingVerification")).toEqual([]);
-    expect(new Set(ZIWEI_INTERPRETATION_RULES.map(r => r.ruleId)).size).toBe(16);
+    expect(new Set(ZIWEI_INTERPRETATION_RULES.map(r => r.ruleId)).size).toBe(21);
     expect([ZIWEI_PATTERN_RULES, ZIWEI_SOURCE_CONFLICTS]).toEqual([[], []]);
   });
   it("每條啟用規則都追溯到原文：引用皆已校驗且原文在 PDF 轉錄中；判讀層不寫外貌、不寫宿命式結論", () => {
@@ -208,8 +245,8 @@ describe("正式規則庫：第一批已校驗規則", () => {
       for (const t of [r.interpretation, r.modernSemantic]) if (t) { expect(t, r.ruleId).not.toMatch(FATAL); expect(t, r.ruleId).not.toMatch(LOOKS); }
     }
   });
-  it("生活因素只來自原文明寫「為官祿主／為財帛主／化富」的主星，且都是長期傾向類（不當成每日吉凶）", () => {
-    const withF = ZIWEI_INTERPRETATION_RULES.filter(r => r.lifeFactors.length);
+  it("生活因素只來自原文明寫「為官祿主／為財帛主／化富」的主星（長期傾向類），以及原文明寫「成敗不一」的大限規則", () => {
+    const withF = ZIWEI_INTERPRETATION_RULES.filter(r => r.lifeFactors.length && r.kind === "star");
     expect(withF.map(r => [r.ruleId, r.lifeFactors.map(l => `${l.factorId}:${l.strength}`).join()])).toEqual([
       ["ZW_STAR_ZIWEI_NATURE", "aptitudeResponsibility:2"], ["ZW_STAR_TAIYANG_NATURE", "aptitudeResponsibility:2"], ["ZW_STAR_WUQU_NATURE", "aptitudeResources:2"],
       ["ZW_STAR_LIANZHEN_NATURE", "aptitudeResponsibility:1"], ["ZW_STAR_TIANFU_NATURE", "aptitudeResources:2"], ["ZW_STAR_TAIYIN_NATURE", "aptitudeResources:1"],
@@ -220,13 +257,17 @@ describe("正式規則庫：第一批已校驗規則", () => {
       expect(c.originalText).toMatch(/為官祿主|為財帛主|化富/);
       for (const l of r.lifeFactors) expect(l.factorId.startsWith("aptitude")).toBe(true);
     }
+    const dx = ZIWEI_INTERPRETATION_RULES.find(r => r.ruleId === "ZW_DECADE_SHA_IN_LIMIT")!;
+    expect(ZIWEI_CITATIONS.find(c => c.citationId === dx.citations[0])!.originalText).toContain("成敗不一");
+    expect(dx.lifeFactors).toEqual([{ factorId: "instability", strength: 1 }]);
   });
   it("覆蓋矩陣由可用規則計算：綜合、工作、財運、不動產為部分覆蓋，其餘主題 none；不是 17 個主題一起開", () => {
     const cov = ziweiCoverage();
     expect(cov.map(c => c.topic)).toEqual(TOPIC_IDS);
-    expect(cov.filter(c => c.level !== "none").map(c => [c.topic, c.level, c.verifiedRuleCount])).toEqual([
-      ["general", "partial", 14], ["career", "partial", 4], ["wealth", "partial", 3], ["property", "partial", 1],
+    expect(cov.filter(c => c.level !== "none").map(c => [c.topic, c.level, c.verifiedRuleCount, c.factorRuleCount])).toEqual([
+      ["general", "partial", 16, 8], ["career", "partial", 4, 4], ["wealth", "partial", 3, 3], ["property", "partial", 1, 1],
     ]);
+    expect(cov.find(c => c.topic === "general")!.layers).toEqual(["natal", "decade", "annual"]);
     expect(cov.find(c => c.topic === "career")!).toMatchObject({ layers: ["natal"], sourceCoverage: ["ziwei-doushu-quanshu-guangyi-scan"], pendingRuleCount: 0 });
     expect(ziweiInterpretationStatus()).toEqual({ status: "partial", coveredTopics: ["general", "career", "wealth", "property"] });
   });
@@ -256,6 +297,21 @@ describe("實際命盤：命宮天府 → 判讀 → 生活因素 → 建議", (
     expect(d.byTopic.wealth!.otherHorizons.find(h => h.horizon === "longTerm")!.doNow.map(i => i.adviceRuleId)).toContain("LONG_APT_RESOURCES");
     expect(zTrace("investment")).toEqual([]);
     expect(zTrace("career")).toEqual([]);
+  });
+  it("2031 年：大限命宮（本命財帛）有擎羊 → 成敗不一（只作大限修正，本命判讀仍在）；流年命宮在本命命宮 → 太歲在命宮提醒", () => {
+    const t = computeZiweiTransit(natal, { civilDate: "2031-06-01", civilTime: "12:00", timeZone: "Asia/Taipei" });
+    const z = interpretZiwei(natal, t);
+    expect(z.findings.map(f => f.ruleId)).toEqual(["ZW_STAR_TIANFU_NATURE", "ZW_DECADE_SHA_IN_LIMIT", "ZW_ANNUAL_TAISUI_AT_MING"]);
+    expect(z.findings[1].evidence[0]).toContain("大限命宮（本命財帛）");
+    const g = z.topics.find(x => x.topic === "general")!;
+    expect([g.baseNatalMeaning.map(f => f.ruleId), g.periodModifier.map(f => f.ruleId), g.annualModifier.map(f => f.ruleId)])
+      .toEqual([["ZW_STAR_TIANFU_NATURE"], ["ZW_DECADE_SHA_IN_LIMIT"], ["ZW_ANNUAL_TAISUI_AT_MING"]]);
+    const d = adviseDay(n, "2031-06-01", "Asia/Taipei", ["general", "career"]);
+    const lt = d.byTopic.general!.otherHorizons.find(h => h.horizon === "longTerm")!;
+    expect(lt.doNow.map(i => i.adviceRuleId)).toContain("GENERAL_MID_CHANGE");
+    const tr = d.byTopic.general!.trace.find(x => x.adviceRuleId === "GENERAL_MID_CHANGE" && x.horizon === "longTerm")!;
+    expect(tr.findings.map(f => f.ruleId)).toContain("ZW_DECADE_SHA_IN_LIMIT");
+    expect(d.byTopic.career!.trace.flatMap(x => x.findings.map(f => f.ruleId))).not.toContain("ZW_DECADE_SHA_IN_LIMIT");
   });
 });
 

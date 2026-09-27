@@ -10,8 +10,11 @@
 import type { ClassicalCitation, ClassicalSource } from "@/core/ziwei/interp/citation";
 import { MAJOR, PALACES } from "@/core/ziwei/common";
 import { GUANGYI_SOURCE, GUANGYI_TRANSCRIPTION, scanSpan } from "./texts/imported";
+import JIWEN_SOURCE from "@/data/classics/ziwei/quanji-jiwen/source.json";
 
-export const ZIWEI_SOURCES_VERSION = "2.0.0";
+export { JIWEN_SOURCE };
+
+export const ZIWEI_SOURCES_VERSION = "3.0.0";
 
 export const ZIWEI_SOURCES: ClassicalSource[] = [
   {
@@ -20,7 +23,7 @@ export const ZIWEI_SOURCES: ClassicalSource[] = [
     notFor: ["直接轉成現代吉凶分數", "未經影像逐字核對的段落（OCR 或初稿）"],
     availability: "使用者提供之本地掃描 PDF（86 頁，無文字層）；PDF 不放入 git，以 SHA-256 鎖定版本。",
     copyrightStatus: "publicDomain", contentStatus: "imported",
-    notes: `PDF SHA-256 ${GUANGYI_SOURCE.sha256}。目前已逐字核對 ${GUANGYI_TRANSCRIPTION.spans.length} 段（卷二「一命宮」十四主星條目起首、卷三十二宮各篇起首、卷三大限與二限太歲原則）；其餘篇章尚未核對，不作判讀依據。`,
+    notes: `PDF SHA-256 ${GUANGYI_SOURCE.sha256}。目前已逐字核對 ${GUANGYI_TRANSCRIPTION.spans.length} 段（卷二「一命宮」十四主星條目起首、卷三十二宮各篇起首、論人命入格、論格星數高下、大限、行限南北斗、流年太歲）；其餘篇章尚未核對，不作判讀依據。`,
   },
   {
     sourceId: "ziwei.quanshu", title: "紫微斗數全書", edition: "維基文庫電子文本", tier: 1, role: "primaryClassical",
@@ -39,12 +42,12 @@ export const ZIWEI_SOURCES: ClassicalSource[] = [
     notes: "不是第一階段的必要條件；不抓取或重製受版權保護的現代點校本。日後取得合法版本或摘錄再加入校勘。",
   },
   {
-    sourceId: GUANGYI_SOURCE.secondarySource.sourceId, title: "紫微斗數全集", edition: "集文版（掃描影像）", tier: 2, role: "secondaryClassical",
-    usage: ["與《紫微斗數全書》廣益版比對異文", "星曜文字", "格局條件", "宮位判斷", "運限描述"],
-    notFor: ["在沒有取得檔案時作為判讀依據", "靜默覆寫廣益版文字"],
-    availability: `來源包 manifest 已登錄（177 頁，SHA-256 ${GUANGYI_SOURCE.secondarySource.sha256}），但本次上傳沒有這個 PDF。`,
-    copyrightStatus: "unknown", contentStatus: "unavailable",
-    notes: "取得檔案後逐段比對，異文記入 textualVariants 並標示採用版本；目前 0 筆異文紀錄不代表兩版相同，只代表尚未比對。",
+    sourceId: JIWEN_SOURCE.sourceId, title: "紫微斗數全集", edition: "集文版（掃描影像）", tier: 2, role: "secondaryClassical",
+    usage: ["段落定位與大意對照（十四主星問答與《全書》〈諸星問答論〉平行）"],
+    notFor: ["逐字引用（掃描約 150 dpi、二值化，多數字無法確認）", "建立異文或規則", "靜默覆寫廣益版文字"],
+    availability: `來源包 v3 已提供（177 頁，SHA-256 ${JIWEN_SOURCE.sha256}）；PDF 不放入 git。`,
+    copyrightStatus: "unknown", contentStatus: "notInRepository",
+    notes: "PDF 已由來源包 v3 提供並核對雜湊，但沒有可逐字引用的轉錄，因此不算「已匯入原文」。本書以十八飛星體系為主，與《全書》十四主星體系不同；十二宮、論人命入格、運限各篇沒有直接平行段落。只登錄平行段落位置與大意（待核），0 筆異文、0 筆衝突。",
   },
   {
     sourceId: "software.iztro", title: "iztro", edition: "2.6.1", tier: 4, role: "softwareDataset",
@@ -87,7 +90,7 @@ function scanCitation(citationId: string, spanId: string, o: { originalText?: st
     locationStatus: "verifiedAgainstText", originalText, normalizedText: originalText, classicalCommentary: null,
     modernTranslation: o.modernTranslation, verificationStatus: ok ? "verified" : "pendingVerification",
     textualVariants: [],
-    notes: [o.notes, sp.notes, "集文版尚未取得，異文未比對。"].filter(Boolean).join(" "),
+    notes: [o.notes, sp.notes].filter(Boolean).join(" "),
     locator: { pdfPage: sp.pdfPage, printedPage: sp.printedPage, spanId },
     transcriptionStatus: ok ? "verified" : "transcriptionUnverified",
     verifiedBy: GUANGYI_TRANSCRIPTION.verification.verifiedBy, verifiedAt: GUANGYI_TRANSCRIPTION.verification.verifiedAt,
@@ -137,6 +140,18 @@ export const ZIWEI_CITATIONS: ClassicalCitation[] = [
     modernTranslation: "必須分別詳看大限、小限、太歲各自所守的吉凶；太歲與限都凶，才論凶；再看大限與小限相逢、大限逢太歲、小限逢太歲時的吉凶如何。",
   }),
   scanCitation("CIT_QS_PERIOD_TAISUI_CLASH", "GY-P46-ERXIAN-B", { modernTranslation: "又要看太歲是否沖大限、小限，以及太歲是否沖擎羊、陀羅、七殺，然後才可以判斷吉凶。" }),
+  scanCitation("CIT_QS_RUGE", "GY-P45-RUGE", { modernTranslation: "命宮入格又廟旺，並有吉星、化科化權化祿守照，是上上之命；不入廟但加吉星與吉化，是其次；不入廟也不加吉，平常；入廟而不加吉，也只平平。若落陷又加煞星、化忌，是下格，不能以入格論。又入格而不化吉反化凶，只以本命吉凶的多寡來判斷。" }),
+  scanCitation("CIT_QS_GEXING", "GY-P45-GEXING", { modernTranslation: "紫微、天府與「數」相合如何？紫微是南北斗中天帝主，天府是南斗主，又有陰陽各半的情形。陰陽不各半、數又不相生，是下格；陰陽純駁，是中格。三方四正都是吉星為上格；吉凶各半守照為中格。" }),
+  scanCitation("CIT_QS_PERIOD_DAXIAN_TEXT", "GY-P46-DAXIAN", {
+    originalText: "若限內有擎羊陀羅火鈴空劫忌星為伴成敗不一",
+    modernTranslation: "若大限之內有擎羊、陀羅、火星、鈴星、地空、地劫或忌星相伴，這十年成敗不一。",
+  }),
+  scanCitation("CIT_QS_PERIOD_DAXIAN_CALM", "GY-P46-DAXIAN", {
+    originalText: "分星纏全吉廟旺得地無擎羊陀羅火鈴空劫者主十年安靜人財全美",
+    modernTranslation: "（大限）宮中星曜都吉、廟旺得地，又沒有擎羊、陀羅、火星、鈴星、地空、地劫的，主這十年安靜，人與財都順遂。",
+  }),
+  scanCitation("CIT_QS_NANBEI", "GY-P47-NANBEI", { modernTranslation: "陰男陽女以北斗為福。北斗諸星的吉凶，大限應在前五年，小限應在前半年；南斗諸星的吉凶，大限應在後五年，小限應在後半年。" }),
+  scanCitation("CIT_QS_ANNUAL_TAISUI", "GY-P47-TAISUI", { modernTranslation: "凡看太歲（流年），要看三方與對宮星辰的吉凶，以定禍福。太歲到命宮的那一年，禍福尤其明顯；例如命宮在子，太歲到子，又逢癸年生人，遇吉則吉、遇凶則凶。" }),
 ];
 
 export const citationOf = (id: string) => ZIWEI_CITATIONS.find(c => c.citationId === id);

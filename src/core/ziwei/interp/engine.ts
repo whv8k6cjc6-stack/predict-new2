@@ -44,6 +44,7 @@ export function ruleUsability(rule: ZiweiInterpretationRule, kb: InterpretationK
 }
 
 // ───────── 條件判斷 ─────────
+const LAYER_NAME = { decade: "大限", annual: "流年" } as const;
 function evalCond(c: ZiweiCondition, ctx: ZiweiInterpretationContexts, n: ZiweiNatal): { ok: boolean; evidence: string[] } {
   const rel = (want: string | undefined, role: string) =>
     !want || want === role || (want === "trine" && (role === "trine1" || role === "trine2")) || want === "sanfang";
@@ -55,7 +56,7 @@ function evalCond(c: ZiweiCondition, ctx: ZiweiInterpretationContexts, n: ZiweiN
       for (const m of sf.members) {
         if (!rel(want, m.relationType)) continue;
         const s = [...m.residentMajor, ...m.residentMinor].find(x => x.name === c.star && (!c.brightness || c.brightness.includes(x.brightness)));
-        if (s) return { ok: true, evidence: [`${c.star}（${s.brightness || "—"}）在${m.palaceName}（${m.relationType === "self" ? "本宮坐守" : "三方照會"}）`] };
+        if (s) return { ok: true, evidence: [`${c.star}（${s.brightness || "—"}）在${c.layer && c.layer !== "natal" ? `${LAYER_NAME[c.layer]}${m.palaceName}（本命${m.natalName}）` : m.palaceName}（${m.relationType === "self" ? "本宮坐守" : "三方照會"}）`] };
       }
       return { ok: false, evidence: [] };
     }
@@ -81,6 +82,10 @@ function evalCond(c: ZiweiCondition, ctx: ZiweiInterpretationContexts, n: ZiweiN
       const p = ctx.palaces.find(x => (layer === "natal" ? x.natalName : layer === "decade" ? x.decadeName : x.annualName) === c.palace);
       return p?.isEmpty ? { ok: true, evidence: [`${c.palace}無主星`] } : { ok: false, evidence: [] };
     }
+    case "periodLifeAt": {
+      const l = ctx[c.layer];
+      return l && l.lifeOnNatal === c.natalPalace ? { ok: true, evidence: [`${LAYER_NAME[c.layer]}命宮在本命${c.natalPalace}`] } : { ok: false, evidence: [] };
+    }
     case "all": { const r = c.of.map(x => evalCond(x, ctx, n)); return { ok: r.every(x => x.ok), evidence: r.flatMap(x => x.evidence) }; }
     case "any": { const r = c.of.map(x => evalCond(x, ctx, n)).filter(x => x.ok); return { ok: r.length > 0, evidence: r.flatMap(x => x.evidence) }; }
     case "not": { const r = evalCond(c.of, ctx, n); return { ok: !r.ok, evidence: r.ok ? [] : ["（否定條件成立）"] }; }
@@ -91,11 +96,11 @@ function evalCond(c: ZiweiCondition, ctx: ZiweiInterpretationContexts, n: ZiweiN
 export type ZiweiCoverageLevel = "none" | "partial" | "dedicated";
 export interface ZiweiTopicCoverageRow {
   topic: TopicId; level: ZiweiCoverageLevel;
-  ruleCount: number; verifiedRuleCount: number; pendingRuleCount: number;
+  ruleCount: number; verifiedRuleCount: number; factorRuleCount: number; pendingRuleCount: number;
   layers: ContextLayer[];                    // 已可用規則涵蓋的時間層
   sourceCoverage: string[];                  // 已可用規則引用的來源
 }
-/** dedicated：可用規則至少 DEDICATED_MIN 條，且本命與運限（大限或流年）兩層都有；其餘有可用規則者為 partial */
+/** dedicated：會產生生活因素的可用規則至少 DEDICATED_MIN 條，且本命與運限（大限或流年）兩層都有；其餘有可用規則者為 partial */
 export const DEDICATED_MIN = 10;
 
 export function ziweiCoverage(kb: InterpretationKB = DEFAULT_KB): ZiweiTopicCoverageRow[] {
@@ -103,10 +108,13 @@ export function ziweiCoverage(kb: InterpretationKB = DEFAULT_KB): ZiweiTopicCove
     const rules = kb.rules.filter(r => r.topics.includes(topic));
     const usable = rules.filter(r => ruleUsability(r, kb).usable);
     const layers = [...new Set(usable.map(r => r.timeLayer))];
+    // 「專屬」只看會產生生活因素的規則（只列出判讀、不產生因素的規則不能支撐建議）
+    const withFactors = usable.filter(r => r.lifeFactors.length);
+    const fLayers = new Set(withFactors.map(r => r.timeLayer));
     const level: ZiweiCoverageLevel = !usable.length ? "none"
-      : usable.length >= DEDICATED_MIN && layers.includes("natal") && (layers.includes("decade") || layers.includes("annual")) ? "dedicated" : "partial";
+      : withFactors.length >= DEDICATED_MIN && fLayers.has("natal") && (fLayers.has("decade") || fLayers.has("annual")) ? "dedicated" : "partial";
     const sourceCoverage = [...new Set(usable.flatMap(r => r.citations.map(id => kb.citations.find(c => c.citationId === id)?.sourceId ?? "")).filter(Boolean))];
-    return { topic, level, ruleCount: rules.length, verifiedRuleCount: usable.length, pendingRuleCount: rules.filter(r => r.verificationStatus === "pendingVerification").length, layers, sourceCoverage };
+    return { topic, level, ruleCount: rules.length, verifiedRuleCount: usable.length, factorRuleCount: withFactors.length, pendingRuleCount: rules.filter(r => r.verificationStatus === "pendingVerification").length, layers, sourceCoverage };
   });
 }
 

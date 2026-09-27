@@ -15,6 +15,8 @@ export type ZiweiCondition =
   | { kind: "transformation"; transformation: Hua; source: "birthYear" | "decade" | "annual"; star?: string; palace: PalaceName; layer?: ContextLayer; relation?: SanFangRole | "trine" | "sanfang" }
   | { kind: "starsTogether"; stars: string[]; palace?: PalaceName; layer?: ContextLayer }
   | { kind: "emptyPalace"; palace: PalaceName; layer?: ContextLayer }
+  /** 運限命宮落在本命某宮（例：流年命宮＝本命命宮，即「太歲在命宮」） */
+  | { kind: "periodLifeAt"; layer: "decade" | "annual"; natalPalace: PalaceName }
   | { kind: "all"; of: ZiweiCondition[] }
   | { kind: "any"; of: ZiweiCondition[] }
   | { kind: "not"; of: ZiweiCondition };

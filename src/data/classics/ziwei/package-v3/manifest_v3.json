@@ -1,0 +1,83 @@
+{
+  "packageVersion": "3.0-complete-handoff",
+  "primarySource": {
+    "file": "source/紫微斗數全書-廣益版.pdf",
+    "sha256": "cec2c444290ac70020a5ae4e20a50c07a0064783e53ff3162f90a299d7831186",
+    "role": "primaryClassicalSource"
+  },
+  "secondarySource": {
+    "file": "source/紫微斗數全集-集文版.pdf",
+    "sha256": "6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6",
+    "role": "secondaryClassicalSource"
+  },
+  "sourceOfTruth": "PDF page image",
+  "ocrPolicy": "searchOnly_unverified",
+  "humanDraftPolicy": "pendingVerification_until_exact_visual_check",
+  "files": [
+    {
+      "path": "README_FIRST.txt",
+      "bytes": 890,
+      "sha256": "d340c5a792b2f08dfb7c0b44ebfeb61c9cd60e50028444ecfee5ebf50318620e"
+    },
+    {
+      "path": "index/PR5_可直接啟用與不可啟用清單.md",
+      "bytes": 934,
+      "sha256": "d4cac0bcd8c9f8ba1431d6f84cd17209695676aecbeecb49539d1c32f375ca43"
+    },
+    {
+      "path": "index/廣益版_完整交接導航.md",
+      "bytes": 4269,
+      "sha256": "da22bd4f20a6aa868320993508bd2cabbece572bb7cbb554c997b743ca6b3b17"
+    },
+    {
+      "path": "index/格局清單_實作安全規則.md",
+      "bytes": 1695,
+      "sha256": "f4aee078c8c2281471ecd74a0f22c1db0409056ab9ff481604dcc04efe5a83e1"
+    },
+    {
+      "path": "index/第一批人工定位索引.md",
+      "bytes": 1646,
+      "sha256": "9091f08f78b384b3aae39942c2cdc4543a9f7169b8ae24566dcfca202bc00df2"
+    },
+    {
+      "path": "index/紫微斗數全書_第二批定位索引.md",
+      "bytes": 2786,
+      "sha256": "a6f943920b398c7d49228de8c8be4501f78408b07586463c6f32e8ecfbc328a9"
+    },
+    {
+      "path": "instructions/給開發代理人_直接執行.txt",
+      "bytes": 1928,
+      "sha256": "1300b121a50a088c07cc7da53b4d8c2c87c4ac61dc3099cffb6336c709d67748"
+    },
+    {
+      "path": "ocr/紫微斗數全書_p17-p55_機器OCR_僅供搜尋.txt",
+      "bytes": 81776,
+      "sha256": "7d90f2f3dad67612290fe93b1787a92b8ec798efa6ee322629fb47a5e983226a"
+    },
+    {
+      "path": "source/紫微斗數全書-廣益版.pdf",
+      "bytes": 8466814,
+      "sha256": "cec2c444290ac70020a5ae4e20a50c07a0064783e53ff3162f90a299d7831186"
+    },
+    {
+      "path": "source/紫微斗數全集-集文版.pdf",
+      "bytes": 7321338,
+      "sha256": "6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6"
+    },
+    {
+      "path": "transcripts/紫微斗數全書_十二宮_人工轉錄說明.txt",
+      "bytes": 1564,
+      "sha256": "30e7731c8501a3e6679862aa30e1608e7574377c261d644937b18b3f17dbb31c"
+    },
+    {
+      "path": "transcripts/紫微斗數全書_十四主星_人工轉錄初稿.txt",
+      "bytes": 8012,
+      "sha256": "8275e5ba56deb8e30010f5d1b0c41fa9c490a7a9c41a6b2b905bfde633a1e3d8"
+    },
+    {
+      "path": "transcripts/紫微斗數全書_格局與運限_人工轉錄初稿.md",
+      "bytes": 7067,
+      "sha256": "7275d7ea2d5765f8bf262205394eddcdd308ffe01838b2b518261c3c17f8416e"
+    }
+  ]
+}

@@ -3,6 +3,8 @@ import { ADVICE_TOPICS } from "@/kb/advice/topics";
 import { ZIWEI_CITATIONS, ZIWEI_SOURCES } from "@/kb/ziwei/sources";
 import { PALACE_SEMANTICS, STAR_SEMANTICS } from "@/kb/ziwei/semantics";
 import { factorDef } from "@/core/advice/factors";
+import { ZIWEI_PENDING } from "@/kb/ziwei/pending";
+import { JIWEN_SOURCE } from "@/kb/ziwei/sources";
 import { ZIWEI_INTERPRETATION_RULES, ZIWEI_INTERP_RULES_VERSION, ZIWEI_PATTERN_RULES, ZIWEI_SOURCE_CONFLICTS } from "@/kb/ziwei/interpretationRules";
 import { IMPORTED_ZIWEI_TEXTS } from "@/kb/ziwei/texts/imported";
 import { ruleUsability, ziweiCoverage } from "./engine";
@@ -26,9 +28,9 @@ export function ziweiRegistryDoc(): string {
     "",
     "## 主題覆蓋矩陣",
     "",
-    "| 主題 | 覆蓋 | 規則 | 已校驗 | 待校驗 | 來源 |",
-    "|---|---|---|---|---|---|",
-    ...cov.map(c => `| ${ADVICE_TOPICS[c.topic].label}（${c.topic}） | ${c.level} | ${c.ruleCount} | ${c.verifiedRuleCount} | ${c.pendingRuleCount} | ${c.sourceCoverage.join("、") || "—"} |`),
+    "| 主題 | 覆蓋 | 規則 | 可用 | 產生生活因素 | 待校驗 | 時間層 | 來源 |",
+    "|---|---|---|---|---|---|---|---|",
+    ...cov.map(c => `| ${ADVICE_TOPICS[c.topic].label}（${c.topic}） | ${c.level} | ${c.ruleCount} | ${c.verifiedRuleCount} | ${c.factorRuleCount} | ${c.pendingRuleCount} | ${c.layers.join("、") || "—"} | ${c.sourceCoverage.join("、") || "—"} |`),
     "",
     `## 判讀規則（${ZIWEI_INTERPRETATION_RULES.length} 條）`,
     "",
@@ -54,9 +56,21 @@ export function ziweiRegistryDoc(): string {
     "|---|---|---|---|---|---|",
     ...PALACE_SEMANTICS.map(p => `| ${p.name}${p.classicalName !== p.name ? `（${p.classicalName}）` : ""} | ${p.modernMeaning.text} | ${p.relatedTopics.join("、")} | ${p.combineWith.opposite} | ${p.combineWith.trines.join("、")} | ${p.classicalMeaning.text ?? "待校驗"} |`),
     "",
-    `## 格局規則：${ZIWEI_PATTERN_RULES.length} 條（格局篇章尚未逐字核對）`,
+    `## 格局規則：${ZIWEI_PATTERN_RULES.length} 條（格局篇章尚未逐字核對；候選見待校驗清單）`,
     "",
-    `## 來源衝突：${ZIWEI_SOURCE_CONFLICTS.length ? ZIWEI_SOURCE_CONFLICTS.map(c => c.conflictId).join("、") : "0 筆（第二來源集文版尚未取得，尚未比對）"}`,
+    "## 第二來源：《紫微斗數全集》集文版",
+    "",
+    `PDF SHA-256 ${JIWEN_SOURCE.sha256}。${JIWEN_SOURCE.scanQuality.note}`,
+    "",
+    ...JIWEN_SOURCE.parallelSections.map(p => `- ${p.topic}：${p.status}${p.jiwenPages.length ? `（集文版 PDF p${p.jiwenPages[0]}–${p.jiwenPages[p.jiwenPages.length - 1]}）` : ""}`),
+    "",
+    `## 待校驗（${ZIWEI_PENDING.length} 項）`,
+    "",
+    "| 項目 | 類型 | 來源 | PDF 頁 | 原因 |",
+    "|---|---|---|---|---|",
+    ...ZIWEI_PENDING.map(e => `| ${esc(e.section)} | ${e.kind} | ${e.sourceId} | ${e.pdfPage ?? "—"} | ${esc(e.reason)} |`),
+    "",
+    `## 來源衝突：${ZIWEI_SOURCE_CONFLICTS.length ? ZIWEI_SOURCE_CONFLICTS.map(c => c.conflictId).join("、") : "0 筆（集文版平行段落掃描不足以逐字比對，未建立異文或衝突）"}`,
     "",
   ].join("\n");
 }

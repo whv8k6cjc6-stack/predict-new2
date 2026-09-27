@@ -1,0 +1,65 @@
+{
+ "sourceId": "ziwei-doushu-quanji-jiwen-scan",
+ "title": "紫微斗數全集",
+ "editionLabel": "集文版",
+ "fileName": "紫微斗數全集-集文版.pdf",
+ "pageCount": 177,
+ "sha256": "6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6",
+ "textLayer": false,
+ "sourceType": "localScan",
+ "priority": "secondaryClassicalSource",
+ "providedBy": "使用者提供之紫微來源包 v3（manifest_v3.json）",
+ "pdfInRepository": false,
+ "scanQuality": {
+  "nativeImagePixels": [1647, 1135],
+  "pageLayout": "每個 PDF 頁為左右兩葉，直書右至左；原生解析度約 150 dpi、二值化",
+  "characterLevelVerification": "notPossibleForMostPassages",
+  "note": "單字約 12–16 像素，許多筆畫已糊；放大只會放大像素，不會增加資訊。依「看不清的字不可猜」原則，本版目前只作段落定位與大意對照，不作逐字引用、不建立 textualVariants、不作規則依據。"
+ },
+ "bookStructure": {
+  "title": "合併十八飛星紫微斗數（目錄頁題名）",
+  "note": "本書以「十八飛星」體系為主（卷之一飛星、論命宮、論兄弟……），與《紫微斗數全書》的十四主星體系不同；只有部分篇章（例：諸星問答）與《全書》平行。"
+ },
+ "parallelSections": [
+  {
+   "topic": "十四主星問答",
+   "jiwenPages": [105, 106, 107, 108, 109, 110, 111, 112, 113],
+   "guangyiParallel": "卷一〈諸星問答論〉（廣益版 PDF p5–9）",
+   "guangyiCitedSection": "本 App 引用的是卷二「一命宮」各星條目（p26–31），不是〈諸星問答論〉，因此不是同一段文字的異文。",
+   "status": "locatorOnly",
+   "visualVerified": false,
+   "gistReadings": [
+    { "star": "紫微", "jiwenPage": 105, "gist": "問紫微所主若何答曰紫微屬〔圈字：土〕乃中天……為帝主……", "legibility": "partial" },
+    { "star": "天機", "jiwenPage": 106, "gist": "問天機所主何如答曰天機屬〔疑字〕乃南斗益算之善星……", "legibility": "partial" },
+    { "star": "太陽", "jiwenPage": 106, "gist": "太陽星屬火日之精也乃造化之表儀……", "legibility": "partial" },
+    { "star": "武曲", "jiwenPage": 107, "gist": "問武曲屬金北斗之第六星也乃財帛主……", "legibility": "partial" },
+    { "star": "天同", "jiwenPage": 108, "gist": "問天同屬〔圈字：水〕南斗……為福德宮之主……", "legibility": "partial" },
+    { "star": "廉貞", "jiwenPage": 108, "gist": "問廉貞屬火北斗第五星也……", "legibility": "partial" },
+    { "star": "天府", "jiwenPage": 109, "gist": "問天府屬土南斗主令星也為財帛之主……", "legibility": "partial" },
+    { "star": "太陰", "jiwenPage": 109, "gist": "問太陰乃水之精為田宅主化富……", "legibility": "partial" },
+    { "star": "貪狼", "jiwenPage": 110, "gist": "問貪狼北斗解厄之神屬水體屬金化氣為桃花……", "legibility": "partial" },
+    { "star": "巨門", "jiwenPage": 111, "gist": "問巨門屬〔疑字〕北斗第二星也陰精化氣為暗……", "legibility": "partial" },
+    { "star": "天相", "jiwenPage": 111, "gist": "問天相屬水南斗司爵之星……", "legibility": "partial" },
+    { "star": "天梁", "jiwenPage": 112, "gist": "問天梁屬土南斗司壽之星也化氣為蔭……", "legibility": "partial" },
+    { "star": "七殺", "jiwenPage": 112, "gist": "問七殺屬金南斗……遇紫則化權……", "legibility": "partial" },
+    { "star": "破軍", "jiwenPage": 113, "gist": "問破軍屬水北斗……第七之星司夫妻子息奴僕之神……", "legibility": "partial" }
+   ],
+   "gistPolicy": "大意讀法只供人工比對參考（pendingVerification／visualVerified=false），不得作為 originalText、不得建立異文或規則。與廣益版卷二各星條目的核心定性（化氣、所主）大致相合；七殺五行（廣益版卷二「火金」、集文版問答「屬金」）與天機、巨門五行字在集文版影像中無法確認，列為待比對，不建立 SourceConflict。"
+  },
+  {
+   "topic": "十二宮",
+   "jiwenPages": [19, 20, 21, 22, 23, 24, 25],
+   "guangyiParallel": "卷三「二兄弟」至「十二父母」（廣益版 PDF p37–44）",
+   "status": "noDirectParallel",
+   "visualVerified": false,
+   "note": "集文版十二宮屬十八飛星體系（例：p22「七妻妾」、p24「十一福德」，序號與星曜皆不同），與《全書》十二宮篇不是同一文本，不做異文比對。"
+  },
+  {
+   "topic": "論人命入格／論格星數高下／論大限十年禍福何如／論行限分南北斗／論流年太歲逢吉凶星殺",
+   "jiwenPages": [],
+   "status": "notFound",
+   "visualVerified": false,
+   "note": "以機器 OCR 全書搜尋（只供定位）未找到對應篇名；目錄頁有「分南北斗」「大小限」等相近條目，但屬十八飛星體系，未做比對。"
+  }
+ ]
+}

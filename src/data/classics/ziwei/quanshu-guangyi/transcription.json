@@ -7,182 +7,745 @@
   "每段都記錄 pdfPage（PDF 檔頁碼，1 起算）、printedPage（版心頁碼）、卷、篇、條目與 clip（裁切範圍，頁寬高的比例 [x0,y0,x1,y1]），供 scripts/ziwei-scan-crops.py 重新產生影像複核。",
   "verified＝已依 PDF 影像逐字核對；第一批人工轉錄初稿（pendingVerification）與影像不同之處記在 draftCorrections，以影像為準。",
   "篇名依原書版面標題；卷別依版心（卷二、卷三）。十四主星段落位於卷二「一命宮」之下、各星「入男命吉凶訣」「入女命吉凶訣」「入限吉凶訣」小標之前的總論（例：p26「一命宮」標題後即接「紫微土南北斗……」），故 section 記「一命宮」、entry 記星名；三個吉凶訣小節尚未轉錄。",
-  "visualVerified＝true 表示該段已依 PDF 影像逐字核對；只有 visualVerified＝true 且 transcriptionStatus＝verified 的段落會被匯入、可供 verified 規則引用。初稿或 OCR 段落可登錄為 pendingVerification／visualVerified＝false，但不會被匯入。"
+  "visualVerified＝true 表示該段已依 PDF 影像逐字核對；只有 visualVerified＝true 且 transcriptionStatus＝verified 的段落會被匯入、可供 verified 規則引用。初稿或 OCR 段落可登錄為 pendingVerification／visualVerified＝false，但不會被匯入。",
+  "來源包 v3 導航稱「未見獨立一命宮章首」「PDF p36 末為卷之一終」「十二宮在卷二」；經高倍率複核影像：p26（版心24）右頁首欄即印「一命宮」，p36 末為「卷之二終」，p37 卷首為「新鍥希夷陳先生紫微斗數全書卷之三」並接「二兄弟」。依影像記錄，不採導航稿的說法（見 GY-P26-MING-HEAD）。"
  ],
  "verification": {
   "verifiedBy": "Claude Code（AI 目視比對，非人工校對）",
   "verifiedAt": "2026-09-27",
-  "method": "以 PyMuPDF 將指定頁面裁切放大（100–180 dpi）後逐字目視比對；每段至少一次高倍率複核"
+  "method": "以 PyMuPDF 將指定頁面裁切放大（100–180 dpi）後逐字目視比對；每段至少一次高倍率複核",
+  "batches": [
+   {
+    "batch": 1,
+    "spans": 30,
+    "verifiedAt": "2026-09-27"
+   },
+   {
+    "batch": 2,
+    "spans": 5,
+    "verifiedAt": "2026-09-27",
+    "note": "來源包 v3：p45–47 格局與運限原則"
+   }
+  ]
  },
  "spans": [
   {
-   "spanId": "GY-P26-MING-HEAD", "pdfPage": 26, "printedPage": 24, "volume": "卷二", "section": "一命宮", "entry": "命宮", "kind": "heading",
-   "text": "一命宮", "clip": [0.88, 0.02, 0.98, 0.5], "transcriptionStatus": "verified", "visualVerified": true,
+   "spanId": "GY-P26-MING-HEAD",
+   "pdfPage": 26,
+   "printedPage": 24,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "命宮",
+   "kind": "heading",
+   "text": "一命宮",
+   "clip": [
+    0.88,
+    0.02,
+    0.98,
+    0.5
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
    "notes": "卷二十二宮諸星論述的第一宮標題；本篇之下依星列「入男命吉凶訣」「入女命吉凶訣」「入限吉凶訣」。"
   },
   {
-   "spanId": "GY-P26-ZIWEI", "pdfPage": 26, "printedPage": 24, "volume": "卷二", "section": "一命宮", "entry": "紫微", "kind": "text",
+   "spanId": "GY-P26-ZIWEI",
+   "pdfPage": 26,
+   "printedPage": 24,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "紫微",
+   "kind": "text",
    "text": "紫微土南北斗化帝座為官祿主紫微面紫色或白清腰背肥滿為人忠厚老成謙恭耿直其威制七殺降火鈴若與府左右昌曲日月祿馬三合極吉",
-   "clip": [0.88, 0.02, 0.98, 0.95], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
+   "clip": [
+    0.88,
+    0.02,
+    0.98,
+    0.95
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
    "draftCorrections": []
   },
   {
-   "spanId": "GY-P26-TIANJI", "pdfPage": 26, "printedPage": 24, "volume": "卷二", "section": "一命宮", "entry": "天機", "kind": "text",
+   "spanId": "GY-P26-TIANJI",
+   "pdfPage": 26,
+   "printedPage": 24,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "天機",
+   "kind": "text",
    "text": "天機屬木南斗化善星為兄弟主入廟身長肥胖性急心慈機謀多變與天梁會合善談兵",
-   "clip": [0.36, 0.04, 0.45, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
+   "clip": [
+    0.36,
+    0.04,
+    0.45,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
    "draftCorrections": []
   },
   {
-   "spanId": "GY-P27-TAIYANG", "pdfPage": 27, "printedPage": 25, "volume": "卷二", "section": "一命宮", "entry": "太陽", "kind": "text",
+   "spanId": "GY-P27-TAIYANG",
+   "pdfPage": 27,
+   "printedPage": 25,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "太陽",
+   "kind": "text",
    "text": "南北斗化貴為官祿主太陽入廟形貌堂堂雄壯面方圓滿夜生陷日生廟旺心慈面紫色好施濟",
-   "clip": [0.865, 0.04, 0.925, 0.93], "transcriptionStatus": "verified", "visualVerified": true,
+   "clip": [
+    0.865,
+    0.04,
+    0.925,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
    "notes": "條目起首影像為「太陽〔疑字：入〕南北斗」：第三字字形像「入」，依其他星條目體例應為五行（初稿作「火」）；此字不收入 text。",
-   "draftCorrections": ["初稿「太陽，火，南北斗」：影像第三字字形為「入」，無法確認為「火」，改記疑字、不收入已校驗文字"]
+   "draftCorrections": [
+    "初稿「太陽，火，南北斗」：影像第三字字形為「入」，無法確認為「火」，改記疑字、不收入已校驗文字"
+   ]
   },
   {
-   "spanId": "GY-P27-WUQU", "pdfPage": 27, "printedPage": 25, "volume": "卷二", "section": "一命宮", "entry": "武曲", "kind": "text",
+   "spanId": "GY-P27-WUQU",
+   "pdfPage": 27,
+   "printedPage": 25,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "武曲",
+   "kind": "text",
    "text": "武曲金北斗化財為財帛主武曲性剛果決心直無毒形小聲高而量大",
-   "clip": [0.655, 0.05, 0.705, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
-   "draftCorrections": ["初稿「武曲性剛果」：影像為「武曲性剛果決」"]
+   "clip": [
+    0.655,
+    0.05,
+    0.705,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
+   "draftCorrections": [
+    "初稿「武曲性剛果」：影像為「武曲性剛果決」"
+   ]
   },
   {
-   "spanId": "GY-P27-TIANTONG", "pdfPage": 27, "printedPage": 25, "volume": "卷二", "section": "一命宮", "entry": "天同", "kind": "text",
+   "spanId": "GY-P27-TIANTONG",
+   "pdfPage": 27,
+   "printedPage": 25,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "天同",
+   "kind": "text",
    "text": "天同水南斗化福為福德主天同入廟肥滿清明仁慈耿直",
-   "clip": [0.035, 0.05, 0.08, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
-   "draftCorrections": ["初稿「天同性溫良，福祿悠長，壽長」：影像此處為「天同入廟肥滿清明仁慈耿直」"]
+   "clip": [
+    0.035,
+    0.05,
+    0.08,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
+   "draftCorrections": [
+    "初稿「天同性溫良，福祿悠長，壽長」：影像此處為「天同入廟肥滿清明仁慈耿直」"
+   ]
   },
   {
-   "spanId": "GY-P28-LIANZHEN", "pdfPage": 28, "printedPage": 26, "volume": "卷二", "section": "一命宮", "entry": "廉貞", "kind": "text",
+   "spanId": "GY-P28-LIANZHEN",
+   "pdfPage": 28,
+   "printedPage": 26,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "廉貞",
+   "kind": "text",
    "text": "廉貞屬火北斗化次桃花殺囚星為官祿主為人身長體大眼露神光",
-   "clip": [0.575, 0.05, 0.625, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
-   "draftCorrections": ["初稿「廉貞，火」：影像為「廉貞屬火」", "初稿「廉貞守命亦非常，賦性剛強志氣剛」出自歌訣，不是本條起首"]
+   "clip": [
+    0.575,
+    0.05,
+    0.625,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
+   "draftCorrections": [
+    "初稿「廉貞，火」：影像為「廉貞屬火」",
+    "初稿「廉貞守命亦非常，賦性剛強志氣剛」出自歌訣，不是本條起首"
+   ]
   },
   {
-   "spanId": "GY-P28-TIANFU", "pdfPage": 28, "printedPage": 26, "volume": "卷二", "section": "一命宮", "entry": "天府", "kind": "text",
+   "spanId": "GY-P28-TIANFU",
+   "pdfPage": 28,
+   "printedPage": 26,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "天府",
+   "kind": "text",
    "text": "天府土南斗化令星為財帛主為人面方圓",
-   "clip": [0.085, 0.04, 0.13, 0.5], "transcriptionStatus": "verified", "visualVerified": true,
+   "clip": [
+    0.085,
+    0.04,
+    0.13,
+    0.5
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
    "notes": "其後「容〔疑字：紅〕白」字形不清，不收入 text。初稿未轉錄本條起首。",
    "draftCorrections": []
   },
   {
-   "spanId": "GY-P29-TAIYIN", "pdfPage": 29, "printedPage": 27, "volume": "卷二", "section": "一命宮", "entry": "太陰", "kind": "text",
+   "spanId": "GY-P29-TAIYIN",
+   "pdfPage": 29,
+   "printedPage": 27,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "太陰",
+   "kind": "text",
    "text": "太陰水南北斗化富為母宿又為妻星為田宅主太陰面方圓心性溫和清秀耿直聰明",
-   "clip": [0.645, 0.05, 0.69, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
-   "draftCorrections": ["初稿「心性溫和清秀，聰明」：影像為「心性溫和清秀耿直聰明」"]
+   "clip": [
+    0.645,
+    0.05,
+    0.69,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
+   "draftCorrections": [
+    "初稿「心性溫和清秀，聰明」：影像為「心性溫和清秀耿直聰明」"
+   ]
   },
   {
-   "spanId": "GY-P29-TANLANG", "pdfPage": 29, "printedPage": 27, "volume": "卷二", "section": "一命宮", "entry": "貪狼", "kind": "text",
+   "spanId": "GY-P29-TANLANG",
+   "pdfPage": 29,
+   "printedPage": 27,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "貪狼",
+   "kind": "text",
    "text": "貪狼水北斗化桃花殺貪狼入廟長聳肥胖陷宮形小聲高而量大性格不常心多計較作事急速不耐靜",
-   "clip": [0.215, 0.05, 0.265, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
-   "draftCorrections": ["初稿「貪狼，火」：影像為「貪狼水」", "初稿「長壯肥胖」：影像為「長聳肥胖」", "初稿「過宮形小」：影像為「陷宮形小」"]
+   "clip": [
+    0.215,
+    0.05,
+    0.265,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
+   "draftCorrections": [
+    "初稿「貪狼，火」：影像為「貪狼水」",
+    "初稿「長壯肥胖」：影像為「長聳肥胖」",
+    "初稿「過宮形小」：影像為「陷宮形小」"
+   ]
   },
   {
-   "spanId": "GY-P30-JUMEN", "pdfPage": 30, "printedPage": 28, "volume": "卷二", "section": "一命宮", "entry": "巨門", "kind": "text",
+   "spanId": "GY-P30-JUMEN",
+   "pdfPage": 30,
+   "printedPage": 28,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "巨門",
+   "kind": "text",
    "text": "巨門水北斗化暗主是非入廟身長肥胖敦厚清秀不入廟五短瘦小作事進退疑惑多學少精與人寡合多是多非",
-   "clip": [0.7, 0.05, 0.77, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
-   "draftCorrections": ["初稿「敦厚有度」：影像為「敦厚清秀」"]
+   "clip": [
+    0.7,
+    0.05,
+    0.77,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
+   "draftCorrections": [
+    "初稿「敦厚有度」：影像為「敦厚清秀」"
+   ]
   },
   {
-   "spanId": "GY-P30-TIANXIANG", "pdfPage": 30, "printedPage": 28, "volume": "卷二", "section": "一命宮", "entry": "天相", "kind": "text",
+   "spanId": "GY-P30-TIANXIANG",
+   "pdfPage": 30,
+   "printedPage": 28,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "天相",
+   "kind": "text",
    "text": "天相水南斗化印為官祿主為人相貌敦厚持重清白好酒食衣祿豐足",
-   "clip": [0.31, 0.05, 0.355, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
+   "clip": [
+    0.31,
+    0.05,
+    0.355,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
    "draftCorrections": []
   },
   {
-   "spanId": "GY-P31-TIANLIANG", "pdfPage": 31, "printedPage": 29, "volume": "卷二", "section": "一命宮", "entry": "天梁", "kind": "text",
+   "spanId": "GY-P31-TIANLIANG",
+   "pdfPage": 31,
+   "printedPage": 29,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "天梁",
+   "kind": "text",
    "text": "天梁屬土南斗化蔭主壽星厚重清秀聰明耿直心無私曲好施濟",
-   "clip": [0.83, 0.05, 0.885, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
-   "draftCorrections": ["初稿「天梁，土」：影像為「天梁屬土」"]
+   "clip": [
+    0.83,
+    0.05,
+    0.885,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
+   "draftCorrections": [
+    "初稿「天梁，土」：影像為「天梁屬土」"
+   ]
   },
   {
-   "spanId": "GY-P31-QISHA", "pdfPage": 31, "printedPage": 29, "volume": "卷二", "section": "一命宮", "entry": "七殺", "kind": "text",
+   "spanId": "GY-P31-QISHA",
+   "pdfPage": 31,
+   "printedPage": 29,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "七殺",
+   "kind": "text",
    "text": "七殺火金南斗將星遇帝為權餘宮皆殺目大性急不常",
-   "clip": [0.515, 0.05, 0.56, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
-   "draftCorrections": ["初稿「七殺，金」：影像為「七殺火金」", "初稿「〔其後數字待校〕」：影像為「餘宮皆殺」"]
+   "clip": [
+    0.515,
+    0.05,
+    0.56,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
+   "draftCorrections": [
+    "初稿「七殺，金」：影像為「七殺火金」",
+    "初稿「〔其後數字待校〕」：影像為「餘宮皆殺」"
+   ]
   },
   {
-   "spanId": "GY-P31-POJUN", "pdfPage": 31, "printedPage": 29, "volume": "卷二", "section": "一命宮", "entry": "破軍", "kind": "text",
+   "spanId": "GY-P31-POJUN",
+   "pdfPage": 31,
+   "printedPage": 29,
+   "volume": "卷二",
+   "section": "一命宮",
+   "entry": "破軍",
+   "kind": "text",
    "text": "破軍水北斗化耗星主妻子奴僕形五短背厚眉寬腰斜性剛寡合爭強",
-   "clip": [0.12, 0.05, 0.18, 0.93], "transcriptionStatus": "verified", "visualVerified": true, "notes": "",
-   "draftCorrections": ["初稿「無祖業」：影像此處為「棄祖發福」，不收入本段"]
+   "clip": [
+    0.12,
+    0.05,
+    0.18,
+    0.93
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "",
+   "draftCorrections": [
+    "初稿「無祖業」：影像此處為「棄祖發福」，不收入本段"
+   ]
   },
   {
-   "spanId": "GY-P37-XIONGDI", "pdfPage": 37, "printedPage": 35, "volume": "卷三", "section": "二兄弟", "entry": "兄弟", "kind": "text",
+   "spanId": "GY-P37-XIONGDI",
+   "pdfPage": 37,
+   "printedPage": 35,
+   "volume": "卷三",
+   "section": "二兄弟",
+   "entry": "兄弟",
+   "kind": "text",
    "text": "二兄弟紫微有倚靠年長之兄天府同三人天相同三四人",
-   "clip": [0.86, 0.04, 0.93, 0.5], "transcriptionStatus": "verified", "visualVerified": true,
+   "clip": [
+    0.86,
+    0.04,
+    0.93,
+    0.5
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
    "notes": "本頁為「新鍥希夷陳先生紫微斗數全書卷之三」卷首；卷三十二宮從「二兄弟」起（命宮見卷二「一命宮」）。"
   },
   {
-   "spanId": "GY-P37-QIQIE", "pdfPage": 37, "printedPage": 35, "volume": "卷三", "section": "三妻妾", "entry": "夫妻", "kind": "text",
+   "spanId": "GY-P37-QIQIE",
+   "pdfPage": 37,
+   "printedPage": 35,
+   "volume": "卷三",
+   "section": "三妻妾",
+   "entry": "夫妻",
+   "kind": "text",
    "text": "三妻妾紫微晚聘諧老性剛天府同諧老天相同宜年少",
-   "clip": [0.28, 0.04, 0.34, 0.55], "transcriptionStatus": "verified", "visualVerified": true,
+   "clip": [
+    0.28,
+    0.04,
+    0.34,
+    0.55
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
    "notes": "原書宮名作「妻妾」，對應本 App 的「夫妻」宮。"
   },
   {
-   "spanId": "GY-P38-ZINV-HEAD", "pdfPage": 38, "printedPage": 36, "volume": "卷三", "section": "四子女", "entry": "子女", "kind": "heading",
-   "text": "四子女", "clip": [0.555, 0.04, 0.605, 0.52], "transcriptionStatus": "verified", "visualVerified": true, "notes": ""
+   "spanId": "GY-P38-ZINV-HEAD",
+   "pdfPage": 38,
+   "printedPage": 36,
+   "volume": "卷三",
+   "section": "四子女",
+   "entry": "子女",
+   "kind": "heading",
+   "text": "四子女",
+   "clip": [
+    0.555,
+    0.04,
+    0.605,
+    0.52
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": ""
   },
   {
-   "spanId": "GY-P38-ZINV", "pdfPage": 38, "printedPage": 36, "volume": "卷三", "section": "四子女", "entry": "子女", "kind": "text",
+   "spanId": "GY-P38-ZINV",
+   "pdfPage": 38,
+   "printedPage": 36,
+   "volume": "卷三",
+   "section": "四子女",
+   "entry": "子女",
+   "kind": "text",
    "text": "看子女先看本宮星宿主有幾子",
-   "clip": [0.555, 0.04, 0.605, 0.52], "transcriptionStatus": "verified", "visualVerified": true,
+   "clip": [
+    0.555,
+    0.04,
+    0.605,
+    0.52
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
    "notes": "本段之前一字墨跡模糊（〔疑字：凡〕），不收入 text。"
   },
   {
-   "spanId": "GY-P39-CAIBO", "pdfPage": 39, "printedPage": 37, "volume": "卷三", "section": "五財帛", "entry": "財帛", "kind": "text",
+   "spanId": "GY-P39-CAIBO",
+   "pdfPage": 39,
+   "printedPage": 37,
+   "volume": "卷三",
+   "section": "五財帛",
+   "entry": "財帛",
+   "kind": "text",
    "text": "五財帛紫微豐足倉箱加羊陀火鈴空劫不旺",
-   "clip": [0.6, 0.04, 0.67, 0.5], "transcriptionStatus": "verified", "visualVerified": true, "notes": ""
+   "clip": [
+    0.6,
+    0.04,
+    0.67,
+    0.5
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": ""
   },
   {
-   "spanId": "GY-P40-JIE", "pdfPage": 40, "printedPage": 38, "volume": "卷三", "section": "六疾厄", "entry": "疾厄", "kind": "text",
+   "spanId": "GY-P40-JIE",
+   "pdfPage": 40,
+   "printedPage": 38,
+   "volume": "卷三",
+   "section": "六疾厄",
+   "entry": "疾厄",
+   "kind": "text",
    "text": "六疾厄先看命宮星曜落陷加羊陀火鈴空劫化忌守照如何又看疾厄",
-   "clip": [0.79, 0.04, 0.86, 0.55], "transcriptionStatus": "verified", "visualVerified": true, "notes": "疾厄宮的判讀順序：先看命宮，再看疾厄宮。"
+   "clip": [
+    0.79,
+    0.04,
+    0.86,
+    0.55
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "疾厄宮的判讀順序：先看命宮，再看疾厄宮。"
   },
   {
-   "spanId": "GY-P40-QIANYI", "pdfPage": 40, "printedPage": 38, "volume": "卷三", "section": "七遷移", "entry": "遷移", "kind": "text",
+   "spanId": "GY-P40-QIANYI",
+   "pdfPage": 40,
+   "printedPage": 38,
+   "volume": "卷三",
+   "section": "七遷移",
+   "entry": "遷移",
+   "kind": "text",
    "text": "七遷移紫微同左右出外貴人扶持發福天府同出入通達",
-   "clip": [0.245, 0.04, 0.295, 0.52], "transcriptionStatus": "verified", "visualVerified": true, "notes": ""
+   "clip": [
+    0.245,
+    0.04,
+    0.295,
+    0.52
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": ""
   },
   {
-   "spanId": "GY-P41-NUPU", "pdfPage": 41, "printedPage": 39, "volume": "卷三", "section": "八奴僕", "entry": "交友", "kind": "text",
+   "spanId": "GY-P41-NUPU",
+   "pdfPage": 41,
+   "printedPage": 39,
+   "volume": "卷三",
+   "section": "八奴僕",
+   "entry": "交友",
+   "kind": "text",
    "text": "八奴僕紫微成行得力旺主生財",
-   "clip": [0.535, 0.04, 0.59, 0.52], "transcriptionStatus": "verified", "visualVerified": true,
+   "clip": [
+    0.535,
+    0.04,
+    0.59,
+    0.52
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
    "notes": "原書宮名作「奴僕」，對應本 App 的「交友」宮。"
   },
   {
-   "spanId": "GY-P42-GUANLU", "pdfPage": 42, "printedPage": 40, "volume": "卷三", "section": "九官祿", "entry": "官祿", "kind": "text",
+   "spanId": "GY-P42-GUANLU",
+   "pdfPage": 42,
+   "printedPage": 40,
+   "volume": "卷三",
+   "section": "九官祿",
+   "entry": "官祿",
+   "kind": "text",
    "text": "九官祿紫微廟旺遇左右昌曲魁鉞",
-   "clip": [0.85, 0.04, 0.905, 0.52], "transcriptionStatus": "verified", "visualVerified": true, "notes": ""
+   "clip": [
+    0.85,
+    0.04,
+    0.905,
+    0.52
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": ""
   },
   {
-   "spanId": "GY-P43-TIANZHAI", "pdfPage": 43, "printedPage": 41, "volume": "卷三", "section": "十田宅", "entry": "田宅", "kind": "text",
+   "spanId": "GY-P43-TIANZHAI",
+   "pdfPage": 43,
+   "printedPage": 41,
+   "volume": "卷三",
+   "section": "十田宅",
+   "entry": "田宅",
+   "kind": "text",
    "text": "十田宅紫微茂盛自置旺相",
-   "clip": [0.835, 0.04, 0.89, 0.52], "transcriptionStatus": "verified", "visualVerified": true, "notes": ""
+   "clip": [
+    0.835,
+    0.04,
+    0.89,
+    0.52
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": ""
   },
   {
-   "spanId": "GY-P43-FUDE", "pdfPage": 43, "printedPage": 41, "volume": "卷三", "section": "十一福德", "entry": "福德", "kind": "text",
+   "spanId": "GY-P43-FUDE",
+   "pdfPage": 43,
+   "printedPage": 41,
+   "volume": "卷三",
+   "section": "十一福德",
+   "entry": "福德",
+   "kind": "text",
    "text": "十一福德紫微福厚享福安樂天府天相同終身獲吉",
-   "clip": [0.265, 0.04, 0.315, 0.52], "transcriptionStatus": "verified", "visualVerified": true, "notes": ""
+   "clip": [
+    0.265,
+    0.04,
+    0.315,
+    0.52
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": ""
   },
   {
-   "spanId": "GY-P44-FUMU-HEAD", "pdfPage": 44, "printedPage": 42, "volume": "卷三", "section": "十二父母", "entry": "父母", "kind": "heading",
-   "text": "十二父母", "clip": [0.505, 0.04, 0.56, 0.52], "transcriptionStatus": "verified", "visualVerified": true,
+   "spanId": "GY-P44-FUMU-HEAD",
+   "pdfPage": 44,
+   "printedPage": 42,
+   "volume": "卷三",
+   "section": "十二父母",
+   "entry": "父母",
+   "kind": "heading",
+   "text": "十二父母",
+   "clip": [
+    0.505,
+    0.04,
+    0.56,
+    0.52
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
    "notes": "標題後首句位於裝訂處、墨點多，暫不收入；待人工或第二來源複核。"
   },
   {
-   "spanId": "GY-P46-DAXIAN-HEAD", "pdfPage": 46, "printedPage": 44, "volume": "卷三", "section": "論大限十年禍福何如", "entry": "大限", "kind": "heading",
-   "text": "論大限十年禍福何如", "clip": [0.36, 0.05, 0.47, 0.55], "transcriptionStatus": "verified", "visualVerified": true, "notes": ""
+   "spanId": "GY-P46-DAXIAN-HEAD",
+   "pdfPage": 46,
+   "printedPage": 44,
+   "volume": "卷三",
+   "section": "論大限十年禍福何如",
+   "entry": "大限",
+   "kind": "heading",
+   "text": "論大限十年禍福何如",
+   "clip": [
+    0.36,
+    0.05,
+    0.47,
+    0.55
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": ""
   },
   {
-   "spanId": "GY-P46-ERXIAN-A", "pdfPage": 46, "printedPage": 44, "volume": "卷三", "section": "論二限太歲吉凶", "entry": "大限／小限／太歲", "kind": "text",
+   "spanId": "GY-P46-ERXIAN-A",
+   "pdfPage": 46,
+   "printedPage": 44,
+   "volume": "卷三",
+   "section": "論二限太歲吉凶",
+   "entry": "大限／小限／太歲",
+   "kind": "text",
    "text": "須詳大限獨守吉凶何如小限獨守吉凶何如太歲獨守吉凶何如歲限俱凶則凶又看大限與小限相逢吉凶何如大限逢太歲吉凶何如小限逢太歲吉凶何如禍福所",
-   "clip": [0.04, 0.05, 0.14, 0.95], "transcriptionStatus": "verified", "visualVerified": true,
+   "clip": [
+    0.04,
+    0.05,
+    0.14,
+    0.95
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
    "notes": "篇題影像為「論二限太歲吉〔疑字：凶〕」（末字旁另印一字），篇名依目錄作「論二限太歲吉凶」。本段末「禍福所〔疑字：定〕」末字字形不清，不收入 text。"
   },
   {
-   "spanId": "GY-P46-ERXIAN-B", "pdfPage": 46, "printedPage": 44, "volume": "卷三", "section": "論二限太歲吉凶", "entry": "大限／小限／太歲", "kind": "text",
+   "spanId": "GY-P46-ERXIAN-B",
+   "pdfPage": 46,
+   "printedPage": 44,
+   "volume": "卷三",
+   "section": "論二限太歲吉凶",
+   "entry": "大限／小限／太歲",
+   "kind": "text",
    "text": "又看太歲沖大限小限太歲沖羊陀七殺然後可斷吉凶",
-   "clip": [0.04, 0.05, 0.14, 0.95], "transcriptionStatus": "verified", "visualVerified": true, "notes": ""
+   "clip": [
+    0.04,
+    0.05,
+    0.14,
+    0.95
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": ""
+  },
+  {
+   "spanId": "GY-P45-RUGE",
+   "pdfPage": 45,
+   "printedPage": 43,
+   "volume": "卷三",
+   "section": "論人命入格",
+   "entry": "入格",
+   "kind": "text",
+   "text": "如命入格廟旺聚吉科權祿守上上之命不入廟加吉化吉科權祿上次之命不入廟不加吉平常命入廟不加吉平等若居陷地又加殺化忌為下格之命不以入格而論也又入格不化吉而化凶只以本命吉凶多寡而斷之",
+   "clip": [
+    0.315,
+    0.05,
+    0.43,
+    0.97
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "原書無標點。「平常命」與後文「平等」兩處字形不同，依影像分別照錄。",
+   "draftCorrections": [
+    "初稿「廟旺，與吉科權祿守」：影像為「廟旺聚吉科權祿守」",
+    "初稿「加吉化、吉科權祿，次之」：影像為「加吉化吉科權祿上次之命」",
+    "初稿「命入廟、不加吉，平常」：影像為「命入廟不加吉平等」"
+   ]
+  },
+  {
+   "spanId": "GY-P45-GEXING",
+   "pdfPage": 45,
+   "printedPage": 43,
+   "volume": "卷三",
+   "section": "論格星數高下",
+   "entry": "格星",
+   "kind": "text",
+   "text": "紫府與數相合何如紫微南北斗中天帝主天府乃南斗主又有陰陽相半者看陰陽不相半又數不相生為下格陰陽純駁為中格又三方四正皆吉星為上格吉凶相半守照為中格",
+   "clip": [
+    0.19,
+    0.05,
+    0.39,
+    0.97
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "其後「吉〔疑字：是〕惡殺為下格」第二字字形不清，自此以下不收入 text；「數」在本篇的專門定義尚未釐清。",
+   "draftCorrections": [
+    "初稿「陰陽純敗」：影像為「陰陽純駁」",
+    "初稿「吉凶相半、守照，為中格」與影像相同"
+   ]
+  },
+  {
+   "spanId": "GY-P46-DAXIAN",
+   "pdfPage": 46,
+   "printedPage": 44,
+   "volume": "卷三",
+   "section": "論大限十年禍福何如",
+   "entry": "大限",
+   "kind": "text",
+   "text": "分星纏全吉廟旺得地無擎羊陀羅火鈴空劫者主十年安靜人財全美若限內有擎羊陀羅火鈴空劫忌星為伴成敗不一",
+   "clip": [
+    0.2,
+    0.05,
+    0.38,
+    0.96
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "篇題影像為「禍福」（來源包索引作「福禍」）。其後「如宮分星纏陷地……則官災死亡立見」為古代強烈凶斷，只保留在原文層，不收入規則。",
+   "draftCorrections": []
+  },
+  {
+   "spanId": "GY-P47-NANBEI",
+   "pdfPage": 47,
+   "printedPage": 45,
+   "volume": "卷三",
+   "section": "論行限分南北斗",
+   "entry": "行限",
+   "kind": "text",
+   "text": "陰男陽女北斗為福北斗諸星吉凶大限斷上五年應小限斷上半年應南斗諸星吉凶大限斷下五年應小限斷下半年應",
+   "clip": [
+    0.8,
+    0.05,
+    0.945,
+    0.52
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "本篇首句「陽男陰女南〔疑字：斗〕為福」第六字為異體、字形不清，不收入 text；text 自「陰男陽女」起。",
+   "draftCorrections": []
+  },
+  {
+   "spanId": "GY-P47-TAISUI",
+   "pdfPage": 47,
+   "printedPage": 45,
+   "volume": "卷三",
+   "section": "論流年太歲逢吉凶星殺",
+   "entry": "流年太歲",
+   "kind": "text",
+   "text": "凡太歲看三方對照星辰吉凶何如以定禍福太歲在命宮行者禍福尤緊如命在子宮太歲到子又癸生人逢吉則吉逢凶則凶",
+   "clip": [
+    0.8,
+    0.05,
+    0.87,
+    0.95
+   ],
+   "transcriptionStatus": "verified",
+   "visualVerified": true,
+   "notes": "篇題影像作「論流年太歲逢吉凶星殺」。",
+   "draftCorrections": [
+    "初稿「行有禍福尤緊」：影像為「行者禍福尤緊」",
+    "初稿「又本生人」：影像為「又癸生人」"
+   ]
   }
  ]
 }

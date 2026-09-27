@@ -1,6 +1,6 @@
 # 紫微斗數判讀：來源與規則登錄
 
-> 自動產生，請勿手改（判讀規則版本 1.0.0）。更新：ADVICE_DOCS_WRITE=1 npx vitest run src/tests/advice-docs.test.ts
+> 自動產生，請勿手改（判讀規則版本 1.1.0）。更新：ADVICE_DOCS_WRITE=1 npx vitest run src/tests/advice-docs.test.ts
 
 ## 來源
 
@@ -9,35 +9,35 @@
 | 1 | 《紫微斗數全書》（廣益版（上海廣益書局印行，掃描影像）） | primaryClassical | imported | 十四主星基本性質、十二宮判讀、大限、小限、太歲（流年）判讀原則、星曜得地／失陷（待逐段核對）、古典格局（待逐段核對） | 直接轉成現代吉凶分數、未經影像逐字核對的段落（OCR 或初稿） |
 | 1 | 《紫微斗數全書》（維基文庫電子文本） | primaryClassical | notInRepository | 與廣益版掃描比對文字 | 在未匯入前作為判讀依據 |
 | 2 | 《紫微斗數捷覽》 | secondaryClassical | unavailable | 版本校勘、異文比較、補充古典規則 | 在沒有合法文本時作為判讀依據 |
-| 2 | 《紫微斗數全集》（集文版（掃描影像）） | secondaryClassical | unavailable | 與《紫微斗數全書》廣益版比對異文、星曜文字、格局條件、宮位判斷、運限描述 | 在沒有取得檔案時作為判讀依據、靜默覆寫廣益版文字 |
+| 2 | 《紫微斗數全集》（集文版（掃描影像）） | secondaryClassical | notInRepository | 段落定位與大意對照（十四主星問答與《全書》〈諸星問答論〉平行） | 逐字引用（掃描約 150 dpi、二值化，多數字無法確認）、建立異文或規則、靜默覆寫廣益版文字 |
 | 4 | 《iztro》（2.6.1） | softwareDataset | imported | 排盤位置驗證、星曜位置驗證、亮度表來源、四化與安星的軟體相容性比對 | 古籍來源、紫微判讀權威、格局原文來源、吉凶權重來源 |
 | 5 | 《一般網路文章》 | webArticle | unavailable | 線索參考 | 單獨作為正式判讀規則的依據 |
 
-已匯入原文：ziwei-doushu-quanshu-guangyi-scan（廣益版，30 段已依 PDF 影像逐字核對，PDF SHA-256 cec2c444290ac70020a5ae4e20a50c07a0064783e53ff3162f90a299d7831186）
+已匯入原文：ziwei-doushu-quanshu-guangyi-scan（廣益版，35 段已依 PDF 影像逐字核對，PDF SHA-256 cec2c444290ac70020a5ae4e20a50c07a0064783e53ff3162f90a299d7831186）
 
 ## 主題覆蓋矩陣
 
-| 主題 | 覆蓋 | 規則 | 已校驗 | 待校驗 | 來源 |
-|---|---|---|---|---|---|
-| 綜合（general） | partial | 16 | 14 | 0 | ziwei-doushu-quanshu-guangyi-scan |
-| 工作（career） | partial | 4 | 4 | 0 | ziwei-doushu-quanshu-guangyi-scan |
-| 升遷（promotion） | none | 0 | 0 | 0 | — |
-| 求職（jobSearch） | none | 0 | 0 | 0 | — |
-| 轉職（jobChange） | none | 0 | 0 | 0 | — |
-| 財運（wealth） | partial | 3 | 3 | 0 | ziwei-doushu-quanshu-guangyi-scan |
-| 投資（investment） | none | 0 | 0 | 0 | — |
-| 感情（relationship） | none | 0 | 0 | 0 | — |
-| 婚姻（marriage） | none | 0 | 0 | 0 | — |
-| 人際（social） | none | 0 | 0 | 0 | — |
-| 健康（health） | none | 0 | 0 | 0 | — |
-| 出行（travel） | none | 0 | 0 | 0 | — |
-| 合作（cooperation） | none | 0 | 0 | 0 | — |
-| 訴訟（lawsuit） | none | 0 | 0 | 0 | — |
-| 考試（exam） | none | 0 | 0 | 0 | — |
-| 不動產（property） | partial | 1 | 1 | 0 | ziwei-doushu-quanshu-guangyi-scan |
-| 決策（decision） | none | 0 | 0 | 0 | — |
+| 主題 | 覆蓋 | 規則 | 可用 | 產生生活因素 | 待校驗 | 時間層 | 來源 |
+|---|---|---|---|---|---|---|---|
+| 綜合（general） | partial | 21 | 16 | 8 | 0 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
+| 工作（career） | partial | 4 | 4 | 4 | 0 | natal | ziwei-doushu-quanshu-guangyi-scan |
+| 升遷（promotion） | none | 0 | 0 | 0 | 0 | — | — |
+| 求職（jobSearch） | none | 0 | 0 | 0 | 0 | — | — |
+| 轉職（jobChange） | none | 0 | 0 | 0 | 0 | — | — |
+| 財運（wealth） | partial | 3 | 3 | 3 | 0 | natal | ziwei-doushu-quanshu-guangyi-scan |
+| 投資（investment） | none | 0 | 0 | 0 | 0 | — | — |
+| 感情（relationship） | none | 0 | 0 | 0 | 0 | — | — |
+| 婚姻（marriage） | none | 0 | 0 | 0 | 0 | — | — |
+| 人際（social） | none | 0 | 0 | 0 | 0 | — | — |
+| 健康（health） | none | 0 | 0 | 0 | 0 | — | — |
+| 出行（travel） | none | 0 | 0 | 0 | 0 | — | — |
+| 合作（cooperation） | none | 0 | 0 | 0 | 0 | — | — |
+| 訴訟（lawsuit） | none | 0 | 0 | 0 | 0 | — | — |
+| 考試（exam） | none | 0 | 0 | 0 | 0 | — | — |
+| 不動產（property） | partial | 1 | 1 | 1 | 0 | natal | ziwei-doushu-quanshu-guangyi-scan |
+| 決策（decision） | none | 0 | 0 | 0 | 0 | — | — |
 
-## 判讀規則（16 條）
+## 判讀規則（21 條）
 
 | 規則 | 類型 | 時間層 | 主題 | 狀態 | 是否可用 | 引用 | 古籍原則 | 現代中性語義 | 生活因素 |
 |---|---|---|---|---|---|---|---|---|---|
@@ -55,10 +55,15 @@
 | `ZW_STAR_TIANLIANG_NATURE` | star | natal | general | verified | 可用 | CIT_QS_STAR_TIANLIANG | 天梁化氣為蔭，主壽；厚重清秀、聰明耿直、心無私曲、好施濟。 | 與庇蔭、照顧他人相關。 | — |
 | `ZW_STAR_QISHA_NATURE` | star | natal | general | verified | 可用 | CIT_QS_STAR_QISHA | 七殺為將星，遇紫微為權，其餘皆以殺論；性急不常。 | 屬性剛烈；與紫微同見時性質轉為權。 | — |
 | `ZW_STAR_POJUN_NATURE` | star | natal | general | verified | 可用 | CIT_QS_STAR_POJUN | 破軍化氣為耗星，主妻子奴僕；性剛寡合、爭強。 | 與耗損、變動和人際摩擦相關。 | — |
-| `ZW_PERIOD_DAXIAN_PRINCIPLE` | principle | decade | general | verified | 判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發 | CIT_QS_PERIOD_DAXIAN、CIT_QS_PERIOD_TAISUI | 大限以十年論禍福；須分別看大限、小限、太歲各自所守，再看彼此相逢。 | 十年的大環境只修正本命的基調，不取代本命。 | — |
-| `ZW_PERIOD_ANNUAL_PRINCIPLE` | principle | annual | general | verified | 判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發 | CIT_QS_PERIOD_TAISUI、CIT_QS_PERIOD_TAISUI_CLASH | 太歲與限都凶才論凶；又要看太歲是否沖大限、小限與羊陀七殺，然後才可斷吉凶。 | 單一年份的訊號要和十年大環境一起看，不能單獨推翻本命或大限。 | — |
+| `ZW_DECADE_SHA_IN_LIMIT` | period | decade | general | verified | 可用 | CIT_QS_PERIOD_DAXIAN_TEXT | 大限之內有擎羊、陀羅、火星、鈴星、地空、地劫或忌星相伴，這十年成敗不一。 | 這十年的大環境起伏較大，成果容易有進有退。 | instability（狀態不穩）×1 |
+| `ZW_ANNUAL_TAISUI_AT_MING` | period | annual | general | verified | 可用 | CIT_QS_ANNUAL_TAISUI | 太歲在命宮的年份，禍福尤其明顯；看太歲要看三方對照星辰的吉凶。 | 這一年各種訊號的影響可能比較明顯，方向仍要看三方四正與其他判讀。 | — |
+| `ZW_PRINCIPLE_RUGE` | principle | natal | general | verified | 判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發 | CIT_QS_RUGE | 入格又廟旺、有吉化守照為上；不入廟、不加吉則平常；落陷又加煞忌，不以入格論；入格而化凶，只以本命吉凶多寡判斷。 | 格局名稱成立，不代表結果一定好；要同時看亮度、吉星、四化與煞星。 | — |
+| `ZW_PRINCIPLE_GEXING` | principle | natal | general | verified | 判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發 | CIT_QS_GEXING | 三方四正皆吉星為上格，吉凶相半守照為中格。 | 判斷一宮時要把本宮、對宮與三合宮一起看，而且要看吉凶星的比例。 | — |
+| `ZW_PRINCIPLE_NANBEI` | principle | decade | general | verified | 判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發 | CIT_QS_NANBEI | 北斗諸星的吉凶，大限應在前五年、小限應在前半年；南斗諸星的吉凶，大限應在後五年、小限應在後半年。 | 同一個十年裡，不同星曜的影響可能集中在前段或後段。 | — |
+| `ZW_PERIOD_DAXIAN_PRINCIPLE` | principle | decade | general | verified | 判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發 | CIT_QS_PERIOD_DAXIAN、CIT_QS_PERIOD_DAXIAN_CALM、CIT_QS_PERIOD_TAISUI | 大限以十年論禍福；須分別看大限、小限、太歲各自所守，再看彼此相逢。 | 十年的大環境只修正本命的基調，不取代本命。 | — |
+| `ZW_PERIOD_ANNUAL_PRINCIPLE` | principle | annual | general | verified | 判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發 | CIT_QS_PERIOD_TAISUI、CIT_QS_PERIOD_TAISUI_CLASH、CIT_QS_ANNUAL_TAISUI | 太歲與限都凶才論凶；又要看太歲是否沖大限、小限與羊陀七殺，然後才可斷吉凶。 | 單一年份的訊號要和十年大環境一起看，不能單獨推翻本命或大限。 | — |
 
-## 引用（29 筆）
+## 引用（35 筆）
 
 | 引用 | 卷・篇・條目 | PDF 頁（版心） | 原文 | 白話翻譯 | 狀態 | 核對 |
 |---|---|---|---|---|---|---|
@@ -91,6 +96,12 @@
 | `CIT_QS_PERIOD_DAXIAN` | 卷三・論大限十年禍福何如・大限 | p46（44） | 論大限十年禍福何如 | 「論大限十年禍福何如」：討論大限（每十年一限）的禍福如何判斷。 | verified | Claude Code（AI 目視比對，非人工校對） 2026-09-27 |
 | `CIT_QS_PERIOD_TAISUI` | 卷三・論二限太歲吉凶・大限／小限／太歲 | p46（44） | 須詳大限獨守吉凶何如小限獨守吉凶何如太歲獨守吉凶何如歲限俱凶則凶又看大限與小限相逢吉凶何如大限逢太歲吉凶何如小限逢太歲吉凶何如 | 必須分別詳看大限、小限、太歲各自所守的吉凶；太歲與限都凶，才論凶；再看大限與小限相逢、大限逢太歲、小限逢太歲時的吉凶如何。 | verified | Claude Code（AI 目視比對，非人工校對） 2026-09-27 |
 | `CIT_QS_PERIOD_TAISUI_CLASH` | 卷三・論二限太歲吉凶・大限／小限／太歲 | p46（44） | 又看太歲沖大限小限太歲沖羊陀七殺然後可斷吉凶 | 又要看太歲是否沖大限、小限，以及太歲是否沖擎羊、陀羅、七殺，然後才可以判斷吉凶。 | verified | Claude Code（AI 目視比對，非人工校對） 2026-09-27 |
+| `CIT_QS_RUGE` | 卷三・論人命入格・入格 | p45（43） | 如命入格廟旺聚吉科權祿守上上之命不入廟加吉化吉科權祿上次之命不入廟不加吉平常命入廟不加吉平等若居陷地又加殺化忌為下格之命不以入格而論也又入格不化吉而化凶只以本命吉凶多寡而斷之 | 命宮入格又廟旺，並有吉星、化科化權化祿守照，是上上之命；不入廟但加吉星與吉化，是其次；不入廟也不加吉，平常；入廟而不加吉，也只平平。若落陷又加煞星、化忌，是下格，不能以入格論。又入格而不化吉反化凶，只以本命吉凶的多寡來判斷。 | verified | Claude Code（AI 目視比對，非人工校對） 2026-09-27 |
+| `CIT_QS_GEXING` | 卷三・論格星數高下・格星 | p45（43） | 紫府與數相合何如紫微南北斗中天帝主天府乃南斗主又有陰陽相半者看陰陽不相半又數不相生為下格陰陽純駁為中格又三方四正皆吉星為上格吉凶相半守照為中格 | 紫微、天府與「數」相合如何？紫微是南北斗中天帝主，天府是南斗主，又有陰陽各半的情形。陰陽不各半、數又不相生，是下格；陰陽純駁，是中格。三方四正都是吉星為上格；吉凶各半守照為中格。 | verified | Claude Code（AI 目視比對，非人工校對） 2026-09-27 |
+| `CIT_QS_PERIOD_DAXIAN_TEXT` | 卷三・論大限十年禍福何如・大限 | p46（44） | 若限內有擎羊陀羅火鈴空劫忌星為伴成敗不一 | 若大限之內有擎羊、陀羅、火星、鈴星、地空、地劫或忌星相伴，這十年成敗不一。 | verified | Claude Code（AI 目視比對，非人工校對） 2026-09-27 |
+| `CIT_QS_PERIOD_DAXIAN_CALM` | 卷三・論大限十年禍福何如・大限 | p46（44） | 分星纏全吉廟旺得地無擎羊陀羅火鈴空劫者主十年安靜人財全美 | （大限）宮中星曜都吉、廟旺得地，又沒有擎羊、陀羅、火星、鈴星、地空、地劫的，主這十年安靜，人與財都順遂。 | verified | Claude Code（AI 目視比對，非人工校對） 2026-09-27 |
+| `CIT_QS_NANBEI` | 卷三・論行限分南北斗・行限 | p47（45） | 陰男陽女北斗為福北斗諸星吉凶大限斷上五年應小限斷上半年應南斗諸星吉凶大限斷下五年應小限斷下半年應 | 陰男陽女以北斗為福。北斗諸星的吉凶，大限應在前五年，小限應在前半年；南斗諸星的吉凶，大限應在後五年，小限應在後半年。 | verified | Claude Code（AI 目視比對，非人工校對） 2026-09-27 |
+| `CIT_QS_ANNUAL_TAISUI` | 卷三・論流年太歲逢吉凶星殺・流年太歲 | p47（45） | 凡太歲看三方對照星辰吉凶何如以定禍福太歲在命宮行者禍福尤緊如命在子宮太歲到子又癸生人逢吉則吉逢凶則凶 | 凡看太歲（流年），要看三方與對宮星辰的吉凶，以定禍福。太歲到命宮的那一年，禍福尤其明顯；例如命宮在子，太歲到子，又逢癸年生人，遇吉則吉、遇凶則凶。 | verified | Claude Code（AI 目視比對，非人工校對） 2026-09-27 |
 
 ## 十四主星語義與生活因素候選
 
@@ -128,6 +139,48 @@
 | 福德 | 精神生活、興趣與內在感受 | health、general | 財帛 | 夫妻、遷移 | 逐星論享福安樂與否 |
 | 父母 | 父母、長輩與上級 | general、promotion | 疾厄 | 子女、交友 | 待校驗 |
 
-## 格局規則：0 條（格局篇章尚未逐字核對）
+## 格局規則：0 條（格局篇章尚未逐字核對；候選見待校驗清單）
 
-## 來源衝突：0 筆（第二來源集文版尚未取得，尚未比對）
+## 第二來源：《紫微斗數全集》集文版
+
+PDF SHA-256 6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6。單字約 12–16 像素，許多筆畫已糊；放大只會放大像素，不會增加資訊。依「看不清的字不可猜」原則，本版目前只作段落定位與大意對照，不作逐字引用、不建立 textualVariants、不作規則依據。
+
+- 十四主星問答：locatorOnly（集文版 PDF p105–113）
+- 十二宮：noDirectParallel（集文版 PDF p19–25）
+- 論人命入格／論格星數高下／論大限十年禍福何如／論行限分南北斗／論流年太歲逢吉凶星殺：notFound
+
+## 待校驗（29 項）
+
+| 項目 | 類型 | 來源 | PDF 頁 | 原因 |
+|---|---|---|---|---|
+| 一命宮・紫微入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 26 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・天機入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 26 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・太陽入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 27 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・武曲入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 27 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・天同入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 27 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・廉貞入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 28 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・天府入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 28 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・太陰入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 29 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・貪狼入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 29 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・巨門入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 30 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・天相入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 30 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・天梁入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 31 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・七殺入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 31 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 一命宮・破軍入男命／入女命／入限吉凶訣 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 31 | 各星總論之後的三個吉凶訣小節（含歌訣）尚未逐字核對；入限訣的「限」指大限或小限也需先確認。 |
+| 十二父母・首句 | locatorOnly | ziwei-doushu-quanshu-guangyi-scan | 44 | 篇名已校驗；首句位於裝訂處、墨點多，無法逐字確認。 |
+| 二兄弟至十二父母・各星條件句 | locatorOnly | ziwei-doushu-quanshu-guangyi-scan | 37 | 各宮正文是密集的「星曜＋宮位＋吉煞」條件句，只核對了各篇起首；其餘逐句核對後才能建立宮位規則。 |
+| 論格星數高下・後段（第一至第九位） | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 45 | 「吉〔疑字：是〕惡殺為下格」一字不清；「數」在本篇的專門定義尚未釐清，不做分等計分。 |
+| 論男女命異同 | classicalContextOnly | ziwei-doushu-quanshu-guangyi-scan | 45 | 古代性別角色框架，只可保留在古籍原文層，不直接套用到現代使用者。 |
+| 論大限十年禍福何如・後段 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 46 | 後段含「官災死亡立見」等強烈凶斷，以及逐宮的吉凶條件表，需逐欄核對；凶斷只能留在原文層，改寫為非宿命的風險提醒。 |
+| 論行限分南北斗・首句 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 47 | 「陽男陰女南〔疑字：斗〕為福」第六字為異體、不清。另：南北斗分上下五年的時間切分是否與本 App 運限邏輯同屬一套，需先確認，不改動客觀排盤。 |
+| 論陰騭延壽 | classicalContextOnly | ziwei-doushu-quanshu-guangyi-scan | 47 | 壽夭與善惡報應敘述，只可作古籍原文層，不做任何壽命或健康預測。 |
+| 論羊陀夾併 | humanDraft | ziwei-doushu-quanshu-guangyi-scan | 47 | 條件密集（本命宮、遷移宮、羊陀、流年位置、三合照會），錯一字就改變成立條件，需逐欄校勘後再建格局規則。 |
+| 星曜／運限條件表（PDF p48–55） | ocrSearchOnly | ziwei-doushu-quanshu-guangyi-scan | 48 | 只以機器 OCR 定位，未逐字核對。 |
+| 定富局 | patternCandidate | ziwei-doushu-quanshu-guangyi-scan | 19 | 格局名稱只作候選；成立條件須逐字核對後才建立 ZiweiPatternRule，不設固定吉凶分數。 |
+| 定貴局 | patternCandidate | ziwei-doushu-quanshu-guangyi-scan | — | 多條只寫「見前批註」，須逐條回查前文條件，不可只依名稱成立。 |
+| 定貧賤局 | patternCandidate | ziwei-doushu-quanshu-guangyi-scan | — | 格局名稱只作候選；古文標籤帶階級／宿命色彩，只可保留原文，現代判讀須拆成中性結構因素，不對使用者下「貧」「賤」判語。 |
+| 定雜局 | patternCandidate | ziwei-doushu-quanshu-guangyi-scan | 20 | 多與運限、時勢變化有關，應建為本命語境＋運限修正，不是本命固定分數。 |
+| 集文版・十四主星問答（PDF p105–113） | locatorOnly | ziwei-doushu-quanji-jiwen-scan | 105 | 與《全書》卷一〈諸星問答論〉平行；集文版掃描原生解析度約 150 dpi、二值化，多數字無法逐字確認，只記大意，不建立異文。 |
+| 來源包機器 OCR（p17–p55，SHA-256 7d90f2f3…226a） | ocrSearchOnly | ziwei-doushu-quanshu-guangyi-scan | 17 | 低信度導航稿：禁止作 originalText、禁止 exact citation、禁止評分。 |
+
+## 來源衝突：0 筆（集文版平行段落掃描不足以逐字比對，未建立異文或衝突）

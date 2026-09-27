@@ -13,6 +13,8 @@ import { ZIWEI_CITATIONS, ZIWEI_SOURCES, citationOf } from "@/kb/ziwei/sources";
 import { PALACE_SEMANTICS, STAR_SEMANTICS } from "@/kb/ziwei/semantics";
 import { ZIWEI_INTERPRETATION_RULES, ZIWEI_PATTERN_RULES, ZIWEI_SOURCE_CONFLICTS } from "@/kb/ziwei/interpretationRules";
 import { IMPORTED_ZIWEI_TEXTS, GUANGYI_SOURCE, scanSpan } from "@/kb/ziwei/texts/imported";
+import { JIWEN_SOURCE } from "@/kb/ziwei/sources";
+import { ZIWEI_PENDING } from "@/kb/ziwei/pending";
 import { factorDef } from "@/core/advice/factors";
 import { useApp } from "@/app/providers";
 
@@ -104,6 +106,7 @@ export function ZiweiSourcesDetail() {
       </section>
 
       <CitationExplorer />
+      <SecondaryAndPending />
 
       <section className="card p-4">
         <p className="mb-2 font-medium">主題覆蓋矩陣</p>
@@ -141,7 +144,7 @@ export function ZiweiSourcesDetail() {
         <p className="mb-1 text-[13px] font-medium">格局規則、引用與來源衝突</p>
         <p>格局規則：{ZIWEI_PATTERN_RULES.length} 條（只有找到明確古籍來源並逐字校驗後才加入，不依網路常見名稱實作）。</p>
         <p>引用：{ZIWEI_CITATIONS.length} 筆，{ZIWEI_CITATIONS.filter(c => c.verificationStatus === "verified").length} 筆已依 PDF 影像逐字核對（{ZIWEI_CITATIONS[0]?.verifiedBy}，{ZIWEI_CITATIONS[0]?.verifiedAt}）。</p>
-        <p>來源衝突：{ZIWEI_SOURCE_CONFLICTS.length ? ZIWEI_SOURCE_CONFLICTS.map(c => c.difference).join("；") : "目前 0 筆（第二來源集文版尚未取得，尚未比對，不代表沒有異文）"}。</p>
+        <p>來源衝突：{ZIWEI_SOURCE_CONFLICTS.length ? ZIWEI_SOURCE_CONFLICTS.map(c => c.difference).join("；") : "目前 0 筆（集文版與《全書》多屬不同體系，平行段落掃描不足以逐字比對；不代表兩版相同）"}。</p>
         <p className="mt-1 text-[var(--ink-3)]">重新核對：本地有 PDF 原檔時執行 <code>python3 scripts/ziwei-scan-crops.py &lt;PDF&gt; &lt;輸出資料夾&gt;</code>，會先確認 SHA-256，再依頁碼與裁切範圍輸出每段影像。</p>
       </section>
     </div>
@@ -160,6 +163,7 @@ function describeCondition(c: ZiweiCondition | null): string {
     case "all": return c.of.map(describeCondition).join("，且");
     case "any": return c.of.map(describeCondition).join("，或");
     case "not": return `非（${describeCondition(c.of)}）`;
+    case "periodLifeAt": return `${c.layer === "decade" ? "大限" : "流年"}命宮落在本命${c.natalPalace}`;
   }
 }
 
@@ -168,8 +172,13 @@ const ENTRY_GROUPS: { title: string; entries: Entry[] }[] = [
   { title: "十四主星", entries: MAJOR.map(s => ({ key: `star-${s}`, label: s, citations: STAR_SEMANTICS.find(x => x.star === s)!.classicalCitations })) },
   { title: "十二宮", entries: PALACES.map(p => ({ key: `palace-${p}`, label: p, citations: PALACE_SEMANTICS.find(x => x.name === p)!.classicalMeaning.citationIds })) },
   { title: "大限／流年", entries: [
-    { key: "period-daxian", label: "大限", citations: ["CIT_QS_PERIOD_DAXIAN"] },
-    { key: "period-annual", label: "太歲（流年）", citations: ["CIT_QS_PERIOD_TAISUI", "CIT_QS_PERIOD_TAISUI_CLASH"] },
+    { key: "period-daxian", label: "大限", citations: ["CIT_QS_PERIOD_DAXIAN", "CIT_QS_PERIOD_DAXIAN_CALM", "CIT_QS_PERIOD_DAXIAN_TEXT"] },
+    { key: "period-annual", label: "太歲（流年）", citations: ["CIT_QS_ANNUAL_TAISUI", "CIT_QS_PERIOD_TAISUI", "CIT_QS_PERIOD_TAISUI_CLASH"] },
+    { key: "period-nanbei", label: "行限分南北斗", citations: ["CIT_QS_NANBEI"] },
+  ] },
+  { title: "格局判讀方法", entries: [
+    { key: "method-ruge", label: "論人命入格", citations: ["CIT_QS_RUGE"] },
+    { key: "method-gexing", label: "論格星數高下", citations: ["CIT_QS_GEXING"] },
   ] },
 ];
 
@@ -242,7 +251,7 @@ function CitationCard({ c }: { c: ClassicalCitation }) {
         {sp && "draftCorrections" in sp && sp.draftCorrections?.length ? <p className="text-[11px] text-[var(--ink-3)]">與轉錄初稿不同處（以影像為準）：{sp.draftCorrections.join("；")}</p> : null}
       </details>
       <p className="mt-1">白話翻譯：{c.modernTranslation}</p>
-      <p className="text-[11px] text-[var(--ink-3)]">異文：{c.textualVariants.length ? c.textualVariants.map(v => `${v.edition}「${v.text}」`).join("；") : "第二來源（集文版）尚未取得，尚未比對"}</p>
+      <p className="text-[11px] text-[var(--ink-3)]">異文：{c.textualVariants.length ? c.textualVariants.map(v => `${v.edition}「${v.text}」`).join("；") : "0 筆（集文版此段沒有可逐字核對的平行文字，未建立異文）"}</p>
     </div>
   );
 }
@@ -261,5 +270,30 @@ function RuleChain({ r }: { r: ZiweiInterpretationRule }) {
       </ol>
       <p className="mt-1 text-[11px] text-[var(--ink-3)]">主題：{r.topics.map(t => ADVICE_TOPICS[t].label).join("、")}・{LAYER_LABEL[r.timeLayer]}・App 整理：{r.appImplementation}</p>
     </div>
+  );
+}
+
+/** 第二來源（集文版）比對狀態與待校驗清單 */
+function SecondaryAndPending() {
+  const KIND: Record<string, string> = { humanDraft: "人工初稿", ocrSearchOnly: "OCR 只供搜尋", patternCandidate: "格局候選", locatorOnly: "只有定位", classicalContextOnly: "只作古籍原文層" };
+  const wenda = JIWEN_SOURCE.parallelSections[0];
+  return (
+    <section className="card min-w-0 p-4 text-[12px] [overflow-wrap:anywhere]" aria-label="集文版與待校驗">
+      <p className="mb-1 text-[13px] font-medium">第二來源：《紫微斗數全集》集文版</p>
+      <p className="text-[var(--ink-3)]">{JIWEN_SOURCE.scanQuality.note}</p>
+      <p className="mt-1 text-[var(--ink-3)]">{JIWEN_SOURCE.bookStructure.note}</p>
+      <ul className="mt-2 space-y-1">{JIWEN_SOURCE.parallelSections.map(p => (
+        <li key={p.topic}>・{p.topic}：{p.status === "locatorOnly" ? `平行段落在集文版 PDF p${p.jiwenPages[0]}–${p.jiwenPages[p.jiwenPages.length - 1]}（只記大意，待核）` : p.status === "noDirectParallel" ? "沒有直接平行的段落" : "未找到對應篇章"}</li>
+      ))}</ul>
+      <details className="mt-2">
+        <summary className="cursor-pointer text-[var(--accent)]">集文版十四主星問答大意（待核，不作引用）</summary>
+        <ul className="mt-1 space-y-0.5">{wenda.gistReadings!.map(g => <li key={g.star}>{g.star}（p{g.jiwenPage}）：{g.gist}</li>)}</ul>
+        <p className="mt-1 text-[var(--ink-3)]">{wenda.gistPolicy}</p>
+      </details>
+      <p className="mb-1 mt-3 text-[13px] font-medium">待校驗（{ZIWEI_PENDING.length} 項，不會被引用或啟用）</p>
+      <ul className="space-y-1">{ZIWEI_PENDING.map(e => (
+        <li key={e.pendingId}>・{e.section}<span className="ml-1 text-[11px] text-[var(--ink-3)]">{KIND[e.kind]}{e.pdfPage ? `・PDF p${e.pdfPage}` : ""}：{e.reason}</span></li>
+      ))}</ul>
+    </section>
   );
 }

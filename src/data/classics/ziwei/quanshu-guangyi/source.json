@@ -27,7 +27,12 @@
   "editionLabel": "集文版",
   "pageCount": 177,
   "sha256": "6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6",
-  "status": "notReceived",
-  "note": "manifest 與 README 有登錄，但本次上傳的來源包中沒有這個 PDF，因此尚未做任何異文比對；取得檔案後再逐段比對，異文記入 textualVariants，不覆寫廣益版文字。"
+  "status": "received",
+  "note": "來源包 v3 已提供；詳見 src/data/classics/ziwei/quanji-jiwen/source.json（十八飛星體系、掃描約 150 dpi，只作段落定位與大意對照，不建立逐字異文）。"
+ },
+ "navigationDiscrepancy": {
+  "packageClaim": "來源包 v3 導航稱「未見獨立一命宮章首」「PDF p36（印刷頁34）末可見卷之一終」「十二宮在卷二」",
+  "imageEvidence": "PDF p26 右頁首欄印「一命宮」（版心24）；PDF p36 末為「卷之二終」；PDF p37 卷首為「新鍥希夷陳先生紫微斗數全書卷之三」，並接「二兄弟」",
+  "decision": "依 PDF 影像（Source of Truth）記錄；命宮引用維持 GY-P26-MING-HEAD，不標 locatorPending。"
  }
 }

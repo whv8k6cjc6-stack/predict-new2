@@ -67,6 +67,14 @@ await detail.getByText("卷三・九官祿・官祿").waitFor({ timeout: 10000 }
 await page.getByRole("button", { name: "太歲（流年）", exact: true }).click();
 await detail.getByText("論二限太歲吉凶", { exact: false }).first().waitFor({ timeout: 10000 });
 await detail.getByText("判讀原則：規範本命 → 大限 → 流年的分層", { exact: false }).first().waitFor();
+await page.getByRole("button", { name: "論人命入格", exact: true }).click();
+await detail.getByText("原文層（專業）").first().click();
+await detail.getByText("如命入格廟旺聚吉科權祿守上上之命", { exact: false }).first().waitFor({ timeout: 10000 });
+await page.getByRole("button", { name: "大限", exact: true }).click();
+await detail.getByText("ZW_DECADE_SHA_IN_LIMIT").first().waitFor({ timeout: 10000 });
+await detail.getByText("盤面成立條件：擎羊在大限命宮坐守", { exact: false }).first().waitFor();
+await expectText("第二來源：《紫微斗數全集》集文版");
+await expectText("待校驗（29 項，不會被引用或啟用）");
 await expectText("不可作為：古籍來源");
 await shot("03-sources-period");
 await noOverflow("紫微來源頁");
