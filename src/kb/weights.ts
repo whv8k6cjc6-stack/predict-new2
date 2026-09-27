@@ -62,14 +62,14 @@ export const NEUTRAL_BAND = 0.2;
 
 /** 各系統參與正式分數的狀態（ScoreAggregator）。
  *  - active：參與計分
- *  - pending：規則重建中，暫不計分（不放大其他系統權重來補）
+ *  - pending：不參與分數（紫微：判讀已啟用、計分依規格停用）（不放大其他系統權重來補）
  *  - inactive：停用 */
 export type ScoringStatus = "active" | "pending" | "inactive";
 export const SYSTEM_SCORING: Record<ScoredSystem, { status: ScoringStatus; detail: string; reason: string }> = {
   bazi: { status: "active", detail: "active", reason: "" },
   ziwei: {
     status: "pending", detail: "interpretationPending",
-    reason: "紫微斗數判讀引擎重建中，暫不計分。舊計分規則（廟旺固定加分、吉煞只按數量加減、化祿化忌固定加減、化忌沖宮重複扣分）已停用，僅開發者模式可比較。",
+    reason: "紫微判讀已啟用（依《紫微斗數全書》廣益版雙重核讀原文），只用於建議與判讀；依規格不參與分數。舊計分規則（廟旺固定加分、吉煞只按數量加減、化祿化忌固定加減、化忌沖宮重複扣分）已停用，僅開發者模式可比較。",
   },
   qimen: { status: "active", detail: "active", reason: "" },
   iching: { status: "active", detail: "active", reason: "" },

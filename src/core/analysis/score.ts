@@ -184,7 +184,7 @@ export const activeUnavailable = (natal: NatalSet) => natal.unavailable.some(u =
 
 export interface ScoringComposition {
   activeScoringSystems: ScoredSystem[]; // 實際參與本次綜合評分（分母只含這些系統）
-  pendingSystems: ScoredSystem[];      // 判讀引擎重建中、暫不計分
+  pendingSystems: ScoredSystem[];      // 判讀已啟用、不參與分數
   inactiveSystems: ScoredSystem[];
   unavailableSystems: ScoredSystem[];  // 本應參與但此人資料不足無法排盤
   activeSystemCount: number;
@@ -209,7 +209,7 @@ export function scoringComposition(natal: NatalSet, legacyIncluded = false): Sco
   const missingSystems = SCORED_SYSTEMS.filter(s => !activeScoringSystems.includes(s));
   const parts = [
     `目前綜合評分由 ${activeScoringSystems.length}/${SCORED_SYSTEMS.length} 個系統參與`,
-    ...pendingSystems.map(s => s === "ziwei" ? "紫微斗數判讀引擎重建中，暫不計分" : `${SYSTEM_LABEL[s]}暫不計分`),
+    ...pendingSystems.map(s => s === "ziwei" ? "紫微判讀已啟用，只用於建議，不參與分數" : `${SYSTEM_LABEL[s]}暫不計分`),
     ...unavailableSystems.map(s => `${SYSTEM_LABEL[s]}因資料不足未納入`),
   ];
   return {

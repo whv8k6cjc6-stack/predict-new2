@@ -1,4 +1,4 @@
-/** Ziwei Engine：紫微斗數（排盤只負責客觀位置；判讀另由 Interpretation Engine 負責，目前重建中）。
+/** Ziwei Engine：紫微斗數（排盤只負責客觀位置；判讀由 Interpretation Engine 負責，已啟用、不計分）。
  *  模組：profile（規則）、calendar（ZiWeiCalendarEngine）、structure（LifeBodyPalace／Palace／FiveElementBureau）、
  *  stars（MainStar／MinorStar）、brightness、transformations、luck（DaXian／AnnualLuck／AgeSystem）、
  *  relations（SanFangSiZheng／EmptyPalace／FlyingTransformation）、chart（ZiweiChartEngine）、facts。 */
@@ -12,7 +12,7 @@ import { ZIWEI_VERSIONS } from "./common";
 export const ZIWEI_META: EngineMeta = {
   id: "ziwei", name: "紫微斗數", phase: 4, status: "verified",
   stamp: { school: IZTRO_COMPATIBLE_V1.name, engine_version: `chart-${ZIWEI_VERSIONS.ziweiChartEngineVersion}`, rule_version: `${IZTRO_COMPATIBLE_V1.id}@${IZTRO_COMPATIBLE_V1.version}`, source_version: `亮度表 ${ZIWEI_VERSIONS.brightnessVersion}（MIT）` },
-  summary: "十二宮、主輔煞雜曜、四化、三方四正、大限流年流月流日（排盤依 RuleProfile；判讀引擎重建中）",
+  summary: "十二宮、主輔煞雜曜、四化、三方四正、大限流年流月流日（排盤依 RuleProfile；判讀引擎已啟用、不計分）",
 };
 
 export const ZiweiEngine: DivinationEngine<ZiweiNatal, ZiweiTransit> = {
