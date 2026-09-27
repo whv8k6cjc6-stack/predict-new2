@@ -4,9 +4,12 @@ import { db, SENSITIVE_TABLES, type Row } from "./db";
 import { decryptJSON, encryptJSON } from "./crypto";
 import { activeKey, isLocked } from "./vault";
 import {
-  DEFAULT_PREFS, DEFAULT_SCHOOL_ID, defaultSchool,
-  type BirthProfile, type Person, type PersonBundle, type Preferences, type SchoolProfile, type Tag,
+  DEFAULT_PREFS, DEFAULT_SETTINGS_ID, defaultSettings,
+  type BirthProfile, type CalculationSettings, type Person, type PersonBundle, type Preferences, type Tag,
 } from "@/core/person";
+import type { CustomZiweiProfileRecord } from "@/core/ziwei/profile";
+import { computeSolarTimeAudit } from "@/core/calendar/solarTime";
+import { migrateSettingsV1, needsBirthMigration, normalizeBirth } from "./migrations";
 
 export const nowISO = () => new Date().toISOString();
 export const newId = () => (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36));
@@ -29,7 +32,7 @@ async function unpack<T>(row: Row<T> | undefined): Promise<T | undefined> {
 // ───────── 初始化 ─────────
 export async function ensureSeed() {
   const d = db();
-  if (!(await d.schoolProfiles.get(DEFAULT_SCHOOL_ID))) await d.schoolProfiles.put({ key: DEFAULT_SCHOOL_ID, value: defaultSchool(nowISO()) });
+  if (!(await d.schoolProfiles.get(DEFAULT_SETTINGS_ID))) await d.schoolProfiles.put({ key: DEFAULT_SETTINGS_ID, value: defaultSettings(nowISO()) });
   if (!(await d.meta.get("schema"))) await d.meta.put({ key: "schema", value: { version: d.verno, createdAt: nowISO() } });
   if (navigator.storage?.persist) { try { await navigator.storage.persist(); } catch { /* 部分瀏覽器不支援 */ } }
 }
@@ -45,7 +48,7 @@ export async function listBundles(): Promise<PersonBundle[]> {
   const d = db();
   const [pRows, bRows, links] = await Promise.all([d.persons.toArray(), d.birthProfiles.toArray(), d.personTags.toArray()]);
   const births = new Map<string, BirthProfile>();
-  for (const r of bRows) { const b = await unpack(r as Row<BirthProfile>); if (b) births.set(r.personId, b); }
+  for (const r of bRows) { const b = await unpack(r as Row<unknown>); if (b) births.set(r.personId, normalizeBirth(b)); }
   const out: PersonBundle[] = [];
   for (const r of pRows) {
     const person = await unpack(r as Row<Person>);
@@ -58,7 +61,8 @@ export async function listBundles(): Promise<PersonBundle[]> {
 export async function saveBundle(b: PersonBundle) {
   const t = nowISO();
   const person: Person = { ...b.person, updatedAt: t, createdAt: b.person.createdAt || t };
-  const birth: BirthProfile = { ...b.birth, personId: person.id, updatedAt: t, createdAt: b.birth.createdAt || t };
+  const nb = normalizeBirth({ ...b.birth, personId: person.id, updatedAt: t, createdAt: b.birth.createdAt || t });
+  const birth: BirthProfile = { ...nb, solarTimeAudit: computeSolarTimeAudit(nb, t) };
   const [pRow, bRow] = await Promise.all([pack(person), pack(birth)]);
   const d = db();
   await d.transaction("rw", d.persons, d.birthProfiles, d.personTags, d.natalCharts, async () => {
@@ -155,10 +159,45 @@ export async function setPrefs(patch: Partial<Preferences>) {
   const cur = await getPrefs();
   await db().prefs.put({ key: "prefs", value: { ...cur, ...patch } });
 }
-export async function listSchools(): Promise<SchoolProfile[]> {
-  return (await db().schoolProfiles.toArray()).map(r => r.value as SchoolProfile);
+/** 計算設定（明文，不含個資）；讀取時一併容錯轉換 v1 格式 */
+export async function listSettings(): Promise<CalculationSettings[]> {
+  return (await db().schoolProfiles.toArray()).map(r => migrateSettingsV1(r.value, nowISO()).settings);
 }
-export async function saveSchool(s: SchoolProfile) { await db().schoolProfiles.put({ key: s.id, value: { ...s, updatedAt: nowISO() } }); }
+export async function saveSettings(s: CalculationSettings) { await db().schoolProfiles.put({ key: s.id, value: { ...s, updatedAt: nowISO() } }); }
+
+/** 自訂／legacy 紫微 Profile：只能新增，不可修改（同 id 內容不同即拒絕） */
+export async function listZiweiProfiles(): Promise<CustomZiweiProfileRecord[]> {
+  return (await db().ziweiRuleProfiles.toArray()).map(r => r.value as CustomZiweiProfileRecord);
+}
+export async function addZiweiProfile(p: CustomZiweiProfileRecord) {
+  const d = db();
+  const cur = await d.ziweiRuleProfiles.get(p.id);
+  if (cur) {
+    const c = cur.value as CustomZiweiProfileRecord;
+    if (JSON.stringify([c.baseProfileId, c.overrides]) !== JSON.stringify([p.baseProfileId, p.overrides])) throw new Error(`Profile「${p.id}」已存在且內容不同，Profile 不可修改`);
+    return;
+  }
+  await d.ziweiRuleProfiles.put({ key: p.id, value: p });
+}
+
+/** 解鎖後補寫：出生資料欄位正規化並寫入真太陽時稽核快照（出生資料可能已加密，無法在資料庫升級當下處理）。
+ *  只新增欄位；原始出生日期、時間、地點、時區與真太陽時偏好不變。 */
+export async function migrateBirthProfilesV2(): Promise<number> {
+  const d = db();
+  if (isLocked()) throw new Error("App 已鎖定，請先解鎖");
+  const rows = await d.birthProfiles.toArray();
+  const now = nowISO();
+  const updates: { personId: string; row: Row<BirthProfile> }[] = [];
+  for (const r of rows) {
+    const raw = await unpack(r as Row<unknown>);
+    if (!raw) continue;
+    const b = normalizeBirth(raw);
+    if (!needsBirthMigration(raw) && (b.solarTimeAudit || !b.localTime)) continue;
+    updates.push({ personId: r.personId, row: await pack({ ...b, solarTimeAudit: b.solarTimeAudit ?? computeSolarTimeAudit(b, now) }) });
+  }
+  if (updates.length) await d.transaction("rw", d.birthProfiles, async () => { for (const u of updates) await d.birthProfiles.put({ personId: u.personId, ...u.row }); });
+  return updates.length;
+}
 
 // ───────── 加密轉換（App 鎖啟用／停用時） ─────────
 type AnyRow = Row<unknown> & Record<string, unknown>;
@@ -192,10 +231,11 @@ export async function dumpPlain() {
   const unpackAll = async <T,>(rows: Row<T>[]) => { const o: T[] = []; for (const r of rows) { const v = await unpack(r); if (v !== undefined) o.push(v); } return o; };
   return {
     persons: await unpackAll((await d.persons.toArray()) as Row<Person>[]),
-    birthProfiles: await unpackAll((await d.birthProfiles.toArray()) as Row<BirthProfile>[]),
+    birthProfiles: (await unpackAll((await d.birthProfiles.toArray()) as Row<unknown>[])).map(normalizeBirth),
     tags: await unpackAll((await d.tags.toArray()) as Row<Tag>[]),
     personTags: await d.personTags.toArray(),
-    schoolProfiles: (await d.schoolProfiles.toArray()).map(r => r.value as SchoolProfile),
+    calculationSettings: await listSettings(),
+    ziweiRuleProfiles: await listZiweiProfiles(),
     history: await unpackAll((await d.history.toArray()) as Row<unknown>[]),
     legacy: await Promise.all((await d.legacy.toArray()).map(async r => ({ key: r.key, value: await unpack(r) }))),
     prefs: await getPrefs(),
@@ -207,10 +247,11 @@ export async function restorePlain(dump: PlainDump, mode: "merge" | "replace") {
   const d = db();
   const encode = async <T,>(v: T) => pack(v);
   const persons = await Promise.all(dump.persons.map(async p => ({ id: p.id, updatedAt: p.updatedAt, ...(await encode(p)) })));
-  const births = await Promise.all(dump.birthProfiles.map(async b => ({ personId: b.personId, ...(await encode(b)) })));
+  const births = await Promise.all(dump.birthProfiles.map(normalizeBirth).map(async b => ({ personId: b.personId, ...(await encode(b)) })));
   const tags = await Promise.all(dump.tags.map(async t => ({ id: t.id, ...(await encode(t)) })));
   const history = await Promise.all((dump.history as { id: string; personId: string; savedAt: string }[]).map(async h => ({ id: h.id, personId: h.personId, savedAt: h.savedAt, ...(await encode(h)) })));
   const legacy = await Promise.all(dump.legacy.map(async l => ({ key: l.key, ...(await encode(l.value)) })));
+  for (const p of dump.ziweiRuleProfiles) await addZiweiProfile(p);
   await d.transaction("rw", [d.persons, d.birthProfiles, d.tags, d.personTags, d.history, d.legacy, d.schoolProfiles, d.natalCharts], async () => {
     if (mode === "replace") {
       for (const t of [d.persons, d.birthProfiles, d.tags, d.personTags, d.history, d.legacy, d.natalCharts]) await t.clear();
@@ -221,7 +262,7 @@ export async function restorePlain(dump: PlainDump, mode: "merge" | "replace") {
     await d.personTags.bulkPut(dump.personTags);
     await d.history.bulkPut(history);
     await d.legacy.bulkPut(legacy);
-    for (const s of dump.schoolProfiles) await d.schoolProfiles.put({ key: s.id, value: s });
+    for (const s of dump.calculationSettings) await d.schoolProfiles.put({ key: s.id, value: s });
     for (const p of dump.persons) await d.natalCharts.where("personId").equals(p.id).delete();
   });
 }

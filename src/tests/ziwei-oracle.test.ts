@@ -1,7 +1,7 @@
 /** 紫微斗數交叉驗證（對照組：iztro 2.x，僅測試使用）：本命十二宮、星曜、亮度、四化、大限，以及流年流月流日命宮與四化。 */
 import { it, expect } from "vitest";
 import { computeZiweiNatal, computeZiweiTransit } from "@/core/ziwei";
-import { defaultSchool } from "@/core/person";
+import { defaultSettings } from "@/core/person";
 import type { ChartInput } from "@/core/engine";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const { astro } = require("iztro");
@@ -17,7 +17,7 @@ it("400 組隨機命盤與流運全部一致", () => {
     let [y, m, d, h, mi] = [t.getUTCFullYear(), t.getUTCMonth() + 1, t.getUTCDate(), t.getUTCHours(), t.getUTCMinutes()];
     if (h === 23) h = 22;
     const g = rand() < 0.5 ? "male" : "female";
-    const input = { personId: "x", gender: g, school: defaultSchool(""), birth: { personId: "x", localDate: `${y}-${pad(m)}-${pad(d)}`, localTime: `${pad(h)}:${pad(mi)}`, timeAccuracy: "exact", inputCalendar: "solar", place: { name: "", countryCode: "", lat: 0, lng: 120 }, timeZone: "Etc/GMT-8", dstOverride: "auto", useTrueSolarTime: false, schoolProfileId: "", createdAt: "", updatedAt: "" } } as ChartInput;
+    const input = { personId: "x", gender: g, settings: defaultSettings(""), birth: { personId: "x", localDate: `${y}-${pad(m)}-${pad(d)}`, localTime: `${pad(h)}:${pad(mi)}`, timeAccuracy: "exact", inputCalendar: "solar", place: { name: "", countryCode: "", lat: 0, lng: 120 }, timeZone: "Etc/GMT-8", dstOverride: "auto", useTrueSolarTime: false, timeBasis: "civilStandard", calculationSettingsId: "", createdAt: "", updatedAt: "" } } as ChartInput;
     const n = computeZiweiNatal(input);
     const ti = Math.floor(((h + 1) % 24) / 2);
     const a = astro.bySolar(`${y}-${m}-${d}`, ti, g === "male" ? "男" : "女", true, "zh-TW");
@@ -47,7 +47,7 @@ it("400 組隨機命盤與流運全部一致", () => {
     // 流運
     const q = new Date(Date.UTC(2024, 0, 1) + Math.floor(rand() * 7e10));
     const [qy, qm, qd] = [q.getUTCFullYear(), q.getUTCMonth() + 1, q.getUTCDate()];
-    const tr = computeZiweiTransit(n, input.school, { civilDate: `${qy}-${pad(qm)}-${pad(qd)}`, civilTime: "12:00", timeZone: "Etc/GMT-8" });
+    const tr = computeZiweiTransit(n, { civilDate: `${qy}-${pad(qm)}-${pad(qd)}`, civilTime: "12:00", timeZone: "Etc/GMT-8" });
     const hz = a.horoscope(`${qy}-${qm}-${qd}`, 6);
     const idx2b = (i: number) => B.indexOf(a.palaces[i].earthlyBranch);
     if (tr.scopes.year!.lifeBranch !== idx2b(hz.yearly.index)) bad("yearLife", tag);

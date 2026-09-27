@@ -1,20 +1,26 @@
 /** 金樣本快照格式（只讀取引擎輸出，不含任何排盤邏輯）。
  *  重構後的新模組必須能輸出「完全相同」的快照；若快照格式本身需要擴充，只能新增欄位，不能改變既有欄位的值。 */
-import { computeZiweiNatal, computeZiweiTransit, type ZiweiNatal } from "@/core/ziwei";
+import { computeZiweiNatal, computeZiweiTransit, IZTRO_COMPATIBLE_V1, legacyProfileFromV1, resolveZiweiProfile, type ZiweiNatal, type ZiweiRuleProfile } from "@/core/ziwei";
 import { resolveBirth } from "@/core/calendar/resolve";
 import { BaziEngine } from "@/core/bazi";
 import { QimenEngine } from "@/core/qimen";
 import { IchingEngine } from "@/core/iching";
-import { defaultSchool, DEFAULT_SCHOOL_ID, type BirthProfile, type Gender, type SchoolProfile } from "@/core/person";
+import { defaultSettings, DEFAULT_SETTINGS_ID, type BirthProfile, type Gender, type CalculationSettings } from "@/core/person";
 import type { ChartInput } from "@/core/engine";
 
 export const SNAPSHOT_FORMAT = "golden-v1";
 const B = "子丑寅卯辰巳午未申酉戌亥";
 
-/** 金樣本產生時已存在的兩組流派設定（重構前狀態）。之後會對應到 iztro_compatible_v1 與 legacy 自訂 Profile。 */
-export const PRE_REFACTOR_SETTINGS: Record<string, SchoolProfile> = {
-  "pre-refactor-default": defaultSchool(""),
-  "pre-refactor-earlyZi": { ...defaultSchool(""), id: "school-legacy-earlyzi", name: "早子時換日（由舊版設定匯入）", isDefault: false, bazi: { school: "子平・滴天髓闡微", ziHour: "earlyZiNextDay" } },
+/** 金樣本產生時已存在的兩組設定（重構前狀態），對應到新架構的 CalculationSettings＋ZiweiRuleProfile：
+ *  - pre-refactor-default → 預設設定＋iztro_compatible_v1
+ *  - pre-refactor-earlyZi → 八字子初換日＋legacy_imported_v1_earlyZi（紫微日界 23:00） */
+const LEGACY_EARLY_ZI = legacyProfileFromV1({ baziZiHour: "earlyZiNextDay", leapMonth: "splitAt15", gengSihua: "陽武陰同" }, "2026-09-27T00:00:00.000Z");
+export const PRE_REFACTOR_SETTINGS: Record<string, { settings: CalculationSettings; ziweiProfile: ZiweiRuleProfile }> = {
+  "pre-refactor-default": { settings: defaultSettings(""), ziweiProfile: IZTRO_COMPATIBLE_V1 },
+  "pre-refactor-earlyZi": {
+    settings: { ...defaultSettings(""), id: "school-legacy-earlyzi", name: "早子時換日（由舊版設定匯入）", isDefault: false, origin: "migrated-v1", bazi: { school: "子平・滴天髓闡微", ziHour: "earlyZiNextDay" }, ziwei: { ruleProfileId: LEGACY_EARLY_ZI.id } },
+    ziweiProfile: resolveZiweiProfile(LEGACY_EARLY_ZI.id, [LEGACY_EARLY_ZI.record!]),
+  },
 };
 
 export interface FixtureInput {
@@ -39,9 +45,9 @@ export const toBirth = (x: FixtureInput): BirthProfile => ({
   personId: "fixture", localDate: x.localDate, localTime: x.localTime, timeAccuracy: x.localTime ? "exact" : "unknown",
   inputCalendar: "solar", place: { name: x.place.name, countryCode: "", lat: x.place.lat, lng: x.place.lng },
   timeZone: x.timeZone, dstOverride: x.dstOverride ?? "auto", useTrueSolarTime: x.useTrueSolarTime,
-  schoolProfileId: DEFAULT_SCHOOL_ID, createdAt: "", updatedAt: "",
+  timeBasis: "civilStandard", calculationSettingsId: DEFAULT_SETTINGS_ID, createdAt: "", updatedAt: "",
 });
-export const toInput = (x: FixtureInput, settings: string): ChartInput => ({ personId: "fixture", gender: x.gender, birth: toBirth(x), school: PRE_REFACTOR_SETTINGS[settings] });
+export const toInput = (x: FixtureInput, settings: string): ChartInput => ({ personId: "fixture", gender: x.gender, birth: toBirth(x), ...PRE_REFACTOR_SETTINGS[settings] });
 
 /** 紫微本命盤快照：一宮一行，欄位以「|」分隔，便於人工閱讀與 diff */
 export function palaceLines(n: ZiweiNatal): string[] {
@@ -85,7 +91,7 @@ export function snapshot(x: FixtureInput, settings: string): GoldenExpected {
   try {
     const n = computeZiweiNatal(input);
     const transits = TRANSIT_DATES.map(date => {
-      const t = computeZiweiTransit(n, input.school, { civilDate: date, civilTime: "12:00", timeZone: "Asia/Taipei" });
+      const t = computeZiweiTransit(n, { civilDate: date, civilTime: "12:00", timeZone: "Asia/Taipei" });
       const s = (k: "decade" | "year" | "month" | "day") => { const v = t.scopes[k]; return v ? `${B[v.lifeBranch]}${v.lifeOnNatal}|${v.stem}|${(["祿", "權", "科", "忌"] as const).map(h => v.hua[h].star).join(",")}` : null; };
       return { date, nominalAge: t.nominalAge, decade: s("decade"), year: s("year")!, month: s("month")!, day: s("day")! };
     });
@@ -132,7 +138,7 @@ export function compareWithIztro(x: FixtureInput, settings: string, exp: GoldenE
   const z = exp.ziwei;
   const [date, time] = exp.calendar.chartLocal.split(" ");
   const h = Number(time.slice(0, 2));
-  const earlyZi = PRE_REFACTOR_SETTINGS[settings].bazi.ziHour === "earlyZiNextDay";
+  const earlyZi = PRE_REFACTOR_SETTINGS[settings].ziweiProfile.rules.dayBoundaryRule.value === "23:00";
   let d = date, ti = Math.floor(((h + 1) % 24) / 2);
   if (h === 23) { if (earlyZi) { const t = new Date(`${date}T00:00:00Z`); t.setUTCDate(t.getUTCDate() + 1); d = t.toISOString().slice(0, 10); ti = 0; } else ti = 12; }
   const [y, m, dd] = d.split("-").map(Number);

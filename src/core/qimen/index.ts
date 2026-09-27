@@ -288,7 +288,7 @@ export const QimenEngine: DivinationEngine<QimenNatal, QimenTransit> = {
   computeNatal(input) {
     try {
       const r = resolveBirth(input.birth);
-      const p = fourPillars(r, input.school.bazi.ziHour);
+      const p = fourPillars(r, input.settings.bazi.ziHour);
       const nianMing = nianMingOf(p.year);
       const facts: Fact[] = [{ key: "qimen.nianMing", value: nianMing, label: "年命", derivation: `出生年柱${p.year.text}${STEMS[p.year.stem] === "甲" ? "，甲遁旬首六儀" : ""}`, system: "qimen" }];
       return { ok: true, data: { nianMing, birthYearGz: p.year.text }, facts, stamp: QIMEN_META.stamp, warnings: [] };

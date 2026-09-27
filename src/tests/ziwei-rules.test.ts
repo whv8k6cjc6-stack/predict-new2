@@ -1,13 +1,14 @@
 import { describe, it, expect } from "vitest";
-import { ZIWEI_RULES } from "@/kb/rules/ziwei";
+import { legacyZiweiScoring } from "@/kb/rules/ziwei";
+const ZIWEI_RULES = [...legacyZiweiScoring.rules];
 import { lintRule, runRules } from "@/core/rules/engine";
 import { ZiweiEngine } from "@/core/ziwei";
-import { defaultSchool, DEFAULT_SCHOOL_ID } from "@/core/person";
+import { defaultSettings, DEFAULT_SETTINGS_ID } from "@/core/person";
 import type { ChartInput } from "@/core/engine";
 
 const input: ChartInput = {
-  personId: "t", gender: "female", school: defaultSchool(""),
-  birth: { personId: "t", localDate: "1975-07-18", localTime: "07:40", timeAccuracy: "exact", inputCalendar: "solar", place: { name: "新營", countryCode: "TW", lat: 23.31, lng: 120.32 }, timeZone: "Asia/Taipei", dstOverride: "auto", useTrueSolarTime: true, schoolProfileId: DEFAULT_SCHOOL_ID, createdAt: "", updatedAt: "" },
+  personId: "t", gender: "female", settings: defaultSettings(""),
+  birth: { personId: "t", localDate: "1975-07-18", localTime: "07:40", timeAccuracy: "exact", inputCalendar: "solar", place: { name: "新營", countryCode: "TW", lat: 23.31, lng: 120.32 }, timeZone: "Asia/Taipei", dstOverride: "auto", useTrueSolarTime: true, timeBasis: "civilStandard", calculationSettingsId: DEFAULT_SETTINGS_ID, createdAt: "", updatedAt: "" },
 };
 
 describe("紫微規則庫", () => {

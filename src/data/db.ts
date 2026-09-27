@@ -4,6 +4,7 @@
  *  舊版本定義永遠保留，確保任何舊資料都能逐版升級，不因更新 App 而遺失。 */
 import Dexie, { type Table } from "dexie";
 import type { EncBlob } from "./crypto";
+import { migrateSettingsV1, uniqueProfiles } from "./migrations";
 
 export interface Row<T> { data?: T; enc?: EncBlob }
 export interface PersonRow<T> extends Row<T> { id: string; updatedAt: string }
@@ -26,6 +27,7 @@ export class XuanjiDB extends Dexie {
   prefs!: Table<KVRow<unknown>, string>;
   meta!: Table<KVRow<unknown>, string>;
   legacy!: Table<LegacyRow<unknown>, string>;
+  ziweiRuleProfiles!: Table<KVRow<unknown>, string>;
 
   constructor(name = "xuanji") {
     super(name);
@@ -41,6 +43,16 @@ export class XuanjiDB extends Dexie {
       prefs: "key",
       meta: "key",
       legacy: "key",
+    });
+    // v2（SCHEMA_VERSION 2）：流派設定改為 CalculationSettings，紫微規則改由 ZiweiRuleProfile 表達。
+    // schoolProfiles 為明文表（不含個資），可在開啟資料庫時直接轉換；出生資料可能已加密，改於解鎖後補寫（見 repo.migrateBirthProfilesV2）。
+    this.version(2).stores({ ziweiRuleProfiles: "key" }).upgrade(async tx => {
+      const now = new Date().toISOString();
+      const rows = (await tx.table("schoolProfiles").toArray()) as KVRow<unknown>[];
+      const out = rows.map(r => ({ key: r.key, ...migrateSettingsV1(r.value, now) }));
+      for (const r of out) await tx.table("schoolProfiles").put({ key: r.key, value: r.settings });
+      for (const p of uniqueProfiles(out.map(r => r.profile))) await tx.table("ziweiRuleProfiles").put({ key: p.id, value: p });
+      await tx.table("meta").put({ key: "migration-v2", value: { at: now, settings: out.length, profiles: uniqueProfiles(out.map(r => r.profile)).map(p => p.id) } });
     });
   }
 }

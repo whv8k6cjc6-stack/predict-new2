@@ -1,7 +1,8 @@
 /** 命理引擎統一介面。各術數引擎只產生「事實（Fact）」，不下吉凶結論；
  *  結論一律由規則庫（sources.ts 的 RuleDefinition）產生，分數由 Scoring Engine 統一計算。 */
 import type { VersionStamp } from "./versioning";
-import type { BirthProfile, SchoolProfile, Gender } from "./person";
+import type { BirthProfile, CalculationSettings, Gender } from "./person";
+import type { ZiweiRuleProfile } from "./ziwei/profile";
 
 export type SystemId = "calendar" | "bazi" | "ziwei" | "qimen" | "iching" | "fusion" | "scoring";
 
@@ -32,7 +33,9 @@ export interface ChartInput {
   personId: string;
   gender: Gender;
   birth: BirthProfile;
-  school: SchoolProfile;
+  settings: CalculationSettings;
+  /** 已解析的紫微 Profile（自訂／legacy Profile 必填；標準 Profile 可省略，由 settings.ziwei.ruleProfileId 解析） */
+  ziweiProfile?: ZiweiRuleProfile;
 }
 
 /** 引擎產生的事實：可被規則比對，也可在專業模式與證據鏈中顯示「怎麼算出來的」 */

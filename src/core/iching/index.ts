@@ -207,7 +207,7 @@ export const IchingEngine: DivinationEngine<IchingNatal, IchingTransit> = {
   computeNatal(input) {
     try {
       const r = resolveBirth(input.birth);
-      const p = fourPillars(r, input.school.bazi.ziHour);
+      const p = fourPillars(r, input.settings.bazi.ziHour);
       const natal: IchingNatal = p.hour
         ? { personalNo: p.hour.branch + 1, basis: `本人出生時辰為${BRANCHES[p.hour.branch]}時（時支數 ${p.hour.branch + 1}）`, timeKnown: true }
         : { personalNo: p.day.branch + 1, basis: `出生時辰未知，改以出生日支${BRANCHES[p.day.branch]}（數 ${p.day.branch + 1}）代替時辰`, timeKnown: false };

@@ -1,7 +1,7 @@
 /** 八字本命交叉驗證：大運干支、起運歲數、十二長生（對照組：lunar-javascript，僅測試使用）。 */
 import { describe, it, expect } from "vitest";
 import { computeBaziNatal } from "@/core/bazi/natal";
-import { defaultSchool } from "@/core/person";
+import { defaultSettings } from "@/core/person";
 import type { ChartInput } from "@/core/engine";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const { Solar } = require("lunar-javascript");
@@ -17,7 +17,7 @@ describe("大運與十二長生（800 組隨機命盤）", () => {
       const t = new Date(Date.UTC(1920, 0, 1) + Math.floor(rand() * 2.8e12 / 60000) * 60000);
       const [y, m, d, h, mi] = [t.getUTCFullYear(), t.getUTCMonth() + 1, t.getUTCDate(), t.getUTCHours(), t.getUTCMinutes()];
       const g = rand() < 0.5 ? "male" : "female";
-      const input = { personId: "x", gender: g, school: defaultSchool(""), birth: { personId: "x", localDate: `${y}-${pad(m)}-${pad(d)}`, localTime: `${pad(h)}:${pad(mi)}`, timeAccuracy: "exact", inputCalendar: "solar", place: { name: "", countryCode: "", lat: 0, lng: 120 }, timeZone: "Etc/GMT-8", dstOverride: "auto", useTrueSolarTime: false, schoolProfileId: "", createdAt: "", updatedAt: "" } } as ChartInput;
+      const input = { personId: "x", gender: g, settings: defaultSettings(""), birth: { personId: "x", localDate: `${y}-${pad(m)}-${pad(d)}`, localTime: `${pad(h)}:${pad(mi)}`, timeAccuracy: "exact", inputCalendar: "solar", place: { name: "", countryCode: "", lat: 0, lng: 120 }, timeZone: "Etc/GMT-8", dstOverride: "auto", useTrueSolarTime: false, timeBasis: "civilStandard", calculationSettingsId: "", createdAt: "", updatedAt: "" } } as ChartInput;
       const n = computeBaziNatal(input);
       const ec = Solar.fromYmdHms(y, m, d, h, mi, 0).getLunar().getEightChar();
       const yun = ec.getYun(g === "male" ? 1 : 0, 2);

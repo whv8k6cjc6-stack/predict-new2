@@ -1,5 +1,5 @@
 /** 校準與回歸測試共用的固定樣本命例（合成資料，非真實人物） */
-import { defaultSchool, DEFAULT_SCHOOL_ID, type Gender } from "@/core/person";
+import { defaultSettings, DEFAULT_SETTINGS_ID, type Gender } from "@/core/person";
 import type { Subject } from "@/core/analysis/collect";
 
 const RAW: [string, string | null, Gender][] = [
@@ -14,7 +14,7 @@ export const SAMPLES: Subject[] = RAW.map(([date, time, gender], i) => ({
   birth: {
     personId: `s${i}`, localDate: date, localTime: time, timeAccuracy: "exact", inputCalendar: "solar",
     place: { name: "臺北", countryCode: "TW", lat: 25.04, lng: 121.51 }, timeZone: "Asia/Taipei", dstOverride: "auto",
-    useTrueSolarTime: false, schoolProfileId: DEFAULT_SCHOOL_ID, createdAt: "", updatedAt: "",
+    useTrueSolarTime: false, timeBasis: "civilStandard", calculationSettingsId: DEFAULT_SETTINGS_ID, createdAt: "", updatedAt: "",
   },
-  school: defaultSchool(""),
+  settings: defaultSettings(""),
 }));

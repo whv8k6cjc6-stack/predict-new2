@@ -42,21 +42,42 @@ export interface BirthProfile {
   place: { name: string; countryCode: string; lat: number; lng: number };
   timeZone: string;           // IANA 時區；夏令時間由時區資料自動判斷
   dstOverride: "auto" | "on" | "off";
-  useTrueSolarTime: boolean;
-  schoolProfileId: string;
+  useTrueSolarTime: boolean;  // 真太陽時校正偏好（出生時間本身仍為民用標準時間）
+  timeBasis: "civilStandard"; // 記錄的出生時間＝出生證明／戶籍的民用時間（Source of Truth）
+  calculationSettingsId: string; // 預設使用哪一組計算設定（規則不屬於人物本身）
+  solarTimeAudit?: SolarTimeAudit; // 稽核快照：只供顯示、比較與偵測版本差異，不作為排盤輸入
   createdAt: string;
   updatedAt: string;
 }
 
-/** 流派與排盤規則設定（可多組，每位人物指定一組）。不同流派的算法不得混用。 */
-export interface SchoolProfile {
+/** 真太陽時稽核快照。排盤一律由原始出生資料重算；此快照若與重算結果不同，只顯示差異警告。 */
+export interface SolarTimeAudit {
+  calendarVersion: string;
+  computedAt: string;
+  originalLocal: string;        // 記錄的出生日期時間（民用標準時間）
+  utcOffset: string;            // 例 UTC+8
+  useTrueSolarTime: boolean;
+  correctionMinutes: number;    // 排盤時間相對記錄時間的總校正（含夏令、經度、均時差）
+  calculatedLocal: string;      // 實際排盤時間
+  standardHourBranch: string;   // 以標準時間計的時辰
+  calculatedHourBranch: string; // 以實際排盤時間計的時辰
+  crossesHourBoundary: boolean;
+  crossesDate: boolean;
+}
+
+/** 計算設定：這次排盤採用哪些規則（可多組；同一人物可用不同設定排盤比較）。
+ *  各命理模組的規則各自獨立：八字的日界設定不影響紫微，紫微規則一律由 ZiweiRuleProfile 決定。 */
+export interface CalculationSettings {
   id: string;
   name: string;
   isDefault: boolean;
+  origin: "builtin" | "user" | "migrated-v1";
   bazi: { school: string; ziHour: "lateZiSameDay" | "earlyZiNextDay" };
-  ziwei: { school: string; leapMonth: "splitAt15" | "asCurrent" | "asNext"; fireBell: "quanshu"; gengSihua: "陽武陰同" | "陽武同陰" };
-  qimen: { school: string; method: "chaibu" | "zhirun"; plate: "rotating" };
+  ziwei: { ruleProfileId: string };
+  qimen: { school: string; method: "chaibu"; plate: "rotating" };
   iching: { dailyMethod: "meihua_date_birthhour" };
+  /** 由 schema v1 轉換時保留的原始設定（稽核用） */
+  migratedFrom?: { schemaVersion: 1; raw: unknown };
   createdAt: string;
   updatedAt: string;
 }
@@ -88,20 +109,30 @@ export interface Preferences {
   activePersonId?: string;
   lastBackupAt?: string;
   backupReminderDays: number;
+  developerMode?: boolean;   // 開發者模式：可檢視規則、版本與 legacy 計分比較（不影響正式結果）
 }
 
 export const DEFAULT_PREFS: Preferences = { displayMode: "plain", backupReminderDays: 14 };
 
-export const DEFAULT_SCHOOL_ID = "school-default";
+export const DEFAULT_SETTINGS_ID = "school-default"; // 沿用 v1 的 id，確保既有人物的關聯不變
 
-export function defaultSchool(now: string): SchoolProfile {
+export function defaultSettings(now: string): CalculationSettings {
   return {
-    id: DEFAULT_SCHOOL_ID, name: "預設（子平・中州派・時家轉盤拆補）", isDefault: true,
+    id: DEFAULT_SETTINGS_ID, name: "預設（子平・通行排盤 iztro 相容・時家轉盤拆補）", isDefault: true, origin: "builtin",
     bazi: { school: "子平・滴天髓闡微", ziHour: "lateZiSameDay" },
-    ziwei: { school: "中州派", leapMonth: "splitAt15", fireBell: "quanshu", gengSihua: "陽武陰同" },
+    ziwei: { ruleProfileId: "iztro_compatible_v1" },
     qimen: { school: "時家轉盤", method: "chaibu", plate: "rotating" },
     iching: { dailyMethod: "meihua_date_birthhour" },
     createdAt: now, updatedAt: now,
+  };
+}
+
+/** 新增人物的出生資料預設值：出生時間為民用標準時間，真太陽時校正預設關閉 */
+export function newBirthDefaults(personId: string, now: string): BirthProfile {
+  return {
+    personId, localDate: "", localTime: "", timeAccuracy: "exact", inputCalendar: "solar",
+    place: { name: "台南", countryCode: "TW", lat: 22.99, lng: 120.21 }, timeZone: "Asia/Taipei", dstOverride: "auto",
+    useTrueSolarTime: false, timeBasis: "civilStandard", calculationSettingsId: DEFAULT_SETTINGS_ID, createdAt: "", updatedAt: now,
   };
 }
 
