@@ -146,7 +146,7 @@ export function AdviceDetail({ a }: { a: StructuredAdvice }) {
           {a.systemAgreement.systems.map(s => (
             <li key={s.system} className="flex gap-2">
               <span className="w-24 shrink-0 text-[var(--ink-2)]">{SYS[s.system]}</span>
-              <span className="text-[var(--ink-3)]">{s.status === "active" || s.status === "partial" ? (s.support.length || s.risk.length ? [s.support.length ? `有利：${s.support.join("、")}` : "", s.risk.length ? `注意：${s.risk.join("、")}` : ""].filter(Boolean).join("；") : "此主題沒有訊號") : s.reason}</span>
+              <span className="text-[var(--ink-3)]">{s.participates ? (s.support.length || s.risk.length ? [s.support.length ? `有利：${s.support.join("、")}` : "", s.risk.length ? `注意：${s.risk.join("、")}` : ""].filter(Boolean).join("；") : "此主題沒有訊號") : s.reason}</span>
             </li>
           ))}
         </ul>

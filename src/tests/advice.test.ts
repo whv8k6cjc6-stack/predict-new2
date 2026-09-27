@@ -1,4 +1,6 @@
 /** ActionAdviceEngine：對照表、詞彙表、文字品質、規則結構、跨系統整合、時間尺度、安全規則、追溯與驗收標準 A–J。 */
+import { ZIWEI_INTERPRETATION_RULES } from "@/kb/ziwei/interpretationRules";
+import { ziweiInterpretationStatus } from "@/core/ziwei/interp/engine";
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
@@ -247,7 +249,7 @@ describe("驗收標準（6 組命例 × 6 天 × 17 主題）", () => {
     expect(compared).toBeGreaterThan(20);
   });
   it("D：每一條建議都能反查 AdviceRule → LifeFactor → 判讀規則 → 命盤資料", () => {
-    const ruleIds = new Set(ALL_RULES.map(r => r.id));
+    const ruleIds = new Set([...ALL_RULES.map(r => r.id), ...ZIWEI_INTERPRETATION_RULES.map(r => r.ruleId)]);
     for (const { a } of outputs) {
       for (const it of texts(a).filter(i => !i.adviceRuleId.startsWith("NO_") && !i.adviceRuleId.startsWith("CONFLICT"))) {
         const t = a.trace.find(x => x.adviceItemId === it.id)!;
@@ -259,16 +261,24 @@ describe("驗收標準（6 組命例 × 6 天 × 17 主題）", () => {
       for (const id of a.sourceRuleIds) expect(ruleIds.has(id)).toBe(true);
     }
   });
-  it("G：紫微 pending 不會偷偷參與建議", () => {
+  it("G：紫微只以已校驗判讀規則、只在已涵蓋主題參與；legacy 紫微規則不會進入建議", () => {
+    const { coveredTopics } = ziweiInterpretationStatus();
     for (const { a } of outputs) {
+      const topic = a.topic;
       expect(a.sourceRuleIds.some(id => id.startsWith("ziwei"))).toBe(false);
-      expect(a.systemAgreement.systems.find(s => s.system === "ziwei")!.status).toBe("pending");
+      const zv = a.systemAgreement.systems.find(s => s.system === "ziwei")!;
+      expect(zv.status).toBe("partial");
+      expect(zv.participates).toBe(coveredTopics.includes(topic));
+      const zf = a.trace.flatMap(t => t.findings.filter(f => f.system === "ziwei"));
+      if (!coveredTopics.includes(topic)) expect(zf).toEqual([]);
+      for (const f of zf) expect(f.ruleId.startsWith("ZW_STAR_")).toBe(true);
     }
     const n = natals[0];
     const c = collect(n, { civilDate: "2026-10-21", civilTime: "12:00", timeZone: TZ }, "day", { legacyZiwei: true });
     expect(c.fired.some(f => f.system === "ziwei")).toBe(true); // 開發者模式的 legacy 紫微規則有命中
-    const r = interpretationResults(n, c.fired, "2026-10-21");
-    expect(r.find(x => x.system === "ziwei")).toMatchObject({ status: "pending", findings: [] });
+    const r = interpretationResults(n, c.fired, "2026-10-21")!.find(x => x.system === "ziwei")!;
+    expect(r.status).toBe("partial");
+    expect(r.findings.every(f => f.ruleId.startsWith("ZW_") && f.factors.every(q => q.mappingType === "nativeInterpretation"))).toBe(true);
   });
   it("舊規則附帶的 legacyAdviceText 不會進入正式建議", () => {
     const legacy = new Set<string>();

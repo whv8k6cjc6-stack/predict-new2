@@ -7,7 +7,7 @@ import { factorDef } from "@/core/advice/factors";
 import type { FactorPolarity, InterpretationFinding, InterpretationResult, LifeFactorInstance, TimeLayer } from "@/core/advice/interpretation";
 import { ZIWEI_INTERPRETATION_RULES } from "@/kb/ziwei/interpretationRules";
 import { ZIWEI_CITATIONS, ZIWEI_SOURCES } from "@/kb/ziwei/sources";
-import { IMPORTED_ZIWEI_TEXTS } from "@/kb/ziwei/texts/imported.generated";
+import { IMPORTED_ZIWEI_TEXTS } from "@/kb/ziwei/texts/imported";
 import type { ZiweiNatal } from "../chart";
 import type { ZiweiTransit } from "../luck";
 import { citationCheck, type ClassicalCitation, type ClassicalSource, type ImportedClassicalText } from "./citation";
@@ -26,6 +26,7 @@ export const DEFAULT_KB: InterpretationKB = { rules: ZIWEI_INTERPRETATION_RULES,
 
 // ───────── 規則是否可用（閘門） ─────────
 export function ruleUsability(rule: ZiweiInterpretationRule, kb: InterpretationKB = DEFAULT_KB): { usable: boolean; reason: string } {
+  if (rule.kind === "principle") return { usable: false, reason: "判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發" };
   if (!rule.enabled) return { usable: false, reason: rule.verificationStatus === "pendingVerification" ? "待古籍原文校驗，尚未啟用" : "未啟用" };
   if (rule.verificationStatus !== "verified" && rule.verificationStatus !== "partiallyVerified") return { usable: false, reason: `驗證狀態為 ${rule.verificationStatus}` };
   if (!rule.condition) return { usable: false, reason: "成立條件待原文確認" };
@@ -119,7 +120,7 @@ export function ziweiInterpretationStatus(kb: InterpretationKB = DEFAULT_KB): { 
 // ───────── 判讀 ─────────
 export interface ZiweiFinding {
   ruleId: string; title: string; role: ModifierRole; timeLayer: ContextLayer; topics: TopicId[];
-  interpretation: string | null; classicalPrinciple: string | null; appImplementation: string;
+  interpretation: string | null; classicalPrinciple: string | null; modernSemantic: string | null; appImplementation: string;
   lifeFactors: ZiweiInterpretationRule["lifeFactors"];
   citations: ClassicalCitation[]; evidence: string[];
 }
@@ -156,7 +157,7 @@ export function interpretZiwei(n: ZiweiNatal, t: ZiweiTransit | null, kb: Interp
     if (!r.ok) continue;
     findings.push({
       ruleId: rule.ruleId, title: rule.title, role: rule.role, timeLayer: rule.timeLayer, topics: rule.topics,
-      interpretation: rule.interpretation, classicalPrinciple: rule.classicalPrinciple, appImplementation: rule.appImplementation,
+      interpretation: rule.interpretation, classicalPrinciple: rule.classicalPrinciple, modernSemantic: rule.modernSemantic ?? null, appImplementation: rule.appImplementation,
       lifeFactors: rule.lifeFactors, citations: rule.citations.map(id => kb.citations.find(c => c.citationId === id)!), evidence: r.evidence,
     });
   }
@@ -190,7 +191,9 @@ const LAYER_TO_TIME: Record<ContextLayer, TimeLayer> = { natal: "natal", decade:
 
 export function toInterpretationFindings(z: ZiweiInterpretation, date: string): InterpretationFinding[] {
   return z.findings.filter(f => f.lifeFactors.length).map(f => {
-    const domains = [...new Set(f.topics.flatMap(t => ADVICE_TOPICS[t].domains))];
+    // 有具體主題（工作、財運…）時只影響那些主題的領域；「綜合」只在沒有其他主題時才用，避免一條判讀擴散到所有領域
+    const specific = f.topics.filter(t => t !== "general");
+    const domains = [...new Set((specific.length ? specific : f.topics).flatMap(t => ADVICE_TOPICS[t].domains))];
     const strength = Math.max(...f.lifeFactors.map(l => l.strength)) as 1 | 2 | 3;
     const timeLayer = LAYER_TO_TIME[f.timeLayer];
     const factors: LifeFactorInstance[] = f.lifeFactors.map(l => ({
@@ -216,7 +219,7 @@ export function toInterpretationFindings(z: ZiweiInterpretation, date: string): 
 export function ziweiInterpretationResult(n: ZiweiNatal | null, t: ZiweiTransit | null, date: string, unavailableReason?: string, kb: InterpretationKB = DEFAULT_KB): InterpretationResult {
   const st = ziweiInterpretationStatus(kb);
   if (st.status === "pending") return { system: "ziwei", status: "pending", reason: ZIWEI_ADVICE_PENDING_REASON, findings: [] };
-  if (!n) return { system: "ziwei", status: "unavailable", reason: unavailableReason ?? "紫微命盤無法建立", findings: [] };
+  if (!n) return { system: "ziwei", status: "unavailable", reason: unavailableReason ?? "紫微命盤無法建立", coveredTopics: st.coveredTopics, findings: [] };
   const z = interpretZiwei(n, t, kb);
   return {
     system: "ziwei", status: z.status, coveredTopics: z.coveredTopics, findings: toInterpretationFindings(z, date),

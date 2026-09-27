@@ -35,6 +35,8 @@ const strengthIn = (f: InterpretationFinding, domains: DomainKey[]) =>
 
 /** 只取參與此主題的系統：active 全部主題；partial 只在 coveredTopics（例：紫微只有工作有可靠規則時，投資建議不納入紫微） */
 const participates = (r: InterpretationResult, topic: TopicId) => r.status === "active" || (r.status === "partial" && !!r.coveredTopics?.includes(topic));
+/** 資料不足而未納入的系統，只有在它本來會涵蓋此主題時才算缺漏（例：紫微命盤無法建立，但紫微本來就不涵蓋投資 → 投資不扣分） */
+const missingFor = (r: InterpretationResult, topic: TopicId) => r.status === "unavailable" && (!r.coveredTopics || r.coveredTopics.includes(topic));
 
 function relevant(results: InterpretationResult[], layers: string[], domains: DomainKey[], topic: TopicId): InterpretationFinding[] {
   return results.filter(r => participates(r, topic)).flatMap(r => r.findings)
@@ -109,7 +111,7 @@ const AGREEMENT_NOTE: Record<SystemAgreementStatus, string> = {
 
 // ───────── 信心：來源可靠度、主題覆蓋、系統一致、資料完整度 ─────────
 function confidence(
-  coverage: TopicCoverage, agreement: SystemAgreementStatus, instances: FactorEvidence["instances"], results: InterpretationResult[], cap?: ConfidenceLevel,
+  topic: TopicId, coverage: TopicCoverage, agreement: SystemAgreementStatus, instances: FactorEvidence["instances"], results: InterpretationResult[], cap?: ConfidenceLevel,
 ): AdviceConfidence {
   const reasons: string[] = [];
   let pts = 3;
@@ -126,7 +128,7 @@ function confidence(
   const rels = new Set(instances.map(i => i.reliability));
   if (pending > 0.5) { pts -= 1; reasons.push("主要依據屬待驗證規則"); }
   if (rels.has("classicalText")) reasons.push("部分依據引用已匯入的原文");
-  const unavailable = results.filter(r => r.status === "unavailable").map(r => r.system);
+  const unavailable = results.filter(r => missingFor(r, topic)).map(r => r.system);
   if (unavailable.length) { pts -= 0.5 * unavailable.length; reasons.push(`${unavailable.map(s => SYSTEM_NAME[s]).join("、")}因資料不足未納入`); }
   let level: ConfidenceLevel = pts >= 2.5 ? "high" : pts >= 1.5 ? "medium" : "low";
   if (coverage === "generalOnly" && level === "high") level = "medium";
@@ -136,7 +138,7 @@ function confidence(
     level, sourceReliability: rels.size === 1 ? [...rels][0] : rels.size ? "mixed" : "principleOnly",
     topicCoverage: coverage, systemAgreement: agreement,
     dataCompleteness: {
-      activeSystems: results.filter(r => r.status === "active" || r.status === "partial").map(r => r.system),
+      activeSystems: results.filter(r => participates(r, topic)).map(r => r.system),
       systemsWithSignals: [...new Set(instances.map(i => i.system))],
       pendingSystems: results.filter(r => r.status === "pending").map(r => r.system),
       unavailableSystems: unavailable,
@@ -171,7 +173,7 @@ function candidatesFor(topic: TopicId, h: Horizon, ev: Map<FactorId, FactorEvide
     const strength = Math.min(6, matched.reduce((s, e) => s + e.score, 0));
     const score = rule.priority + 4 * strength + (rule.conflictPolicy === "conflictOnly" ? 20 : 0);
     const instances = matched.flatMap(m => m.instances);
-    const conf = confidence(ADVICE_TOPICS[topic].coverage, agreement, instances, results, rule.baseConfidence).level;
+    const conf = confidence(topic, ADVICE_TOPICS[topic].coverage, agreement, instances, results, rule.baseConfidence).level;
     for (const [kind, tid] of [["do", rule.action], ["avoid", rule.avoid]] as const) {
       if (!tid) continue;
       const r = render(tid, h, ctx.timing, ctx.dayWord);
@@ -253,7 +255,7 @@ export function buildStructuredAdvice(ctx: AdviceContext): StructuredAdvice {
   const top = [...today.doNow, ...today.avoidNow].sort((a, b) => b.item.score - a.item.score)[0];
   const coverageLevel: TopicCoverage = m.findings.length ? T.coverage : "insufficient";
   const mainInstances = [...m.ev.values()].flatMap(e => e.instances);
-  const conf = confidence(coverageLevel, m.agreement, mainInstances, ctx.interpretations);
+  const conf = confidence(ctx.topic, coverageLevel, m.agreement, mainInstances, ctx.interpretations);
 
   const primaryAdvice: AdviceItem | null = top ? top.item : (() => {
     // 沒有訊號 → 照原計畫；有訊號但沒有需要調整的做法 → 也照原計畫，但不說成「沒有訊號」
@@ -271,13 +273,16 @@ export function buildStructuredAdvice(ctx: AdviceContext): StructuredAdvice {
     const r = ctx.interpretations.find(x => x.system === s)!;
     const mine = [...m.ev.values()].filter(e => e.systems.includes(s));
     const lab = (n: FactorNature) => mine.filter(e => topicNature(ctx.topic, e.factorId) === n).map(e => factorDef(e.factorId).label);
-    return { system: s, status: r.status, reason: r.reason, stance: m.stances.get(s) ?? "none", support: lab("support"), risk: lab("risk") };
+    const inTopic = participates(r, ctx.topic);
+    const reason = r.status === "partial" && !inTopic ? `${SYSTEM_NAME[s]}判讀尚未涵蓋「${T.label}」，本主題不納入` : r.reason;
+    return { system: s, status: r.status, reason, participates: inTopic, stance: m.stances.get(s) ?? "none", support: lab("support"), risk: lab("risk") };
   });
 
   const usesPending = chosen.some(c => c.factors.some(f => f.instances.some(i => i.reliability === "pendingVerification")));
   const notes = [
     ...(T.safety ? [SAFETY_NOTES[T.safety]] : []),
-    ...ctx.interpretations.filter(r => r.status !== "active" && r.reason).map(r => r.status === "pending" || r.status === "partial" ? r.reason! : `${SYSTEM_NAME[r.system]}未納入：${r.reason}`),
+    ...ctx.interpretations.filter(r => r.status !== "active" && r.reason && (r.status !== "unavailable" || missingFor(r, ctx.topic))).map(r => r.status === "partial" && !participates(r, ctx.topic)
+      ? `${SYSTEM_NAME[r.system]}判讀尚未涵蓋「${T.label}」，本主題不納入。` : r.status === "pending" || r.status === "partial" ? r.reason! : `${SYSTEM_NAME[r.system]}未納入：${r.reason}`),
     ...(usesPending ? ["部分依據屬「待驗證」規則，只作低信心參考。"] : []),
   ];
 

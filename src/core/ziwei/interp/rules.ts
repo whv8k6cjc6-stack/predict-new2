@@ -19,7 +19,8 @@ export type ZiweiCondition =
   | { kind: "any"; of: ZiweiCondition[] }
   | { kind: "not"; of: ZiweiCondition };
 
-export type ZiweiRuleKind = "star" | "palace" | "starInPalace" | "combination" | "brightness" | "transformation" | "emptyPalace" | "period";
+/** principle＝判讀原則（例：運限分層順序），規範引擎怎麼組合各層，不單獨觸發 */
+export type ZiweiRuleKind = "star" | "palace" | "starInPalace" | "combination" | "brightness" | "transformation" | "emptyPalace" | "period" | "principle";
 /** 判讀在本命 → 大限 → 流年三層中的角色：大限、流年只作修正，不推翻本命 */
 export type ModifierRole = "baseNatalMeaning" | "periodModifier" | "annualModifier";
 
@@ -34,6 +35,8 @@ export interface ZiweiInterpretationRule {
   citations: string[];                    // ClassicalCitation id
   /** 古籍原則的白話摘要（必須有已校驗的引用） */
   classicalPrinciple: string | null;
+  /** 現代中性語義：把古籍原則轉成不帶吉凶定論的現代說法（仍不是建議） */
+  modernSemantic?: string | null;
   /** App 做了什麼結構化整理（例：把某句古籍拆成條件與生活因素），避免被誤認為古籍原文 */
   appImplementation: string;
   interpretation: string | null;          // App 根據盤面的命理解讀（不是原文、不是建議）

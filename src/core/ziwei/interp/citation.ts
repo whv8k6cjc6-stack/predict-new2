@@ -49,6 +49,12 @@ export interface ClassicalCitation {
   verificationStatus: CitationStatus;
   textualVariants: TextualVariant[];
   notes: string;
+  /** 掃描來源的頁面定位（PDF 頁碼、版心頁碼、轉錄段落）；以 PDF 影像為 Source of Truth */
+  locator?: { pdfPage: number; printedPage: number | null; spanId: string };
+  /** 轉錄狀態：verified＝已依 PDF 影像逐字核對；transcriptionUnverified＝只有初稿 */
+  transcriptionStatus?: "verified" | "transcriptionUnverified";
+  verifiedBy?: string;
+  verifiedAt?: string;
 }
 
 export interface SourceConflict {
@@ -72,7 +78,12 @@ export interface ImportedClassicalText {
   license: string;
   sha256: string;
   importedAt: string;
-  sections: { sectionId: string; volume: string | null; title: string; text: string }[];
+  sections: ImportedSection[];
+}
+export interface ImportedSection {
+  sectionId: string; volume: string | null; title: string; text: string;
+  /** 掃描來源：此段所在 PDF 頁碼、版心頁碼、條目與轉錄狀態 */
+  pdfPage?: number; printedPage?: number | null; entry?: string; transcriptionStatus?: "verified" | "transcriptionUnverified"; notes?: string;
 }
 
 /** 比對用正規化：去標點與空白、統一常見異體字（不改變字義） */
@@ -89,6 +100,9 @@ export function citationCheck(c: ClassicalCitation, texts: readonly ImportedClas
   const needle = normalizeClassical(c.originalText);
   const pool = c.section ? t.sections.filter(s => s.title.includes(c.section!)) : t.sections;
   if (!pool.length) return { ok: false, reason: `匯入原文中找不到篇名「${c.section}」` };
-  const hit = pool.find(s => normalizeClassical(s.text).includes(needle));
+  // 掃描來源：只比對已依影像逐字核對的段落；有頁面定位時只在該頁比對
+  const verified = pool.filter(s => s.transcriptionStatus !== "transcriptionUnverified" && (!c.locator || s.pdfPage === undefined || s.pdfPage === c.locator.pdfPage));
+  if (!verified.length) return { ok: false, reason: c.locator ? `PDF 第 ${c.locator.pdfPage} 頁沒有已校驗的轉錄` : "只有未校驗的轉錄初稿" };
+  const hit = verified.find(s => normalizeClassical(s.text).includes(needle));
   return hit ? { ok: true, reason: "原文逐字相符", sectionId: hit.sectionId } : { ok: false, reason: "原文與匯入版本不相符" };
 }

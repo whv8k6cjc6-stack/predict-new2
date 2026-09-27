@@ -65,7 +65,7 @@ await page.getByRole("button", { name: "工作", exact: true }).first().click();
 await page.getByText("查看詳細判斷").first().click();
 await expectText("如果只能記得一件事", 30000);
 await expectText("判斷依據與信心");
-await expectText("目前紫微判讀引擎建置中，未納入本次建議。");
+await expectText("紫微判讀部分啟用：只用於綜合、工作、財運、不動產");
 await page.getByText("為什麼這樣建議？（完整追溯）").click();
 const traceButtons = page.locator("details li button[aria-expanded]");
 let traced = false;
