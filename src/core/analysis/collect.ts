@@ -1,6 +1,7 @@
 /** 分析管線第一段：本命 → 行運事實 → 各系統規則命中。 */
 import type { ChartInput, Fact, Moment } from "../engine";
-import type { BirthProfile, Person, SchoolProfile } from "../person";
+import type { BirthProfile, CalculationSettings, Person } from "../person";
+import type { ZiweiRuleProfile } from "../ziwei/profile";
 import type { VersionStamp } from "../versioning";
 import { BaziEngine, computeBaziTransit, baziFacts, type BaziNatal, type BaziTransit } from "../bazi";
 import { ZiweiEngine, computeZiweiTransit, ziweiFacts, type ZiweiNatal, type ZiweiTransit } from "../ziwei";
@@ -9,12 +10,13 @@ import { IchingEngine, castDaily, castAtTime, ichingFacts, type IchingNatal, typ
 import { hourBranch } from "../calendar/ganzhi";
 import { runRules, type FiredRule } from "../rules/engine";
 import { BAZI_RULES, BAZI_GLOBAL_SLOTS } from "@/kb/rules/bazi";
-import { ZIWEI_RULES } from "@/kb/rules/ziwei";
+import { legacyZiweiScoring } from "@/kb/rules/ziwei";
 import { QIMEN_RULES, QIMEN_EVENT_RULES } from "@/kb/rules/qimen";
 import { ICHING_RULES } from "@/kb/rules/iching";
 import { LEVEL_SCALES, type Level, type ScoredSystem } from "@/kb/weights";
 
-export interface Subject { person: Person; birth: BirthProfile; school: SchoolProfile }
+/** 排盤對象：人物客觀資料＋這次採用的計算設定（規則不屬於人物本身） */
+export interface Subject { person: Person; birth: BirthProfile; settings: CalculationSettings; ziweiProfile?: ZiweiRuleProfile }
 
 export interface NatalSet {
   input: ChartInput;
@@ -29,7 +31,7 @@ export interface NatalSet {
 }
 
 export function buildNatal(sub: Subject): NatalSet {
-  const input: ChartInput = { personId: sub.person.id, gender: sub.person.gender, birth: sub.birth, school: sub.school };
+  const input: ChartInput = { personId: sub.person.id, gender: sub.person.gender, birth: sub.birth, settings: sub.settings, ziweiProfile: sub.ziweiProfile };
   const unavailable: NatalSet["unavailable"] = [];
   const warnings: string[] = [];
   const pick = <T,>(system: ScoredSystem, r: { ok: true; data: T; warnings: string[] } | { ok: false; message: string }): T | null => {
@@ -49,7 +51,8 @@ export function buildNatal(sub: Subject): NatalSet {
   };
 }
 
-export interface SystemFired { system: ScoredSystem; fired: FiredRule }
+/** legacy＝已停用的舊計分規則（只在開發者模式比較時執行） */
+export interface SystemFired { system: ScoredSystem; fired: FiredRule; legacy?: boolean }
 
 export interface Collected {
   at: Moment; level: Level;
@@ -64,14 +67,17 @@ export interface Collected {
 
 const inScales = (level: Level) => { const s = new Set<string>(LEVEL_SCALES[level]); return (f: FiredRule) => s.has(f.rule.timescale); };
 
-/** 收集某時點的行運事實與規則命中（不含時辰層級規則） */
-export function collect(n: NatalSet, at: Moment, level: Level): Collected {
+export interface CollectOptions { legacyZiwei?: boolean }
+
+/** 收集某時點的行運事實與規則命中（不含時辰層級規則）。
+ *  紫微只提供客觀事實；舊紫微計分規則已停用，只有開發者模式明確要求（legacyZiwei）時才執行並標記為 legacy。 */
+export function collect(n: NatalSet, at: Moment, level: Level, opts: CollectOptions = {}): Collected {
   const facts: Fact[] = [], fired: SystemFired[] = [], warnings: string[] = [];
   const keep = inScales(level);
-  const push = (system: ScoredSystem, f: Fact[], out: { fired: FiredRule[]; warnings: string[] }) => {
+  const push = (system: ScoredSystem, f: Fact[], out: { fired: FiredRule[]; warnings: string[] }, legacy = false) => {
     facts.push(...f);
     warnings.push(...out.warnings);
-    for (const x of out.fired) if (keep(x)) fired.push({ system, fired: x });
+    for (const x of out.fired) if (keep(x)) fired.push({ system, fired: x, ...(legacy ? { legacy: true } : {}) });
   };
   let bt: BaziTransit | null = null, zt: ZiweiTransit | null = null, scan: DayScan | null = null, reading: IchingReading | null = null;
   if (n.bazi) {
@@ -80,9 +86,10 @@ export function collect(n: NatalSet, at: Moment, level: Level): Collected {
     push("bazi", f, runRules(BAZI_RULES.filter(r => r.timescale !== "hour"), f, BAZI_GLOBAL_SLOTS));
   }
   if (n.ziwei) {
-    zt = computeZiweiTransit(n.ziwei, n.input.school, at);
+    zt = computeZiweiTransit(n.ziwei, at);
     const f = ziweiFacts(n.ziwei, zt);
-    push("ziwei", f, runRules(ZIWEI_RULES, f));
+    if (opts.legacyZiwei) push("ziwei", f, runRules([...legacyZiweiScoring.rules], f), true);
+    else facts.push(...f);
   }
   if (level === "day" && n.qimen) {
     scan = scanDay(at.civilDate, at.timeZone, n.qimen.nianMing, QIMEN_KINDS);

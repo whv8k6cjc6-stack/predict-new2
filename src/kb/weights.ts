@@ -60,9 +60,25 @@ export const OVERALL_OWN_WEIGHT = 0.25;
 export const DIRECTION_DIVISOR = 4;
 export const NEUTRAL_BAND = 0.2;
 
-/** 校準組別：有出生時辰（四套系統）與無出生時辰（紫微不排盤）分開校準，避免少一套系統造成系統性偏差 */
-export type Profile = "full" | "noZiwei";
-export const profileOf = (unavailable: { system: string }[]): Profile => unavailable.some(u => u.system === "ziwei") ? "noZiwei" : "full";
+/** 各系統參與正式分數的狀態（ScoreAggregator）。
+ *  - active：參與計分
+ *  - pending：規則重建中，暫不計分（不放大其他系統權重來補）
+ *  - inactive：停用 */
+export type ScoringStatus = "active" | "pending" | "inactive";
+export const SYSTEM_SCORING: Record<ScoredSystem, { status: ScoringStatus; detail: string; reason: string }> = {
+  bazi: { status: "active", detail: "active", reason: "" },
+  ziwei: {
+    status: "pending", detail: "interpretationPending",
+    reason: "紫微斗數判讀引擎重建中，暫不計分。舊計分規則（廟旺固定加分、吉煞只按數量加減、化祿化忌固定加減、化忌沖宮重複扣分）已停用，僅開發者模式可比較。",
+  },
+  qimen: { status: "active", detail: "active", reason: "" },
+  iching: { status: "active", detail: "active", reason: "" },
+};
+export const isScoringActive = (s: ScoredSystem) => SYSTEM_SCORING[s].status === "active";
+
+/** 校準組別：有／無出生時辰分開校準（時辰不詳時八字時柱相關規則停用）。只做數學 normalization，不調整任何系統權重。 */
+export type CalibrationGroup = "timeKnown" | "timeUnknown";
+export const calibrationGroupOf = (n: { timeKnown: boolean }): CalibrationGroup => n.timeKnown ? "timeKnown" : "timeUnknown";
 
 /** 校準常數（由 scripts/calibrate.test.ts 產生，勿手改） */
 export { K, B, CALIBRATION_INFO } from "./calibration.generated";

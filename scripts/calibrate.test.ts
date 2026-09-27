@@ -35,11 +35,11 @@ it("calibrate", () => {
   const Kp: Record<string, Record<string, Record<string, number>>> = {};
   const Bp: Record<string, Record<string, Record<string, number>>> = {};
   const report: string[] = [];
-  for (const profile of ["full", "noZiwei"] as const) {
+  for (const profile of ["timeKnown", "timeUnknown"] as const) {
   const K: Record<string, Record<string, number>> = Kp[profile] = {};
   const B: Record<string, Record<string, number>> = Bp[profile] = {};
   for (const [level, dates] of levels) {
-    const raws = rawsFor(level, dates, profile === "full");
+    const raws = rawsFor(level, dates, profile === "timeKnown");
     K[level] = {}; B[level] = {};
     for (const d of DK) {
       const r = raws[d];
@@ -53,12 +53,12 @@ it("calibrate", () => {
   console.log(report.join("\n"));
   const file = `/** 由 scripts/calibrate.test.ts 產生，勿手改。樣本：${SAMPLES.length} 組合成命例；day 以 2026 全年逐日、month 以 2025–2027 逐月、year 以 2000–2039 逐年、decade 以 1990–2060 每十年。 */
 import type { DomainKey } from "@/core/domains";
-import type { Level, Profile } from "./weights";
+import type { CalibrationGroup, Level } from "./weights";
 type KTable = Record<DomainKey, number>;
-/** 尺度常數 K：score = round(50 + 50 × tanh((raw − B) / K))；依校準組別（full／noZiwei）分開 */
-export const K: Record<Profile, Record<Level, KTable>> = ${JSON.stringify(Kp, null, 2)};
+/** 尺度常數 K：score = round(50 + 50 × tanh((raw − B) / K))；依校準組別（timeKnown／timeUnknown）分開 */
+export const K: Record<CalibrationGroup, Record<Level, KTable>> = ${JSON.stringify(Kp, null, 2)};
 /** 基準校正 B：樣本逐日 raw 的中位數（規則庫正負條數不對稱的校正，使一般日子落在 50 附近） */
-export const B: Record<Profile, Record<Level, KTable>> = ${JSON.stringify(Bp, null, 2)};
+export const B: Record<CalibrationGroup, Record<Level, KTable>> = ${JSON.stringify(Bp, null, 2)};
 export const CALIBRATION_INFO = { samples: ${SAMPLES.length}, target: "中位數 50、約一成日子 ≥ 80（B = P50，K = (P90 − P50) / atanh(0.6)）", generatedAt: "${new Date().toISOString().slice(0, 10)}" };
 `;
   writeFileSync(path.resolve(__dirname, "../src/kb/calibration.generated.ts"), file);
