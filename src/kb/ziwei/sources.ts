@@ -1,0 +1,187 @@
+/** 紫微斗數來源登錄（ClassicalSourceRegistry）與引用（ClassicalCitation）。
+ *
+ *  來源優先級：Tier 1《紫微斗數全書》＞ Tier 2 其他可靠古籍（《紫微斗數捷覽》《紫微斗數全集》）＞ Tier 3 可信現代研究（未指定）
+ *  ＞ Tier 4 軟體資料（iztro，只作排盤相容性）＞ Tier 5 一般網路文章（不可單獨成為正式判讀規則的依據）。
+ *
+ *  目前使用的原文：使用者提供的《紫微斗數全書》廣益版掃描 PDF（無文字層，SHA-256 鎖定版本）。
+ *  PDF 影像為 Source of Truth：每條引用的 originalText 都是依 PDF 頁面影像逐字核對的連續字串
+ *  （src/data/classics/ziwei/quanshu-guangyi/transcription.json），並保存 PDF 頁碼、版心頁碼、卷、篇、條目、核對者與日期。
+ *  modernTranslation 是白話翻譯（只在專業模式的原文層顯示），不是 App 判讀，也不是建議。 */
+import type { ClassicalCitation, ClassicalSource } from "@/core/ziwei/interp/citation";
+import { MAJOR, PALACES } from "@/core/ziwei/common";
+import { GUANGYI_SOURCE, GUANGYI_TRANSCRIPTION, scanSpan } from "./texts/imported";
+import { findExcerpt } from "./texts/pages";
+import { GY_BUILT } from "./v2";
+import V4_CONFIRMED from "@/data/classics/ziwei/package-v4/data/confirmed_citations_v4.json";
+import JIWEN_SOURCE from "@/data/classics/ziwei/quanji-jiwen/source.json";
+
+export { JIWEN_SOURCE };
+
+export const ZIWEI_SOURCES_VERSION = "3.0.0";
+
+export const ZIWEI_SOURCES: ClassicalSource[] = [
+  {
+    sourceId: GUANGYI_SOURCE.sourceId, title: "紫微斗數全書", edition: "廣益版（上海廣益書局印行，掃描影像）", tier: 1, role: "primaryClassical",
+    usage: ["十四主星基本性質", "十二宮判讀", "大限、小限、太歲（流年）判讀原則", "星曜得地／失陷（待逐段核對）", "古典格局（待逐段核對）"],
+    notFor: ["直接轉成現代吉凶分數", "未經影像逐字核對的段落（OCR 或初稿）"],
+    availability: "使用者提供之本地掃描 PDF（86 頁，無文字層）；PDF 不放入 git，以 SHA-256 鎖定版本。",
+    copyrightStatus: "publicDomain", contentStatus: "imported",
+    notes: `PDF SHA-256 ${GUANGYI_SOURCE.sha256}。目前已逐字核對 ${GUANGYI_TRANSCRIPTION.spans.length} 段（卷二「一命宮」十四主星條目起首、卷三十二宮各篇起首、論人命入格、論格星數高下、大限、行限南北斗、流年太歲）；其餘篇章尚未核對，不作判讀依據。`,
+  },
+  {
+    sourceId: "ziwei.quanshu", title: "紫微斗數全書", edition: "維基文庫電子文本", tier: 1, role: "primaryClassical",
+    usage: ["與廣益版掃描比對文字"],
+    notFor: ["在未匯入前作為判讀依據"],
+    availability: "公有領域電子文本；本環境的網路政策拒絕連線 zh.wikisource.org、ctext.org，未匯入。",
+    copyrightStatus: "publicDomain", contentStatus: "notInRepository",
+    notes: "保留 scripts/fetch-ziwei-wikisource.mjs；網路政策允許時可匯入作為另一版本比對（不繞過網路政策）。",
+  },
+  {
+    sourceId: "ziwei.jielan", title: "紫微斗數捷覽", edition: null, tier: 2, role: "secondaryClassical",
+    usage: ["版本校勘", "異文比較", "補充古典規則"],
+    notFor: ["在沒有合法文本時作為判讀依據"],
+    availability: "目前只有書目資料，尚無合法可用的完整文本。",
+    copyrightStatus: "unknown", contentStatus: "unavailable",
+    notes: "不是第一階段的必要條件；不抓取或重製受版權保護的現代點校本。日後取得合法版本或摘錄再加入校勘。",
+  },
+  {
+    sourceId: JIWEN_SOURCE.sourceId, title: "紫微斗數全集", edition: "集文版（掃描影像）", tier: 2, role: "secondaryClassical",
+    usage: ["段落定位與大意對照（十四主星問答與《全書》〈諸星問答論〉平行）"],
+    notFor: ["逐字引用（掃描約 150 dpi、二值化，多數字無法確認）", "建立異文或規則", "靜默覆寫廣益版文字"],
+    availability: `來源包 v3 已提供（177 頁，SHA-256 ${JIWEN_SOURCE.sha256}）；PDF 不放入 git。`,
+    copyrightStatus: "unknown", contentStatus: "notInRepository",
+    notes: "PDF 已由來源包 v3 提供並核對雜湊，但沒有可逐字引用的轉錄，因此不算「已匯入原文」。本書以十八飛星體系為主，與《全書》十四主星體系不同；十二宮、論人命入格、運限各篇沒有直接平行段落。只登錄平行段落位置與大意（待核），0 筆異文、0 筆衝突。",
+  },
+  {
+    sourceId: "software.iztro", title: "iztro", edition: "2.6.1", tier: 4, role: "softwareDataset",
+    usage: ["排盤位置驗證", "星曜位置驗證", "亮度表來源", "四化與安星的軟體相容性比對"],
+    notFor: ["古籍來源", "紫微判讀權威", "格局原文來源", "吉凶權重來源"],
+    availability: "npm 套件，MIT 授權。",
+    copyrightStatus: "openSourceLicense", contentStatus: "imported",
+    notes: "「與 iztro 排得一樣」只證明軟體相容，不證明任何判讀是古法唯一答案。",
+  },
+  {
+    sourceId: "web.general", title: "一般網路文章", edition: null, tier: 5, role: "webArticle",
+    usage: ["線索參考"],
+    notFor: ["單獨作為正式判讀規則的依據"],
+    availability: "—", copyrightStatus: "unknown", contentStatus: "unavailable",
+    notes: "只有網路說法的內容一律標為 pendingVerification。",
+  },
+];
+
+export const sourceOf = (id: string) => ZIWEI_SOURCES.find(s => s.sourceId === id);
+
+const STAR_ID: Record<string, string> = {
+  紫微: "ZIWEI", 天機: "TIANJI", 太陽: "TAIYANG", 武曲: "WUQU", 天同: "TIANTONG", 廉貞: "LIANZHEN", 天府: "TIANFU",
+  太陰: "TAIYIN", 貪狼: "TANLANG", 巨門: "JUMEN", 天相: "TIANXIANG", 天梁: "TIANLIANG", 七殺: "QISHA", 破軍: "POJUN",
+};
+export const starCode = (star: string) => STAR_ID[star];
+const PALACE_CODE: Record<string, string> = {
+  命宮: "MING", 兄弟: "XIONGDI", 夫妻: "FUQI", 子女: "ZINV", 財帛: "CAIBO", 疾厄: "JIE", 遷移: "QIANYI", 交友: "JIAOYOU",
+  官祿: "GUANLU", 田宅: "TIANZHAI", 福德: "FUDE", 父母: "FUMU",
+};
+export const palaceCode = (p: string) => PALACE_CODE[p];
+
+/** 舊版單次目視轉錄段落（transcription.json）與 v4 雙重核讀頁面（pages.json）的逐段複核結果 */
+export interface SpanRecheck {
+  spanId: string; leaf: string; pdfPage: number; firstPass: string; secondPass: string | null;
+  result: "identical" | "identicalAfterResolution" | "differs" | "notFound";
+  uncertainGlyphs: string[]; note: string;
+}
+export const SPAN_RECHECKS: SpanRecheck[] = [];
+const unmark = (t: string) => t.replace(/〔疑字：(.)〕/g, "$1").replace(/〔缺字〕/g, "□");
+
+/** 由舊轉錄段落建立引用：originalText 取舊段落文字，但一律以 v4 雙重核讀頁面重新定位與驗證——
+ *  兩者逐字相同且頁面該處無疑字，才算「原始掃描影像雙重核讀」；否則引用維持待校驗並記錄差異。 */
+function scanCitation(citationId: string, spanId: string, o: { originalText?: string; modernTranslation: string; notes?: string }): ClassicalCitation {
+  const sp = scanSpan(spanId);
+  if (!sp) throw new Error(`找不到轉錄段落 ${spanId}`);
+  const first = unmark(o.originalText ?? sp.text);
+  const leaf = `${sp.pdfPage}${(sp.clip?.[0] ?? 1) >= 0.5 ? "R" : "L"}`;
+  const hit = findExcerpt(leaf, first) ?? findExcerpt(`${sp.pdfPage}${leaf.endsWith("R") ? "L" : "R"}`, first);
+  const firstHadMarks = /〔/.test(o.originalText ?? sp.text);
+  // 章首等結構標記：頁面欄組沒有收（位於切邊），改以來源包 v4 的 structureMarker（另一次獨立目視複核，visualDoubleChecked）作第二次核讀
+  const v4 = !hit ? V4_CONFIRMED.items.find(i => i.type === "structureMarker" && i.pdfPage === sp.pdfPage && i.originalText === first && i.verification.visualDoubleChecked) : undefined;
+  const result: SpanRecheck["result"] = v4 ? "identical" : !hit ? "notFound" : hit.clean ? (firstHadMarks ? "identicalAfterResolution" : "identical") : "differs";
+  if (!SPAN_RECHECKS.some(r => r.spanId === spanId && r.firstPass === first)) SPAN_RECHECKS.push({
+    spanId, leaf: hit?.leaf ?? leaf, pdfPage: sp.pdfPage, firstPass: first, secondPass: hit ? hit.raw : null, result, uncertainGlyphs: hit?.uncertainGlyphs ?? [],
+    note: v4 ? `頁面欄組未收此章首；與來源包 v4 structureMarker ${v4.citationId}（另一次獨立目視複核）逐字相同。`
+      : !hit ? "第二次（雙重核讀）頁面文字中找不到與第一次轉錄逐字相同的片段：以頁面文字為準，此引用不啟用。"
+      : !hit.clean ? "逐字位置相同，但頁面該處仍有疑字：不啟用。"
+      : firstHadMarks ? "第一次轉錄的疑字已由兩輪獨立核讀與差異決議確認。" : "兩次轉錄逐字相同。",
+  });
+  const ok = (!!hit && hit.clean) || !!v4;
+  return {
+    citationId, sourceId: GUANGYI_SOURCE.sourceId, edition: GUANGYI_SOURCE.editionLabel, volume: sp.volume, section: sp.section, entry: sp.entry,
+    locationStatus: "verifiedAgainstText", originalText: first, normalizedText: first, classicalCommentary: null,
+    modernTranslation: o.modernTranslation, verificationStatus: ok ? "verified" : "pendingVerification",
+    textualVariants: [],
+    notes: [o.notes, sp.notes, ok ? "" : `v4 複核：${SPAN_RECHECKS.find(r => r.spanId === spanId)?.note ?? ""}`].filter(Boolean).join(" "),
+    locator: hit ? { pdfPage: hit.pdfPage, printedPage: hit.printedPage, spanId: `${hit.leaf}:s${hit.strips.join(",")}`, boundingRegion: hit.region } : { pdfPage: sp.pdfPage, printedPage: sp.printedPage, spanId },
+    transcriptionStatus: ok ? "verified" : "transcriptionUnverified",
+    verification: { machineLocated: false, visualTranscribed: true, visualDoubleChecked: ok, humanReviewed: false, secondSourceVerified: false },
+    uncertainGlyphs: hit?.uncertainGlyphs ?? [], sourceType: "scanVisual",
+    verifiedBy: "第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘）", verifiedAt: "2026-09-27",
+  };
+}
+
+/** 十四主星：卷二「一命宮」各星條目起首（該星坐命的總論） */
+const STAR_CIT: Record<string, [string, string]> = {
+  紫微: ["GY-P26-ZIWEI", "紫微五行屬土，兼屬南北斗，化氣為「帝座」，是官祿（職位）之主。紫微坐命的人面色紫或白而清，腰背厚實，為人忠厚老成、謙恭耿直。紫微能制七殺、壓火星鈴星；若與天府、左輔右弼、文昌文曲、太陽太陰、祿存天馬在三合宮會照，最為吉利。"],
+  天機: ["GY-P26-TIANJI", "天機屬木，屬南斗，化氣為「善星」，是兄弟之主。入廟時身形高大豐滿，性子急而心地慈善，善於謀劃、多變通；與天梁會合時，善於談論兵法謀略。"],
+  太陽: ["GY-P27-TAIYANG", "（太陽）兼屬南北斗，化氣為「貴」，是官祿之主。太陽入廟，相貌堂堂、體格雄壯、臉型方圓飽滿；夜間出生為陷、白天出生為廟旺；心地慈善，面色紫，樂於施捨救濟。"],
+  武曲: ["GY-P27-WUQU", "武曲屬金，屬北斗，化氣為「財」，是財帛之主。武曲性格剛強果決，心直而無惡意，身形小、聲音大而度量大。"],
+  天同: ["GY-P27-TIANTONG", "天同屬水，屬南斗，化氣為「福」，是福德之主。天同入廟，體態豐滿、清朗明白，仁慈耿直。"],
+  廉貞: ["GY-P28-LIANZHEN", "廉貞屬火，屬北斗，化氣為「次桃花」，又稱殺星、囚星，是官祿之主。其人身材高大，眼神外露有光。"],
+  天府: ["GY-P28-TIANFU", "天府屬土，屬南斗，化氣為「令星」，是財帛之主。其人臉型方圓。"],
+  太陰: ["GY-P29-TAIYIN", "太陰屬水，兼屬南北斗，化氣為「富」，為母親之星、又為妻星，是田宅之主。太陰坐命，臉型方圓，心性溫和，清秀耿直而聰明。"],
+  貪狼: ["GY-P29-TANLANG", "貪狼屬水，屬北斗，化氣為「桃花」殺星。貪狼入廟，身形高大豐滿；落陷時身形小、聲音大而度量大；性格變化不定，心中多所盤算，做事急快、不耐安靜。"],
+  巨門: ["GY-P30-JUMEN", "巨門屬水，屬北斗，化氣為「暗」，主是非。入廟時身形高大豐滿、敦厚清秀；不入廟時身材矮小瘦削。做事進退猶疑，學得多而不精，與人不易相合，口舌是非較多。"],
+  天相: ["GY-P30-TIANXIANG", "天相屬水，屬南斗，化氣為「印」，是官祿之主。其人相貌敦厚、持重清白，喜好飲食，衣食豐足。"],
+  天梁: ["GY-P31-TIANLIANG", "天梁屬土，屬南斗，化氣為「蔭」，是主壽之星。其人厚重清秀，聰明耿直，心無私曲，樂於施捨救濟。"],
+  七殺: ["GY-P31-QISHA", "七殺屬火金，屬南斗，是將星；遇紫微（帝星）化為權，在其他情況都以殺星論。其人眼大，性急而變化不定。"],
+  破軍: ["GY-P31-POJUN", "破軍屬水，屬北斗，化氣為「耗星」，主妻子與奴僕（部屬）。身形矮短、背厚眉寬、腰身不正；性格剛強、不易與人相合、好爭強。"],
+};
+
+/** 十二宮：卷二「一命宮」、卷三「二兄弟」至「十二父母」各篇起首 */
+const PALACE_CIT: Record<string, [string, string, string?]> = {
+  命宮: ["GY-P26-MING-HEAD", "「一命宮」：卷二論十二宮的首篇，其下逐星列出入命（男命、女命）與入限的吉凶訣。"],
+  兄弟: ["GY-P37-XIONGDI", "二、兄弟宮：紫微在此，有年長的兄長可以倚靠；與天府同宮約有三人，與天相同宮約三四人。"],
+  夫妻: ["GY-P37-QIQIE", "三、妻妾宮（即夫妻宮）：紫微在此，宜晚婚、能白頭偕老，對方性情剛強；與天府同宮亦能偕老；與天相同宮，宜娶年紀較輕者。", "原書宮名作「妻妾」。"],
+  子女: ["GY-P38-ZINV", "四、子女宮：看子女，先看子女宮本宮的星宿，主有幾子。"],
+  財帛: ["GY-P39-CAIBO", "五、財帛宮：紫微在此，錢財豐足、倉箱充實；若加擎羊、陀羅、火星、鈴星、地空、地劫，則不旺。"],
+  疾厄: ["GY-P40-JIE", "六、疾厄宮：先看命宮星曜是否落陷，是否有擎羊、陀羅、火星、鈴星、地空、地劫、化忌守照，再看疾厄宮。"],
+  遷移: ["GY-P40-QIANYI", "七、遷移宮：紫微與左輔右弼同在，出外有貴人扶持而發福；與天府同宮，出入通達。"],
+  交友: ["GY-P41-NUPU", "八、奴僕宮（即交友宮）：紫微在此，部屬成群而得力，旺者主生財。", "原書宮名作「奴僕」。"],
+  官祿: ["GY-P42-GUANLU", "九、官祿宮：紫微廟旺，遇左輔右弼、文昌文曲、天魁天鉞……（其後論所至職位，未收入）。"],
+  田宅: ["GY-P43-TIANZHAI", "十、田宅宮：紫微在此，田產茂盛，能自行置產、旺相。"],
+  福德: ["GY-P43-FUDE", "十一、福德宮：紫微在此，福厚、享福安樂；與天府、天相同宮，終身獲吉。"],
+  父母: ["GY-P44-FUMU-HEAD", "十二、父母宮（篇名；首句位於裝訂處、墨點多，尚未收入）。"],
+};
+
+export const ZIWEI_CITATIONS: ClassicalCitation[] = [
+  ...MAJOR.map(s => scanCitation(`CIT_QS_STAR_${STAR_ID[s]}`, STAR_CIT[s][0], { modernTranslation: STAR_CIT[s][1] })),
+  ...PALACES.map(p => scanCitation(`CIT_QS_PALACE_${PALACE_CODE[p]}`, PALACE_CIT[p][0], { modernTranslation: PALACE_CIT[p][1], notes: PALACE_CIT[p][2] })),
+  scanCitation("CIT_QS_PERIOD_DAXIAN", "GY-P46-DAXIAN-HEAD", { modernTranslation: "「論大限十年禍福何如」：討論大限（每十年一限）的禍福如何判斷。" }),
+  scanCitation("CIT_QS_PERIOD_TAISUI", "GY-P46-ERXIAN-A", {
+    originalText: "須詳大限獨守吉凶何如小限獨守吉凶何如太歲獨守吉凶何如歲限俱凶則凶又看大限與小限相逢吉凶何如大限逢太歲吉凶何如小限逢太歲吉凶何如",
+    modernTranslation: "必須分別詳看大限、小限、太歲各自所守的吉凶；太歲與限都凶，才論凶；再看大限與小限相逢、大限逢太歲、小限逢太歲時的吉凶如何。",
+  }),
+  scanCitation("CIT_QS_PERIOD_TAISUI_CLASH", "GY-P46-ERXIAN-B", { modernTranslation: "又要看太歲是否沖大限、小限，以及太歲是否沖擎羊、陀羅、七殺，然後才可以判斷吉凶。" }),
+  scanCitation("CIT_QS_RUGE", "GY-P45-RUGE", { modernTranslation: "命宮入格又廟旺，並有吉星、化科化權化祿守照，是上上之命；不入廟但加吉星與吉化，是其次；不入廟也不加吉，平常；入廟而不加吉，也只平平。若落陷又加煞星、化忌，是下格，不能以入格論。又入格而不化吉反化凶，只以本命吉凶的多寡來判斷。" }),
+  scanCitation("CIT_QS_GEXING", "GY-P45-GEXING", { modernTranslation: "紫微、天府與「數」相合如何？紫微是南北斗中天帝主，天府是南斗主，又有陰陽各半的情形。陰陽不各半、數又不相生，是下格；陰陽純駁，是中格。三方四正都是吉星為上格；吉凶各半守照為中格。" }),
+  scanCitation("CIT_QS_PERIOD_DAXIAN_TEXT", "GY-P46-DAXIAN", {
+    originalText: "若限內有擎羊陀羅火鈴空劫忌星為伴成敗不一",
+    modernTranslation: "若大限之內有擎羊、陀羅、火星、鈴星、地空、地劫或忌星相伴，這十年成敗不一。",
+  }),
+  scanCitation("CIT_QS_PERIOD_DAXIAN_CALM", "GY-P46-DAXIAN", {
+    originalText: "分星纏全吉廟旺得地無擎羊陀羅火鈴空劫者主十年安靜人財全美",
+    modernTranslation: "（大限）宮中星曜都吉、廟旺得地，又沒有擎羊、陀羅、火星、鈴星、地空、地劫的，主這十年安靜，人與財都順遂。",
+  }),
+  scanCitation("CIT_QS_NANBEI", "GY-P47-NANBEI", { modernTranslation: "陰男陽女以北斗為福。北斗諸星的吉凶，大限應在前五年，小限應在前半年；南斗諸星的吉凶，大限應在後五年，小限應在後半年。" }),
+  scanCitation("CIT_QS_ANNUAL_TAISUI", "GY-P47-TAISUI", { modernTranslation: "凡看太歲（流年），要看三方與對宮星辰的吉凶，以定禍福。太歲到命宮的那一年，禍福尤其明顯；例如命宮在子，太歲到子，又逢癸年生人，遇吉則吉、遇凶則凶。" }),
+];
+
+/** v4 逐句規則的引用（CIT_GY_＊） */
+ZIWEI_CITATIONS.push(...GY_BUILT.citations);
+export const citationOf = (id: string) => ZIWEI_CITATIONS.find(c => c.citationId === id);

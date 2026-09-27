@@ -76,7 +76,8 @@ export interface AdviceTrace {
   findings: InterpretationFinding[];
 }
 
-export interface SystemView { system: ScoredSystem; status: InterpretationResult["status"]; reason?: string; stance: Stance; support: string[]; risk: string[] }
+/** participates：此系統是否納入本主題（partial 系統只在 coveredTopics 納入） */
+export interface SystemView { system: ScoredSystem; status: InterpretationResult["status"]; reason?: string; participates: boolean; stance: Stance; support: string[]; risk: string[] }
 
 export interface HorizonAdvice {
   horizon: Horizon;

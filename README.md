@@ -22,6 +22,7 @@
 | 6 | 易經（《周易》原文＋勘誤、梅花易數） | ✅ |
 | 7–8 | 交叉判讀、正式運勢分數 | ✅ |
 | 9 | 具體行動建議引擎（生活因素 → 主題判讀 → 跨系統整合 → 行動建議） | ✅ |
+| 10 | 紫微判讀資料層與 Interpretation Engine（《全書》廣益版掃描逐段目視核對 35 段：14 主星＋12 宮＋格局方法＋大限／流年；21 條規則，只用於綜合／工作／財運／不動產建議，不計分） | 🟡 |
 
 各階段驗證方式與已知限制見 `docs/V3_DESIGN.md` 文末紀錄。
 
@@ -37,7 +38,7 @@ npx vitest run --config scripts/fuzz/vitest.config.ts        # 紫微 Fuzz 測�
 # E2E：npm run build 後以 out/ 起靜態伺服器（port 3200），再執行 node e2e/*.e2e.mjs
 ```
 
-紫微斗數排盤規則與重構紀錄見 `docs/ZIWEI_REFACTOR_PLAN.md`；具體行動建議引擎見 `docs/ACTION_ADVICE.md`（逐條對照表 `docs/LIFE_FACTOR_MAPPING.md`、完整建議文字 `docs/ADVICE_TEMPLATES.md`，修改規則或文字後以 `ADVICE_DOCS_WRITE=1 npx vitest run src/tests/advice-docs.test.ts` 重新產生）。
+紫微斗數排盤規則與重構紀錄見 `docs/ZIWEI_REFACTOR_PLAN.md`；紫微判讀層見 `docs/ZIWEI_INTERPRETATION.md`（登錄：`docs/ZIWEI_RULE_REGISTRY.md`）；具體行動建議引擎見 `docs/ACTION_ADVICE.md`（逐條對照表 `docs/LIFE_FACTOR_MAPPING.md`、完整建議文字 `docs/ADVICE_TEMPLATES.md`，修改規則或文字後以 `ADVICE_DOCS_WRITE=1 npx vitest run src/tests/advice-docs.test.ts` 重新產生）。
 
 ## 部署與安裝
 - 靜態輸出，可直接部署到 Vercel（沿用現有專案，合併到 main 即自動更新）。

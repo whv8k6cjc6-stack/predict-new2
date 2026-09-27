@@ -72,6 +72,11 @@ export default function SourcesPage() {
         ))}
       </ul>
 
+      <SectionTitle>紫微來源與判讀規則</SectionTitle>
+      <a href="/sources/ziwei/" className="card block p-4 text-[13px] leading-relaxed">
+        《紫微斗數全書》為 Tier 1 古典基準（原文尚未匯入）；iztro 只作排盤相容。查看來源層級、覆蓋矩陣與每條判讀規則的校驗狀態 →
+      </a>
+
       <SectionTitle right={`版本 ${ADVICE_RULES_VERSION}`}>行動建議引擎</SectionTitle>
       <div className="card space-y-2 p-4 text-[12px] leading-relaxed">
         <p>命盤 → 客觀關係 → 各術判讀 → 生活因素 → 主題判讀 → 跨系統整合 → 行動建議規則 → 白話模板。全部在本機以固定規則產生，不使用任何 AI。</p>

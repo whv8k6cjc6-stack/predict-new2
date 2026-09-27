@@ -1,0 +1,108 @@
+{
+ "sourceId": "ziwei-doushu-quanshu-guangyi-scan",
+ "policy": "優先順序：原始 PDF 影像 ＞ 來源包 v4 校訂資料 ＞ 其他人工初稿／導航／OCR。每一筆修正都記錄舊說法、新說法、依據頁面與理由。",
+ "corrections": [
+  {
+   "correctionId": "SC-001",
+   "previousSource": "來源包 v3 導航（廣益版_完整交接導航.md）",
+   "previousClaim": "廣益版未見獨立「一命宮」章首，命宮應標 locatorPending。",
+   "correctedClaim": "PDF p26（版心24）右頁右上印有「一命宮」，命宮章首存在。",
+   "sourcePage": 26,
+   "printedPage": 24,
+   "confirmedBy": [
+    "PDF 影像（本專案高倍率複核，2026-09-27）",
+    "來源包 v4 index/來源差異與修正.md"
+   ],
+   "reason": "PDF 影像為 Source of Truth。",
+   "verificationState": "visualDoubleChecked",
+   "appliedIn": "GY-P26-MING-HEAD"
+  },
+  {
+   "correctionId": "SC-002",
+   "previousSource": "來源包 v3 導航",
+   "previousClaim": "PDF p36（版心34）末為「卷之一終」。",
+   "correctedClaim": "PDF p36 末為「卷之二終」；p26–p36 為卷二「一命宮」主章。",
+   "sourcePage": 36,
+   "printedPage": 34,
+   "confirmedBy": [
+    "PDF 影像",
+    "來源包 v4"
+   ],
+   "reason": "PDF 影像為 Source of Truth。",
+   "verificationState": "visualDoubleChecked",
+   "appliedIn": "GY-P36-VOL2-END"
+  },
+  {
+   "correctionId": "SC-003",
+   "previousSource": "來源包 v3 導航",
+   "previousClaim": "十二宮（兄弟以下）在卷二。",
+   "correctedClaim": "PDF p37（版心35）為「紫微斗數全書卷之三」卷首，接「二兄弟」；同葉左半為「三妻妾」。",
+   "sourcePage": 37,
+   "printedPage": 35,
+   "confirmedBy": [
+    "PDF 影像",
+    "來源包 v4"
+   ],
+   "reason": "PDF 影像為 Source of Truth。",
+   "verificationState": "visualDoubleChecked",
+   "appliedIn": "GY-P37-VOL3-HEAD"
+  },
+  {
+   "correctionId": "SC-004",
+   "previousSource": "來源包 v3／v4 十四主星人工初稿",
+   "previousClaim": "十四主星的起首段落位於〈諸星問答論〉。",
+   "correctedClaim": "本 App 引用的十四主星起首是卷二「一命宮」之下各星總論（PDF p26–p31）；〈諸星問答論〉在卷一（PDF p5–p9），是另一篇。",
+   "sourcePage": 26,
+   "printedPage": 24,
+   "confirmedBy": [
+    "PDF 影像"
+   ],
+   "reason": "避免把兩篇不同文字混為同一引用。",
+   "verificationState": "visualDoubleChecked",
+   "appliedIn": "CIT_QS_STAR_*"
+  },
+  {
+   "correctionId": "SC-005",
+   "previousSource": "來源包 v4 data/confirmed_citations_v4.json（GY-P45-PRINCIPLE-ENTRY-PATTERN）",
+   "previousClaim": "如命入格廟旺與吉科權祿守上上之命不入廟加吉化吉科權祿次之命……命入廟不加吉平常若居陷地……",
+   "correctedClaim": "如命入格廟旺聚吉科權祿守上上之命不入廟加吉化吉科權祿上次之命不入廟不加吉平常命入廟不加吉平等若居陷地……（「聚」非「與」、「上次之」非「次之」、第二處作「平等」）",
+   "sourcePage": 45,
+   "printedPage": 43,
+   "confirmedBy": [
+    "v4 兩輪獨立目視轉錄（切邊直行補轉錄 A、B 一致）",
+    "本專案回影像複核（PDF p45 左頁首二行）"
+   ],
+   "reason": "PDF 影像優先於 v4 校訂資料；兩輪獨立轉錄與回影像複核一致。",
+   "verificationState": "visualDoubleChecked",
+   "appliedIn": "GY_R_RUGE、GY_R_RUGE2"
+  },
+  {
+   "correctionId": "SC-006",
+   "previousSource": "來源包 v4 data/confirmed_citations_v4.json（GY-P47-PRINCIPLE-ANNUAL-TAISUI）",
+   "previousClaim": "太歲在命宮行有禍福尤緊",
+   "correctedClaim": "太歲在命宮行者禍福尤緊",
+   "sourcePage": 47,
+   "printedPage": 45,
+   "confirmedBy": [
+    "v4 兩輪獨立目視轉錄（A、B 一致）"
+   ],
+   "reason": "PDF 影像優先於 v4 校訂資料。",
+   "verificationState": "visualDoubleChecked",
+   "appliedIn": "GY_R_TAISUI_MING"
+  },
+  {
+   "correctionId": "SC-007",
+   "previousSource": "本專案 v3 單次目視轉錄（transcription.json）",
+   "previousClaim": "35 段單次目視轉錄即視為 verified",
+   "correctedClaim": "舊 35 段一律以 v4 兩輪獨立轉錄＋差異決議的頁面文字重新比對；逐字相同且無疑字才算雙重核讀，其餘不啟用並列入複核清單（SPAN_RECHECKS）。",
+   "sourcePage": 26,
+   "printedPage": 24,
+   "confirmedBy": [
+    "v4 雙重核讀頁面"
+   ],
+   "reason": "單次轉錄不足以作為啟用門檻。",
+   "verificationState": "visualDoubleChecked",
+   "appliedIn": "CIT_QS_*"
+  }
+ ]
+}

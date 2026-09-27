@@ -1,0 +1,38 @@
+{
+ "sourceId": "ziwei-doushu-quanshu-guangyi-scan",
+ "title": "紫微斗數全書",
+ "editionLabel": "廣益版",
+ "editionDescription": "陳希夷先生著《紫微斗數全書》，上海廣益書局印行（石印本掃描影像）",
+ "fileName": "紫微斗數全書-廣益版.pdf",
+ "pageCount": 86,
+ "pageLayout": "每個 PDF 頁為左右兩個版面的掃描（約 2945×2131 pt），直書、右至左；版心印刷頁碼＝PDF 頁碼－2（p26 起核對）",
+ "sha256": "cec2c444290ac70020a5ae4e20a50c07a0064783e53ff3162f90a299d7831186",
+ "textLayer": false,
+ "sourceType": "localScan",
+ "priority": "primaryClassicalSource",
+ "providedBy": "使用者提供之本地來源包（manifest 建立日期 2026-09-27）",
+ "pdfInRepository": false,
+ "pdfNote": "PDF 原檔（約 8 MB 的掃描影像）不放入 git；以 SHA-256 鎖定版本。本地有原檔時可用 scripts/ziwei-scan-crops.py 依 transcription.json 的頁碼與裁切範圍重新產生每段影像，逐字複核。",
+ "verificationPolicy": {
+  "sourceOfTruth": "PDF page image",
+  "ocrMayActivateRules": false,
+  "requirePageLocator": true,
+  "requireVisualVerification": true,
+  "unclearCharacterMarker": "〔缺字〕 / 〔疑字：X〕",
+  "preserveVariants": true
+ },
+ "secondarySource": {
+  "sourceId": "ziwei-doushu-quanji-jiwen-scan",
+  "title": "紫微斗數全集",
+  "editionLabel": "集文版",
+  "pageCount": 177,
+  "sha256": "6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6",
+  "status": "received",
+  "note": "來源包 v3 已提供；詳見 src/data/classics/ziwei/quanji-jiwen/source.json（十八飛星體系、掃描約 150 dpi，只作段落定位與大意對照，不建立逐字異文）。"
+ },
+ "navigationDiscrepancy": {
+  "packageClaim": "來源包 v3 導航稱「未見獨立一命宮章首」「PDF p36（印刷頁34）末可見卷之一終」「十二宮在卷二」",
+  "imageEvidence": "PDF p26 右頁首欄印「一命宮」（版心24）；PDF p36 末為「卷之二終」；PDF p37 卷首為「新鍥希夷陳先生紫微斗數全書卷之三」，並接「二兄弟」",
+  "decision": "依 PDF 影像（Source of Truth）記錄；命宮引用維持 GY-P26-MING-HEAD，不標 locatorPending。"
+ }
+}

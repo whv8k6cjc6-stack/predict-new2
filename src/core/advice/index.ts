@@ -30,7 +30,7 @@ export interface DayAdvice {
 export function adviseDay(n: NatalSet, date: string, timeZone: string, topics: TopicId[] = TOPIC_IDS, dayWord = "今天"): DayAdvice {
   const dates = [date, addDays(date, 1), addDays(date, 2)];
   const days = dates.map(d => collect(n, { civilDate: d, civilTime: "12:00", timeZone }, "day"));
-  const interps = days.map((c, i) => interpretationResults(n, c.fired, dates[i]));
+  const interps = days.map((c, i) => interpretationResults(n, c.fired, dates[i], c.ziwei));
   const byTopic: DayAdvice["byTopic"] = {};
   for (const topic of topics) {
     const kind = ADVICE_TOPICS[topic].timingKind as EventKind;
@@ -50,7 +50,7 @@ export function adviseEvent(n: NatalSet, typeKey: string, date: string, time: st
   const h = collectHour(n, date, time, timeZone, type.qimen);
   const fired = [...c.fired.filter(f => f.system !== "iching"), ...h.fired]; // 事件改用提問時刻起卦，不重複計入每日卦
   return buildStructuredAdvice({
-    topic: EVENT_TOPIC[type.key] ?? "general", date, mode: "event", interpretations: interpretationResults(n, fired, date),
+    topic: EVENT_TOPIC[type.key] ?? "general", date, mode: "event", interpretations: interpretationResults(n, fired, date, c.ziwei),
     timing: timing ? { ...timing, basis: "依此事件在當天各時辰的綜合判讀" } : null,
   });
 }

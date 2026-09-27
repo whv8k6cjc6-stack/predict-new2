@@ -87,6 +87,7 @@ export const ADVICE_RULES: AdviceRule[] = [
   R("CAREER_TIMING_002", ["career"], NOW, { any: ["timingSensitive"] }, 53, { avoid: "CAREER_AVOID_HOURS" }, "部分時段條件較差", "avoid-hours"),
   R("CAREER_MID_GOAL", ["career"], MID, { any: [...OPP, "recognitionOpportunity"] }, 64, { action: "CAREER_MID_GOAL" }, "這段時間適合爭取表現", "mid-push", { conflictPolicy: "suppressOnConflict" }),
   R("CAREER_MID_SCOPE", ["career"], MID, { any: [...LOAD, "stressLoad"] }, 66, { action: "CAREER_MID_SCOPE" }, "這段時間工作要求偏重", "mid-load"),
+  R("CAREER_MID_CHANGE", ["career"], MID, { any: [...CHANGE, "executionResistance"] }, 65, { action: "CAREER_MID_CHANGE" }, "這段時間工作上的變動與阻力較多", "mid-change"),
   R("CAREER_MID_RECORD", ["career"], MID, { any: [...COMM_RISK, "hierarchyFriction"] }, 63, { action: "CAREER_MID_RECORD" }, "這段時間工作溝通較容易有落差", "mid-comm"),
 
   // ───────── 升遷 ─────────
@@ -122,6 +123,7 @@ export const ADVICE_RULES: AdviceRule[] = [
   R("WEALTH_WRITTEN_001", ["wealth"], SHORT, { any: [...COMM_RISK, "trustRisk"] }, 62, { action: "WEALTH_WRITE_MONEY" }, "金錢往來較容易有誤會", "written-confirm"),
   R("WEALTH_VENTURE_001", ["wealth"], SHORT, { any: [...SETBACK, "externalInterference"] }, 64, { avoid: "WEALTH_AVOID_NEW_VENTURE" }, "照原做法主動出擊的效益偏低", "irreversible"),
   R("WEALTH_MID_PLAN", ["wealth"], MID, { any: RES_UP }, 58, { action: "WEALTH_MID_PLAN" }, "這段時間收入面相對穩", "mid-money-plan"),
+  R("WEALTH_MID_FLEX", ["wealth"], MID, { any: CHANGE }, 61, { action: "WEALTH_MID_FLEX" }, "這段時間財務狀況較容易變動", "mid-change"),
   R("WEALTH_MID_BUFFER", ["wealth", "property"], MID, { any: RES_DOWN }, 62, { action: "WEALTH_MID_BUFFER" }, "這段時間財務壓力偏重", "mid-money"),
 
   // ───────── 投資 ─────────

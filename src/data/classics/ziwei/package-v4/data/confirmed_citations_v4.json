@@ -1,0 +1,157 @@
+{
+  "source": "紫微斗數全書-廣益版",
+  "items": [
+    {
+      "citationId": "GY-P26-STRUCT-LIFE-PALACE",
+      "pdfPage": 26,
+      "printedPage": 24,
+      "section": "一命宮",
+      "type": "structureMarker",
+      "originalText": "一命宮",
+      "verification": {
+        "structureVerified": true,
+        "visualDoubleChecked": true,
+        "humanReviewed": false,
+        "secondarySourceVerified": false
+      },
+      "usage": [
+        "chapterLocator"
+      ]
+    },
+    {
+      "citationId": "GY-P36-STRUCT-VOL2-END",
+      "pdfPage": 36,
+      "printedPage": 34,
+      "section": "卷之二終",
+      "type": "structureMarker",
+      "originalText": "卷之二終",
+      "verification": {
+        "structureVerified": true,
+        "visualDoubleChecked": true,
+        "humanReviewed": false,
+        "secondarySourceVerified": false
+      },
+      "usage": [
+        "volumeBoundary"
+      ]
+    },
+    {
+      "citationId": "GY-P37-STRUCT-VOL3",
+      "pdfPage": 37,
+      "printedPage": 35,
+      "section": "卷之三",
+      "type": "structureMarker",
+      "originalText": "紫微斗數全書 卷之三",
+      "verification": {
+        "structureVerified": true,
+        "visualDoubleChecked": true,
+        "humanReviewed": false,
+        "secondarySourceVerified": false
+      },
+      "usage": [
+        "volumeBoundary"
+      ]
+    },
+    {
+      "citationId": "GY-P37-STRUCT-SIBLINGS",
+      "pdfPage": 37,
+      "printedPage": 35,
+      "section": "二兄弟",
+      "type": "structureMarker",
+      "originalText": "二兄弟",
+      "verification": {
+        "structureVerified": true,
+        "visualDoubleChecked": true,
+        "humanReviewed": false,
+        "secondarySourceVerified": false
+      },
+      "usage": [
+        "chapterLocator"
+      ]
+    },
+    {
+      "citationId": "GY-P37-STRUCT-SPOUSE",
+      "pdfPage": 37,
+      "printedPage": 35,
+      "section": "三妻妾",
+      "type": "structureMarker",
+      "originalText": "三妻妾",
+      "verification": {
+        "structureVerified": true,
+        "visualDoubleChecked": true,
+        "humanReviewed": false,
+        "secondarySourceVerified": false
+      },
+      "usage": [
+        "chapterLocator"
+      ]
+    },
+    {
+      "citationId": "GY-P45-PRINCIPLE-ENTRY-PATTERN",
+      "pdfPage": 45,
+      "printedPage": 43,
+      "section": "論人命入格",
+      "type": "classicalPrinciple",
+      "originalText": "如命入格廟旺與吉科權祿守上上之命不入廟加吉化吉科權祿次之命不入廟不加吉平常命入廟不加吉平常若居陷地又加殺化忌為下格之命不以入格而論也又入格不化吉而化凶只以本命吉凶多寡而斷之",
+      "normalizedMeaning": "入格不能單獨判吉；仍需同時看廟旺、吉化／科權祿、陷地、煞曜與化忌，以及全局吉凶多寡。",
+      "verification": {
+        "structureVerified": true,
+        "visualTranscribed": true,
+        "visualDoubleChecked": true,
+        "humanReviewed": false,
+        "secondarySourceVerified": false
+      },
+      "usage": [
+        "interpretationPrinciple"
+      ],
+      "doNotUseFor": [
+        "fixedScore"
+      ]
+    },
+    {
+      "citationId": "GY-P47-PRINCIPLE-NORTH-SOUTH-LIMIT",
+      "pdfPage": 47,
+      "printedPage": 45,
+      "section": "論行限分南北斗",
+      "type": "classicalTimingPrinciple",
+      "originalText": "陽男陰女南斗為福陰男陽女北斗為福北斗諸星吉凶大限斷上五年應小限斷上半年應南斗諸星吉凶大限斷下五年應小限斷下半年應",
+      "normalizedMeaning": "古法將南北斗星在大限／小限中的應期分前後段；這屬判讀時間原則，不改客觀大限起迄。",
+      "verification": {
+        "structureVerified": true,
+        "visualTranscribed": true,
+        "visualDoubleChecked": true,
+        "humanReviewed": false,
+        "secondarySourceVerified": false
+      },
+      "usage": [
+        "interpretationTimingPrinciple"
+      ],
+      "doNotUseFor": [
+        "chartCalculationMutation"
+      ]
+    },
+    {
+      "citationId": "GY-P47-PRINCIPLE-ANNUAL-TAISUI",
+      "pdfPage": 47,
+      "printedPage": 45,
+      "section": "論流年太歲逢吉凶星殺",
+      "type": "annualInterpretationPrinciple",
+      "originalText": "凡太歲看三方對照星辰吉凶何如以定禍福太歲在命宮行有禍福尤緊如命在子宮太歲到子又癸生人逢吉則吉逢凶則凶",
+      "normalizedMeaning": "流年判讀不只看太歲所在本宮，也看三方對照；太歲回到命宮時古法視為較需重視的年度。",
+      "verification": {
+        "structureVerified": true,
+        "visualTranscribed": true,
+        "visualDoubleChecked": true,
+        "humanReviewed": false,
+        "secondarySourceVerified": false
+      },
+      "usage": [
+        "annualInterpretationPrinciple"
+      ],
+      "doNotUseFor": [
+        "fixedScore",
+        "deterministicPrediction"
+      ]
+    }
+  ]
+}

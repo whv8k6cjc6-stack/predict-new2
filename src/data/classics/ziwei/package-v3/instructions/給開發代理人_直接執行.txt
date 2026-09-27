@@ -1,0 +1,36 @@
+我已提供完整本地來源包，不需要再等待 Wikisource 網路權限。
+
+請直接以本包的：
+source/紫微斗數全書-廣益版.pdf
+作為 primary Source of Truth，並以：
+source/紫微斗數全集-集文版.pdf
+作為 secondary source / textualVariants 比對。
+
+本包同時提供：
+1. 十四主星人工轉錄初稿。
+2. 十二宮定位與奴僕宮二次核對。
+3. 格局／運限人工轉錄初稿。
+4. PDF p17-p55 機器 OCR 搜尋稿。
+5. 完整交接導航、PR #5 可啟用／不可啟用規則。
+
+重要：
+- 人工稿 = humanDraft / pendingVerification。
+- OCR = searchOnly / unverified。
+- PDF影像 = Source of Truth。
+- 任何 originalText 要逐字對照 PDF 後才能 verified。
+- 找不到獨立「一命宮」章首時，不可依其他版本目錄替廣益版虛構頁碼；標 locatorPending，並用第二來源比對。
+- 古文中夭壽、貧賤、性別角色等可保留在 classical layer，但不得直接成為現代使用者的宿命斷語。
+
+請從 PR #5 現有框架直接繼續，不要再停下來問網路權限：
+A. 匯入 source metadata / SHA。
+B. 對 14 主星逐條回 PDF 校字，建立 verified citations。
+C. 對十二宮逐條建立 Palace citations；命宮若本版無獨立章首則標版本差異。
+D. 校驗「論人命入格」「論格星數高下」及大限／流年基本原則。
+E. 只把已 verified 的 InterpretationRule 轉 LifeFactor。
+F. 讓實際有 coverage 的 Topic 變 partial；不要全部一起開。
+G. 紫微仍不參與 0-100 Scoring。
+H. 所有 Advice 繼續走既有 ActionAdviceEngine，不得直接從古文生成建議。
+I. Golden / iztro 客觀排盤必須維持 0 差異。
+J. 完成後一次回報 verified citations、verified rules、pending、topic coverage、tests、PR commit。
+
+不用再逐步等待我的確認；只有會改變客觀排盤、資料遺失或必須選流派衝突時才停下來問。

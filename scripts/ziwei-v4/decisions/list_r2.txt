@@ -1,0 +1,109 @@
+n000#0	g50r:0:1:doubt:紫	50R gutter doubt A=紫 B=紫 ctx=【紫】微權祿遇羊
+n000#1	g50r:1:2:doubt:微	50R gutter doubt A=微 B=微 ctx=紫【微】權祿遇羊陀
+n000#2	g50r:2:3:doubt:權	50R gutter doubt A=權 B=權 ctx=紫微【權】祿遇羊陀雖
+n000#3	g50r:3:4:doubt:祿	50R gutter doubt A=祿 B=祿 ctx=紫微權【祿】遇羊陀雖獲
+n000#4	g50r:4:5:doubt:遇	50R gutter doubt A=遇 B=遇 ctx=紫微權祿【遇】羊陀雖獲吉
+n000#5	g50r:5:6:doubt:羊	50R gutter doubt A=羊 B=羊 ctx=紫微權祿遇【羊】陀雖獲吉而
+n001#0	g50r:6:7:doubt:陀	50R gutter doubt A=陀 B=陀 ctx=微權祿遇羊【陀】雖獲吉而無
+n001#1	g50r:7:8:doubt:雖	50R gutter doubt A=雖 B=雖 ctx=權祿遇羊陀【雖】獲吉而無道
+n001#2	g50r:8:9:doubt:獲	50R gutter doubt A=獲 B=獲 ctx=祿遇羊陀雖【獲】吉而無道〈
+n001#3	g50r:9:11:diff:吉而	50R gutter diff A=吉而 B=□□ ctx=遇羊陀雖獲【吉而｜□□】無道〈術不
+n001#4	g50r:11:12:doubt:無	50R gutter doubt A=無 B=無 ctx=陀雖獲吉而【無】道〈術不正
+n001#5	g50r:12:13:doubt:道	50R gutter doubt A=道 B=道 ctx=雖獲吉而無【道】〈術不正〉
+n002#0	g50r:14:14:diff:	50R gutter diff A= B=□□□／ ctx=吉而無道〈【｜□□□／】術不正〉　
+n002#1	g50r:14:15:doubt:術	50R gutter doubt A=術 B=術 ctx=吉而無道〈【術】不正〉　紫
+n002#2	g50r:15:16:doubt:不	50R gutter doubt A=不 B=不 ctx=而無道〈術【不】正〉　紫□
+n002#3	g50r:18:31:diff:　紫□紫微□辰加□□辰□陷	50R gutter diff A=　紫□紫微□辰加□□辰□陷 B= ctx=〈術不正〉【　紫□紫微□辰加□□辰□陷｜】|紫破命臨
+n002#4	g50r:49:50:diff:　	50R gutter diff A=　 B=|□□□□□□□□□□□□邪淫| ctx=曜富貴堪期【　｜|□□□□□□□□□□□□邪淫|】紫破紫破辰
+n002#5	g50r:51:52:diff:破	50R gutter diff A=破 B=微□□加空□□辰□□□| ctx=貴堪期　紫【破｜微□□加空□□辰□□□|】紫破辰戌君
+n003#0	g50r:62:63:diff:祿	50R gutter diff A=祿 B=樂 ctx=臣不義〈安【祿｜樂】山趙高命是
+n003#1	g50r:65:65:diff:	50R gutter diff A= B=／ ctx=〈安祿山趙【｜／】高命是也〉
+n003#2	g50r:71:84:diff:□□□□□□□邪淫　女命□	50R gutter diff A=□□□□□□□邪淫　女命□ B= ctx=命是也〉|【□□□□□□□邪淫　女命□｜】女命紫微太
+n003#3	g50l:6:6:diff:	50L gutter diff A= B=午 ctx=命紫微在寅【｜午】申宮吉貴美
+n003#4	g50l:39:41:diff:　廟	50L gutter diff A=　廟 B= ctx=不美|天府【　廟｜】〈子丑□□
+n003#5	g50l:44:49:diff:□□〉旺〈	50L gutter diff A=□□〉旺〈 B= ctx=　廟〈子丑【□□〉旺〈｜】午酉□□〉
+n004#0	g50l:51:56:diff:□□〉地〈	50L gutter diff A=□□〉地〈 B= ctx=〉旺〈午酉【□□〉地〈｜】卯巳□□〉
+n004#1	g50l:58:60:diff:□□	50L gutter diff A=□□ B=／朝廟旺戌地申亥 ctx=〉地〈卯巳【□□｜／朝廟旺戌地申亥】〉無陷
+n004#2	g51r:0:0:diff:	51R gutter diff A= B=□□□□□□ ctx=【｜□□□□□□】□|日巳月
+n004#3	g51r:0:1:doubt:□	51R gutter doubt A=□ B=□ ctx=【□】|日巳月酉
+n004#4	g51r:13:14:diff:　	51R gutter diff A=　 B=| ctx=安命步蟾宮【　｜|】日卯日卯月
+n004#5	g51r:14:15:doubt:日	51R gutter doubt A=日 B=日 ctx=命步蟾宮　【日】卯日卯月亥
+n005#0	g51r:15:16:diff:卯	51R gutter diff A=卯 B=月同未命安丑侯伯之材| ctx=步蟾宮　日【卯｜月同未命安丑侯伯之材|】日卯月亥安
+n005#1	g51r:16:17:doubt:日	51R gutter doubt A=日 B=日 ctx=蟾宮　日卯【日】卯月亥安命
+n005#2	g51r:28:29:doubt:日	51R gutter doubt A=日 B=日 ctx=宮多折桂|【日】月同未命安
+n005#3	g51r:29:30:doubt:月	51R gutter doubt A=月 B=月 ctx=多折桂|日【月】同未命安丑
+n005#4	g51r:30:44:diff:同未命安丑侯伯之材　日月日月	51R gutter diff A=同未命安丑侯伯之材　日月日月 B= ctx=折桂|日月【同未命安丑侯伯之材　日月日月｜】□□□逢未
+n005#5	g51r:44:45:doubt:□	51R gutter doubt A=□ B=□ ctx=　日月日月【□】□□逢未三
+n006#0	g51r:45:46:doubt:□	51R gutter doubt A=□ B=□ ctx=日月日月□【□】□逢未三方
+n006#1	g51r:46:47:doubt:□	51R gutter doubt A=□ B=□ ctx=月日月□□【□】逢未三方無
+n006#2	g51r:47:48:diff:逢	51R gutter diff A=逢 B=遇 ctx=日月□□□【逢｜遇】未三方無吉
+n006#3	g51r:61:61:diff:	51R gutter diff A= B=／ ctx=〈子午辰戌【｜／】身命更佳〉
+n006#4	g51l:21:22:doubt:殺	51L gutter doubt A=殺 B=殺 ctx=吉凶多主凶【殺】若吉少亦不
+n006#5	g51l:22:22:diff:	51L gutter diff A= B=／ ctx=凶多主凶殺【｜／】若吉少亦不
+n007#0	g51l:44:45:diff:　	51L gutter diff A=　 B=| ctx=耀權祿非淺【　｜|】日月夾命夾
+n007#1	g51l:63:63:diff:	51L gutter diff A= B=／ ctx=〈加羊陀沖【｜／】守值僧〉
+n007#2	g51l:63:64:doubt:守	51L gutter doubt A=守 B=守 ctx=〈加羊陀沖【守】值僧〉
+n007#3	g51l:64:65:diff:值	51L gutter diff A=值 B=宜 ctx=加羊陀沖守【值｜宜】僧〉
+n007#4	g51l:65:66:doubt:僧	51L gutter doubt A=僧 B=僧 ctx=羊陀沖守值【僧】〉
+n007#5	g52r:0:0:diff:	52R gutter diff A= B=□□□□□□□□□□□□□□□□ ctx=【｜□□□□□□□□□□□□□□□□】□□|貪狼
+n008#0	g52r:0:1:doubt:□	52R gutter doubt A=□ B=□ ctx=【□】□|貪狼武
+n008#1	g52r:1:2:doubt:□	52R gutter doubt A=□ B=□ ctx=□【□】|貪狼武曲
+n008#2	g52r:22:22:diff:	52R gutter diff A= B=／ ctx=命無吉曜身【｜／】有貪武孤貧
+n008#3	g52r:28:29:diff:　	52R gutter diff A=　 B=| ctx=貪武孤貧〉【　｜|】貪武貪武破
+n008#4	g52r:30:31:diff:武	52R gutter diff A=武 B=月同殺會機梁貪財無厭作經商| ctx=孤貧〉　貪【武｜月同殺會機梁貪財無厭作經商|】貪武破軍無
+n008#5	g52r:31:32:doubt:貪	52R gutter doubt A=貪 B=貪 ctx=貧〉　貪武【貪】武破軍無吉
+n009#0	g52r:47:47:diff:	52R gutter diff A= B=／ ctx=忘身〈或作【｜／】手藝〉|貪
+n009#1	g52r:51:68:diff:貪月同殺會機梁貪財無厭作經商　貪狼	52R gutter diff A=貪月同殺會機梁貪財無厭作經商　貪狼 B= ctx=作手藝〉|【貪月同殺會機梁貪財無厭作經商　貪狼｜】貪狼廉貞同
+n009#2	g52r:68:69:doubt:貪	52R gutter doubt A=貪 B=貪 ctx=經商　貪狼【貪】狼廉貞同度
+n009#3	g52l:21:21:diff:	52L gutter diff A= B=／ ctx=貪花迷酒喪【｜／】身有吉曜則
+n009#4	g52l:28:29:diff:　	52L gutter diff A=　 B=|貪狼陀羅在寅宮號曰風流彩杖| ctx=吉曜則吉〉【　｜|貪狼陀羅在寅宮號曰風流彩杖|】女命貪狼多
+n009#5	g52l:45:45:diff:	52L gutter diff A= B=／ ctx=遇羊陀娼妓【｜／】之流遇祿馬
+n010#0	g52l:45:46:doubt:之	52L gutter doubt A=之 B=之 ctx=遇羊陀娼妓【之】流遇祿馬不
+n010#1	g52l:46:47:doubt:流	52L gutter doubt A=流 B=流 ctx=羊陀娼妓之【流】遇祿馬不美
+n010#2	g52l:47:48:doubt:遇	52L gutter doubt A=遇 B=遇 ctx=陀娼妓之流【遇】祿馬不美〉
+n010#3	g52l:48:50:diff:祿馬	52L gutter diff A=祿馬 B=殺焉 ctx=娼妓之流遇【祿馬｜殺焉】不美〉|貪
+n010#4	g52l:50:51:doubt:不	52L gutter doubt A=不 B=不 ctx=之流遇祿馬【不】美〉|貪狼
+n010#5	g52l:51:52:doubt:美	52L gutter doubt A=美 B=美 ctx=流遇祿馬不【美】〉|貪狼陀
+n011#0	g52l:53:67:diff:|貪狼陀羅在寅宮號曰風流彩杖	52L gutter diff A=|貪狼陀羅在寅宮號曰風流彩杖 B= ctx=祿馬不美〉【|貪狼陀羅在寅宮號曰風流彩杖｜】
+n011#1	g53r:0:0:diff:	53R gutter diff A= B=□□□□□□□□□□□ ctx=【｜□□□□□□□□□□□】□□|擎羊
+n011#2	g53r:0:1:doubt:□	53R gutter doubt A=□ B=□ ctx=【□】□|擎羊入
+n011#3	g53r:1:2:doubt:□	53R gutter doubt A=□ B=□ ctx=□【□】|擎羊入廟
+n011#4	g53r:3:4:doubt:擎	53R gutter doubt A=擎 B=擎 ctx=□□|【擎】羊入廟富貴
+n011#5	g53r:5:6:doubt:入	53R gutter doubt A=入 B=入 ctx=□□|擎羊【入】廟富貴聲揚
+n012#0	g53r:6:7:doubt:廟	53R gutter doubt A=廟 B=廟 ctx=□|擎羊入【廟】富貴聲揚〈
+n012#1	g53r:14:14:diff:	53R gutter diff A= B=／ ctx=聲揚〈加吉【｜／】方論〉　羊
+n012#2	g53r:17:21:diff:　羊火同	53R gutter diff A=　羊火同 B=|□□□□守身命腰駝背曲之人| ctx=加吉方論〉【　羊火同｜|□□□□守身命腰駝背曲之人|】羊火同宮威
+n012#3	g53r:34:34:diff:	53R gutter diff A= B=／ ctx=〈辰戌人佳【｜／】丑未次之〉
+n012#4	g53r:39:54:diff:|□□□□天守身命腰駝背曲之人	53R gutter diff A=|□□□□天守身命腰駝背曲之人 B= ctx=丑未次之〉【|□□□□天守身命腰駝背曲之人｜】
+n012#5	g53l:0:1:doubt:擎	53L gutter doubt A=擎 B=擎 ctx=【擎】羊卯酉作夭
+n013#0	g53l:1:2:doubt:羊	53L gutter doubt A=羊 B=羊 ctx=擎【羊】卯酉作夭折
+n013#1	g53l:2:2:diff:	53L gutter diff A= B=子午 ctx=擎羊【｜子午】卯酉作夭折
+n013#2	g53l:4:5:diff:作	53L gutter diff A=作 B=非 ctx=擎羊卯酉【作｜非】夭折刑刑傷
+n013#3	g53l:7:8:diff:刑	53L gutter diff A=刑 B=即 ctx=卯酉作夭折【刑｜即】刑傷〈午山
+n013#4	g53l:12:13:doubt:山	53L gutter doubt A=山 B=山 ctx=刑刑傷〈午【山】卯災之子酉
+n013#5	g53l:14:15:diff:災	53L gutter diff A=災 B=火 ctx=傷〈午山卯【災｜火】之子酉又大
+n014#0	g53l:18:20:diff:又大	53L gutter diff A=又大 B=及 ctx=卯災之子酉【又大｜及】□□之馬頭
+n014#1	g53l:20:21:doubt:□	53L gutter doubt A=□ B=□ ctx=之子酉又大【□】□之馬頭帶
+n014#2	g53l:21:22:doubt:□	53L gutter doubt A=□ B=□ ctx=子酉又大□【□】之馬頭帶箭
+n014#3	g53l:22:22:diff:	53L gutter diff A= B=／ ctx=酉又大□□【｜／】之馬頭帶箭
+n014#4	g53l:27:28:diff:各	53L gutter diff A=各 B=吉 ctx=之馬頭帶箭【各｜吉】多功□□〉
+n014#5	g53l:30:31:doubt:□	53L gutter doubt A=□ B=□ ctx=帶箭各多功【□】□〉|擎羊
+n015#0	g53l:31:32:doubt:□	53L gutter doubt A=□ B=□ ctx=箭各多功□【□】〉|擎羊逢
+n015#1	g53l:57:59:diff:命□	53L gutter diff A=命□ B=／ ctx=命午庚生人【命□｜／】酉壬生人命
+n015#2	g53l:72:72:diff:	53L gutter diff A= B=〉〈命／ ctx=平常加殺則【｜〉〈命／】凶命〉
+n015#3	g53l:73:74:diff:命	53L gutter diff A=命 B= ctx=常加殺則凶【命｜】〉
+n015#4	g54r:0:3:diff:□□|	54R gutter diff A=□□| B= ctx=【□□|｜】科權祿夾為
+n015#5	g54r:22:22:diff:	54R gutter diff A= B=／ ctx=祿在亥宮權【｜／】在丑宮為夾
+n016#0	g54r:33:47:diff:　權祿重權祿重逢殺湊虛譽之隆	54R gutter diff A=　權祿重權祿重逢殺湊虛譽之隆 B= ctx=餘皆仿此〉【　權祿重權祿重逢殺湊虛譽之隆｜】|科名陷于
+n016#1	g54r:67:67:diff:	54R gutter diff A= B=／ ctx=月卯化科陷【｜／】地或又加羊
+n016#2	g54r:76:77:diff:　	54R gutter diff A=　 B=|權 ctx=羊陀劫空〉【　｜|權】祿主纏祿主
+n016#3	g54r:78:80:diff:主纏	54R gutter diff A=主纏 B=重逢殺湊虛譽之隆| ctx=劫空〉　祿【主纏｜重逢殺湊虛譽之隆|】祿主纏于弱
+n016#4	g54r:80:81:doubt:祿	54R gutter doubt A=祿 B=祿 ctx=〉　祿主纏【祿】主纏于弱地
+n016#5	g54l:0:0:diff:	54L gutter diff A= B=□ ctx=【｜□】權祿守財福
+n017#0	g54l:7:8:doubt:處	54L gutter doubt A=處 B=處 ctx=守財福之地【處】世榮華　權
+n017#1	g54l:11:15:diff:　權祿吉	54L gutter diff A=　權祿吉 B=| ctx=地處世榮華【　權祿吉｜|】權祿吉星奴
+n017#2	g54l:15:16:doubt:權	54L gutter doubt A=權 B=權 ctx=華　權祿吉【權】祿吉星奴僕
+n017#3	g54l:32:32:diff:	54L gutter diff A= B=| ctx=奔波|劫空【｜|】□□
+n017#4	g54l:32:33:doubt:□	54L gutter doubt A=□ B=□ ctx=奔波|劫空【□】□
+n017#5	g54l:33:34:doubt:□	54L gutter doubt A=□ B=□ ctx=波|劫空□【□】
+n018#0	g54l:34:34:diff:	54L gutter diff A= B=□□□□□□□□□ ctx=|劫空□□【｜□□□□□□□□□】
