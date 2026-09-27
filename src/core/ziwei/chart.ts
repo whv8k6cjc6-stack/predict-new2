@@ -11,7 +11,7 @@ import { brightnessOf, brightnessProfile } from "./brightness";
 import { transformationsOf, type Transformation } from "./transformations";
 import { decadeDirection, decadeRange, decadeTrace } from "./luck";
 import { emptyPalace, type EmptyPalaceInfo } from "./relations";
-import { BR, HUA, LUCKY6, MAJOR, MISC5, PALACE_IDS, SHA6, ZIWEI_VERSIONS, m12, type Hua, type PalaceName, type TraceStep, type ZiweiVersions } from "./common";
+import { BR, HUA, LUCKY6, MAJOR, MISC5, PALACE_IDS, SHA6, chartVersions, m12, type Hua, type PalaceName, type TraceStep, type ZiweiChartVersions } from "./common";
 
 export interface ZiweiStar { name: string; brightness: string; hua?: Hua }
 export interface ZiweiPalace {
@@ -43,7 +43,7 @@ export interface ZiweiNatal {
   profile: ZiweiRuleProfile;
   meta: {
     ruleProfileId: string; ruleProfileName: string; ruleProfileVersion: string; ruleProfileKind: ZiweiRuleProfile["kind"];
-    versions: ZiweiVersions; brightnessProfileId: string; brightnessSource: string; brightnessVersion: string;
+    versions: ZiweiChartVersions; brightnessProfileId: string; brightnessSource: string; brightnessVersion: string;
   };
   trace: TraceStep[];
 }
@@ -109,7 +109,7 @@ export function computeZiweiNatal(input: ChartInput): ZiweiNatal {
     ju: bureau.ju, juName: bureau.juName, palaces, birthHua, birthTransformations, forward: dir.forward, starBranch: stars, notes: cal.notes,
     profile: P,
     meta: {
-      ruleProfileId: P.id, ruleProfileName: P.name, ruleProfileVersion: P.version, ruleProfileKind: P.kind, versions: ZIWEI_VERSIONS,
+      ruleProfileId: P.id, ruleProfileName: P.name, ruleProfileVersion: P.version, ruleProfileKind: P.kind, versions: chartVersions(P.version),
       brightnessProfileId: bp.id, brightnessSource: bp.brightnessSource, brightnessVersion: bp.brightnessVersion,
     },
     trace,

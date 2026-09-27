@@ -271,7 +271,11 @@ function SettingsEditor({ s, onSaved }: { s: CalculationSettings; onSaved: () =>
   const [err, setErr] = useState("");
   const choiceDirty = !!choice && !!current && JSON.stringify(choice) !== JSON.stringify(current);
   const dirty = JSON.stringify(x) !== JSON.stringify(s) || choiceDirty;
-  const options = [...Object.values(BUILTIN_ZIWEI_PROFILES).map(p => ({ id: p.id, name: p.name })), ...ziweiProfiles.map(p => ({ id: p.id, name: `${p.name}（${p.id}）` }))];
+  // legacy Profile 只服務舊資料升級：僅在此設定原本就使用時列出，不提供給其他設定選用
+  const options = [
+    ...Object.values(BUILTIN_ZIWEI_PROFILES).map(p => ({ id: p.id, name: p.name })),
+    ...ziweiProfiles.filter(p => p.kind === "custom" || p.id === s.ziwei.ruleProfileId).map(p => ({ id: p.id, name: `${p.name}（${p.id}）` })),
+  ];
 
   const save = async () => {
     setErr("");
@@ -294,7 +298,7 @@ function SettingsEditor({ s, onSaved }: { s: CalculationSettings; onSaved: () =>
     <details className="card p-4">
       <summary className="cursor-pointer text-[15px]">{s.name}{s.isDefault && <span className="ml-2 text-[11px] text-[var(--ink-3)]">預設</span>}</summary>
       <div className="mt-3 space-y-4">
-        <Field label="八字：子時換日（只影響八字）" hint="紫微的日界改由下方紫微排盤體系決定，兩者互不影響">
+        <Field label="八字：子時換日（只影響八字）" hint="紫微的安星日界改由下方紫微排盤體系決定，兩者互不影響">
           <select className="input" value={x.bazi.ziHour} onChange={e => setX({ ...x, bazi: { ...x.bazi, ziHour: e.target.value as CalculationSettings["bazi"]["ziHour"] } })}>
             <option value="lateZiSameDay">晚子時不換日（23 點仍算當日）</option><option value="earlyZiNextDay">子初換日（23 點起算次日）</option>
           </select>
@@ -324,9 +328,9 @@ function SettingsEditor({ s, onSaved }: { s: CalculationSettings; onSaved: () =>
                     <option value="splitAt15">十五日（含）以前算本月、以後算下月</option><option value="asCurrent">一律算本月</option><option value="asNext">一律算下月</option>
                   </select>
                 </Field>
-                <Field label="紫微日界">
+                <Field label="紫微安星日界" hint="只決定晚子時（23–24 點）出生以哪一天的農曆日安紫微；不是民用日期換日，也不影響八字">
                   <select className="input" value={choice.day} onChange={e => setChoice({ ...choice, day: e.target.value as ZiweiChoice["day"] })}>
-                    <option value="00:00">00:00（23 點仍算當日）</option><option value="23:00">23:00（子初換日）</option>
+                    <option value="00:00">00:00（晚子時仍以當日安星）</option><option value="23:00">23:00（晚子時以次日安星）</option>
                   </select>
                 </Field>
                 <Field label="庚干四化">

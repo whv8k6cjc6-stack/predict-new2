@@ -152,7 +152,7 @@ function EditForm() {
           <Field label="時間準確度">
             <select className="input" value={b.birth.localTime ? b.birth.timeAccuracy : "unknown"} disabled={!b.birth.localTime}
               onChange={e => B({ timeAccuracy: e.target.value as TimeAccuracy })}>
-              {TIME_ACCURACY.map(a => <option key={a.key} value={a.key}>{a.label}</option>)}
+              {TIME_ACCURACY.map(a => <option key={a.key} value={a.key} disabled={a.key === "unknown" && !!b.birth.localTime}>{a.key === "unknown" ? "不知道（請把時間留空）" : a.label}</option>)}
             </select>
           </Field>
         </div>

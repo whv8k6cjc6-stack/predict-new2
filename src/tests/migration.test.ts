@@ -6,7 +6,7 @@ import Dexie from "dexie";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { db } from "@/data/db";
-import { ensureSeed, listBundles, listSettings, listZiweiProfiles, migrateBirthProfilesV2, wipeAll } from "@/data/repo";
+import { addZiweiProfile, ensureSeed, listBundles, listSettings, listZiweiProfiles, migrateBirthProfilesV2, wipeAll } from "@/data/repo";
 import { loadSecurity, lock } from "@/data/vault";
 import { openBackup, parseBackup, restoreBackup } from "@/data/backup";
 import { migrateLegacy } from "@/data/legacy";
@@ -164,5 +164,22 @@ describe("舊版 localStorage 匯入", () => {
     const [b] = await listBundles();
     expect([b.birth.useTrueSolarTime, b.birth.calculationSettingsId]).toEqual([false, "school-early-zi"]);
     expectSameAsGolden(await chartOf(b), "day_boundary_20000315_2330_earlyZi");
+  });
+});
+
+describe("Profile 不可被資料庫寫入或備份還原覆寫", () => {
+  it("addZiweiProfile 拒絕標準 id；含冒用記錄的備份整批拒絕、不寫入任何資料", async () => {
+    lock(); await wipeAll(); await ensureSeed();
+    const fake = { id: "iztro_compatible_v1", name: "假", kind: "custom", baseProfileId: "iztro_compatible_v1", overrides: [{ field: "dayBoundaryRule", value: "23:00" }], createdAt: T };
+    await expect(addZiweiProfile(fake as never)).rejects.toThrow("標準 Profile");
+    const file = {
+      format: "xuanji-backup", schema_version: 2, app_version: "3.1.0", exported_at: T, scope: "all", person_count: 1, engines: [], encrypted: false,
+      payload: { persons: [v1Person("z1", "壞備份", "male")], birthProfiles: [{ ...v1Birth("z1", "1988-01-14", "01:15", 120.21, false, "school-default"), schoolProfileId: undefined, calculationSettingsId: "school-default", timeBasis: "civilStandard" }],
+        tags: [], personTags: [], history: [], legacy: [], calculationSettings: [], ziweiRuleProfiles: [{ id: "ok_custom", name: "ok", kind: "custom", baseProfileId: "iztro_compatible_v1", overrides: [{ field: "leapMonthRule", value: "asNext" }], createdAt: T }, fake], prefs: { displayMode: "plain", backupReminderDays: 14 } },
+    };
+    await expect(restoreBackup(await openBackup(parseBackup(JSON.stringify(file))), "replace")).rejects.toThrow("標準 Profile");
+    expect(await listBundles()).toEqual([]);
+    expect(await listZiweiProfiles()).toEqual([]);
+    expect(IZTRO_COMPATIBLE_V1.rules.dayBoundaryRule.value).toBe("00:00");
   });
 });

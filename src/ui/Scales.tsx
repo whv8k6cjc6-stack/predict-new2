@@ -3,6 +3,8 @@ import Link from "next/link";
 import { analyze, heatmap, yearMonths, DOMAIN_KEYS, type NatalSet } from "@/core/analysis";
 import { domainOf } from "@/core/domains";
 import { Banner, SectionTitle } from "./primitives";
+import { ScoringNote } from "./ZiweiSystem";
+import { scoringComposition } from "@/core/analysis/score";
 import { ScoreRing, ConfidenceDots, Stars } from "./score";
 import { Busy, DivergenceNote, DomainLine, HeatCell, ScoreChip } from "./analysis";
 import { addDays, useComputed, weekday } from "./useAnalysis";
@@ -15,6 +17,7 @@ export function WeekView({ natal, natalKey, from, tz }: { natal: NatalSet; natal
   if (busy || !data) return <Busy />;
   return (
     <>
+      <div className="mb-3"><ScoringNote s={scoringComposition(natal)} /></div>
       <p className="mb-2 text-[13px] text-[var(--ink-3)]">點一天看當日完整分析。顏色越亮分數越高。</p>
       <div className="card overflow-x-auto p-3">
         <table className="w-full min-w-[520px] border-separate border-spacing-1 text-center text-[12px]">
@@ -66,6 +69,7 @@ export function MonthView({ natal, natalKey, date, tz }: { natal: NatalSet; nata
   const lead = new Date(`${first}T00:00:00Z`).getUTCDay();
   return (
     <>
+      <div className="mb-3"><ScoringNote s={scoringComposition(natal)} /></div>
       {month.busy || !month.data ? <Busy /> : (
         <section className="card p-5">
           <div className="flex items-center gap-5">
@@ -108,6 +112,7 @@ export function YearView({ natal, natalKey, year, tz }: { natal: NatalSet; natal
   if (busy || !data) return <Busy />;
   return (
     <>
+      <div className="mb-3"><ScoringNote s={scoringComposition(natal)} /></div>
       {yr.data && (
         <section className="card mb-3 p-4">
           <p className="text-[13px] text-[var(--ink-3)]">{year} 流年 {yr.data.readings.baziDay}・長期命勢</p>

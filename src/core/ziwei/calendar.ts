@@ -45,9 +45,9 @@ export function ziweiCalendar(birth: BirthProfile, P: ZiweiRuleProfile): ZiweiCa
   const shifted = L.h === 23 && boundary === "23:00";
   if (shifted) { base = new Date(Date.UTC(L.y, L.m - 1, L.d + 1)); notes.push("生於子初，依設定以次日為紫微生日。"); }
   trace.push({
-    id: "cal.dayBoundary", module: "ZiWeiCalendarEngine", title: "紫微日界",
+    id: "cal.dayBoundary", module: "ZiWeiCalendarEngine", title: "紫微安星日界",
     rule: { field: "dayBoundaryRule", label: P.rules.dayBoundaryRule.label },
-    inputs: { 排盤時: L.h, 日界: boundary }, result: `紫微生日取 ${base.toISOString().slice(0, 10)}${shifted ? "（23 點後換日）" : ""}`,
+    inputs: { 排盤時: L.h, 紫微安星日界: boundary }, result: `紫微生日取 ${base.toISOString().slice(0, 10)}${shifted ? "（23 點後換日）" : ""}`,
   });
   const lu = toLunar(base.getUTCFullYear(), base.getUTCMonth() + 1, base.getUTCDate());
   const rule = P.rules.leapMonthRule.value;

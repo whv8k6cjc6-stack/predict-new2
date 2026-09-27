@@ -40,7 +40,7 @@ export function ZiweiProfileTable({ p }: { p: ZiweiRuleProfile }) {
 
 export function ZiweiVersionList() {
   const L: Record<keyof typeof ZIWEI_VERSIONS, string> = {
-    calendarVersion: "曆法", ziweiChartVersion: "紫微排盤", starPlacementVersion: "安星", brightnessVersion: "亮度表",
+    calendarVersion: "曆法", ziweiChartEngineVersion: "紫微排盤引擎", starPlacementVersion: "安星", brightnessVersion: "亮度表",
     transformationVersion: "四化", luckVersion: "運限", interpretationVersion: "判讀", classicalDataVersion: "古籍資料",
   };
   return (

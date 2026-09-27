@@ -5,7 +5,10 @@ import {
   sanFangSiZheng, transformationsOf, BRIGHTNESS_PROFILES, computeZiweiTransit, flyingTransformations, m12,
 } from "@/core/ziwei";
 import { defaultSettings } from "@/core/person";
-import { toBirth } from "./golden/snapshot";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { ziweiFacts } from "@/core/ziwei/facts";
+import { toBirth, type FixtureInput } from "./golden/snapshot";
 
 const B = "子丑寅卯辰巳午未申酉戌亥";
 const fixture = computeZiweiNatal({
@@ -139,5 +142,28 @@ describe("Calculation Trace", () => {
     expect(r["transform.birth"]).toBe("太陰化祿、天同化權、天機化科、巨門化忌");
     expect(r["luck.direction"]).toBe("陰男逆行");
     expect(fixture.trace.find(t => t.id === "star.ziwei")!.formula).toContain("q＝⌈25/4⌉＝7，r＝q×4−25＝3");
+  });
+});
+
+describe("借星只是關係，不進入坐守主星與統計", () => {
+  const inputs = (JSON.parse(readFileSync(path.resolve(__dirname, "fixtures/ziwei/ziwei_random_fixture_v1.json"), "utf8")).fixtures as { input: FixtureInput }[]).slice(0, 120).map(f => f.input);
+  it("固定樣本 120 盤：空宮的借星不在 major／residentStars，不進入主星、廟旺、落陷事實（legacy 計分用）", () => {
+    let emptyCount = 0;
+    for (const x of inputs) {
+      const n = computeZiweiNatal({ personId: "f", gender: x.gender, birth: toBirth(x), settings: defaultSettings("") });
+      const facts = new Map(ziweiFacts(n).map(f => [f.key, f.value]));
+      for (const p of n.palaces) {
+        if (p.empty.hasResidentMainStars) { expect(p.empty.borrowedStars).toEqual([]); continue; }
+        emptyCount++;
+        const borrowed = p.empty.borrowedStars.map(s => s.name);
+        expect(p.major).toEqual([]);
+        expect(borrowed).toEqual(n.palaces[m12(p.branch + 6)].major.map(s => s.name));
+        expect(p.empty.residentStars.filter(s => borrowed.includes(s))).toEqual([]);
+        expect(p.empty.borrowedStarWeight).toBeUndefined();
+        expect(facts.get(`ziwei.natal.${p.name}.major`)).toEqual(["無主星（借對宮論）"]);
+        expect([facts.get(`ziwei.natal.${p.name}.strong`), facts.get(`ziwei.natal.${p.name}.weak`)]).toEqual([[], []]);
+      }
+    }
+    expect(emptyCount).toBeGreaterThan(100);
   });
 });

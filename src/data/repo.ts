@@ -7,9 +7,9 @@ import {
   DEFAULT_PREFS, DEFAULT_SETTINGS_ID, defaultSettings,
   type BirthProfile, type CalculationSettings, type Person, type PersonBundle, type Preferences, type Tag,
 } from "@/core/person";
-import type { CustomZiweiProfileRecord } from "@/core/ziwei/profile";
+import { validateCustomProfileRecord, type CustomZiweiProfileRecord } from "@/core/ziwei/profile";
 import { computeSolarTimeAudit } from "@/core/calendar/solarTime";
-import { migrateSettingsV1, needsBirthMigration, normalizeBirth } from "./migrations";
+import { migrateSettingsV1, needsBirthMigration, normalizeBirth, type BirthSettingsRemap } from "./migrations";
 
 export const nowISO = () => new Date().toISOString();
 export const newId = () => (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36));
@@ -43,12 +43,19 @@ export async function storageStatus() {
   return { persisted, usage: est?.usage ?? null, quota: est?.quota ?? null };
 }
 
+/** 資料庫 v1 → v2 升級時記錄的出生資料設定對應（只影響尚未補寫的 v1 資料列） */
+async function birthRemap(): Promise<BirthSettingsRemap> {
+  const m = (await db().meta.get("migration-v2"))?.value as { birthSettingsRemap?: BirthSettingsRemap } | undefined;
+  return m?.birthSettingsRemap ?? {};
+}
+
 // ───────── 人物 ─────────
 export async function listBundles(): Promise<PersonBundle[]> {
   const d = db();
+  const remap = await birthRemap();
   const [pRows, bRows, links] = await Promise.all([d.persons.toArray(), d.birthProfiles.toArray(), d.personTags.toArray()]);
   const births = new Map<string, BirthProfile>();
-  for (const r of bRows) { const b = await unpack(r as Row<unknown>); if (b) births.set(r.personId, normalizeBirth(b)); }
+  for (const r of bRows) { const b = await unpack(r as Row<unknown>); if (b) births.set(r.personId, normalizeBirth(b, remap)); }
   const out: PersonBundle[] = [];
   for (const r of pRows) {
     const person = await unpack(r as Row<Person>);
@@ -170,6 +177,7 @@ export async function listZiweiProfiles(): Promise<CustomZiweiProfileRecord[]> {
   return (await db().ziweiRuleProfiles.toArray()).map(r => r.value as CustomZiweiProfileRecord);
 }
 export async function addZiweiProfile(p: CustomZiweiProfileRecord) {
+  validateCustomProfileRecord(p); // 不可使用標準 Profile 的 id、不可含未實作的覆寫
   const d = db();
   const cur = await d.ziweiRuleProfiles.get(p.id);
   if (cur) {
@@ -187,11 +195,12 @@ export async function migrateBirthProfilesV2(): Promise<number> {
   if (isLocked()) throw new Error("App 已鎖定，請先解鎖");
   const rows = await d.birthProfiles.toArray();
   const now = nowISO();
+  const remap = await birthRemap();
   const updates: { personId: string; row: Row<BirthProfile> }[] = [];
   for (const r of rows) {
     const raw = await unpack(r as Row<unknown>);
     if (!raw) continue;
-    const b = normalizeBirth(raw);
+    const b = normalizeBirth(raw, remap);
     if (!needsBirthMigration(raw) && (b.solarTimeAudit || !b.localTime)) continue;
     updates.push({ personId: r.personId, row: await pack({ ...b, solarTimeAudit: b.solarTimeAudit ?? computeSolarTimeAudit(b, now) }) });
   }
@@ -231,7 +240,7 @@ export async function dumpPlain() {
   const unpackAll = async <T,>(rows: Row<T>[]) => { const o: T[] = []; for (const r of rows) { const v = await unpack(r); if (v !== undefined) o.push(v); } return o; };
   return {
     persons: await unpackAll((await d.persons.toArray()) as Row<Person>[]),
-    birthProfiles: (await unpackAll((await d.birthProfiles.toArray()) as Row<unknown>[])).map(normalizeBirth),
+    birthProfiles: await (async () => { const remap = await birthRemap(); return (await unpackAll((await d.birthProfiles.toArray()) as Row<unknown>[])).map(b => normalizeBirth(b, remap)); })(),
     tags: await unpackAll((await d.tags.toArray()) as Row<Tag>[]),
     personTags: await d.personTags.toArray(),
     calculationSettings: await listSettings(),
@@ -244,10 +253,11 @@ export async function dumpPlain() {
 export type PlainDump = Awaited<ReturnType<typeof dumpPlain>>;
 
 export async function restorePlain(dump: PlainDump, mode: "merge" | "replace") {
+  dump.ziweiRuleProfiles.forEach(validateCustomProfileRecord); // 先整批檢查，任何一筆不合法就不寫入任何資料
   const d = db();
   const encode = async <T,>(v: T) => pack(v);
   const persons = await Promise.all(dump.persons.map(async p => ({ id: p.id, updatedAt: p.updatedAt, ...(await encode(p)) })));
-  const births = await Promise.all(dump.birthProfiles.map(normalizeBirth).map(async b => ({ personId: b.personId, ...(await encode(b)) })));
+  const births = await Promise.all(dump.birthProfiles.map(b => normalizeBirth(b)).map(async b => ({ personId: b.personId, ...(await encode(b)) })));
   const tags = await Promise.all(dump.tags.map(async t => ({ id: t.id, ...(await encode(t)) })));
   const history = await Promise.all((dump.history as { id: string; personId: string; savedAt: string }[]).map(async h => ({ id: h.id, personId: h.personId, savedAt: h.savedAt, ...(await encode(h)) })));
   const legacy = await Promise.all(dump.legacy.map(async l => ({ key: l.key, ...(await encode(l.value)) })));

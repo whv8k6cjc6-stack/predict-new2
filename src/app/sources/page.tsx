@@ -73,10 +73,10 @@ export default function SourcesPage() {
         <p>時間尺度：{(Object.keys(W_TIMESCALE) as (keyof typeof W_TIMESCALE)[]).map(k => `${TIMESCALE_LABEL[k]} ${W_TIMESCALE[k]}`).join("、")}（事件模式時辰 1.3）。長期背景上限：當日 ±{BACKGROUND_CAP.day}、流月 ±{BACKGROUND_CAP.month}。</p>
         <table className="w-full text-center">
           <thead><tr className="text-[var(--ink-3)]"><th className="text-left font-normal">領域</th><th className="font-normal">八字</th><th className="font-normal">紫微</th><th className="font-normal">奇門</th><th className="font-normal">易經</th><th className="font-normal">K</th><th className="font-normal">基準</th></tr></thead>
-          <tbody>{DOMAINS.map(d => <tr key={d.key} className="num"><td className="text-left">{d.label}</td><td>{W_SYSTEM[d.key].bazi}</td><td>{W_SYSTEM[d.key].ziwei}</td><td>{W_SYSTEM[d.key].qimen}</td><td>{W_SYSTEM[d.key].iching}</td><td>{K.timeKnown.day[d.key]}</td><td>{B.timeKnown.day[d.key]}</td></tr>)}</tbody>
+          <tbody>{DOMAINS.map(d => <tr key={d.key} className="num"><td className="text-left">{d.label}</td><td>{W_SYSTEM[d.key].bazi}</td><td>{W_SYSTEM[d.key].ziwei}</td><td>{W_SYSTEM[d.key].qimen}</td><td>{W_SYSTEM[d.key].iching}</td><td>{K.day[d.key]}</td><td>{B.timeKnown.day[d.key]}</td></tr>)}</tbody>
         </table>
         <p>綜合指數＝各領域分數加權平均 ×{1 - OVERALL_OWN_WEIGHT}（{Object.entries(OVERALL_MIX).map(([k, v]) => `${DOMAINS.find(d => d.key === k)!.label} ${v}`).join("、")}）＋「整體」專屬規則分數 ×{OVERALL_OWN_WEIGHT}。</p>
-        <p className="text-[var(--ink-3)]">校準：{CALIBRATION_INFO.samples} 組固定合成樣本命例；{CALIBRATION_INFO.target}；有／無出生時辰分開校準；紫微暫不計分，不參與校準。產生日期 {CALIBRATION_INFO.generatedAt}。</p>
+        <p className="text-[var(--ink-3)]">校準：{CALIBRATION_INFO.samples} 組固定合成樣本命例；{CALIBRATION_INFO.target}。尺度 K 固定為四術參考尺度（紫微暫不計分時不放大八字、奇門、梅花）；基準只含參與計分的系統，有／無出生時辰分開。產生日期 {CALIBRATION_INFO.generatedAt}。</p>
       </div>
     </main>
   );

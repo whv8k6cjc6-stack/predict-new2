@@ -34,7 +34,7 @@ ZiweiChartEngine
 | kuiYueRule | 甲戊庚牛羊、乙己鼠猴、丙丁豬雞、六辛逢馬虎、壬癸兔蛇 | |
 | fireBellRule | 年支三合定起點、順數至生時，不分陰陽順逆 | |
 | ziweiYearBoundary | `lunarNewYear`（正月初一） | 等同 iztro yearDivide=normal |
-| **dayBoundaryRule** | **`"00:00"`**（23:00–24:00 仍屬當日；時辰取子） | 見下方「日界確認」 |
+| **dayBoundaryRule**（紫微安星日界，非民用日期換日） | **`"00:00"`**（23:00–24:00 出生仍以當日農曆日安星；時辰取子） | 見下方「日界確認」 |
 | ageSystem | `nominal`（虛歲，正月初一增歲） | |
 | starPlacementAlgorithm | 通行版本 | 等同 iztro algorithm=`default`（**非** `zhongzhou`） |
 | brightnessProfile | `iztro-2.6.1` | softwareDataset，非古籍 |
@@ -73,7 +73,7 @@ CalendarEngine 只提供曆法與節氣資料。八字（立春）、奇門年�
 
 ## 八、步驟
 1. ✅ 修改前金樣本、固定 fixtures、測試基礎架構
-2. ✅ RuleProfile／CalculationSettings 結構與版本號（calendarVersion、ziweiChartVersion、starPlacementVersion、brightnessVersion、transformationVersion、luckVersion、interpretationVersion、classicalDataVersion）
+2. ✅ RuleProfile／CalculationSettings 結構與版本號（calendarVersion、ziweiProfileVersion、ziweiChartEngineVersion、starPlacementVersion、brightnessVersion、transformationVersion、luckVersion、interpretationVersion、classicalDataVersion）
 3. ✅ 資料 migration（DB v2、備份 v2、舊版 localStorage 匯入）與新人物預設標準時間
 4. ✅ 停用 legacy 紫微計分、ScoreAggregator 狀態、開發者模式
 5. ✅ 拆出 ZiWeiCalendarEngine、LifeBodyPalaceEngine、PalaceEngine、FiveElementBureauEngine、MainStarEngine、MinorStarEngine、BrightnessEngine、TransformationEngine（每拆一個都對照金樣本）
@@ -102,7 +102,7 @@ CalendarEngine 只提供曆法與節氣資料。八字（立春）、奇門年�
 ### 架構
 - `src/core/ziwei/`：`profile.ts`（不可變 Profile、自訂／legacy Profile 解析）、`common.ts`（常數、`ZIWEI_VERSIONS`）、`calendar.ts`、`structure.ts`（命身宮、宮干、五行局）、`stars.ts`（主星、19 顆輔煞雜曜規則表）、`brightness.ts`（亮度 Profile `iztro-2.6.1`）、`transformations.ts`（結構化四化，含規則編號）、`luck.ts`（虛歲、大限、流運）、`relations.ts`（三方四正角色、空宮借對宮；飛化停用）、`chart.ts`（組裝＋17 步 Calculation Trace）、`facts.ts`、`index.ts`。
 - 每張紫微命盤記錄 `meta.ruleProfileId／ruleProfileVersion／brightnessProfileId／versions`；計算設定與傳入 Profile 不一致時拒絕排盤。
-- 八字子時換日（`settings.bazi.ziHour`）與紫微日界（Profile `dayBoundaryRule`）完全分離，互不影響。
+- 八字子時換日（`settings.bazi.ziHour`）與紫微安星日界（Profile `dayBoundaryRule`）完全分離，互不影響。
 - 自訂 Profile：只允許覆寫程式已實作的三項（閏月、紫微日界、庚干四化）；以 `custom_YYYYMMDD_NNN` 建立，僅重用內容相同的自訂 Profile，不重用 legacy Profile；標準 Profile 深度凍結。
 
 ### Migration
@@ -115,10 +115,39 @@ CalendarEngine 只提供曆法與節氣資料。八字（立春）、奇門年�
 - 跨時辰／跨日時在人物編輯、人物頁、命盤頁顯示警告，並可切換「標準時間命盤／真太陽時命盤」比較。
 
 ### 計分
-- 正式分數不含紫微證據；畫面顯示「目前綜合評分由 3/4 個系統參與；紫微斗數判讀引擎重建中，暫不計分。」各系統權重與重構前相同（`W_SYSTEM` 有測試鎖定）；B／K 常數依新組成重新校準，只做正規化。
+- 正式分數不含紫微證據；畫面顯示「目前綜合評分由 3/4 個系統參與；紫微斗數判讀引擎重建中，暫不計分。」各系統權重與重構前相同（`W_SYSTEM` 有測試鎖定）；B／K 常數見附錄 D（Final Audit 已取消尺度補償）。
 - 時辰不詳時紫微同樣為「暫不計分」，確定度不因紫微缺席再降級。
 - 開發者模式可在領域詳情頁比較加入 legacy 紫微計分後的分數（標記 legacy，非正式）。
 
 ### 驗證結果
 - 金樣本 651 組（51 標準＋600 固定種子）全數一致；iztro 相容設定 400 組 oracle 全數一致；Fuzz（每次隨機種子，預設 500 組）0 差異。
 - 客觀命盤未改變：標準 Profile 規則值與重構前排盤結果完全相同。
+
+## 附錄 D：Final Audit（PR #3 合併前）
+### 計分：取消尺度補償
+- 發現：第一次重構時 K 依「三術」分布重新校準，K 變小（例：財運日分 6.9 → 4.8），等於把三術結果拉伸回四術的分數分布，屬變相放大。
+- 修正：K 固定取「四術完整參考分布」（有出生時辰的樣本命例，紫微以已停用的 legacy 規則代入，只用來定尺度），**不分組、不隨參與系統數改變**；與重構前四術校準值 36/36 完全相同。時辰不詳時也用同一尺度。
+- B 只取參與計分系統（active）的中位數，屬位置校正，不把暫不計分系統的典型貢獻當成 0 分扣掉。
+- 影響（12 組樣本命例、2026 年每 5 日、9 領域）：三術正式分數 p10／p50／p90＝26／50／73，≥80 分 5.3%；四術參考為 24／53／80，≥80 分 11.1%。三術分數較不極端，如實反映只有三術資料。
+- 綜合評分記錄：每個領域的 `raw`（rawScore，未換算）、`baseline`、`k`、`score`（displayNormalizedScore）；`scoring` 記錄 `activeScoringSystems`、`pendingSystems`、`activeSystemCount`、`totalSystemCount`、`normalizationApplied`、`normalizationMethod`、`scaleReference=fourSystemReference`、`compensatesMissingSystems=false`。所有顯示分數的頁面（今日、週、月、年、人生時間軸、領域詳情、事件、日期比較）都顯示「目前綜合評分由 3/4 個系統參與」。
+- 紫微完全退出：測試以「移除紫微盤」與「換成另一張紫微盤」比對，所有正式結果（分數、raw、確定度、吉凶等級、領域排序、吉時、宜忌、事件、找時間、熱度表、流月）完全相同。pending 不算 0、不算中性、不扣確定度（三術一致 → 確定度 5）。
+
+### 紫微安星日界（dayBoundaryRule）語意
+- `dayBoundaryRule` 即「紫微安星日界」（ziweiStarDayBoundary）：只決定晚子時（23:00–24:00）出生以哪一天的農曆日安紫微。**不是民用日期換日**（民用日期一律 00:00，由 CalendarEngine 處理），也不影響八字日柱（八字另有 `settings.bazi.ziHour`）。
+- `"00:00"` 對應 iztro `dayDivide=current`。欄位鍵名沿用 `dayBoundaryRule`，因為已存於使用者自訂與 legacy Profile 記錄中；程式型別註解、畫面、計算過程一律稱「紫微安星日界」。
+
+### Profile 不可變
+- 標準 Profile 只存在程式碼中（深度凍結），資料庫只存自訂／legacy 記錄。寫入資料庫與備份還原前以 `validateCustomProfileRecord` 檢查：不可使用標準 id、base 必須是標準 Profile（防循環）、只接受已實作的覆寫欄位與值；備份內任何一筆不合法即整批拒絕、不寫入。
+- 規則值以 SHA-256 鎖定（`e9754c40…`），任何規則值變動都必須另立新 Profile 或新版本。
+
+### legacy Profile 不污染新人物
+- 舊版「預設」流派設定若與標準不同（例：子初換日），升級時拆成 `school-default`（標準 Profile，新人物使用）與 `school-default-v1`（legacy Profile），只有 v1 出生資料被重新指向後者（對應記錄在 `meta.migration-v2.birthSettingsRemap`，解鎖後補寫時持久化）。資料庫升級與備份還原皆適用。
+- 設定頁的排盤體系選單不列出 legacy Profile（除非該設定原本就使用）。
+
+### 其他確認
+- 真太陽時在通用曆法層（`core/calendar/resolve.ts` 的 `resolveBirth`、`solarTime.ts` 的 `solarTimeView`：standard／trueSolar／applied＝standard／trueSolar／effective BirthDateTime），八字、紫微、梅花共用；目前以人物層級的偏好一次套用於各系統。
+- 出生時辰不詳：紫微引擎拒絕排盤，不以任何預設時間代替，畫面顯示「出生時辰不詳，無法可靠建立紫微本命盤。」人物編輯頁已輸入時間時不可再選「不知道」準確度。
+- 借星只存在 `empty.borrowedStars`，不進入 `major`、`residentStars`、主星／廟旺／落陷事實；`borrowedStarWeight` 維持 undefined。
+- 版本：每張命盤保存 `calendarVersion、ziweiProfileVersion、ziweiChartEngineVersion、starPlacementVersion、brightnessVersion、transformationVersion、luckVersion、interpretationVersion（0.0.0-pending）、classicalDataVersion（0.0.0-none）`。
+- 個人特例掃描：`src/core`、`src/app`、`src/ui`、`src/kb`、`src/data` 無任何特定生日、時間、fixture 名稱或姓名判斷。
+- Lint：專案尚未設定 ESLint，留待後續工程品質任務。

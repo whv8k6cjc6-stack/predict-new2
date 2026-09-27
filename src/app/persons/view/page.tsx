@@ -13,6 +13,7 @@ import { Button, EmptyState, Icon, SectionTitle } from "@/ui/primitives";
 import { Avatar } from "@/ui/Nav";
 import { ExportSheet } from "@/ui/ExportSheet";
 import { Term } from "@/ui/interpret";
+import { ZIWEI_TIME_UNKNOWN_MESSAGE } from "@/core/analysis/collect";
 
 export default function ViewPage() {
   return <Suspense><PersonView /></Suspense>;
@@ -41,7 +42,7 @@ function NatalSummary({ b, onGo }: { b: PersonBundle; onGo: (href: string) => vo
           <dt className="text-[var(--ink-3)]"><Term term="旺衰" /></dt><dd>{bz.strength.label}（{bz.strength.score} 分）</dd>
           <dt className="text-[var(--ink-3)]"><Term term="用神" /></dt><dd>用神 {bz.roles.用神}・喜神 {bz.roles.喜神}・忌神 {bz.roles.忌神}</dd>
           <dt className="text-[var(--ink-3)]"><Term term="格局" /></dt><dd>{bz.pattern.name}</dd>
-          <dt className="text-[var(--ink-3)]"><Term term="命宮" /></dt><dd>{zw ? `${zw.palaces[zw.lifeBranch].gz}・${lifeMajor}・${zw.juName}` : "出生時辰不詳，紫微不排盤"}</dd>
+          <dt className="text-[var(--ink-3)]"><Term term="命宮" /></dt><dd>{zw ? `${zw.palaces[zw.lifeBranch].gz}・${lifeMajor}・${zw.juName}` : (b.birth.localTime ? "紫微未排盤" : ZIWEI_TIME_UNKNOWN_MESSAGE)}</dd>
         </dl>
       )}
       <SectionTitle>目前運勢</SectionTitle>

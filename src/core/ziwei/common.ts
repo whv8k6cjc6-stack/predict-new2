@@ -28,15 +28,22 @@ export interface TraceStep {
   result: string;
 }
 
-/** 各模組版本號（改算法時必須提高對應版本，舊盤才能追溯） */
+/** 各模組版本號（改算法時必須提高對應版本，舊盤才能追溯）。
+ *  判讀引擎與古籍資料尚未建立：以 0.0.0-pending／0.0.0-none 標示，避免被誤認為正式可用版本。 */
 export const ZIWEI_VERSIONS = {
   calendarVersion: CALENDAR_VERSION,
-  ziweiChartVersion: "1.0.0",
+  ziweiChartEngineVersion: "1.0.0",
   starPlacementVersion: "1.0.0",
   brightnessVersion: "iztro-2.6.1",
   transformationVersion: "1.0.0",
   luckVersion: "1.0.0",
-  interpretationVersion: "pending",
-  classicalDataVersion: "none",
+  interpretationVersion: "0.0.0-pending",
+  classicalDataVersion: "0.0.0-none",
 } as const;
 export type ZiweiVersions = typeof ZIWEI_VERSIONS;
+/** 每張命盤保存的版本（模組版本＋該盤所用 Profile 的版本） */
+export type ZiweiChartVersions = { calendarVersion: string; ziweiProfileVersion: string } & Omit<ZiweiVersions, "calendarVersion">;
+export const chartVersions = (profileVersion: string): ZiweiChartVersions => {
+  const { calendarVersion, ...rest } = ZIWEI_VERSIONS;
+  return { calendarVersion, ziweiProfileVersion: profileVersion, ...rest };
+};

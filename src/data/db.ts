@@ -4,7 +4,7 @@
  *  舊版本定義永遠保留，確保任何舊資料都能逐版升級，不因更新 App 而遺失。 */
 import Dexie, { type Table } from "dexie";
 import type { EncBlob } from "./crypto";
-import { migrateSettingsV1, uniqueProfiles } from "./migrations";
+import { migrateSettingsListV1 } from "./migrations";
 
 export interface Row<T> { data?: T; enc?: EncBlob }
 export interface PersonRow<T> extends Row<T> { id: string; updatedAt: string }
@@ -49,10 +49,11 @@ export class XuanjiDB extends Dexie {
     this.version(2).stores({ ziweiRuleProfiles: "key" }).upgrade(async tx => {
       const now = new Date().toISOString();
       const rows = (await tx.table("schoolProfiles").toArray()) as KVRow<unknown>[];
-      const out = rows.map(r => ({ key: r.key, ...migrateSettingsV1(r.value, now) }));
-      for (const r of out) await tx.table("schoolProfiles").put({ key: r.key, value: r.settings });
-      for (const p of uniqueProfiles(out.map(r => r.profile))) await tx.table("ziweiRuleProfiles").put({ key: p.id, value: p });
-      await tx.table("meta").put({ key: "migration-v2", value: { at: now, settings: out.length, profiles: uniqueProfiles(out.map(r => r.profile)).map(p => p.id) } });
+      const out = migrateSettingsListV1(rows.map(r => r.value), now);
+      for (const s of out.settings) await tx.table("schoolProfiles").put({ key: s.id, value: s });
+      for (const p of out.profiles) await tx.table("ziweiRuleProfiles").put({ key: p.id, value: p });
+      // birthSettingsRemap：解鎖後補寫出生資料時使用（舊人物指向保留舊規則的設定）
+      await tx.table("meta").put({ key: "migration-v2", value: { at: now, settings: out.settings.length, profiles: out.profiles.map(p => p.id), birthSettingsRemap: out.remap } });
     });
   }
 }

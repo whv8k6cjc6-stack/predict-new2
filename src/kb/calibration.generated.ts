@@ -2,102 +2,55 @@
 import type { DomainKey } from "@/core/domains";
 import type { CalibrationGroup, Level } from "./weights";
 type KTable = Record<DomainKey, number>;
-/** 尺度常數 K：score = round(50 + 50 × tanh((raw − B) / K))；依校準組別（timeKnown／timeUnknown）分開 */
-export const K: Record<CalibrationGroup, Record<Level, KTable>> = {
-  "timeKnown": {
-    "day": {
-      "overall": 6.6,
-      "career": 6.5,
-      "wealth": 4.8,
-      "investment": 4.7,
-      "social": 6.9,
-      "love": 5.1,
-      "travel": 3.4,
-      "health": 6.6,
-      "decision": 7.6
-    },
-    "month": {
-      "overall": 5.5,
-      "career": 4.7,
-      "wealth": 3.9,
-      "investment": 2.6,
-      "social": 5.2,
-      "love": 3.6,
-      "travel": 2.1,
-      "health": 4.5,
-      "decision": 4.2
-    },
-    "year": {
-      "overall": 2.6,
-      "career": 3.7,
-      "wealth": 2.6,
-      "investment": 1.1,
-      "social": 3.6,
-      "love": 3.1,
-      "travel": 2.1,
-      "health": 2.6,
-      "decision": 3
-    },
-    "decade": {
-      "overall": 1.2,
-      "career": 2.3,
-      "wealth": 1,
-      "investment": 1,
-      "social": 2.3,
-      "love": 2.1,
-      "travel": 1,
-      "health": 1.2,
-      "decision": 2.1
-    }
+/** 尺度常數 K（顯示用換算：score = round(50 + 50 × tanh((raw − B) / K))）。
+ *  固定取「四術完整」參考分布（P90 − P50）/ atanh(0.6)，不隨參與系統數改變：系統暫不計分時不放大其他系統的結果。 */
+export const K: Record<Level, KTable> = {
+  "day": {
+    "overall": 6.8,
+    "career": 7.6,
+    "wealth": 6.9,
+    "investment": 7.4,
+    "social": 7.7,
+    "love": 7,
+    "travel": 5.1,
+    "health": 7.9,
+    "decision": 8
   },
-  "timeUnknown": {
-    "day": {
-      "overall": 6.1,
-      "career": 5.7,
-      "wealth": 4.7,
-      "investment": 4.7,
-      "social": 7,
-      "love": 4.9,
-      "travel": 3.4,
-      "health": 6.4,
-      "decision": 7.6
-    },
-    "month": {
-      "overall": 4.6,
-      "career": 4.5,
-      "wealth": 3.9,
-      "investment": 2.7,
-      "social": 5.2,
-      "love": 3.2,
-      "travel": 2.3,
-      "health": 4.9,
-      "decision": 4
-    },
-    "year": {
-      "overall": 2.6,
-      "career": 3,
-      "wealth": 2.6,
-      "investment": 1,
-      "social": 3.5,
-      "love": 1.8,
-      "travel": 2.1,
-      "health": 2.6,
-      "decision": 3.3
-    },
-    "decade": {
-      "overall": 1.2,
-      "career": 1.2,
-      "wealth": 1,
-      "investment": 1,
-      "social": 2.3,
-      "love": 2.1,
-      "travel": 1,
-      "health": 2.3,
-      "decision": 2.1
-    }
+  "month": {
+    "overall": 5.8,
+    "career": 6.1,
+    "wealth": 5.4,
+    "investment": 5.1,
+    "social": 6.8,
+    "love": 6,
+    "travel": 2.6,
+    "health": 5.5,
+    "decision": 4.1
+  },
+  "year": {
+    "overall": 2.8,
+    "career": 4.3,
+    "wealth": 4.1,
+    "investment": 3.4,
+    "social": 3.7,
+    "love": 3.9,
+    "travel": 2,
+    "health": 3.8,
+    "decision": 3.2
+  },
+  "decade": {
+    "overall": 2.2,
+    "career": 3.6,
+    "wealth": 2.4,
+    "investment": 2.7,
+    "social": 2.3,
+    "love": 2.8,
+    "travel": 1.2,
+    "health": 2.2,
+    "decision": 2.1
   }
 };
-/** 基準校正 B：樣本逐日 raw 的中位數（規則庫正負條數不對稱的校正，使一般日子落在 50 附近） */
+/** 基準校正 B：只以實際參與計分的系統（active）樣本 raw 中位數計算，只做位置校正；依有／無出生時辰分開 */
 export const B: Record<CalibrationGroup, Record<Level, KTable>> = {
   "timeKnown": {
     "day": {
@@ -192,4 +145,10 @@ export const B: Record<CalibrationGroup, Record<Level, KTable>> = {
     }
   }
 };
-export const CALIBRATION_INFO = { samples: 12, target: "中位數 50、約一成日子 ≥ 80（B = P50，K = (P90 − P50) / atanh(0.6)）", generatedAt: "2026-09-27" };
+export const CALIBRATION_INFO = {
+  samples: 12,
+  target: "K＝四術完整參考分布 (P90 − P50) / atanh(0.6)，固定尺度；B＝參與計分系統的中位數",
+  scaleReference: "fourSystemReference",
+  compensatesMissingSystems: false,
+  generatedAt: "2026-09-27",
+};

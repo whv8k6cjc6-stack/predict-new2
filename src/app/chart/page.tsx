@@ -258,7 +258,7 @@ function ZiweiChart({ n, date, tz }: { n: NatalSet; date: string; tz: string }) 
             </li>
           ))}
         </ol>
-        <p className="mt-2 text-[11px] text-[var(--ink-3)]">體系 {z.meta.ruleProfileId} v{z.meta.ruleProfileVersion}・排盤 {z.meta.versions.ziweiChartVersion}・安星 {z.meta.versions.starPlacementVersion}・四化 {z.meta.versions.transformationVersion}・運限 {z.meta.versions.luckVersion}・曆法 {z.meta.versions.calendarVersion}・亮度 {z.meta.versions.brightnessVersion}</p>
+        <p className="mt-2 text-[11px] text-[var(--ink-3)]">體系 {z.meta.ruleProfileId} v{z.meta.versions.ziweiProfileVersion}・排盤引擎 {z.meta.versions.ziweiChartEngineVersion}・安星 {z.meta.versions.starPlacementVersion}・四化 {z.meta.versions.transformationVersion}・運限 {z.meta.versions.luckVersion}・曆法 {z.meta.versions.calendarVersion}・亮度 {z.meta.versions.brightnessVersion}・判讀 {z.meta.versions.interpretationVersion}</p>
       </details>
       <Sheet open={huaSheet} onClose={() => setHuaSheet(false)} title="生年四化來源">
         <div className="space-y-2 text-[14px] leading-relaxed">

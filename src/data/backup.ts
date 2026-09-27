@@ -4,7 +4,7 @@ import { APP_VERSION, BACKUP_SCHEMA_VERSION } from "@/core/versioning";
 import { ENGINES } from "@/core/registry";
 import { decryptJSON, encryptJSON, fromB64, keyFromPassword, PBKDF2_ITERATIONS, randomBytes, toB64, type EncBlob } from "./crypto";
 import { dumpPlain, restorePlain, setPrefs, nowISO, type PlainDump } from "./repo";
-import { migrateSettingsV1, normalizeBirth, uniqueProfiles } from "./migrations";
+import { migrateSettingsListV1, normalizeBirth } from "./migrations";
 
 export interface BackupFile {
   format: "xuanji-backup";
@@ -101,8 +101,8 @@ const MIGRATIONS: Record<number, (p: unknown) => unknown> = {
     const v1 = p as { schoolProfiles?: unknown[]; birthProfiles?: unknown[] } & Record<string, unknown>;
     const { schoolProfiles, ...rest } = v1;
     const now = nowISO();
-    const conv = (schoolProfiles ?? []).map(s => migrateSettingsV1(s, now));
-    return { ...rest, birthProfiles: (v1.birthProfiles ?? []).map(normalizeBirth), calculationSettings: conv.map(c => c.settings), ziweiRuleProfiles: uniqueProfiles(conv.map(c => c.profile)) };
+    const conv = migrateSettingsListV1(schoolProfiles ?? [], now);
+    return { ...rest, birthProfiles: (v1.birthProfiles ?? []).map(b => normalizeBirth(b, conv.remap)), calculationSettings: conv.settings, ziweiRuleProfiles: conv.profiles };
   },
 };
 

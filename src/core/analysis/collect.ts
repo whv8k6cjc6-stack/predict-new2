@@ -15,6 +15,9 @@ import { QIMEN_RULES, QIMEN_EVENT_RULES } from "@/kb/rules/qimen";
 import { ICHING_RULES } from "@/kb/rules/iching";
 import { LEVEL_SCALES, type Level, type ScoredSystem } from "@/kb/weights";
 
+/** 出生時辰不詳時紫微不排盤（不以 12:00、子時或任何預設時間代替），畫面一律顯示此訊息 */
+export const ZIWEI_TIME_UNKNOWN_MESSAGE = "出生時辰不詳，無法可靠建立紫微本命盤。";
+
 /** 排盤對象：人物客觀資料＋這次採用的計算設定（規則不屬於人物本身） */
 export interface Subject { person: Person; birth: BirthProfile; settings: CalculationSettings; ziweiProfile?: ZiweiRuleProfile }
 
@@ -43,7 +46,7 @@ export function buildNatal(sub: Subject): NatalSet {
   const ziwei = pick("ziwei", ZiweiEngine.computeNatal(input));
   const qimen = pick("qimen", QimenEngine.computeNatal(input));
   const iching = pick("iching", IchingEngine.computeNatal(input));
-  if (!ziwei && !sub.birth.localTime) unavailable[unavailable.findIndex(u => u.system === "ziwei")].reason = "出生時辰不詳，紫微斗數無法安命宮，本次不納入。";
+  if (!ziwei && !sub.birth.localTime) unavailable[unavailable.findIndex(u => u.system === "ziwei")].reason = ZIWEI_TIME_UNKNOWN_MESSAGE;
   return {
     input, bazi, ziwei, qimen, iching, unavailable, warnings: [...new Set(warnings)],
     stamps: { bazi: BaziEngine.meta.stamp, ziwei: ZiweiEngine.meta.stamp, qimen: QimenEngine.meta.stamp, iching: IchingEngine.meta.stamp },

@@ -64,6 +64,8 @@ export interface Divergence { kind: DivergenceKind; text: string; advice: string
 
 export interface DomainResult {
   domain: DomainKey; label: string;
+  /** score＝顯示用換算分數（displayNormalizedScore，0–100）；raw＝原始貢獻合計（rawScore，未換算）；
+   *  換算：score = round(50 + 50 × tanh((raw − baseline) / k))，k 為固定的四術參考尺度 */
   score: number; band: ScoreBand; raw: number; baseline: number; k: number;
   background: { sum: number; effective: number; cap: number };
   foreground: number;
@@ -114,7 +116,9 @@ export function divergenceOf(ev: Evidence[], signals: SystemSignal[], betterTime
   const long = dirOf(ev.filter(e => LONG_SCALES.includes(e.timescale)));
   const short = dirOf(ev.filter(e => !LONG_SCALES.includes(e.timescale)));
   const when = betterTime ? `（較佳時段：${betterTime}）` : "";
-  const zw = signals.find(s => s.system === "ziwei"), qm = signals.find(s => s.system === "qimen");
+  // 暫不計分（pending）或未納入的系統不參與分歧判斷
+  const counted = (s: SystemSignal | undefined) => s && s.available && s.verdict !== "暫不計分" ? s : undefined;
+  const zw = counted(signals.find(s => s.system === "ziwei")), qm = counted(signals.find(s => s.system === "qimen"));
   if (long >= NEUTRAL_BAND && short <= -NEUTRAL_BAND)
     return { kind: "長吉短凶", text: "長期方向沒問題，但眼前這個時間點不順。", advice: `事情可以做，但建議改時間${when}。` };
   if (long <= -NEUTRAL_BAND && short >= NEUTRAL_BAND)
@@ -148,7 +152,7 @@ export function scoreDomain(domain: DomainKey, ev: Evidence[], natal: NatalSet, 
   const mine = sortEv(ev.filter(e => e.domain === domain));
   const { raw, foreground, background } = domainRaw(mine, level);
   const g = calibrationGroupOf(natal);
-  const k = K[g][level][domain], baseline = B[g][level][domain];
+  const k = K[level][domain], baseline = B[g][level][domain];
   const score = toScore(raw - baseline, k);
   const signals = signalsFor(mine, natal);
   const confidence = confidenceOf(signals, activeUnavailable(natal));
@@ -179,7 +183,7 @@ export function scoreOverall(results: Record<DomainKey, DomainResult>): { score:
 export const activeUnavailable = (natal: NatalSet) => natal.unavailable.some(u => isScoringActive(u.system));
 
 export interface ScoringComposition {
-  activeSystems: ScoredSystem[];       // 實際參與本次綜合評分
+  activeScoringSystems: ScoredSystem[]; // 實際參與本次綜合評分（分母只含這些系統）
   pendingSystems: ScoredSystem[];      // 判讀引擎重建中、暫不計分
   inactiveSystems: ScoredSystem[];
   unavailableSystems: ScoredSystem[];  // 本應參與但此人資料不足無法排盤
@@ -187,6 +191,11 @@ export interface ScoringComposition {
   totalSystemCount: number;
   missingSystems: ScoredSystem[];
   legacyIncluded: boolean;
+  /** 0–100 顯示換算（tanh）是否套用；尺度固定，不因參與系統數改變 */
+  normalizationApplied: boolean;
+  normalizationMethod: string;
+  scaleReference: "fourSystemReference";
+  compensatesMissingSystems: false;   // 不以常數、權重或尺度補償暫不計分的系統
   note: string;
 }
 
@@ -196,16 +205,19 @@ export function scoringComposition(natal: NatalSet, legacyIncluded = false): Sco
   const pendingSystems = SCORED_SYSTEMS.filter(s => SYSTEM_SCORING[s].status === "pending");
   const inactiveSystems = SCORED_SYSTEMS.filter(s => SYSTEM_SCORING[s].status === "inactive");
   const unavailableSystems = SCORED_SYSTEMS.filter(s => isScoringActive(s) && un.has(s));
-  const activeSystems = SCORED_SYSTEMS.filter(s => isScoringActive(s) && !un.has(s));
-  const missingSystems = SCORED_SYSTEMS.filter(s => !activeSystems.includes(s));
+  const activeScoringSystems = SCORED_SYSTEMS.filter(s => isScoringActive(s) && !un.has(s));
+  const missingSystems = SCORED_SYSTEMS.filter(s => !activeScoringSystems.includes(s));
   const parts = [
-    `目前綜合評分由 ${activeSystems.length}/${SCORED_SYSTEMS.length} 個系統參與`,
+    `目前綜合評分由 ${activeScoringSystems.length}/${SCORED_SYSTEMS.length} 個系統參與`,
     ...pendingSystems.map(s => s === "ziwei" ? "紫微斗數判讀引擎重建中，暫不計分" : `${SYSTEM_LABEL[s]}暫不計分`),
     ...unavailableSystems.map(s => `${SYSTEM_LABEL[s]}因資料不足未納入`),
   ];
   return {
-    activeSystems, pendingSystems, inactiveSystems, unavailableSystems,
-    activeSystemCount: activeSystems.length, totalSystemCount: SCORED_SYSTEMS.length, missingSystems, legacyIncluded,
+    activeScoringSystems, pendingSystems, inactiveSystems, unavailableSystems,
+    activeSystemCount: activeScoringSystems.length, totalSystemCount: SCORED_SYSTEMS.length, missingSystems, legacyIncluded,
+    normalizationApplied: true,
+    normalizationMethod: "score = round(50 + 50 × tanh((raw − B) / K))；K 固定為四術完整參考尺度，B 只含參與計分系統的中位數",
+    scaleReference: "fourSystemReference", compensatesMissingSystems: false,
     note: `${parts.join("；")}。${legacyIncluded ? "（開發者模式：已加入 legacy 紫微計分，僅供比較）" : ""}`,
   };
 }

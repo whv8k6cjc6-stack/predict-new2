@@ -20,11 +20,15 @@ export interface RuleEntry<T> {
 export type Stem = "甲" | "乙" | "丙" | "丁" | "戊" | "己" | "庚" | "辛" | "壬" | "癸";
 export type SihuaTable = Record<Stem, readonly [string, string, string, string]>; // 祿、權、科、忌
 export type LeapMonthRule = "splitAt15" | "asCurrent" | "asNext";
+/** 紫微安星日界（語意上即 ziweiStarDayBoundary）：只決定「紫微安星所用的農曆日」在晚子時（23:00–24:00）是否算次日。
+ *  不是民用日期換日（民用日期一律 00:00 換日，由 CalendarEngine 處理），也不影響八字日柱（八字另有 settings.bazi.ziHour）。
+ *  "00:00"＝晚子時仍以當日農曆日安星（iztro dayDivide=current）；"23:00"＝晚子時以次日農曆日安星。 */
 export type DayBoundaryRule = "00:00" | "23:00";
 
 export interface ZiweiRules {
   ziweiYearBoundary: RuleEntry<"lunarNewYear">;
   leapMonthRule: RuleEntry<LeapMonthRule>;
+  /** 紫微安星日界（ziweiStarDayBoundary）；欄位鍵名沿用 dayBoundaryRule，因已存於使用者自訂與 legacy Profile 記錄中 */
   dayBoundaryRule: RuleEntry<DayBoundaryRule>;
   lifeBodyPalaceRule: RuleEntry<"yinStartMonthThenHour">;
   palaceStemRule: RuleEntry<"fiveTigers">;
@@ -101,7 +105,7 @@ export const IZTRO_COMPATIBLE_V1: ZiweiRuleProfile = deepFreeze({
   rules: {
     ziweiYearBoundary: e("lunarNewYear", "本命年干支與流年以農曆正月初一換年", { basis: "出生年", note: "對應 iztro yearDivide=normal；八字另以立春換年，互不影響" }),
     leapMonthRule: e("splitAt15", "閏月：十五日（含）以前算本月，十六日以後算下月", { basis: "出生月", note: "對應 iztro fixLeap=true" }),
-    dayBoundaryRule: e("00:00", "日界 00:00：23:00–24:00 出生仍算當日，時辰取子", { basis: "出生日、時", note: "對應 iztro dayDivide=current；iztro 預設 forward（晚子時僅於安紫微時以次日計）不同" }),
+    dayBoundaryRule: e("00:00", "紫微安星日界 00:00：23:00–24:00 出生仍以當日農曆日安星，時辰取子（非民用日期換日）", { basis: "出生日、時", note: "對應 iztro dayDivide=current；iztro 預設 forward（晚子時僅於安紫微時以次日計）不同" }),
     lifeBodyPalaceRule: e("yinStartMonthThenHour", "寅宮起正月順數至生月；自該宮起子時，命宮逆數、身宮順數至生時", { basis: "出生月、時" }),
     palaceStemRule: e("fiveTigers", "五虎遁：依年干定寅宮天干，順推十二宮", { basis: "出生年干" }),
     bureauRule: e("lifePalaceNayin", "命宮干支納音五行定局：水二、木三、金四、土五、火六", { basis: "命宮干支" }),
@@ -154,19 +158,39 @@ export interface CustomZiweiProfileRecord {
 
 const OVERRIDE_LABEL = (o: ProfileOverride) =>
   o.field === "leapMonthRule" ? `閏月：${{ splitAt15: "十五日為界", asCurrent: "一律算本月", asNext: "一律算下月" }[o.value]}`
-  : o.field === "dayBoundaryRule" ? `日界：${o.value === "23:00" ? "23:00（子初換日）" : "00:00"}`
+  : o.field === "dayBoundaryRule" ? `紫微安星日界：${o.value === "23:00" ? "23:00（晚子時以次日安星）" : "00:00"}`
   : `庚干四化：${o.value}`;
 export const describeOverride = OVERRIDE_LABEL;
 
 function applyOverride(r: ZiweiRules, o: ProfileOverride): ZiweiRules {
   const custom = { softwareDataset: null, classicalSource: null, verification: "pendingVerification" as const };
   if (o.field === "leapMonthRule") return { ...r, leapMonthRule: { ...r.leapMonthRule, ...custom, value: o.value, label: OVERRIDE_LABEL(o), note: "自訂覆寫" } };
-  if (o.field === "dayBoundaryRule") return { ...r, dayBoundaryRule: { ...r.dayBoundaryRule, ...custom, value: o.value, label: o.value === "23:00" ? "日界 23:00：23 點起算次日（子初換日）" : "日界 00:00", note: "自訂覆寫" } };
+  if (o.field === "dayBoundaryRule") return { ...r, dayBoundaryRule: { ...r.dayBoundaryRule, ...custom, value: o.value, label: o.value === "23:00" ? "紫微安星日界 23:00：23 點後以次日農曆日安星（非民用日期換日）" : "紫微安星日界 00:00", note: "自訂覆寫" } };
   const table: SihuaTable = { ...r.fourTransformationsTable.value, 庚: o.value === "陽武同陰" ? ["太陽", "武曲", "天同", "太陰"] : ["太陽", "武曲", "太陰", "天同"] };
   return { ...r, fourTransformationsTable: { ...r.fourTransformationsTable, ...custom, value: table, label: `十干四化，${OVERRIDE_LABEL(o)}`, note: "自訂覆寫" } };
 }
 
 export class ProfileError extends Error {}
+
+const OVERRIDE_VALUES: Record<ProfileOverride["field"], readonly string[]> = {
+  leapMonthRule: ["splitAt15", "asCurrent", "asNext"], dayBoundaryRule: ["00:00", "23:00"], gengTransformation: ["陽武陰同", "陽武同陰"],
+};
+/** 自訂／legacy Profile 記錄的完整性檢查（寫入資料庫、備份還原、解析時皆會執行）。
+ *  不可使用標準 Profile 的 id、base 必須是標準 Profile（避免循環與鏈式覆寫）、只允許程式已實作的覆寫欄位與值。 */
+export function validateCustomProfileRecord(r: CustomZiweiProfileRecord): void {
+  if (!r || typeof r.id !== "string" || !r.id) throw new ProfileError("Profile 缺少 id");
+  if (BUILTIN_ZIWEI_PROFILES[r.id]) throw new ProfileError(`「${r.id}」是標準 Profile，不可被自訂記錄覆寫`);
+  if (r.kind !== "custom" && r.kind !== "legacy") throw new ProfileError(`Profile「${r.id}」類型不正確`);
+  if (!BUILTIN_ZIWEI_PROFILES[r.baseProfileId]) throw new ProfileError(`Profile「${r.id}」的基準「${r.baseProfileId}」不是標準 Profile`);
+  if (!Array.isArray(r.overrides) || !r.overrides.length) throw new ProfileError(`Profile「${r.id}」沒有覆寫內容`);
+  const seen = new Set<string>();
+  for (const o of r.overrides) {
+    const allowed = OVERRIDE_VALUES[o?.field as ProfileOverride["field"]];
+    if (!allowed || !allowed.includes(o.value)) throw new ProfileError(`Profile「${r.id}」含未實作的覆寫：${JSON.stringify(o)}`);
+    if (seen.has(o.field)) throw new ProfileError(`Profile「${r.id}」重複覆寫 ${o.field}`);
+    seen.add(o.field);
+  }
+}
 
 /** 由 id 取得完整 Profile：標準 Profile 直接回傳；自訂／legacy 以其 base 加上 overrides 組成（結果同樣凍結）。 */
 export function resolveZiweiProfile(id: string, customs: readonly CustomZiweiProfileRecord[] = []): ZiweiRuleProfile {
@@ -174,9 +198,11 @@ export function resolveZiweiProfile(id: string, customs: readonly CustomZiweiPro
   if (builtin) return builtin;
   const c = customs.find(x => x.id === id);
   if (!c) throw new ProfileError(`找不到紫微排盤規則「${id}」`);
-  const base = resolveZiweiProfile(c.baseProfileId, customs);
+  validateCustomProfileRecord(c);
+  const base = BUILTIN_ZIWEI_PROFILES[c.baseProfileId];
+  // 複製覆寫清單，不凍結或改動呼叫端傳入的記錄；結果凍結，與標準 Profile 共用的規則項目本身也已凍結
   return deepFreeze({
-    id: c.id, name: c.name, version: base.version, kind: c.kind, baseProfileId: c.baseProfileId, overrides: c.overrides,
+    id: c.id, name: c.name, version: base.version, kind: c.kind, baseProfileId: c.baseProfileId, overrides: c.overrides.map(o => ({ ...o })),
     description: `基於「${base.name}」，覆寫：${c.overrides.map(OVERRIDE_LABEL).join("；")}${c.note ? `。${c.note}` : ""}`,
     rules: c.overrides.reduce(applyOverride, base.rules),
   });
@@ -220,7 +246,7 @@ export function legacyProfileFromV1(v1: { baziZiHour?: string; leapMonth?: strin
 
 /** 規則欄位的中文名稱（設定頁、開發者模式顯示用） */
 export const RULE_FIELD_LABEL: Record<keyof ZiweiRules, string> = {
-  ziweiYearBoundary: "紫微年界", leapMonthRule: "閏月", dayBoundaryRule: "日界", lifeBodyPalaceRule: "命身宮安法",
+  ziweiYearBoundary: "紫微年界", leapMonthRule: "閏月", dayBoundaryRule: "紫微安星日界", lifeBodyPalaceRule: "命身宮安法",
   palaceStemRule: "宮干", bureauRule: "五行局", starPlacementAlgorithm: "安星法", mainStarOffsets: "十四主星排列",
   zuoYouRule: "左輔右弼", changQuRule: "文昌文曲", kuiYueRule: "天魁天鉞", luCunTable: "祿存", yangTuoRule: "擎羊陀羅",
   fireBellRule: "火星鈴星", kongJieRule: "地空地劫", tianMaRule: "天馬", taohuaRules: "咸池紅鸞天喜", xingYaoRule: "天刑天姚",

@@ -2,7 +2,7 @@
  *  c_rule = polarity × strength × W_timescale × W_system(domain)
  *  score  = round(50 + 50 × tanh((raw − B) / K))
  *  B（基準校正）與 K（尺度）由 scripts/calibrate.test.ts 以固定樣本命例全年逐日分布校準：
- *  B 為中位數，使一般日子落在 50 附近；K 使約一成日子 ≥ 80。 */
+ *  B 為參與計分系統的中位數（位置校正）；K 固定取四術完整參考分布（約一成日子 ≥ 80），不隨參與系統數改變。 */
 import type { DomainKey } from "@/core/domains";
 import type { SystemId } from "@/core/engine";
 
@@ -76,7 +76,8 @@ export const SYSTEM_SCORING: Record<ScoredSystem, { status: ScoringStatus; detai
 };
 export const isScoringActive = (s: ScoredSystem) => SYSTEM_SCORING[s].status === "active";
 
-/** 校準組別：有／無出生時辰分開校準（時辰不詳時八字時柱相關規則停用）。只做數學 normalization，不調整任何系統權重。 */
+/** 校準組別：只用於基準 B（有／無出生時辰分開取中位數，時辰不詳時八字時柱相關規則停用）。
+ *  尺度 K 不分組、固定為四術完整參考尺度：系統暫不計分或資料不足時，不以縮小 K 的方式放大其他系統。 */
 export type CalibrationGroup = "timeKnown" | "timeUnknown";
 export const calibrationGroupOf = (n: { timeKnown: boolean }): CalibrationGroup => n.timeKnown ? "timeKnown" : "timeUnknown";
 

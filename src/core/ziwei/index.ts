@@ -11,7 +11,7 @@ import { ZIWEI_VERSIONS } from "./common";
 
 export const ZIWEI_META: EngineMeta = {
   id: "ziwei", name: "紫微斗數", phase: 4, status: "verified",
-  stamp: { school: IZTRO_COMPATIBLE_V1.name, engine_version: `chart-${ZIWEI_VERSIONS.ziweiChartVersion}`, rule_version: `${IZTRO_COMPATIBLE_V1.id}@${IZTRO_COMPATIBLE_V1.version}`, source_version: `亮度表 ${ZIWEI_VERSIONS.brightnessVersion}（MIT）` },
+  stamp: { school: IZTRO_COMPATIBLE_V1.name, engine_version: `chart-${ZIWEI_VERSIONS.ziweiChartEngineVersion}`, rule_version: `${IZTRO_COMPATIBLE_V1.id}@${IZTRO_COMPATIBLE_V1.version}`, source_version: `亮度表 ${ZIWEI_VERSIONS.brightnessVersion}（MIT）` },
   summary: "十二宮、主輔煞雜曜、四化、三方四正、大限流年流月流日（排盤依 RuleProfile；判讀引擎重建中）",
 };
 

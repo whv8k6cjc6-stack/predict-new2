@@ -1,7 +1,8 @@
 /** ZiweiRuleProfile：固定規則值、不可修改、自訂 Profile 建立方式，以及 Profile 確實控制排盤。 */
 import { describe, it, expect } from "vitest";
+import { createHash } from "node:crypto";
 import {
-  IZTRO_COMPATIBLE_V1, BUILTIN_ZIWEI_PROFILES, computeZiweiNatal, legacyProfileFromV1, profileForOverrides, resolveZiweiProfile, ProfileError,
+  IZTRO_COMPATIBLE_V1, BUILTIN_ZIWEI_PROFILES, computeZiweiNatal, legacyProfileFromV1, profileForOverrides, resolveZiweiProfile, ProfileError, validateCustomProfileRecord,
   type CustomZiweiProfileRecord, type ZiweiRuleProfile,
 } from "@/core/ziwei";
 import { defaultSettings, type CalculationSettings } from "@/core/person";
@@ -109,6 +110,58 @@ describe("Profile 確實控制排盤（不改核心程式即可換規則）", ()
   it("命盤記錄所用 Profile 與各模組版本", () => {
     const n = computeZiweiNatal(input(X("1990-06-15", "10:00"), P));
     expect(n.meta).toMatchObject({ ruleProfileId: P.id, ruleProfileVersion: "1.0.0", brightnessProfileId: "iztro-2.6.1", brightnessSource: "iztro", brightnessVersion: "2.6.1" });
-    expect(Object.keys(n.meta.versions)).toEqual(["calendarVersion", "ziweiChartVersion", "starPlacementVersion", "brightnessVersion", "transformationVersion", "luckVersion", "interpretationVersion", "classicalDataVersion"]);
+    expect(Object.keys(n.meta.versions)).toEqual(["calendarVersion", "ziweiProfileVersion", "ziweiChartEngineVersion", "starPlacementVersion", "brightnessVersion", "transformationVersion", "luckVersion", "interpretationVersion", "classicalDataVersion"]);
+    expect(n.meta.versions).toMatchObject({ ziweiProfileVersion: "1.0.0", interpretationVersion: "0.0.0-pending", classicalDataVersion: "0.0.0-none" });
+  });
+});
+
+describe("Mutation protection：iztro_compatible_v1 不會被任何途徑改動", () => {
+  const valueHash = () => createHash("sha256").update(JSON.stringify([P.id, P.version, Object.entries(P.rules).map(([k, r]) => [k, r.value])])).digest("hex");
+  const snapshot = () => JSON.stringify(P);
+  it("規則值鎖定（任何規則值變動都必須另立新 Profile／新版本）", () => {
+    expect(valueHash()).toBe("e9754c401c37467aeb830f1d9dca3dd386e77be806b674f347d691e49e7f67c5");
+  });
+  it("解析自訂 Profile、建立覆寫、舊版轉換、排盤後，標準 Profile 內容完全不變；自訂結果凍結且不改動傳入記錄", () => {
+    const before = snapshot();
+    const rec: CustomZiweiProfileRecord = { id: "c1", name: "c", kind: "custom", baseProfileId: P.id, overrides: [{ field: "dayBoundaryRule", value: "23:00" }, { field: "gengTransformation", value: "陽武同陰" }], createdAt: "" };
+    const c = resolveZiweiProfile("c1", [rec]);
+    expect(Object.isFrozen(rec.overrides)).toBe(false);
+    expect(Object.isFrozen(c) && Object.isFrozen(c.rules.dayBoundaryRule) && Object.isFrozen(c.overrides[0])).toBe(true);
+    expect(() => { (c.rules.fourTransformationsTable.value.庚 as unknown as string[])[2] = "X"; }).toThrow();
+    expect(() => { (c.rules as unknown as Record<string, unknown>).leapMonthRule = null; }).toThrow();
+    expect(c.rules.leapMonthRule).toBe(P.rules.leapMonthRule); // 未覆寫的規則項目與標準共用同一個已凍結物件
+    profileForOverrides(P.id, [{ field: "leapMonthRule", value: "asNext" }], [rec], new Date());
+    legacyProfileFromV1({ baziZiHour: "earlyZiNextDay", leapMonth: "asCurrent", gengSihua: "陽武同陰" }, "t");
+    computeZiweiNatal(input(X("2000-03-15", "23:30"), c, { ...defaultSettings(""), ziwei: { ruleProfileId: "c1" } }));
+    computeZiweiNatal(input(X("2000-03-15", "23:30"), P));
+    expect(snapshot()).toBe(before);
+    expect(resolveZiweiProfile(P.id, [rec])).toBe(P);
+  });
+  it("自訂記錄不可冒用標準 id、base 必須是標準 Profile（防循環）、只接受已實作的覆寫", () => {
+    const ok: CustomZiweiProfileRecord = { id: "x", name: "x", kind: "custom", baseProfileId: P.id, overrides: [{ field: "dayBoundaryRule", value: "23:00" }], createdAt: "" };
+    expect(() => validateCustomProfileRecord(ok)).not.toThrow();
+    const bad = (patch: Partial<CustomZiweiProfileRecord> | Record<string, unknown>) => () => validateCustomProfileRecord({ ...ok, ...patch } as CustomZiweiProfileRecord);
+    expect(bad({ id: P.id })).toThrow(ProfileError);
+    expect(bad({ baseProfileId: "x" })).toThrow(ProfileError);
+    expect(bad({ baseProfileId: "other_custom" })).toThrow(ProfileError);
+    expect(bad({ overrides: [] })).toThrow(ProfileError);
+    expect(bad({ overrides: [{ field: "kuiYueRule", value: "x" }] })).toThrow(ProfileError);
+    expect(bad({ overrides: [{ field: "dayBoundaryRule", value: "22:00" }] })).toThrow(ProfileError);
+    expect(bad({ overrides: [{ field: "dayBoundaryRule", value: "23:00" }, { field: "dayBoundaryRule", value: "00:00" }] })).toThrow(ProfileError);
+    expect(bad({ kind: "builtin" })).toThrow(ProfileError);
+    // 即使有人把冒用標準 id 的記錄塞進清單，解析結果仍是標準 Profile
+    expect(resolveZiweiProfile(P.id, [{ ...ok, id: P.id }])).toBe(P);
+    // 自我循環的記錄解析時被拒絕，不會無窮遞迴
+    expect(() => resolveZiweiProfile("x", [{ ...ok, baseProfileId: "x" }])).toThrow(ProfileError);
+  });
+  it("所有自動產生的 Profile 都不會使用標準 id", () => {
+    const now = new Date("2026-09-27T00:00:00Z");
+    for (const leap of ["splitAt15", "asCurrent", "asNext"] as const) for (const day of ["00:00", "23:00"] as const) for (const geng of ["陽武陰同", "陽武同陰"] as const) {
+      const r = profileForOverrides(P.id, [{ field: "leapMonthRule", value: leap }, { field: "dayBoundaryRule", value: day }, { field: "gengTransformation", value: geng }], [], now);
+      if (r.created) { expect(r.created.id).not.toBe(P.id); validateCustomProfileRecord(r.created); }
+      else expect([leap, day, geng]).toEqual(["splitAt15", "00:00", "陽武陰同"]);
+      const l = legacyProfileFromV1({ baziZiHour: day === "23:00" ? "earlyZiNextDay" : "lateZiSameDay", leapMonth: leap, gengSihua: geng }, "t");
+      if (l.record) { expect(l.record.id).not.toBe(P.id); validateCustomProfileRecord(l.record); }
+    }
   });
 });

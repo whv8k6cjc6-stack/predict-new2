@@ -132,9 +132,9 @@ await page.getByText("查看全部規則與來源").first().click();
 await expectText("dayDivide=current");
 await shot("04-settings-profile");
 await noOverflow("設定");
-// 建立自訂體系：修改紫微日界 → 另建 custom Profile，標準 Profile 不變
+// 建立自訂體系：修改紫微安星日界 → 另建 custom Profile，標準 Profile 不變
 await page.getByText("建立自訂體系（不修改標準體系）").first().click();
-await page.getByLabel("紫微日界").first().selectOption("23:00");
+await page.getByLabel("紫微安星日界").first().selectOption("23:00");
 await page.getByRole("button", { name: "儲存" }).first().click();
 await page.waitForTimeout(1200);
 const openDefault = async () => {
@@ -177,6 +177,16 @@ await expectText("開啟");
 log("v1 備份還原（真太陽時偏好保留）OK");
 
 for (const p of ["/event/", "/compare/", "/life/", "/sources/"]) { await page.goto(B + p); await page.waitForTimeout(1500); await noOverflow(p); }
+// 所有顯示分數的時間尺度都標示「3/4 個系統參與」
+await page.goto(B + "/life/"); await expectText("目前綜合評分由 3/4 個系統參與");
+await page.goto(B + "/");
+for (const label of ["本週", "本月", "今年"]) {
+  await page.getByRole("button", { name: label, exact: true }).first().click();
+  await page.waitForTimeout(2500);
+  await expectText("目前綜合評分由 3/4 個系統參與");
+  await noOverflow(`首頁・${label}`);
+}
+log("週／月／年／人生時間軸皆標示 3/4 系統參與、無水平溢出 OK");
 await browser.close();
 if (errors.length) { console.error(errors.join("\n")); process.exit(1); }
 log("全部通過，無主控台錯誤、無水平溢出");
