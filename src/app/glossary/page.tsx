@@ -1,7 +1,8 @@
 "use client";
 import { useMemo, useState } from "react";
 import { GLOSSARY } from "@/kb/glossary";
-import { PLANNED_SOURCES } from "@/core/sources";
+import Link from "next/link";
+import { SOURCE_EDITIONS } from "@/kb/sources";
 import { Chip, Icon, PageHeader, SectionTitle } from "@/ui/primitives";
 import { BandLegend } from "@/ui/score";
 
@@ -47,15 +48,16 @@ export default function GlossaryPage() {
         <>
           <SectionTitle>古籍來源（版本管理）</SectionTitle>
           <ul className="space-y-2">
-            {PLANNED_SOURCES.map(s => (
+            {SOURCE_EDITIONS.map(s => (
               <li key={s.source_id} className="card p-4 text-[13px]">
                 <p className="font-serif text-[16px]">《{s.title}》{s.annotator && <span className="text-[var(--ink-2)]">　{s.annotator} 注</span>}</p>
                 <p className="mt-1 text-[var(--ink-3)]">{s.edition}・來源：{s.origin}・{s.license}</p>
-                <p className="mt-1 text-[var(--accent)]">狀態：{s.status === "planned" ? "已登記，尚未匯入原文（第 3 階段）" : s.status === "imported" ? "已匯入，待人工校驗" : "已校驗"}</p>
+                <p className="mt-1 text-[var(--accent)]">狀態：{s.status === "planned" ? "已登記，尚未匯入原文；相關規則只列原則" : s.status === "imported" ? "已匯入（附勘誤表），待人工逐字校勘" : "已校驗"}</p>
               </li>
             ))}
           </ul>
-          <p className="mt-2 px-1 text-[12px] leading-relaxed text-[var(--ink-3)]">古籍原文、注解、程式規則分三層保存；未經校驗的原文不會以「原文」名義顯示。</p>
+          <p className="mt-2 px-1 text-[12px] leading-relaxed text-[var(--ink-3)]">古籍原文、注解、程式規則分三層保存；機器匯入的原文一律標示「未經人工校勘」。</p>
+          <Link href="/sources/" className="mt-2 inline-block px-1 text-[14px] text-[var(--accent)]">勘誤表、規則庫與計分權重 →</Link>
         </>
       )}
     </main>

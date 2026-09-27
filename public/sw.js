@@ -2,7 +2,7 @@
  * 只快取「程式檔」，從不接觸 IndexedDB 中的人物資料；App 更新時只替換程式快取，本機資料不受影響。 */
 const BUILD = new URL(self.location.href).searchParams.get("v") || "dev";
 const CACHE = `xuanji-app-${BUILD}`;
-const ROUTES = ["/", "/persons/", "/persons/edit/", "/persons/view/", "/glossary/", "/settings/", "/demo/"];
+const ROUTES = ["/", "/day/", "/domain/", "/event/", "/compare/", "/life/", "/chart/", "/divination/", "/sources/", "/persons/", "/persons/edit/", "/persons/view/", "/glossary/", "/settings/", "/demo/"];
 const STATIC = ["/manifest.json", "/icons/icon-192.png", "/icons/icon-512.png", "/icons/apple-touch-icon.png"];
 
 const assetRefs = text => {

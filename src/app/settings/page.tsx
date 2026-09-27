@@ -126,7 +126,8 @@ export default function SettingsPage() {
             </li>
           ))}
         </ul>
-        <Link href="/demo/" className="mt-3 inline-block text-[var(--demo)]">DEMO 版面（測試資料）→</Link>
+        <Link href="/sources/" className="mt-3 block text-[var(--accent)]">來源、規則與計分權重 →</Link>
+        <Link href="/demo/" className="mt-2 inline-block text-[var(--demo)]">DEMO 版面（測試資料）→</Link>
       </div>
 
       <SectionTitle>危險操作</SectionTitle>
@@ -270,7 +271,7 @@ function SchoolEditor({ s, onSaved }: { s: SchoolProfile; onSaved: () => void })
             <option value="chaibu">拆補法</option><option value="zhirun">置閏法</option>
           </select>
         </Field>
-        <p className="text-[12px] text-[var(--ink-3)]">這些設定會在對應排盤引擎完成後生效；每個結果都會標示所用流派。</p>
+        <p className="text-[12px] text-[var(--ink-3)]">修改後，下次開啟分析即依新設定重新排盤；每個結果都會標示所用流派。</p>
         <Button size="sm" variant="primary" disabled={!dirty} onClick={async () => { await saveSchool(x); onSaved(); }}>儲存</Button>
       </div>
     </details>

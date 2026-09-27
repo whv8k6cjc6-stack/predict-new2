@@ -8,6 +8,7 @@ import { Icon, Sheet } from "./primitives";
 
 const ITEMS = [
   { href: "/", label: "今日", icon: "sun" },
+  { href: "/event/", label: "擇時", icon: "clock" },
   { href: "/persons/", label: "人物", icon: "people" },
   { href: "/glossary/", label: "辭典", icon: "book" },
   { href: "/settings/", label: "設定", icon: "gear" },

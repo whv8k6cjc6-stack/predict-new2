@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useApp } from "../../providers";
-import { relationLabel, TIME_ACCURACY } from "@/core/person";
-import { ENGINES } from "@/core/registry";
+import { relationLabel, TIME_ACCURACY, type PersonBundle } from "@/core/person";
+import { computeBaziTransit } from "@/core/bazi";
+import { deviceTimeZone, todayIn, useNatal } from "@/ui/useAnalysis";
 import { localOffset, formatOffset } from "@/core/calendar/tz";
 import { setFavorite } from "@/data/repo";
 import { Button, EmptyState, Icon, SectionTitle } from "@/ui/primitives";
@@ -16,20 +17,50 @@ export default function ViewPage() {
   return <Suspense><PersonView /></Suspense>;
 }
 
-const phaseOf = (id: string) => ENGINES.find(e => e.id === id)!.phase;
-
-const NATAL: { label: string; term?: string; engine: string }[] = [
-  { label: "八字四柱", engine: "bazi" }, { label: "日主", term: "日主", engine: "bazi" },
-  { label: "五行強弱", term: "旺衰", engine: "bazi" }, { label: "喜用神", term: "用神", engine: "bazi" },
-  { label: "紫微命宮", term: "命宮", engine: "ziwei" }, { label: "主要星曜", term: "三方四正", engine: "ziwei" },
-];
-const CURRENT = [
-  { label: "大運", term: "大運" }, { label: "流年", term: "流年" }, { label: "流月", term: "流月" }, { label: "今日", term: "流日" },
-];
 const FEATURES = [
-  { label: "今日運勢", phase: 8 }, { label: "年度運勢", phase: 8 }, { label: "工作", phase: 8 }, { label: "財運", phase: 8 },
-  { label: "投資", phase: 8 }, { label: "旅行", phase: 8 }, { label: "事件分析", phase: 8 }, { label: "日期比較", phase: 8 }, { label: "完整命盤", phase: 3 },
+  { label: "今日運勢", href: "/" }, { label: "工作", href: "/domain/?d=career" }, { label: "財運", href: "/domain/?d=wealth" },
+  { label: "投資", href: "/domain/?d=investment" }, { label: "出行", href: "/domain/?d=travel" }, { label: "擇時・事件", href: "/event/" },
+  { label: "日期比較", href: "/compare/" }, { label: "人生時間軸", href: "/life/" }, { label: "完整命盤", href: "/chart/" },
 ];
+
+function NatalSummary({ b, onGo }: { b: PersonBundle; onGo: (href: string) => void }) {
+  const { natal } = useNatal(b);
+  const [tz, setTz] = useState<string | null>(null);
+  useEffect(() => setTz(deviceTimeZone()), []);
+  const bz = natal?.bazi, zw = natal?.ziwei;
+  const flow = useMemo(() => bz && tz ? computeBaziTransit(bz, { civilDate: todayIn(tz), civilTime: "12:00", timeZone: tz }) : null, [bz, tz]);
+  const lifeMajor = zw ? zw.palaces[zw.lifeBranch].major.map(m => m.name + m.brightness).join("、") || "無主星（借對宮）" : null;
+  return (
+    <>
+      <SectionTitle right={<Link href="/chart/" className="text-[var(--accent)]">完整命盤</Link>}>本命摘要</SectionTitle>
+      {!bz ? <p className="text-[13px] text-[var(--ink-3)]">{natal?.unavailable.find(u => u.system === "bazi")?.reason ?? "計算中…"}</p> : (
+        <dl className="card grid grid-cols-[6.5rem_1fr] gap-y-2 p-4 text-[14px]">
+          <dt className="text-[var(--ink-3)]">八字四柱</dt><dd className="font-serif text-[16px]">{[bz.pillars.year, bz.pillars.month, bz.pillars.day, bz.pillars.hour].map(g => g ? g.text : "（時柱不詳）").join("　")}</dd>
+          <dt className="text-[var(--ink-3)]"><Term term="日主" /></dt><dd>{bz.dmText}{bz.dmElement}・生於{bz.season.name}季</dd>
+          <dt className="text-[var(--ink-3)]"><Term term="旺衰" /></dt><dd>{bz.strength.label}（{bz.strength.score} 分）</dd>
+          <dt className="text-[var(--ink-3)]"><Term term="用神" /></dt><dd>用神 {bz.roles.用神}・喜神 {bz.roles.喜神}・忌神 {bz.roles.忌神}</dd>
+          <dt className="text-[var(--ink-3)]"><Term term="格局" /></dt><dd>{bz.pattern.name}</dd>
+          <dt className="text-[var(--ink-3)]"><Term term="命宮" /></dt><dd>{zw ? `${zw.palaces[zw.lifeBranch].gz}・${lifeMajor}・${zw.juName}` : "出生時辰不詳，紫微不排盤"}</dd>
+        </dl>
+      )}
+      <SectionTitle>目前運勢</SectionTitle>
+      <div className="grid grid-cols-4 gap-2">
+        {([["大運", flow?.luck?.gz.text], ["流年", flow?.flows.year.gz.text], ["流月", flow?.flows.month.gz.text], ["流日", flow?.flows.day.gz.text]] as const).map(([l, v]) => (
+          <div key={l} className="card p-3 text-center">
+            <p className="text-[12px] text-[var(--ink-3)]"><Term term={l} /></p>
+            <p className="font-serif mt-1 text-[20px]">{v ?? "—"}</p>
+          </div>
+        ))}
+      </div>
+      <SectionTitle>常用功能</SectionTitle>
+      <div className="grid grid-cols-3 gap-2">
+        {FEATURES.map(f => (
+          <button key={f.label} onClick={() => onGo(f.href)} className="card flex items-center justify-center px-2 py-3 text-center text-[14px]">{f.label}</button>
+        ))}
+      </div>
+    </>
+  );
+}
 
 function PersonView() {
   const params = useSearchParams();
@@ -86,35 +117,7 @@ function PersonView() {
         {b.person.note && <><dt className="text-[var(--ink-3)]">備註</dt><dd className="whitespace-pre-wrap">{b.person.note}</dd></>}
       </dl>
 
-      <SectionTitle right="排盤引擎完成後自動顯示">本命摘要</SectionTitle>
-      <ul className="card divide-y divide-[var(--line)] px-4">
-        {NATAL.map(n => (
-          <li key={n.label} className="flex items-center justify-between py-3 text-[14px]">
-            <span>{n.term === n.label ? <Term term={n.term} /> : <>{n.label}{n.term && <span className="ml-2 text-[12px]"><Term term={n.term} /></span>}</>}</span>
-            <span className="text-[12px] text-[var(--ink-3)]">第 {phaseOf(n.engine)} 階段開放</span>
-          </li>
-        ))}
-      </ul>
-
-      <SectionTitle>目前運勢</SectionTitle>
-      <div className="grid grid-cols-4 gap-2">
-        {CURRENT.map(c => (
-          <div key={c.label} className="card p-3 text-center">
-            <p className="text-[12px] text-[var(--ink-3)]"><Term term={c.term} /></p>
-            <p className="font-serif mt-1 text-[20px] text-[var(--ink-3)]">—</p>
-          </div>
-        ))}
-      </div>
-
-      <SectionTitle>常用功能</SectionTitle>
-      <div className="grid grid-cols-3 gap-2">
-        {FEATURES.map(f => (
-          <div key={f.label} className="card flex flex-col items-center justify-center px-2 py-3 text-center opacity-60" aria-disabled>
-            <span className="text-[14px]">{f.label}</span>
-            <span className="mt-0.5 text-[11px] text-[var(--ink-3)]">第 {f.phase} 階段</span>
-          </div>
-        ))}
-      </div>
+      <NatalSummary b={b} onGo={async href => { await setActive(b.person.id); router.push(href); }} />
 
       <SectionTitle>資料</SectionTitle>
       <div className="grid grid-cols-2 gap-2">

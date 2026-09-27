@@ -9,7 +9,7 @@ import { createBackup, migrateBackup, openBackup, parseBackup, restoreBackup, Ba
 import { migrateLegacy } from "@/data/legacy";
 import { DEFAULT_SCHOOL_ID, type PersonBundle } from "@/core/person";
 import { BACKUP_SCHEMA_VERSION } from "@/core/versioning";
-import { getDomainScore, scoringReady } from "@/core/registry";
+import { scoringReady } from "@/core/registry";
 import { bandOf, SCORE_BANDS } from "@/core/score";
 
 const mem: Record<string, string> = {};
@@ -184,9 +184,8 @@ describe("舊版資料遷移", () => {
 });
 
 describe("分數制度", () => {
-  it("引擎未驗證前不產生任何個人分數", () => {
-    expect(scoringReady()).toBe(false);
-    expect(getDomainScore("investment").status).toBe("unavailable");
+  it("全部引擎通過驗證後才開放正式分數", () => {
+    expect(scoringReady()).toBe(true);
   });
   it("五段區間連續涵蓋 0–100", () => {
     for (let s = 0; s <= 100; s++) expect(bandOf(s)).toBeTruthy();

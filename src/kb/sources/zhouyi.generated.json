@@ -1,0 +1,7665 @@
+{
+ "edition": {
+  "source_id": "zhouyi.tongxing",
+  "title": "周易（經文、彖傳、象傳、繫辭傳）",
+  "author": "傳統託伏羲、文王、周公、孔子（實為先秦至漢初累積成書）",
+  "edition": "通行本；數位底本為 @freizl/yijing zh-TW（簡轉繁），經本系統勘誤",
+  "source_version": "yijing-2.1.0+errata.26",
+  "origin": "npm 套件 @freizl/yijing@2.1.0（MIT）",
+  "origin_url": "https://github.com/freizl/yijing",
+  "retrieved_at": "2026-09-27",
+  "content_hash": "sha256:64gua=59f4e9c9e4cca190da41c7f86f4ac2bffed593d1098e09b7341a529fb9fa35be;xici=c8a94374c5d82a06b46b753f0dc9233f6f5c581d1aedcd91452a26ac104ad8c3",
+  "license": "經文屬公有領域；數位檔 MIT（© Haisheng Wu）",
+  "status": "imported"
+ },
+ "errata": [
+  {
+   "scope": "全部卦爻辭",
+   "from": "鹹",
+   "to": "咸",
+   "count": 20,
+   "reason": "簡轉繁誤轉：咸（皆、感）誤作鹹（鹹味）",
+   "basis": "咸卦卦名與「萬國咸寧」「品物咸亨」「咸臨」皆作咸",
+   "applied": 20
+  },
+  {
+   "scope": "全部卦爻辭",
+   "from": "兇",
+   "to": "凶",
+   "count": 87,
+   "reason": "簡轉繁誤轉：吉凶之凶誤作兇（兇惡）",
+   "basis": "《周易》斷辭一律作凶",
+   "applied": 87
+  },
+  {
+   "scope": "全部卦爻辭",
+   "from": "誌",
+   "to": "志",
+   "count": 66,
+   "reason": "簡轉繁誤轉：心志之志誤作誌（記載）",
+   "basis": "「志」為心志義",
+   "applied": 66
+  },
+  {
+   "scope": "全部卦爻辭",
+   "from": "鬥",
+   "to": "斗",
+   "count": 3,
+   "reason": "簡轉繁誤轉：北斗之斗誤作鬥",
+   "basis": "豐卦「日中見斗」",
+   "applied": 3
+  },
+  {
+   "scope": "震・gua_ci",
+   "from": "百裏",
+   "to": "百里",
+   "count": 1,
+   "reason": "簡轉繁誤轉：里程之里誤作裏",
+   "basis": "「震驚百里」",
+   "applied": 1
+  },
+  {
+   "scope": "震・tuan_ci",
+   "from": "百裏",
+   "to": "百里",
+   "count": 1,
+   "reason": "同上",
+   "basis": "「震驚百里」",
+   "applied": 1
+  },
+  {
+   "scope": "乾・tuan_ci",
+   "from": "以禦天",
+   "to": "以御天",
+   "count": 1,
+   "reason": "簡轉繁誤轉：駕御之御誤作禦（抵禦）",
+   "basis": "「時乘六龍以御天」；蒙、漸「禦寇」則本作禦，不改",
+   "applied": 1
+  },
+  {
+   "scope": "泰・da_xiang",
+   "from": "後以財成",
+   "to": "后以財成",
+   "count": 1,
+   "reason": "簡轉繁誤轉：后（君主）誤作後",
+   "basis": "「后以財成天地之道」",
+   "applied": 1
+  },
+  {
+   "scope": "復・da_xiang",
+   "from": "後不省方",
+   "to": "后不省方",
+   "count": 1,
+   "reason": "同上",
+   "basis": "「后不省方」",
+   "applied": 1
+  },
+  {
+   "scope": "姤・da_xiang",
+   "from": "後以施命",
+   "to": "后以施命",
+   "count": 1,
+   "reason": "同上",
+   "basis": "「后以施命誥四方」",
+   "applied": 1
+  },
+  {
+   "scope": "師・yao_ci[2]",
+   "from": "輿屍",
+   "to": "輿尸",
+   "count": 1,
+   "reason": "簡轉繁誤轉：經文作尸",
+   "basis": "「師或輿尸」",
+   "applied": 1
+  },
+  {
+   "scope": "師・yao_ci[4]",
+   "from": "輿屍",
+   "to": "輿尸",
+   "count": 1,
+   "reason": "同上",
+   "basis": "「弟子輿尸」",
+   "applied": 1
+  },
+  {
+   "scope": "師・xiao_xiang[2]",
+   "from": "輿屍",
+   "to": "輿尸",
+   "count": 1,
+   "reason": "同上",
+   "basis": "「師或輿尸」",
+   "applied": 1
+  },
+  {
+   "scope": "師・xiao_xiang[4]",
+   "from": "輿屍",
+   "to": "輿尸",
+   "count": 1,
+   "reason": "同上",
+   "basis": "「弟子輿尸」",
+   "applied": 1
+  },
+  {
+   "scope": "否・yao_ci[0]",
+   "from": "以其匯",
+   "to": "以其彙",
+   "count": 1,
+   "reason": "簡轉繁誤轉：彙（類）誤作匯",
+   "basis": "「拔茅茹，以其彙」",
+   "applied": 1
+  },
+  {
+   "scope": "噬嗑・yao_ci[2]",
+   "from": "噬臘肉",
+   "to": "噬腊肉",
+   "count": 1,
+   "reason": "簡轉繁誤轉：腊（乾肉，音昔）誤作臘",
+   "basis": "「噬腊肉，遇毒」",
+   "applied": 1
+  },
+  {
+   "scope": "萃・yao_ci[5]",
+   "from": "賫咨",
+   "to": "齎咨",
+   "count": 1,
+   "reason": "異體字統一為通行本用字",
+   "basis": "「齎咨涕洟」",
+   "applied": 1
+  },
+  {
+   "scope": "萃・xiao_xiang[5]",
+   "from": "賫咨",
+   "to": "齎咨",
+   "count": 1,
+   "reason": "同上",
+   "basis": "「齎咨涕洟」",
+   "applied": 1
+  },
+  {
+   "scope": "革・da_xiang",
+   "from": "治歷",
+   "to": "治曆",
+   "count": 1,
+   "reason": "簡轉繁誤轉：曆法之曆誤作歷",
+   "basis": "「君子以治曆明時」",
+   "applied": 1
+  },
+  {
+   "scope": "漸・yao_ci[0]",
+   "from": "鴻漸於幹",
+   "to": "鴻漸于干",
+   "count": 1,
+   "reason": "簡轉繁誤轉：干（水涯）誤作幹",
+   "basis": "「鴻漸于干」",
+   "applied": 1
+  },
+  {
+   "scope": "渙・yao_ci[1]",
+   "from": "其機",
+   "to": "其机",
+   "count": 1,
+   "reason": "簡轉繁誤轉：机（几案）誤作機",
+   "basis": "「渙奔其机」",
+   "applied": 1
+  },
+  {
+   "scope": "渙・xiao_xiang[1]",
+   "from": "其機",
+   "to": "其机",
+   "count": 1,
+   "reason": "同上",
+   "basis": "「渙奔其机」",
+   "applied": 1
+  },
+  {
+   "scope": "無妄・yao_ci[1]",
+   "from": "不耕獲，不災畬",
+   "to": "不耕穫，不菑畬",
+   "count": 1,
+   "reason": "簡轉繁誤轉（穫）及來源用字錯誤（菑田之菑誤作灾）",
+   "basis": "「不耕穫，不菑畬」",
+   "applied": 1
+  },
+  {
+   "scope": "無妄・xiao_xiang[1]",
+   "from": "不耕獲",
+   "to": "不耕穫",
+   "count": 1,
+   "reason": "簡轉繁誤轉：收穫之穫誤作獲",
+   "basis": "「不耕穫，未富也」",
+   "applied": 1
+  },
+  {
+   "scope": "復・yao_ci[0]",
+   "from": "無祗悔",
+   "to": "無祇悔",
+   "count": 1,
+   "reason": "形近誤字：祇（大）誤作祗（敬）",
+   "basis": "「不遠復，无祇悔」",
+   "applied": 1
+  },
+  {
+   "from": "懮",
+   "to": "憂",
+   "count": 4,
+   "reason": "誤字：憂誤作懮",
+   "basis": "「悔吝者，憂虞之象也」等",
+   "scope": "繫辭",
+   "applied": 4
+  }
+ ],
+ "notes": [
+  "「无」字底本轉作「無」，屬古今字，未改。",
+  "標示 review 的段落含「於」，底本簡體不分於／于，未擅改，待人工校勘。",
+  "所有段落 verification 為 machine_imported；人工逐字校勘後才可改為 human_verified。"
+ ],
+ "hexagrams": [
+  {
+   "no": 1,
+   "name": "乾",
+   "full": "乾為天",
+   "symbol": "䷀",
+   "bits": "111111",
+   "upper": 1,
+   "lower": 1,
+   "textIds": {
+    "gua": "zhouyi.gua.01.gua",
+    "tuan": "zhouyi.gua.01.tuan",
+    "daxiang": "zhouyi.gua.01.daxiang",
+    "yao": [
+     "zhouyi.gua.01.yao.1",
+     "zhouyi.gua.01.yao.2",
+     "zhouyi.gua.01.yao.3",
+     "zhouyi.gua.01.yao.4",
+     "zhouyi.gua.01.yao.5",
+     "zhouyi.gua.01.yao.6",
+     "zhouyi.gua.01.yao.7"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.01.xiaoxiang.1",
+     "zhouyi.gua.01.xiaoxiang.2",
+     "zhouyi.gua.01.xiaoxiang.3",
+     "zhouyi.gua.01.xiaoxiang.4",
+     "zhouyi.gua.01.xiaoxiang.5",
+     "zhouyi.gua.01.xiaoxiang.6",
+     "zhouyi.gua.01.xiaoxiang.7"
+    ]
+   }
+  },
+  {
+   "no": 2,
+   "name": "坤",
+   "full": "坤為地",
+   "symbol": "䷁",
+   "bits": "000000",
+   "upper": 8,
+   "lower": 8,
+   "textIds": {
+    "gua": "zhouyi.gua.02.gua",
+    "tuan": "zhouyi.gua.02.tuan",
+    "daxiang": "zhouyi.gua.02.daxiang",
+    "yao": [
+     "zhouyi.gua.02.yao.1",
+     "zhouyi.gua.02.yao.2",
+     "zhouyi.gua.02.yao.3",
+     "zhouyi.gua.02.yao.4",
+     "zhouyi.gua.02.yao.5",
+     "zhouyi.gua.02.yao.6",
+     "zhouyi.gua.02.yao.7"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.02.xiaoxiang.1",
+     "zhouyi.gua.02.xiaoxiang.2",
+     "zhouyi.gua.02.xiaoxiang.3",
+     "zhouyi.gua.02.xiaoxiang.4",
+     "zhouyi.gua.02.xiaoxiang.5",
+     "zhouyi.gua.02.xiaoxiang.6",
+     "zhouyi.gua.02.xiaoxiang.7"
+    ]
+   }
+  },
+  {
+   "no": 3,
+   "name": "屯",
+   "full": "水雷屯",
+   "symbol": "䷂",
+   "bits": "100010",
+   "upper": 6,
+   "lower": 4,
+   "textIds": {
+    "gua": "zhouyi.gua.03.gua",
+    "tuan": "zhouyi.gua.03.tuan",
+    "daxiang": "zhouyi.gua.03.daxiang",
+    "yao": [
+     "zhouyi.gua.03.yao.1",
+     "zhouyi.gua.03.yao.2",
+     "zhouyi.gua.03.yao.3",
+     "zhouyi.gua.03.yao.4",
+     "zhouyi.gua.03.yao.5",
+     "zhouyi.gua.03.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.03.xiaoxiang.1",
+     "zhouyi.gua.03.xiaoxiang.2",
+     "zhouyi.gua.03.xiaoxiang.3",
+     "zhouyi.gua.03.xiaoxiang.4",
+     "zhouyi.gua.03.xiaoxiang.5",
+     "zhouyi.gua.03.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 4,
+   "name": "蒙",
+   "full": "山水蒙",
+   "symbol": "䷃",
+   "bits": "010001",
+   "upper": 7,
+   "lower": 6,
+   "textIds": {
+    "gua": "zhouyi.gua.04.gua",
+    "tuan": "zhouyi.gua.04.tuan",
+    "daxiang": "zhouyi.gua.04.daxiang",
+    "yao": [
+     "zhouyi.gua.04.yao.1",
+     "zhouyi.gua.04.yao.2",
+     "zhouyi.gua.04.yao.3",
+     "zhouyi.gua.04.yao.4",
+     "zhouyi.gua.04.yao.5",
+     "zhouyi.gua.04.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.04.xiaoxiang.1",
+     "zhouyi.gua.04.xiaoxiang.2",
+     "zhouyi.gua.04.xiaoxiang.3",
+     "zhouyi.gua.04.xiaoxiang.4",
+     "zhouyi.gua.04.xiaoxiang.5",
+     "zhouyi.gua.04.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 5,
+   "name": "需",
+   "full": "水天需",
+   "symbol": "䷄",
+   "bits": "111010",
+   "upper": 6,
+   "lower": 1,
+   "textIds": {
+    "gua": "zhouyi.gua.05.gua",
+    "tuan": "zhouyi.gua.05.tuan",
+    "daxiang": "zhouyi.gua.05.daxiang",
+    "yao": [
+     "zhouyi.gua.05.yao.1",
+     "zhouyi.gua.05.yao.2",
+     "zhouyi.gua.05.yao.3",
+     "zhouyi.gua.05.yao.4",
+     "zhouyi.gua.05.yao.5",
+     "zhouyi.gua.05.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.05.xiaoxiang.1",
+     "zhouyi.gua.05.xiaoxiang.2",
+     "zhouyi.gua.05.xiaoxiang.3",
+     "zhouyi.gua.05.xiaoxiang.4",
+     "zhouyi.gua.05.xiaoxiang.5",
+     "zhouyi.gua.05.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 6,
+   "name": "訟",
+   "full": "天水訟",
+   "symbol": "䷅",
+   "bits": "010111",
+   "upper": 1,
+   "lower": 6,
+   "textIds": {
+    "gua": "zhouyi.gua.06.gua",
+    "tuan": "zhouyi.gua.06.tuan",
+    "daxiang": "zhouyi.gua.06.daxiang",
+    "yao": [
+     "zhouyi.gua.06.yao.1",
+     "zhouyi.gua.06.yao.2",
+     "zhouyi.gua.06.yao.3",
+     "zhouyi.gua.06.yao.4",
+     "zhouyi.gua.06.yao.5",
+     "zhouyi.gua.06.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.06.xiaoxiang.1",
+     "zhouyi.gua.06.xiaoxiang.2",
+     "zhouyi.gua.06.xiaoxiang.3",
+     "zhouyi.gua.06.xiaoxiang.4",
+     "zhouyi.gua.06.xiaoxiang.5",
+     "zhouyi.gua.06.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 7,
+   "name": "師",
+   "full": "地水師",
+   "symbol": "䷆",
+   "bits": "010000",
+   "upper": 8,
+   "lower": 6,
+   "textIds": {
+    "gua": "zhouyi.gua.07.gua",
+    "tuan": "zhouyi.gua.07.tuan",
+    "daxiang": "zhouyi.gua.07.daxiang",
+    "yao": [
+     "zhouyi.gua.07.yao.1",
+     "zhouyi.gua.07.yao.2",
+     "zhouyi.gua.07.yao.3",
+     "zhouyi.gua.07.yao.4",
+     "zhouyi.gua.07.yao.5",
+     "zhouyi.gua.07.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.07.xiaoxiang.1",
+     "zhouyi.gua.07.xiaoxiang.2",
+     "zhouyi.gua.07.xiaoxiang.3",
+     "zhouyi.gua.07.xiaoxiang.4",
+     "zhouyi.gua.07.xiaoxiang.5",
+     "zhouyi.gua.07.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 8,
+   "name": "比",
+   "full": "水地比",
+   "symbol": "䷇",
+   "bits": "000010",
+   "upper": 6,
+   "lower": 8,
+   "textIds": {
+    "gua": "zhouyi.gua.08.gua",
+    "tuan": "zhouyi.gua.08.tuan",
+    "daxiang": "zhouyi.gua.08.daxiang",
+    "yao": [
+     "zhouyi.gua.08.yao.1",
+     "zhouyi.gua.08.yao.2",
+     "zhouyi.gua.08.yao.3",
+     "zhouyi.gua.08.yao.4",
+     "zhouyi.gua.08.yao.5",
+     "zhouyi.gua.08.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.08.xiaoxiang.1",
+     "zhouyi.gua.08.xiaoxiang.2",
+     "zhouyi.gua.08.xiaoxiang.3",
+     "zhouyi.gua.08.xiaoxiang.4",
+     "zhouyi.gua.08.xiaoxiang.5",
+     "zhouyi.gua.08.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 9,
+   "name": "小畜",
+   "full": "風天小畜",
+   "symbol": "䷈",
+   "bits": "111011",
+   "upper": 5,
+   "lower": 1,
+   "textIds": {
+    "gua": "zhouyi.gua.09.gua",
+    "tuan": "zhouyi.gua.09.tuan",
+    "daxiang": "zhouyi.gua.09.daxiang",
+    "yao": [
+     "zhouyi.gua.09.yao.1",
+     "zhouyi.gua.09.yao.2",
+     "zhouyi.gua.09.yao.3",
+     "zhouyi.gua.09.yao.4",
+     "zhouyi.gua.09.yao.5",
+     "zhouyi.gua.09.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.09.xiaoxiang.1",
+     "zhouyi.gua.09.xiaoxiang.2",
+     "zhouyi.gua.09.xiaoxiang.3",
+     "zhouyi.gua.09.xiaoxiang.4",
+     "zhouyi.gua.09.xiaoxiang.5",
+     "zhouyi.gua.09.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 10,
+   "name": "履",
+   "full": "天澤履",
+   "symbol": "䷉",
+   "bits": "110111",
+   "upper": 1,
+   "lower": 2,
+   "textIds": {
+    "gua": "zhouyi.gua.10.gua",
+    "tuan": "zhouyi.gua.10.tuan",
+    "daxiang": "zhouyi.gua.10.daxiang",
+    "yao": [
+     "zhouyi.gua.10.yao.1",
+     "zhouyi.gua.10.yao.2",
+     "zhouyi.gua.10.yao.3",
+     "zhouyi.gua.10.yao.4",
+     "zhouyi.gua.10.yao.5",
+     "zhouyi.gua.10.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.10.xiaoxiang.1",
+     "zhouyi.gua.10.xiaoxiang.2",
+     "zhouyi.gua.10.xiaoxiang.3",
+     "zhouyi.gua.10.xiaoxiang.4",
+     "zhouyi.gua.10.xiaoxiang.5",
+     "zhouyi.gua.10.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 11,
+   "name": "泰",
+   "full": "地天泰",
+   "symbol": "䷊",
+   "bits": "111000",
+   "upper": 8,
+   "lower": 1,
+   "textIds": {
+    "gua": "zhouyi.gua.11.gua",
+    "tuan": "zhouyi.gua.11.tuan",
+    "daxiang": "zhouyi.gua.11.daxiang",
+    "yao": [
+     "zhouyi.gua.11.yao.1",
+     "zhouyi.gua.11.yao.2",
+     "zhouyi.gua.11.yao.3",
+     "zhouyi.gua.11.yao.4",
+     "zhouyi.gua.11.yao.5",
+     "zhouyi.gua.11.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.11.xiaoxiang.1",
+     "zhouyi.gua.11.xiaoxiang.2",
+     "zhouyi.gua.11.xiaoxiang.3",
+     "zhouyi.gua.11.xiaoxiang.4",
+     "zhouyi.gua.11.xiaoxiang.5",
+     "zhouyi.gua.11.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 12,
+   "name": "否",
+   "full": "天地否",
+   "symbol": "䷋",
+   "bits": "000111",
+   "upper": 1,
+   "lower": 8,
+   "textIds": {
+    "gua": "zhouyi.gua.12.gua",
+    "tuan": "zhouyi.gua.12.tuan",
+    "daxiang": "zhouyi.gua.12.daxiang",
+    "yao": [
+     "zhouyi.gua.12.yao.1",
+     "zhouyi.gua.12.yao.2",
+     "zhouyi.gua.12.yao.3",
+     "zhouyi.gua.12.yao.4",
+     "zhouyi.gua.12.yao.5",
+     "zhouyi.gua.12.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.12.xiaoxiang.1",
+     "zhouyi.gua.12.xiaoxiang.2",
+     "zhouyi.gua.12.xiaoxiang.3",
+     "zhouyi.gua.12.xiaoxiang.4",
+     "zhouyi.gua.12.xiaoxiang.5",
+     "zhouyi.gua.12.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 13,
+   "name": "同人",
+   "full": "天火同人",
+   "symbol": "䷌",
+   "bits": "101111",
+   "upper": 1,
+   "lower": 3,
+   "textIds": {
+    "gua": "zhouyi.gua.13.gua",
+    "tuan": "zhouyi.gua.13.tuan",
+    "daxiang": "zhouyi.gua.13.daxiang",
+    "yao": [
+     "zhouyi.gua.13.yao.1",
+     "zhouyi.gua.13.yao.2",
+     "zhouyi.gua.13.yao.3",
+     "zhouyi.gua.13.yao.4",
+     "zhouyi.gua.13.yao.5",
+     "zhouyi.gua.13.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.13.xiaoxiang.1",
+     "zhouyi.gua.13.xiaoxiang.2",
+     "zhouyi.gua.13.xiaoxiang.3",
+     "zhouyi.gua.13.xiaoxiang.4",
+     "zhouyi.gua.13.xiaoxiang.5",
+     "zhouyi.gua.13.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 14,
+   "name": "大有",
+   "full": "火天大有",
+   "symbol": "䷍",
+   "bits": "111101",
+   "upper": 3,
+   "lower": 1,
+   "textIds": {
+    "gua": "zhouyi.gua.14.gua",
+    "tuan": "zhouyi.gua.14.tuan",
+    "daxiang": "zhouyi.gua.14.daxiang",
+    "yao": [
+     "zhouyi.gua.14.yao.1",
+     "zhouyi.gua.14.yao.2",
+     "zhouyi.gua.14.yao.3",
+     "zhouyi.gua.14.yao.4",
+     "zhouyi.gua.14.yao.5",
+     "zhouyi.gua.14.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.14.xiaoxiang.1",
+     "zhouyi.gua.14.xiaoxiang.2",
+     "zhouyi.gua.14.xiaoxiang.3",
+     "zhouyi.gua.14.xiaoxiang.4",
+     "zhouyi.gua.14.xiaoxiang.5",
+     "zhouyi.gua.14.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 15,
+   "name": "謙",
+   "full": "地山謙",
+   "symbol": "䷎",
+   "bits": "001000",
+   "upper": 8,
+   "lower": 7,
+   "textIds": {
+    "gua": "zhouyi.gua.15.gua",
+    "tuan": "zhouyi.gua.15.tuan",
+    "daxiang": "zhouyi.gua.15.daxiang",
+    "yao": [
+     "zhouyi.gua.15.yao.1",
+     "zhouyi.gua.15.yao.2",
+     "zhouyi.gua.15.yao.3",
+     "zhouyi.gua.15.yao.4",
+     "zhouyi.gua.15.yao.5",
+     "zhouyi.gua.15.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.15.xiaoxiang.1",
+     "zhouyi.gua.15.xiaoxiang.2",
+     "zhouyi.gua.15.xiaoxiang.3",
+     "zhouyi.gua.15.xiaoxiang.4",
+     "zhouyi.gua.15.xiaoxiang.5",
+     "zhouyi.gua.15.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 16,
+   "name": "豫",
+   "full": "雷地豫",
+   "symbol": "䷏",
+   "bits": "000100",
+   "upper": 4,
+   "lower": 8,
+   "textIds": {
+    "gua": "zhouyi.gua.16.gua",
+    "tuan": "zhouyi.gua.16.tuan",
+    "daxiang": "zhouyi.gua.16.daxiang",
+    "yao": [
+     "zhouyi.gua.16.yao.1",
+     "zhouyi.gua.16.yao.2",
+     "zhouyi.gua.16.yao.3",
+     "zhouyi.gua.16.yao.4",
+     "zhouyi.gua.16.yao.5",
+     "zhouyi.gua.16.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.16.xiaoxiang.1",
+     "zhouyi.gua.16.xiaoxiang.2",
+     "zhouyi.gua.16.xiaoxiang.3",
+     "zhouyi.gua.16.xiaoxiang.4",
+     "zhouyi.gua.16.xiaoxiang.5",
+     "zhouyi.gua.16.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 17,
+   "name": "隨",
+   "full": "澤雷隨",
+   "symbol": "䷐",
+   "bits": "100110",
+   "upper": 2,
+   "lower": 4,
+   "textIds": {
+    "gua": "zhouyi.gua.17.gua",
+    "tuan": "zhouyi.gua.17.tuan",
+    "daxiang": "zhouyi.gua.17.daxiang",
+    "yao": [
+     "zhouyi.gua.17.yao.1",
+     "zhouyi.gua.17.yao.2",
+     "zhouyi.gua.17.yao.3",
+     "zhouyi.gua.17.yao.4",
+     "zhouyi.gua.17.yao.5",
+     "zhouyi.gua.17.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.17.xiaoxiang.1",
+     "zhouyi.gua.17.xiaoxiang.2",
+     "zhouyi.gua.17.xiaoxiang.3",
+     "zhouyi.gua.17.xiaoxiang.4",
+     "zhouyi.gua.17.xiaoxiang.5",
+     "zhouyi.gua.17.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 18,
+   "name": "蠱",
+   "full": "山風蠱",
+   "symbol": "䷑",
+   "bits": "011001",
+   "upper": 7,
+   "lower": 5,
+   "textIds": {
+    "gua": "zhouyi.gua.18.gua",
+    "tuan": "zhouyi.gua.18.tuan",
+    "daxiang": "zhouyi.gua.18.daxiang",
+    "yao": [
+     "zhouyi.gua.18.yao.1",
+     "zhouyi.gua.18.yao.2",
+     "zhouyi.gua.18.yao.3",
+     "zhouyi.gua.18.yao.4",
+     "zhouyi.gua.18.yao.5",
+     "zhouyi.gua.18.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.18.xiaoxiang.1",
+     "zhouyi.gua.18.xiaoxiang.2",
+     "zhouyi.gua.18.xiaoxiang.3",
+     "zhouyi.gua.18.xiaoxiang.4",
+     "zhouyi.gua.18.xiaoxiang.5",
+     "zhouyi.gua.18.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 19,
+   "name": "臨",
+   "full": "地澤臨",
+   "symbol": "䷒",
+   "bits": "110000",
+   "upper": 8,
+   "lower": 2,
+   "textIds": {
+    "gua": "zhouyi.gua.19.gua",
+    "tuan": "zhouyi.gua.19.tuan",
+    "daxiang": "zhouyi.gua.19.daxiang",
+    "yao": [
+     "zhouyi.gua.19.yao.1",
+     "zhouyi.gua.19.yao.2",
+     "zhouyi.gua.19.yao.3",
+     "zhouyi.gua.19.yao.4",
+     "zhouyi.gua.19.yao.5",
+     "zhouyi.gua.19.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.19.xiaoxiang.1",
+     "zhouyi.gua.19.xiaoxiang.2",
+     "zhouyi.gua.19.xiaoxiang.3",
+     "zhouyi.gua.19.xiaoxiang.4",
+     "zhouyi.gua.19.xiaoxiang.5",
+     "zhouyi.gua.19.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 20,
+   "name": "觀",
+   "full": "風地觀",
+   "symbol": "䷓",
+   "bits": "000011",
+   "upper": 5,
+   "lower": 8,
+   "textIds": {
+    "gua": "zhouyi.gua.20.gua",
+    "tuan": "zhouyi.gua.20.tuan",
+    "daxiang": "zhouyi.gua.20.daxiang",
+    "yao": [
+     "zhouyi.gua.20.yao.1",
+     "zhouyi.gua.20.yao.2",
+     "zhouyi.gua.20.yao.3",
+     "zhouyi.gua.20.yao.4",
+     "zhouyi.gua.20.yao.5",
+     "zhouyi.gua.20.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.20.xiaoxiang.1",
+     "zhouyi.gua.20.xiaoxiang.2",
+     "zhouyi.gua.20.xiaoxiang.3",
+     "zhouyi.gua.20.xiaoxiang.4",
+     "zhouyi.gua.20.xiaoxiang.5",
+     "zhouyi.gua.20.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 21,
+   "name": "噬嗑",
+   "full": "火雷噬嗑",
+   "symbol": "䷔",
+   "bits": "100101",
+   "upper": 3,
+   "lower": 4,
+   "textIds": {
+    "gua": "zhouyi.gua.21.gua",
+    "tuan": "zhouyi.gua.21.tuan",
+    "daxiang": "zhouyi.gua.21.daxiang",
+    "yao": [
+     "zhouyi.gua.21.yao.1",
+     "zhouyi.gua.21.yao.2",
+     "zhouyi.gua.21.yao.3",
+     "zhouyi.gua.21.yao.4",
+     "zhouyi.gua.21.yao.5",
+     "zhouyi.gua.21.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.21.xiaoxiang.1",
+     "zhouyi.gua.21.xiaoxiang.2",
+     "zhouyi.gua.21.xiaoxiang.3",
+     "zhouyi.gua.21.xiaoxiang.4",
+     "zhouyi.gua.21.xiaoxiang.5",
+     "zhouyi.gua.21.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 22,
+   "name": "賁",
+   "full": "山火賁",
+   "symbol": "䷕",
+   "bits": "101001",
+   "upper": 7,
+   "lower": 3,
+   "textIds": {
+    "gua": "zhouyi.gua.22.gua",
+    "tuan": "zhouyi.gua.22.tuan",
+    "daxiang": "zhouyi.gua.22.daxiang",
+    "yao": [
+     "zhouyi.gua.22.yao.1",
+     "zhouyi.gua.22.yao.2",
+     "zhouyi.gua.22.yao.3",
+     "zhouyi.gua.22.yao.4",
+     "zhouyi.gua.22.yao.5",
+     "zhouyi.gua.22.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.22.xiaoxiang.1",
+     "zhouyi.gua.22.xiaoxiang.2",
+     "zhouyi.gua.22.xiaoxiang.3",
+     "zhouyi.gua.22.xiaoxiang.4",
+     "zhouyi.gua.22.xiaoxiang.5",
+     "zhouyi.gua.22.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 23,
+   "name": "剝",
+   "full": "山地剝",
+   "symbol": "䷖",
+   "bits": "000001",
+   "upper": 7,
+   "lower": 8,
+   "textIds": {
+    "gua": "zhouyi.gua.23.gua",
+    "tuan": "zhouyi.gua.23.tuan",
+    "daxiang": "zhouyi.gua.23.daxiang",
+    "yao": [
+     "zhouyi.gua.23.yao.1",
+     "zhouyi.gua.23.yao.2",
+     "zhouyi.gua.23.yao.3",
+     "zhouyi.gua.23.yao.4",
+     "zhouyi.gua.23.yao.5",
+     "zhouyi.gua.23.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.23.xiaoxiang.1",
+     "zhouyi.gua.23.xiaoxiang.2",
+     "zhouyi.gua.23.xiaoxiang.3",
+     "zhouyi.gua.23.xiaoxiang.4",
+     "zhouyi.gua.23.xiaoxiang.5",
+     "zhouyi.gua.23.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 24,
+   "name": "復",
+   "full": "地雷復",
+   "symbol": "䷗",
+   "bits": "100000",
+   "upper": 8,
+   "lower": 4,
+   "textIds": {
+    "gua": "zhouyi.gua.24.gua",
+    "tuan": "zhouyi.gua.24.tuan",
+    "daxiang": "zhouyi.gua.24.daxiang",
+    "yao": [
+     "zhouyi.gua.24.yao.1",
+     "zhouyi.gua.24.yao.2",
+     "zhouyi.gua.24.yao.3",
+     "zhouyi.gua.24.yao.4",
+     "zhouyi.gua.24.yao.5",
+     "zhouyi.gua.24.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.24.xiaoxiang.1",
+     "zhouyi.gua.24.xiaoxiang.2",
+     "zhouyi.gua.24.xiaoxiang.3",
+     "zhouyi.gua.24.xiaoxiang.4",
+     "zhouyi.gua.24.xiaoxiang.5",
+     "zhouyi.gua.24.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 25,
+   "name": "無妄",
+   "full": "天雷無妄",
+   "symbol": "䷘",
+   "bits": "100111",
+   "upper": 1,
+   "lower": 4,
+   "textIds": {
+    "gua": "zhouyi.gua.25.gua",
+    "tuan": "zhouyi.gua.25.tuan",
+    "daxiang": "zhouyi.gua.25.daxiang",
+    "yao": [
+     "zhouyi.gua.25.yao.1",
+     "zhouyi.gua.25.yao.2",
+     "zhouyi.gua.25.yao.3",
+     "zhouyi.gua.25.yao.4",
+     "zhouyi.gua.25.yao.5",
+     "zhouyi.gua.25.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.25.xiaoxiang.1",
+     "zhouyi.gua.25.xiaoxiang.2",
+     "zhouyi.gua.25.xiaoxiang.3",
+     "zhouyi.gua.25.xiaoxiang.4",
+     "zhouyi.gua.25.xiaoxiang.5",
+     "zhouyi.gua.25.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 26,
+   "name": "大畜",
+   "full": "山天大畜",
+   "symbol": "䷙",
+   "bits": "111001",
+   "upper": 7,
+   "lower": 1,
+   "textIds": {
+    "gua": "zhouyi.gua.26.gua",
+    "tuan": "zhouyi.gua.26.tuan",
+    "daxiang": "zhouyi.gua.26.daxiang",
+    "yao": [
+     "zhouyi.gua.26.yao.1",
+     "zhouyi.gua.26.yao.2",
+     "zhouyi.gua.26.yao.3",
+     "zhouyi.gua.26.yao.4",
+     "zhouyi.gua.26.yao.5",
+     "zhouyi.gua.26.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.26.xiaoxiang.1",
+     "zhouyi.gua.26.xiaoxiang.2",
+     "zhouyi.gua.26.xiaoxiang.3",
+     "zhouyi.gua.26.xiaoxiang.4",
+     "zhouyi.gua.26.xiaoxiang.5",
+     "zhouyi.gua.26.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 27,
+   "name": "頤",
+   "full": "山雷頤",
+   "symbol": "䷚",
+   "bits": "100001",
+   "upper": 7,
+   "lower": 4,
+   "textIds": {
+    "gua": "zhouyi.gua.27.gua",
+    "tuan": "zhouyi.gua.27.tuan",
+    "daxiang": "zhouyi.gua.27.daxiang",
+    "yao": [
+     "zhouyi.gua.27.yao.1",
+     "zhouyi.gua.27.yao.2",
+     "zhouyi.gua.27.yao.3",
+     "zhouyi.gua.27.yao.4",
+     "zhouyi.gua.27.yao.5",
+     "zhouyi.gua.27.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.27.xiaoxiang.1",
+     "zhouyi.gua.27.xiaoxiang.2",
+     "zhouyi.gua.27.xiaoxiang.3",
+     "zhouyi.gua.27.xiaoxiang.4",
+     "zhouyi.gua.27.xiaoxiang.5",
+     "zhouyi.gua.27.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 28,
+   "name": "大過",
+   "full": "澤風大過",
+   "symbol": "䷛",
+   "bits": "011110",
+   "upper": 2,
+   "lower": 5,
+   "textIds": {
+    "gua": "zhouyi.gua.28.gua",
+    "tuan": "zhouyi.gua.28.tuan",
+    "daxiang": "zhouyi.gua.28.daxiang",
+    "yao": [
+     "zhouyi.gua.28.yao.1",
+     "zhouyi.gua.28.yao.2",
+     "zhouyi.gua.28.yao.3",
+     "zhouyi.gua.28.yao.4",
+     "zhouyi.gua.28.yao.5",
+     "zhouyi.gua.28.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.28.xiaoxiang.1",
+     "zhouyi.gua.28.xiaoxiang.2",
+     "zhouyi.gua.28.xiaoxiang.3",
+     "zhouyi.gua.28.xiaoxiang.4",
+     "zhouyi.gua.28.xiaoxiang.5",
+     "zhouyi.gua.28.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 29,
+   "name": "坎",
+   "full": "坎為水",
+   "symbol": "䷜",
+   "bits": "010010",
+   "upper": 6,
+   "lower": 6,
+   "textIds": {
+    "gua": "zhouyi.gua.29.gua",
+    "tuan": "zhouyi.gua.29.tuan",
+    "daxiang": "zhouyi.gua.29.daxiang",
+    "yao": [
+     "zhouyi.gua.29.yao.1",
+     "zhouyi.gua.29.yao.2",
+     "zhouyi.gua.29.yao.3",
+     "zhouyi.gua.29.yao.4",
+     "zhouyi.gua.29.yao.5",
+     "zhouyi.gua.29.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.29.xiaoxiang.1",
+     "zhouyi.gua.29.xiaoxiang.2",
+     "zhouyi.gua.29.xiaoxiang.3",
+     "zhouyi.gua.29.xiaoxiang.4",
+     "zhouyi.gua.29.xiaoxiang.5",
+     "zhouyi.gua.29.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 30,
+   "name": "離",
+   "full": "離為火",
+   "symbol": "䷝",
+   "bits": "101101",
+   "upper": 3,
+   "lower": 3,
+   "textIds": {
+    "gua": "zhouyi.gua.30.gua",
+    "tuan": "zhouyi.gua.30.tuan",
+    "daxiang": "zhouyi.gua.30.daxiang",
+    "yao": [
+     "zhouyi.gua.30.yao.1",
+     "zhouyi.gua.30.yao.2",
+     "zhouyi.gua.30.yao.3",
+     "zhouyi.gua.30.yao.4",
+     "zhouyi.gua.30.yao.5",
+     "zhouyi.gua.30.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.30.xiaoxiang.1",
+     "zhouyi.gua.30.xiaoxiang.2",
+     "zhouyi.gua.30.xiaoxiang.3",
+     "zhouyi.gua.30.xiaoxiang.4",
+     "zhouyi.gua.30.xiaoxiang.5",
+     "zhouyi.gua.30.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 31,
+   "name": "咸",
+   "full": "澤山咸",
+   "symbol": "䷞",
+   "bits": "001110",
+   "upper": 2,
+   "lower": 7,
+   "textIds": {
+    "gua": "zhouyi.gua.31.gua",
+    "tuan": "zhouyi.gua.31.tuan",
+    "daxiang": "zhouyi.gua.31.daxiang",
+    "yao": [
+     "zhouyi.gua.31.yao.1",
+     "zhouyi.gua.31.yao.2",
+     "zhouyi.gua.31.yao.3",
+     "zhouyi.gua.31.yao.4",
+     "zhouyi.gua.31.yao.5",
+     "zhouyi.gua.31.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.31.xiaoxiang.1",
+     "zhouyi.gua.31.xiaoxiang.2",
+     "zhouyi.gua.31.xiaoxiang.3",
+     "zhouyi.gua.31.xiaoxiang.4",
+     "zhouyi.gua.31.xiaoxiang.5",
+     "zhouyi.gua.31.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 32,
+   "name": "恒",
+   "full": "雷風恒",
+   "symbol": "䷟",
+   "bits": "011100",
+   "upper": 4,
+   "lower": 5,
+   "textIds": {
+    "gua": "zhouyi.gua.32.gua",
+    "tuan": "zhouyi.gua.32.tuan",
+    "daxiang": "zhouyi.gua.32.daxiang",
+    "yao": [
+     "zhouyi.gua.32.yao.1",
+     "zhouyi.gua.32.yao.2",
+     "zhouyi.gua.32.yao.3",
+     "zhouyi.gua.32.yao.4",
+     "zhouyi.gua.32.yao.5",
+     "zhouyi.gua.32.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.32.xiaoxiang.1",
+     "zhouyi.gua.32.xiaoxiang.2",
+     "zhouyi.gua.32.xiaoxiang.3",
+     "zhouyi.gua.32.xiaoxiang.4",
+     "zhouyi.gua.32.xiaoxiang.5",
+     "zhouyi.gua.32.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 33,
+   "name": "遯",
+   "full": "天山遯",
+   "symbol": "䷠",
+   "bits": "001111",
+   "upper": 1,
+   "lower": 7,
+   "textIds": {
+    "gua": "zhouyi.gua.33.gua",
+    "tuan": "zhouyi.gua.33.tuan",
+    "daxiang": "zhouyi.gua.33.daxiang",
+    "yao": [
+     "zhouyi.gua.33.yao.1",
+     "zhouyi.gua.33.yao.2",
+     "zhouyi.gua.33.yao.3",
+     "zhouyi.gua.33.yao.4",
+     "zhouyi.gua.33.yao.5",
+     "zhouyi.gua.33.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.33.xiaoxiang.1",
+     "zhouyi.gua.33.xiaoxiang.2",
+     "zhouyi.gua.33.xiaoxiang.3",
+     "zhouyi.gua.33.xiaoxiang.4",
+     "zhouyi.gua.33.xiaoxiang.5",
+     "zhouyi.gua.33.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 34,
+   "name": "大壯",
+   "full": "雷天大壯",
+   "symbol": "䷡",
+   "bits": "111100",
+   "upper": 4,
+   "lower": 1,
+   "textIds": {
+    "gua": "zhouyi.gua.34.gua",
+    "tuan": "zhouyi.gua.34.tuan",
+    "daxiang": "zhouyi.gua.34.daxiang",
+    "yao": [
+     "zhouyi.gua.34.yao.1",
+     "zhouyi.gua.34.yao.2",
+     "zhouyi.gua.34.yao.3",
+     "zhouyi.gua.34.yao.4",
+     "zhouyi.gua.34.yao.5",
+     "zhouyi.gua.34.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.34.xiaoxiang.1",
+     "zhouyi.gua.34.xiaoxiang.2",
+     "zhouyi.gua.34.xiaoxiang.3",
+     "zhouyi.gua.34.xiaoxiang.4",
+     "zhouyi.gua.34.xiaoxiang.5",
+     "zhouyi.gua.34.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 35,
+   "name": "晉",
+   "full": "火地晉",
+   "symbol": "䷢",
+   "bits": "000101",
+   "upper": 3,
+   "lower": 8,
+   "textIds": {
+    "gua": "zhouyi.gua.35.gua",
+    "tuan": "zhouyi.gua.35.tuan",
+    "daxiang": "zhouyi.gua.35.daxiang",
+    "yao": [
+     "zhouyi.gua.35.yao.1",
+     "zhouyi.gua.35.yao.2",
+     "zhouyi.gua.35.yao.3",
+     "zhouyi.gua.35.yao.4",
+     "zhouyi.gua.35.yao.5",
+     "zhouyi.gua.35.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.35.xiaoxiang.1",
+     "zhouyi.gua.35.xiaoxiang.2",
+     "zhouyi.gua.35.xiaoxiang.3",
+     "zhouyi.gua.35.xiaoxiang.4",
+     "zhouyi.gua.35.xiaoxiang.5",
+     "zhouyi.gua.35.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 36,
+   "name": "明夷",
+   "full": "地火明夷",
+   "symbol": "䷣",
+   "bits": "101000",
+   "upper": 8,
+   "lower": 3,
+   "textIds": {
+    "gua": "zhouyi.gua.36.gua",
+    "tuan": "zhouyi.gua.36.tuan",
+    "daxiang": "zhouyi.gua.36.daxiang",
+    "yao": [
+     "zhouyi.gua.36.yao.1",
+     "zhouyi.gua.36.yao.2",
+     "zhouyi.gua.36.yao.3",
+     "zhouyi.gua.36.yao.4",
+     "zhouyi.gua.36.yao.5",
+     "zhouyi.gua.36.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.36.xiaoxiang.1",
+     "zhouyi.gua.36.xiaoxiang.2",
+     "zhouyi.gua.36.xiaoxiang.3",
+     "zhouyi.gua.36.xiaoxiang.4",
+     "zhouyi.gua.36.xiaoxiang.5",
+     "zhouyi.gua.36.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 37,
+   "name": "家人",
+   "full": "風火家人",
+   "symbol": "䷤",
+   "bits": "101011",
+   "upper": 5,
+   "lower": 3,
+   "textIds": {
+    "gua": "zhouyi.gua.37.gua",
+    "tuan": "zhouyi.gua.37.tuan",
+    "daxiang": "zhouyi.gua.37.daxiang",
+    "yao": [
+     "zhouyi.gua.37.yao.1",
+     "zhouyi.gua.37.yao.2",
+     "zhouyi.gua.37.yao.3",
+     "zhouyi.gua.37.yao.4",
+     "zhouyi.gua.37.yao.5",
+     "zhouyi.gua.37.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.37.xiaoxiang.1",
+     "zhouyi.gua.37.xiaoxiang.2",
+     "zhouyi.gua.37.xiaoxiang.3",
+     "zhouyi.gua.37.xiaoxiang.4",
+     "zhouyi.gua.37.xiaoxiang.5",
+     "zhouyi.gua.37.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 38,
+   "name": "睽",
+   "full": "火澤睽",
+   "symbol": "䷥",
+   "bits": "110101",
+   "upper": 3,
+   "lower": 2,
+   "textIds": {
+    "gua": "zhouyi.gua.38.gua",
+    "tuan": "zhouyi.gua.38.tuan",
+    "daxiang": "zhouyi.gua.38.daxiang",
+    "yao": [
+     "zhouyi.gua.38.yao.1",
+     "zhouyi.gua.38.yao.2",
+     "zhouyi.gua.38.yao.3",
+     "zhouyi.gua.38.yao.4",
+     "zhouyi.gua.38.yao.5",
+     "zhouyi.gua.38.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.38.xiaoxiang.1",
+     "zhouyi.gua.38.xiaoxiang.2",
+     "zhouyi.gua.38.xiaoxiang.3",
+     "zhouyi.gua.38.xiaoxiang.4",
+     "zhouyi.gua.38.xiaoxiang.5",
+     "zhouyi.gua.38.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 39,
+   "name": "蹇",
+   "full": "水山蹇",
+   "symbol": "䷦",
+   "bits": "001010",
+   "upper": 6,
+   "lower": 7,
+   "textIds": {
+    "gua": "zhouyi.gua.39.gua",
+    "tuan": "zhouyi.gua.39.tuan",
+    "daxiang": "zhouyi.gua.39.daxiang",
+    "yao": [
+     "zhouyi.gua.39.yao.1",
+     "zhouyi.gua.39.yao.2",
+     "zhouyi.gua.39.yao.3",
+     "zhouyi.gua.39.yao.4",
+     "zhouyi.gua.39.yao.5",
+     "zhouyi.gua.39.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.39.xiaoxiang.1",
+     "zhouyi.gua.39.xiaoxiang.2",
+     "zhouyi.gua.39.xiaoxiang.3",
+     "zhouyi.gua.39.xiaoxiang.4",
+     "zhouyi.gua.39.xiaoxiang.5",
+     "zhouyi.gua.39.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 40,
+   "name": "解",
+   "full": "雷水解",
+   "symbol": "䷧",
+   "bits": "010100",
+   "upper": 4,
+   "lower": 6,
+   "textIds": {
+    "gua": "zhouyi.gua.40.gua",
+    "tuan": "zhouyi.gua.40.tuan",
+    "daxiang": "zhouyi.gua.40.daxiang",
+    "yao": [
+     "zhouyi.gua.40.yao.1",
+     "zhouyi.gua.40.yao.2",
+     "zhouyi.gua.40.yao.3",
+     "zhouyi.gua.40.yao.4",
+     "zhouyi.gua.40.yao.5",
+     "zhouyi.gua.40.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.40.xiaoxiang.1",
+     "zhouyi.gua.40.xiaoxiang.2",
+     "zhouyi.gua.40.xiaoxiang.3",
+     "zhouyi.gua.40.xiaoxiang.4",
+     "zhouyi.gua.40.xiaoxiang.5",
+     "zhouyi.gua.40.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 41,
+   "name": "損",
+   "full": "山澤損",
+   "symbol": "䷨",
+   "bits": "110001",
+   "upper": 7,
+   "lower": 2,
+   "textIds": {
+    "gua": "zhouyi.gua.41.gua",
+    "tuan": "zhouyi.gua.41.tuan",
+    "daxiang": "zhouyi.gua.41.daxiang",
+    "yao": [
+     "zhouyi.gua.41.yao.1",
+     "zhouyi.gua.41.yao.2",
+     "zhouyi.gua.41.yao.3",
+     "zhouyi.gua.41.yao.4",
+     "zhouyi.gua.41.yao.5",
+     "zhouyi.gua.41.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.41.xiaoxiang.1",
+     "zhouyi.gua.41.xiaoxiang.2",
+     "zhouyi.gua.41.xiaoxiang.3",
+     "zhouyi.gua.41.xiaoxiang.4",
+     "zhouyi.gua.41.xiaoxiang.5",
+     "zhouyi.gua.41.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 42,
+   "name": "益",
+   "full": "風雷益",
+   "symbol": "䷩",
+   "bits": "100011",
+   "upper": 5,
+   "lower": 4,
+   "textIds": {
+    "gua": "zhouyi.gua.42.gua",
+    "tuan": "zhouyi.gua.42.tuan",
+    "daxiang": "zhouyi.gua.42.daxiang",
+    "yao": [
+     "zhouyi.gua.42.yao.1",
+     "zhouyi.gua.42.yao.2",
+     "zhouyi.gua.42.yao.3",
+     "zhouyi.gua.42.yao.4",
+     "zhouyi.gua.42.yao.5",
+     "zhouyi.gua.42.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.42.xiaoxiang.1",
+     "zhouyi.gua.42.xiaoxiang.2",
+     "zhouyi.gua.42.xiaoxiang.3",
+     "zhouyi.gua.42.xiaoxiang.4",
+     "zhouyi.gua.42.xiaoxiang.5",
+     "zhouyi.gua.42.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 43,
+   "name": "夬",
+   "full": "澤天夬",
+   "symbol": "䷪",
+   "bits": "111110",
+   "upper": 2,
+   "lower": 1,
+   "textIds": {
+    "gua": "zhouyi.gua.43.gua",
+    "tuan": "zhouyi.gua.43.tuan",
+    "daxiang": "zhouyi.gua.43.daxiang",
+    "yao": [
+     "zhouyi.gua.43.yao.1",
+     "zhouyi.gua.43.yao.2",
+     "zhouyi.gua.43.yao.3",
+     "zhouyi.gua.43.yao.4",
+     "zhouyi.gua.43.yao.5",
+     "zhouyi.gua.43.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.43.xiaoxiang.1",
+     "zhouyi.gua.43.xiaoxiang.2",
+     "zhouyi.gua.43.xiaoxiang.3",
+     "zhouyi.gua.43.xiaoxiang.4",
+     "zhouyi.gua.43.xiaoxiang.5",
+     "zhouyi.gua.43.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 44,
+   "name": "姤",
+   "full": "天風姤",
+   "symbol": "䷫",
+   "bits": "011111",
+   "upper": 1,
+   "lower": 5,
+   "textIds": {
+    "gua": "zhouyi.gua.44.gua",
+    "tuan": "zhouyi.gua.44.tuan",
+    "daxiang": "zhouyi.gua.44.daxiang",
+    "yao": [
+     "zhouyi.gua.44.yao.1",
+     "zhouyi.gua.44.yao.2",
+     "zhouyi.gua.44.yao.3",
+     "zhouyi.gua.44.yao.4",
+     "zhouyi.gua.44.yao.5",
+     "zhouyi.gua.44.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.44.xiaoxiang.1",
+     "zhouyi.gua.44.xiaoxiang.2",
+     "zhouyi.gua.44.xiaoxiang.3",
+     "zhouyi.gua.44.xiaoxiang.4",
+     "zhouyi.gua.44.xiaoxiang.5",
+     "zhouyi.gua.44.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 45,
+   "name": "萃",
+   "full": "澤地萃",
+   "symbol": "䷬",
+   "bits": "000110",
+   "upper": 2,
+   "lower": 8,
+   "textIds": {
+    "gua": "zhouyi.gua.45.gua",
+    "tuan": "zhouyi.gua.45.tuan",
+    "daxiang": "zhouyi.gua.45.daxiang",
+    "yao": [
+     "zhouyi.gua.45.yao.1",
+     "zhouyi.gua.45.yao.2",
+     "zhouyi.gua.45.yao.3",
+     "zhouyi.gua.45.yao.4",
+     "zhouyi.gua.45.yao.5",
+     "zhouyi.gua.45.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.45.xiaoxiang.1",
+     "zhouyi.gua.45.xiaoxiang.2",
+     "zhouyi.gua.45.xiaoxiang.3",
+     "zhouyi.gua.45.xiaoxiang.4",
+     "zhouyi.gua.45.xiaoxiang.5",
+     "zhouyi.gua.45.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 46,
+   "name": "升",
+   "full": "地風升",
+   "symbol": "䷭",
+   "bits": "011000",
+   "upper": 8,
+   "lower": 5,
+   "textIds": {
+    "gua": "zhouyi.gua.46.gua",
+    "tuan": "zhouyi.gua.46.tuan",
+    "daxiang": "zhouyi.gua.46.daxiang",
+    "yao": [
+     "zhouyi.gua.46.yao.1",
+     "zhouyi.gua.46.yao.2",
+     "zhouyi.gua.46.yao.3",
+     "zhouyi.gua.46.yao.4",
+     "zhouyi.gua.46.yao.5",
+     "zhouyi.gua.46.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.46.xiaoxiang.1",
+     "zhouyi.gua.46.xiaoxiang.2",
+     "zhouyi.gua.46.xiaoxiang.3",
+     "zhouyi.gua.46.xiaoxiang.4",
+     "zhouyi.gua.46.xiaoxiang.5",
+     "zhouyi.gua.46.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 47,
+   "name": "困",
+   "full": "澤水困",
+   "symbol": "䷮",
+   "bits": "010110",
+   "upper": 2,
+   "lower": 6,
+   "textIds": {
+    "gua": "zhouyi.gua.47.gua",
+    "tuan": "zhouyi.gua.47.tuan",
+    "daxiang": "zhouyi.gua.47.daxiang",
+    "yao": [
+     "zhouyi.gua.47.yao.1",
+     "zhouyi.gua.47.yao.2",
+     "zhouyi.gua.47.yao.3",
+     "zhouyi.gua.47.yao.4",
+     "zhouyi.gua.47.yao.5",
+     "zhouyi.gua.47.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.47.xiaoxiang.1",
+     "zhouyi.gua.47.xiaoxiang.2",
+     "zhouyi.gua.47.xiaoxiang.3",
+     "zhouyi.gua.47.xiaoxiang.4",
+     "zhouyi.gua.47.xiaoxiang.5",
+     "zhouyi.gua.47.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 48,
+   "name": "井",
+   "full": "水風井",
+   "symbol": "䷯",
+   "bits": "011010",
+   "upper": 6,
+   "lower": 5,
+   "textIds": {
+    "gua": "zhouyi.gua.48.gua",
+    "tuan": "zhouyi.gua.48.tuan",
+    "daxiang": "zhouyi.gua.48.daxiang",
+    "yao": [
+     "zhouyi.gua.48.yao.1",
+     "zhouyi.gua.48.yao.2",
+     "zhouyi.gua.48.yao.3",
+     "zhouyi.gua.48.yao.4",
+     "zhouyi.gua.48.yao.5",
+     "zhouyi.gua.48.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.48.xiaoxiang.1",
+     "zhouyi.gua.48.xiaoxiang.2",
+     "zhouyi.gua.48.xiaoxiang.3",
+     "zhouyi.gua.48.xiaoxiang.4",
+     "zhouyi.gua.48.xiaoxiang.5",
+     "zhouyi.gua.48.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 49,
+   "name": "革",
+   "full": "澤火革",
+   "symbol": "䷰",
+   "bits": "101110",
+   "upper": 2,
+   "lower": 3,
+   "textIds": {
+    "gua": "zhouyi.gua.49.gua",
+    "tuan": "zhouyi.gua.49.tuan",
+    "daxiang": "zhouyi.gua.49.daxiang",
+    "yao": [
+     "zhouyi.gua.49.yao.1",
+     "zhouyi.gua.49.yao.2",
+     "zhouyi.gua.49.yao.3",
+     "zhouyi.gua.49.yao.4",
+     "zhouyi.gua.49.yao.5",
+     "zhouyi.gua.49.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.49.xiaoxiang.1",
+     "zhouyi.gua.49.xiaoxiang.2",
+     "zhouyi.gua.49.xiaoxiang.3",
+     "zhouyi.gua.49.xiaoxiang.4",
+     "zhouyi.gua.49.xiaoxiang.5",
+     "zhouyi.gua.49.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 50,
+   "name": "鼎",
+   "full": "火風鼎",
+   "symbol": "䷱",
+   "bits": "011101",
+   "upper": 3,
+   "lower": 5,
+   "textIds": {
+    "gua": "zhouyi.gua.50.gua",
+    "tuan": "zhouyi.gua.50.tuan",
+    "daxiang": "zhouyi.gua.50.daxiang",
+    "yao": [
+     "zhouyi.gua.50.yao.1",
+     "zhouyi.gua.50.yao.2",
+     "zhouyi.gua.50.yao.3",
+     "zhouyi.gua.50.yao.4",
+     "zhouyi.gua.50.yao.5",
+     "zhouyi.gua.50.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.50.xiaoxiang.1",
+     "zhouyi.gua.50.xiaoxiang.2",
+     "zhouyi.gua.50.xiaoxiang.3",
+     "zhouyi.gua.50.xiaoxiang.4",
+     "zhouyi.gua.50.xiaoxiang.5",
+     "zhouyi.gua.50.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 51,
+   "name": "震",
+   "full": "震為雷",
+   "symbol": "䷲",
+   "bits": "100100",
+   "upper": 4,
+   "lower": 4,
+   "textIds": {
+    "gua": "zhouyi.gua.51.gua",
+    "tuan": "zhouyi.gua.51.tuan",
+    "daxiang": "zhouyi.gua.51.daxiang",
+    "yao": [
+     "zhouyi.gua.51.yao.1",
+     "zhouyi.gua.51.yao.2",
+     "zhouyi.gua.51.yao.3",
+     "zhouyi.gua.51.yao.4",
+     "zhouyi.gua.51.yao.5",
+     "zhouyi.gua.51.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.51.xiaoxiang.1",
+     "zhouyi.gua.51.xiaoxiang.2",
+     "zhouyi.gua.51.xiaoxiang.3",
+     "zhouyi.gua.51.xiaoxiang.4",
+     "zhouyi.gua.51.xiaoxiang.5",
+     "zhouyi.gua.51.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 52,
+   "name": "艮",
+   "full": "艮為山",
+   "symbol": "䷳",
+   "bits": "001001",
+   "upper": 7,
+   "lower": 7,
+   "textIds": {
+    "gua": "zhouyi.gua.52.gua",
+    "tuan": "zhouyi.gua.52.tuan",
+    "daxiang": "zhouyi.gua.52.daxiang",
+    "yao": [
+     "zhouyi.gua.52.yao.1",
+     "zhouyi.gua.52.yao.2",
+     "zhouyi.gua.52.yao.3",
+     "zhouyi.gua.52.yao.4",
+     "zhouyi.gua.52.yao.5",
+     "zhouyi.gua.52.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.52.xiaoxiang.1",
+     "zhouyi.gua.52.xiaoxiang.2",
+     "zhouyi.gua.52.xiaoxiang.3",
+     "zhouyi.gua.52.xiaoxiang.4",
+     "zhouyi.gua.52.xiaoxiang.5",
+     "zhouyi.gua.52.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 53,
+   "name": "漸",
+   "full": "風山漸",
+   "symbol": "䷴",
+   "bits": "001011",
+   "upper": 5,
+   "lower": 7,
+   "textIds": {
+    "gua": "zhouyi.gua.53.gua",
+    "tuan": "zhouyi.gua.53.tuan",
+    "daxiang": "zhouyi.gua.53.daxiang",
+    "yao": [
+     "zhouyi.gua.53.yao.1",
+     "zhouyi.gua.53.yao.2",
+     "zhouyi.gua.53.yao.3",
+     "zhouyi.gua.53.yao.4",
+     "zhouyi.gua.53.yao.5",
+     "zhouyi.gua.53.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.53.xiaoxiang.1",
+     "zhouyi.gua.53.xiaoxiang.2",
+     "zhouyi.gua.53.xiaoxiang.3",
+     "zhouyi.gua.53.xiaoxiang.4",
+     "zhouyi.gua.53.xiaoxiang.5",
+     "zhouyi.gua.53.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 54,
+   "name": "歸妹",
+   "full": "雷澤歸妹",
+   "symbol": "䷵",
+   "bits": "110100",
+   "upper": 4,
+   "lower": 2,
+   "textIds": {
+    "gua": "zhouyi.gua.54.gua",
+    "tuan": "zhouyi.gua.54.tuan",
+    "daxiang": "zhouyi.gua.54.daxiang",
+    "yao": [
+     "zhouyi.gua.54.yao.1",
+     "zhouyi.gua.54.yao.2",
+     "zhouyi.gua.54.yao.3",
+     "zhouyi.gua.54.yao.4",
+     "zhouyi.gua.54.yao.5",
+     "zhouyi.gua.54.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.54.xiaoxiang.1",
+     "zhouyi.gua.54.xiaoxiang.2",
+     "zhouyi.gua.54.xiaoxiang.3",
+     "zhouyi.gua.54.xiaoxiang.4",
+     "zhouyi.gua.54.xiaoxiang.5",
+     "zhouyi.gua.54.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 55,
+   "name": "豐",
+   "full": "雷火豐",
+   "symbol": "䷶",
+   "bits": "101100",
+   "upper": 4,
+   "lower": 3,
+   "textIds": {
+    "gua": "zhouyi.gua.55.gua",
+    "tuan": "zhouyi.gua.55.tuan",
+    "daxiang": "zhouyi.gua.55.daxiang",
+    "yao": [
+     "zhouyi.gua.55.yao.1",
+     "zhouyi.gua.55.yao.2",
+     "zhouyi.gua.55.yao.3",
+     "zhouyi.gua.55.yao.4",
+     "zhouyi.gua.55.yao.5",
+     "zhouyi.gua.55.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.55.xiaoxiang.1",
+     "zhouyi.gua.55.xiaoxiang.2",
+     "zhouyi.gua.55.xiaoxiang.3",
+     "zhouyi.gua.55.xiaoxiang.4",
+     "zhouyi.gua.55.xiaoxiang.5",
+     "zhouyi.gua.55.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 56,
+   "name": "旅",
+   "full": "火山旅",
+   "symbol": "䷷",
+   "bits": "001101",
+   "upper": 3,
+   "lower": 7,
+   "textIds": {
+    "gua": "zhouyi.gua.56.gua",
+    "tuan": "zhouyi.gua.56.tuan",
+    "daxiang": "zhouyi.gua.56.daxiang",
+    "yao": [
+     "zhouyi.gua.56.yao.1",
+     "zhouyi.gua.56.yao.2",
+     "zhouyi.gua.56.yao.3",
+     "zhouyi.gua.56.yao.4",
+     "zhouyi.gua.56.yao.5",
+     "zhouyi.gua.56.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.56.xiaoxiang.1",
+     "zhouyi.gua.56.xiaoxiang.2",
+     "zhouyi.gua.56.xiaoxiang.3",
+     "zhouyi.gua.56.xiaoxiang.4",
+     "zhouyi.gua.56.xiaoxiang.5",
+     "zhouyi.gua.56.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 57,
+   "name": "巽",
+   "full": "巽為風",
+   "symbol": "䷸",
+   "bits": "011011",
+   "upper": 5,
+   "lower": 5,
+   "textIds": {
+    "gua": "zhouyi.gua.57.gua",
+    "tuan": "zhouyi.gua.57.tuan",
+    "daxiang": "zhouyi.gua.57.daxiang",
+    "yao": [
+     "zhouyi.gua.57.yao.1",
+     "zhouyi.gua.57.yao.2",
+     "zhouyi.gua.57.yao.3",
+     "zhouyi.gua.57.yao.4",
+     "zhouyi.gua.57.yao.5",
+     "zhouyi.gua.57.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.57.xiaoxiang.1",
+     "zhouyi.gua.57.xiaoxiang.2",
+     "zhouyi.gua.57.xiaoxiang.3",
+     "zhouyi.gua.57.xiaoxiang.4",
+     "zhouyi.gua.57.xiaoxiang.5",
+     "zhouyi.gua.57.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 58,
+   "name": "兌",
+   "full": "兌為澤",
+   "symbol": "䷹",
+   "bits": "110110",
+   "upper": 2,
+   "lower": 2,
+   "textIds": {
+    "gua": "zhouyi.gua.58.gua",
+    "tuan": "zhouyi.gua.58.tuan",
+    "daxiang": "zhouyi.gua.58.daxiang",
+    "yao": [
+     "zhouyi.gua.58.yao.1",
+     "zhouyi.gua.58.yao.2",
+     "zhouyi.gua.58.yao.3",
+     "zhouyi.gua.58.yao.4",
+     "zhouyi.gua.58.yao.5",
+     "zhouyi.gua.58.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.58.xiaoxiang.1",
+     "zhouyi.gua.58.xiaoxiang.2",
+     "zhouyi.gua.58.xiaoxiang.3",
+     "zhouyi.gua.58.xiaoxiang.4",
+     "zhouyi.gua.58.xiaoxiang.5",
+     "zhouyi.gua.58.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 59,
+   "name": "渙",
+   "full": "風水渙",
+   "symbol": "䷺",
+   "bits": "010011",
+   "upper": 5,
+   "lower": 6,
+   "textIds": {
+    "gua": "zhouyi.gua.59.gua",
+    "tuan": "zhouyi.gua.59.tuan",
+    "daxiang": "zhouyi.gua.59.daxiang",
+    "yao": [
+     "zhouyi.gua.59.yao.1",
+     "zhouyi.gua.59.yao.2",
+     "zhouyi.gua.59.yao.3",
+     "zhouyi.gua.59.yao.4",
+     "zhouyi.gua.59.yao.5",
+     "zhouyi.gua.59.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.59.xiaoxiang.1",
+     "zhouyi.gua.59.xiaoxiang.2",
+     "zhouyi.gua.59.xiaoxiang.3",
+     "zhouyi.gua.59.xiaoxiang.4",
+     "zhouyi.gua.59.xiaoxiang.5",
+     "zhouyi.gua.59.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 60,
+   "name": "節",
+   "full": "水澤節",
+   "symbol": "䷻",
+   "bits": "110010",
+   "upper": 6,
+   "lower": 2,
+   "textIds": {
+    "gua": "zhouyi.gua.60.gua",
+    "tuan": "zhouyi.gua.60.tuan",
+    "daxiang": "zhouyi.gua.60.daxiang",
+    "yao": [
+     "zhouyi.gua.60.yao.1",
+     "zhouyi.gua.60.yao.2",
+     "zhouyi.gua.60.yao.3",
+     "zhouyi.gua.60.yao.4",
+     "zhouyi.gua.60.yao.5",
+     "zhouyi.gua.60.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.60.xiaoxiang.1",
+     "zhouyi.gua.60.xiaoxiang.2",
+     "zhouyi.gua.60.xiaoxiang.3",
+     "zhouyi.gua.60.xiaoxiang.4",
+     "zhouyi.gua.60.xiaoxiang.5",
+     "zhouyi.gua.60.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 61,
+   "name": "中孚",
+   "full": "風澤中孚",
+   "symbol": "䷼",
+   "bits": "110011",
+   "upper": 5,
+   "lower": 2,
+   "textIds": {
+    "gua": "zhouyi.gua.61.gua",
+    "tuan": "zhouyi.gua.61.tuan",
+    "daxiang": "zhouyi.gua.61.daxiang",
+    "yao": [
+     "zhouyi.gua.61.yao.1",
+     "zhouyi.gua.61.yao.2",
+     "zhouyi.gua.61.yao.3",
+     "zhouyi.gua.61.yao.4",
+     "zhouyi.gua.61.yao.5",
+     "zhouyi.gua.61.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.61.xiaoxiang.1",
+     "zhouyi.gua.61.xiaoxiang.2",
+     "zhouyi.gua.61.xiaoxiang.3",
+     "zhouyi.gua.61.xiaoxiang.4",
+     "zhouyi.gua.61.xiaoxiang.5",
+     "zhouyi.gua.61.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 62,
+   "name": "小過",
+   "full": "雷山小過",
+   "symbol": "䷽",
+   "bits": "001100",
+   "upper": 4,
+   "lower": 7,
+   "textIds": {
+    "gua": "zhouyi.gua.62.gua",
+    "tuan": "zhouyi.gua.62.tuan",
+    "daxiang": "zhouyi.gua.62.daxiang",
+    "yao": [
+     "zhouyi.gua.62.yao.1",
+     "zhouyi.gua.62.yao.2",
+     "zhouyi.gua.62.yao.3",
+     "zhouyi.gua.62.yao.4",
+     "zhouyi.gua.62.yao.5",
+     "zhouyi.gua.62.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.62.xiaoxiang.1",
+     "zhouyi.gua.62.xiaoxiang.2",
+     "zhouyi.gua.62.xiaoxiang.3",
+     "zhouyi.gua.62.xiaoxiang.4",
+     "zhouyi.gua.62.xiaoxiang.5",
+     "zhouyi.gua.62.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 63,
+   "name": "既濟",
+   "full": "水火既濟",
+   "symbol": "䷾",
+   "bits": "101010",
+   "upper": 6,
+   "lower": 3,
+   "textIds": {
+    "gua": "zhouyi.gua.63.gua",
+    "tuan": "zhouyi.gua.63.tuan",
+    "daxiang": "zhouyi.gua.63.daxiang",
+    "yao": [
+     "zhouyi.gua.63.yao.1",
+     "zhouyi.gua.63.yao.2",
+     "zhouyi.gua.63.yao.3",
+     "zhouyi.gua.63.yao.4",
+     "zhouyi.gua.63.yao.5",
+     "zhouyi.gua.63.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.63.xiaoxiang.1",
+     "zhouyi.gua.63.xiaoxiang.2",
+     "zhouyi.gua.63.xiaoxiang.3",
+     "zhouyi.gua.63.xiaoxiang.4",
+     "zhouyi.gua.63.xiaoxiang.5",
+     "zhouyi.gua.63.xiaoxiang.6"
+    ]
+   }
+  },
+  {
+   "no": 64,
+   "name": "未濟",
+   "full": "火水未濟",
+   "symbol": "䷿",
+   "bits": "010101",
+   "upper": 3,
+   "lower": 6,
+   "textIds": {
+    "gua": "zhouyi.gua.64.gua",
+    "tuan": "zhouyi.gua.64.tuan",
+    "daxiang": "zhouyi.gua.64.daxiang",
+    "yao": [
+     "zhouyi.gua.64.yao.1",
+     "zhouyi.gua.64.yao.2",
+     "zhouyi.gua.64.yao.3",
+     "zhouyi.gua.64.yao.4",
+     "zhouyi.gua.64.yao.5",
+     "zhouyi.gua.64.yao.6"
+    ],
+    "xiaoxiang": [
+     "zhouyi.gua.64.xiaoxiang.1",
+     "zhouyi.gua.64.xiaoxiang.2",
+     "zhouyi.gua.64.xiaoxiang.3",
+     "zhouyi.gua.64.xiaoxiang.4",
+     "zhouyi.gua.64.xiaoxiang.5",
+     "zhouyi.gua.64.xiaoxiang.6"
+    ]
+   }
+  }
+ ],
+ "texts": {
+  "zhouyi.gua.01.gua": {
+   "chapter": "乾卦・卦辭",
+   "text": "乾：元亨，利貞。",
+   "review": []
+  },
+  "zhouyi.gua.01.tuan": {
+   "chapter": "乾卦・彖傳",
+   "text": "大哉乾元，萬物資始，乃統天。雲行雨施，品物流形。大明始終，六位時成，時乘六龍以御天。乾道變化，各正性命，保合大和，乃利貞。首出庶物，萬國咸寧。",
+   "review": []
+  },
+  "zhouyi.gua.01.daxiang": {
+   "chapter": "乾卦・大象",
+   "text": "天行健，君子以自強不息。",
+   "review": []
+  },
+  "zhouyi.gua.01.yao.1": {
+   "chapter": "乾卦・初九",
+   "text": "初九：潛龍，勿用。",
+   "review": []
+  },
+  "zhouyi.gua.01.yao.2": {
+   "chapter": "乾卦・九二",
+   "text": "九二：見龍在田，利見大人。",
+   "review": []
+  },
+  "zhouyi.gua.01.yao.3": {
+   "chapter": "乾卦・九三",
+   "text": "九三：君子終日乾乾，夕惕若，厲，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.01.yao.4": {
+   "chapter": "乾卦・九四",
+   "text": "九四：或躍在淵，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.01.yao.5": {
+   "chapter": "乾卦・九五",
+   "text": "九五：飛龍在天，利見大人。",
+   "review": []
+  },
+  "zhouyi.gua.01.yao.6": {
+   "chapter": "乾卦・上九",
+   "text": "上九：亢龍有悔。",
+   "review": []
+  },
+  "zhouyi.gua.01.yao.7": {
+   "chapter": "乾卦・用九",
+   "text": "用九：見群龍無首，吉。",
+   "review": []
+  },
+  "zhouyi.gua.01.xiaoxiang.1": {
+   "chapter": "乾卦・小象・初九",
+   "text": "潛龍勿用，陽在下也。",
+   "review": []
+  },
+  "zhouyi.gua.01.xiaoxiang.2": {
+   "chapter": "乾卦・小象・九二",
+   "text": "見龍在田，德施普也。",
+   "review": []
+  },
+  "zhouyi.gua.01.xiaoxiang.3": {
+   "chapter": "乾卦・小象・九三",
+   "text": "終日乾乾，反復道也。",
+   "review": []
+  },
+  "zhouyi.gua.01.xiaoxiang.4": {
+   "chapter": "乾卦・小象・九四",
+   "text": "或躍在淵，進無咎也。",
+   "review": []
+  },
+  "zhouyi.gua.01.xiaoxiang.5": {
+   "chapter": "乾卦・小象・九五",
+   "text": "飛龍在天，大人造也。",
+   "review": []
+  },
+  "zhouyi.gua.01.xiaoxiang.6": {
+   "chapter": "乾卦・小象・上九",
+   "text": "亢龍有悔，盈不可久也。",
+   "review": []
+  },
+  "zhouyi.gua.01.xiaoxiang.7": {
+   "chapter": "乾卦・小象・用九",
+   "text": "用九，天德不可為首也。",
+   "review": []
+  },
+  "zhouyi.gua.02.gua": {
+   "chapter": "坤卦・卦辭",
+   "text": "坤：元亨，利牝馬之貞。君子有攸往，先迷後得主，利西南得朋，東北喪朋。安貞，吉。",
+   "review": []
+  },
+  "zhouyi.gua.02.tuan": {
+   "chapter": "坤卦・彖傳",
+   "text": "至哉坤元，萬物資生，乃順承天。坤厚載物，德合無疆。含弘光大，品物咸亨。牝馬地類，行地無疆，柔順利貞。君子攸行，先迷失道，後順得常。西南得朋，乃與類行；東北喪朋，乃終有慶。安貞之吉，應地無疆。",
+   "review": []
+  },
+  "zhouyi.gua.02.daxiang": {
+   "chapter": "坤卦・大象",
+   "text": "地勢坤，君子以厚德載物。",
+   "review": []
+  },
+  "zhouyi.gua.02.yao.1": {
+   "chapter": "坤卦・初六",
+   "text": "初六：履霜，堅冰至。",
+   "review": []
+  },
+  "zhouyi.gua.02.yao.2": {
+   "chapter": "坤卦・六二",
+   "text": "六二：直，方，大，不習無不利。",
+   "review": []
+  },
+  "zhouyi.gua.02.yao.3": {
+   "chapter": "坤卦・六三",
+   "text": "六三：含章可貞。或從王事，無成有終。",
+   "review": []
+  },
+  "zhouyi.gua.02.yao.4": {
+   "chapter": "坤卦・六四",
+   "text": "六四：括囊；無咎，無譽。",
+   "review": []
+  },
+  "zhouyi.gua.02.yao.5": {
+   "chapter": "坤卦・六五",
+   "text": "六五：黃裳，元吉。",
+   "review": []
+  },
+  "zhouyi.gua.02.yao.6": {
+   "chapter": "坤卦・上六",
+   "text": "上六：龍戰於野，其血玄黃。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.02.yao.7": {
+   "chapter": "坤卦・用六",
+   "text": "用六：利永貞。",
+   "review": []
+  },
+  "zhouyi.gua.02.xiaoxiang.1": {
+   "chapter": "坤卦・小象・初六",
+   "text": "履霜堅冰，陰始凝也。馴致其道，至堅冰也。",
+   "review": []
+  },
+  "zhouyi.gua.02.xiaoxiang.2": {
+   "chapter": "坤卦・小象・六二",
+   "text": "六二之動，直以方也。不習無不利，地道光也。",
+   "review": []
+  },
+  "zhouyi.gua.02.xiaoxiang.3": {
+   "chapter": "坤卦・小象・六三",
+   "text": "含章可貞；以時發也。或從王事，知光大也",
+   "review": []
+  },
+  "zhouyi.gua.02.xiaoxiang.4": {
+   "chapter": "坤卦・小象・六四",
+   "text": "括囊無咎，慎不害也。",
+   "review": []
+  },
+  "zhouyi.gua.02.xiaoxiang.5": {
+   "chapter": "坤卦・小象・六五",
+   "text": "黃裳元吉，文在中也。",
+   "review": []
+  },
+  "zhouyi.gua.02.xiaoxiang.6": {
+   "chapter": "坤卦・小象・上六",
+   "text": "戰龍於野，其道窮也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.02.xiaoxiang.7": {
+   "chapter": "坤卦・小象・用六",
+   "text": "用六永貞，以大終也。",
+   "review": []
+  },
+  "zhouyi.gua.03.gua": {
+   "chapter": "屯卦・卦辭",
+   "text": "元亨，利貞，勿用有攸往，利建侯。",
+   "review": []
+  },
+  "zhouyi.gua.03.tuan": {
+   "chapter": "屯卦・彖傳",
+   "text": "屯，剛柔始交而難生，動乎險中，大亨貞。雷雨之動滿盈，天造草昧，宜建侯而不寧。",
+   "review": []
+  },
+  "zhouyi.gua.03.daxiang": {
+   "chapter": "屯卦・大象",
+   "text": "雲，雷，屯；君子以經綸。",
+   "review": []
+  },
+  "zhouyi.gua.03.yao.1": {
+   "chapter": "屯卦・初九",
+   "text": "初九：磐桓；利居貞，利建侯。",
+   "review": []
+  },
+  "zhouyi.gua.03.yao.2": {
+   "chapter": "屯卦・六二",
+   "text": "六二：屯如邅如，乘馬班如。匪寇婚媾，女子貞不字，十年乃字。",
+   "review": []
+  },
+  "zhouyi.gua.03.yao.3": {
+   "chapter": "屯卦・六三",
+   "text": "六三：即鹿無虞，惟入於林中，君子幾不如舍，往吝。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.03.yao.4": {
+   "chapter": "屯卦・六四",
+   "text": "六四：乘馬班如，求婚媾，往吉，無不利。",
+   "review": []
+  },
+  "zhouyi.gua.03.yao.5": {
+   "chapter": "屯卦・九五",
+   "text": "九五：屯其膏，小貞吉，大貞凶。",
+   "review": []
+  },
+  "zhouyi.gua.03.yao.6": {
+   "chapter": "屯卦・上六",
+   "text": "上六：乘馬班如，泣血漣如。",
+   "review": []
+  },
+  "zhouyi.gua.03.xiaoxiang.1": {
+   "chapter": "屯卦・小象・初九",
+   "text": "雖磐桓，志行正也。以貴下賤，大得民也。",
+   "review": []
+  },
+  "zhouyi.gua.03.xiaoxiang.2": {
+   "chapter": "屯卦・小象・六二",
+   "text": "六二之難，乘剛也。十年乃字，反常也。",
+   "review": []
+  },
+  "zhouyi.gua.03.xiaoxiang.3": {
+   "chapter": "屯卦・小象・六三",
+   "text": "即鹿無虞，以縱禽也。君子舍之，往吝窮也。",
+   "review": []
+  },
+  "zhouyi.gua.03.xiaoxiang.4": {
+   "chapter": "屯卦・小象・六四",
+   "text": "求而往，明也。",
+   "review": []
+  },
+  "zhouyi.gua.03.xiaoxiang.5": {
+   "chapter": "屯卦・小象・九五",
+   "text": "屯其膏，施未光也。",
+   "review": []
+  },
+  "zhouyi.gua.03.xiaoxiang.6": {
+   "chapter": "屯卦・小象・上六",
+   "text": "泣血漣如，何可長也。",
+   "review": []
+  },
+  "zhouyi.gua.04.gua": {
+   "chapter": "蒙卦・卦辭",
+   "text": "蒙：亨。匪我求童蒙，童蒙求我。初筮告，再三瀆，瀆則不告。利貞。",
+   "review": []
+  },
+  "zhouyi.gua.04.tuan": {
+   "chapter": "蒙卦・彖傳",
+   "text": "蒙，山下有險，險而止，蒙。蒙亨，以亨行時中也。匪我求童蒙，童蒙求我，志應也。初噬告，以剛中也。再三瀆，瀆則不告，瀆蒙也。蒙以養正，聖功也。",
+   "review": []
+  },
+  "zhouyi.gua.04.daxiang": {
+   "chapter": "蒙卦・大象",
+   "text": "山下出泉，蒙；君子以果行育德。",
+   "review": []
+  },
+  "zhouyi.gua.04.yao.1": {
+   "chapter": "蒙卦・初六",
+   "text": "初六：發蒙，利用刑人，用說桎梏，以往吝。",
+   "review": []
+  },
+  "zhouyi.gua.04.yao.2": {
+   "chapter": "蒙卦・九二",
+   "text": "九二：包蒙吉；納婦吉；子克家。",
+   "review": []
+  },
+  "zhouyi.gua.04.yao.3": {
+   "chapter": "蒙卦・六三",
+   "text": "六三：勿用娶女；見金夫，不有躬，無攸利。",
+   "review": []
+  },
+  "zhouyi.gua.04.yao.4": {
+   "chapter": "蒙卦・六四",
+   "text": "六四：困蒙，吝。",
+   "review": []
+  },
+  "zhouyi.gua.04.yao.5": {
+   "chapter": "蒙卦・六五",
+   "text": "六五：童蒙，吉。",
+   "review": []
+  },
+  "zhouyi.gua.04.yao.6": {
+   "chapter": "蒙卦・上九",
+   "text": "上九：擊蒙；不利為寇，利禦寇。",
+   "review": []
+  },
+  "zhouyi.gua.04.xiaoxiang.1": {
+   "chapter": "蒙卦・小象・初六",
+   "text": "利用刑人，以正法也。",
+   "review": []
+  },
+  "zhouyi.gua.04.xiaoxiang.2": {
+   "chapter": "蒙卦・小象・九二",
+   "text": "子克家，剛柔接也。",
+   "review": []
+  },
+  "zhouyi.gua.04.xiaoxiang.3": {
+   "chapter": "蒙卦・小象・六三",
+   "text": "勿用娶女，行不順也。",
+   "review": []
+  },
+  "zhouyi.gua.04.xiaoxiang.4": {
+   "chapter": "蒙卦・小象・六四",
+   "text": "困蒙之吝，獨遠實也。",
+   "review": []
+  },
+  "zhouyi.gua.04.xiaoxiang.5": {
+   "chapter": "蒙卦・小象・六五",
+   "text": "童蒙之吉，順以巽也。",
+   "review": []
+  },
+  "zhouyi.gua.04.xiaoxiang.6": {
+   "chapter": "蒙卦・小象・上九",
+   "text": "利用禦寇，上下順也。",
+   "review": []
+  },
+  "zhouyi.gua.05.gua": {
+   "chapter": "需卦・卦辭",
+   "text": "需：有孚，光亨，貞吉。利涉大川。",
+   "review": []
+  },
+  "zhouyi.gua.05.tuan": {
+   "chapter": "需卦・彖傳",
+   "text": "需，須也；險在前也。剛健而不陷，其義不困窮矣。需有孚，光亨，貞吉。位乎天位，以正中也。利涉大川，往有功也。",
+   "review": []
+  },
+  "zhouyi.gua.05.daxiang": {
+   "chapter": "需卦・大象",
+   "text": "雲上於天，需；君子以飲食宴樂。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.yao.1": {
+   "chapter": "需卦・初九",
+   "text": "初九：需於郊。利用恒，無咎。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.yao.2": {
+   "chapter": "需卦・九二",
+   "text": "九二：需於沙。小有言，終吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.yao.3": {
+   "chapter": "需卦・九三",
+   "text": "九三：需於泥，致寇至。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.yao.4": {
+   "chapter": "需卦・六四",
+   "text": "六四：需於血，出自穴。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.yao.5": {
+   "chapter": "需卦・九五",
+   "text": "九五：需於酒食，貞吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.yao.6": {
+   "chapter": "需卦・上六",
+   "text": "上六：入於穴，有不速之客三人來，敬之終吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.xiaoxiang.1": {
+   "chapter": "需卦・小象・初九",
+   "text": "需於郊，不犯難行也。利用恒，無咎；未失常也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.xiaoxiang.2": {
+   "chapter": "需卦・小象・九二",
+   "text": "需於沙，衍在中也。雖小有言，以終吉也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.xiaoxiang.3": {
+   "chapter": "需卦・小象・九三",
+   "text": "需於泥，災在外也。自我致寇，敬慎不敗也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.xiaoxiang.4": {
+   "chapter": "需卦・小象・六四",
+   "text": "需於血，順以聽也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.05.xiaoxiang.5": {
+   "chapter": "需卦・小象・九五",
+   "text": "酒食貞吉，以中正也。",
+   "review": []
+  },
+  "zhouyi.gua.05.xiaoxiang.6": {
+   "chapter": "需卦・小象・上六",
+   "text": "不速之客來，敬之終吉。雖不當位，未大失也。",
+   "review": []
+  },
+  "zhouyi.gua.06.gua": {
+   "chapter": "訟卦・卦辭",
+   "text": "訟：有孚，窒。惕中吉。終凶。利見大人，不利涉大川。",
+   "review": []
+  },
+  "zhouyi.gua.06.tuan": {
+   "chapter": "訟卦・彖傳",
+   "text": "訟，上剛下險，險而健訟。訟有孚窒，惕中吉，剛來而得中也。終凶；訟不可成也。利見大人；尚中正也。不利涉大川；入於淵也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.06.daxiang": {
+   "chapter": "訟卦・大象",
+   "text": "天與水違行，訟；君子以作事謀始。",
+   "review": []
+  },
+  "zhouyi.gua.06.yao.1": {
+   "chapter": "訟卦・初六",
+   "text": "初六：不永所事，小有言，終吉。",
+   "review": []
+  },
+  "zhouyi.gua.06.yao.2": {
+   "chapter": "訟卦・九二",
+   "text": "九二：不克訟，歸而逋，其邑人三百戶，無眚。",
+   "review": []
+  },
+  "zhouyi.gua.06.yao.3": {
+   "chapter": "訟卦・六三",
+   "text": "六三：食舊德，貞厲，終吉，或從王事，無成。",
+   "review": []
+  },
+  "zhouyi.gua.06.yao.4": {
+   "chapter": "訟卦・九四",
+   "text": "九四：不克訟，復即命渝，安貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.06.yao.5": {
+   "chapter": "訟卦・九五",
+   "text": "九五：訟元吉。",
+   "review": []
+  },
+  "zhouyi.gua.06.yao.6": {
+   "chapter": "訟卦・上九",
+   "text": "上九：或錫之鞶帶，終朝三褫之。",
+   "review": []
+  },
+  "zhouyi.gua.06.xiaoxiang.1": {
+   "chapter": "訟卦・小象・初六",
+   "text": "不永所事，訟不可長也。雖有小言，其辯明也。",
+   "review": []
+  },
+  "zhouyi.gua.06.xiaoxiang.2": {
+   "chapter": "訟卦・小象・九二",
+   "text": "不克訟，歸而逋也。自下訟上，患至掇也。",
+   "review": []
+  },
+  "zhouyi.gua.06.xiaoxiang.3": {
+   "chapter": "訟卦・小象・六三",
+   "text": "食舊德，從上吉也。",
+   "review": []
+  },
+  "zhouyi.gua.06.xiaoxiang.4": {
+   "chapter": "訟卦・小象・九四",
+   "text": "復即命，渝安貞；不失也。",
+   "review": []
+  },
+  "zhouyi.gua.06.xiaoxiang.5": {
+   "chapter": "訟卦・小象・九五",
+   "text": "訟元吉，以中正也。",
+   "review": []
+  },
+  "zhouyi.gua.06.xiaoxiang.6": {
+   "chapter": "訟卦・小象・上九",
+   "text": "以訟受服，亦不足敬也。",
+   "review": []
+  },
+  "zhouyi.gua.07.gua": {
+   "chapter": "師卦・卦辭",
+   "text": "貞，丈人，吉無咎。",
+   "review": []
+  },
+  "zhouyi.gua.07.tuan": {
+   "chapter": "師卦・彖傳",
+   "text": "師，眾也，貞正也，能以眾正，可以王矣。剛中而應，行險而順，以此毒天下，而民從之，吉又何咎矣。",
+   "review": []
+  },
+  "zhouyi.gua.07.daxiang": {
+   "chapter": "師卦・大象",
+   "text": "地中有水，師；君子以容民畜眾。",
+   "review": []
+  },
+  "zhouyi.gua.07.yao.1": {
+   "chapter": "師卦・初六",
+   "text": "初六：師出以律，否臧凶。",
+   "review": []
+  },
+  "zhouyi.gua.07.yao.2": {
+   "chapter": "師卦・九二",
+   "text": "九二：在師中吉，無咎，王三錫命。",
+   "review": []
+  },
+  "zhouyi.gua.07.yao.3": {
+   "chapter": "師卦・六三",
+   "text": "六三：師或輿尸，凶。",
+   "review": []
+  },
+  "zhouyi.gua.07.yao.4": {
+   "chapter": "師卦・六四",
+   "text": "六四：師左次，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.07.yao.5": {
+   "chapter": "師卦・六五",
+   "text": "六五：田有禽，利執言，無咎。長子帥師，弟子輿尸，貞凶。",
+   "review": []
+  },
+  "zhouyi.gua.07.yao.6": {
+   "chapter": "師卦・上六",
+   "text": "上六：大君有命，開國承家，小人勿用。",
+   "review": []
+  },
+  "zhouyi.gua.07.xiaoxiang.1": {
+   "chapter": "師卦・小象・初六",
+   "text": "師出以律，失律凶也。",
+   "review": []
+  },
+  "zhouyi.gua.07.xiaoxiang.2": {
+   "chapter": "師卦・小象・九二",
+   "text": "在師中吉，承天寵也。王三錫命，懷萬邦也。",
+   "review": []
+  },
+  "zhouyi.gua.07.xiaoxiang.3": {
+   "chapter": "師卦・小象・六三",
+   "text": "師或輿尸，大無功也。",
+   "review": []
+  },
+  "zhouyi.gua.07.xiaoxiang.4": {
+   "chapter": "師卦・小象・六四",
+   "text": "左次無咎，未失常也。",
+   "review": []
+  },
+  "zhouyi.gua.07.xiaoxiang.5": {
+   "chapter": "師卦・小象・六五",
+   "text": "長子帥師，以中行也。弟子輿尸，使不當也。",
+   "review": []
+  },
+  "zhouyi.gua.07.xiaoxiang.6": {
+   "chapter": "師卦・小象・上六",
+   "text": "大君有命，以正功也。小人勿用，必亂邦也。",
+   "review": []
+  },
+  "zhouyi.gua.08.gua": {
+   "chapter": "比卦・卦辭",
+   "text": "吉。原筮元永貞，無咎。不寧方來，後夫凶。",
+   "review": []
+  },
+  "zhouyi.gua.08.tuan": {
+   "chapter": "比卦・彖傳",
+   "text": "比，吉也，比，輔也，下順從也。原筮元永貞，無咎，以剛中也。不寧方來，上下應也。後夫凶，其道窮也。",
+   "review": []
+  },
+  "zhouyi.gua.08.daxiang": {
+   "chapter": "比卦・大象",
+   "text": "地上有水，比；先王以建萬國，親諸侯。",
+   "review": []
+  },
+  "zhouyi.gua.08.yao.1": {
+   "chapter": "比卦・初六",
+   "text": "初六：有孚，比之，無咎。有孚盈缶，終來有他，吉。",
+   "review": []
+  },
+  "zhouyi.gua.08.yao.2": {
+   "chapter": "比卦・六二",
+   "text": "六二：比之自內，貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.08.yao.3": {
+   "chapter": "比卦・六三",
+   "text": "六三：比之匪人。",
+   "review": []
+  },
+  "zhouyi.gua.08.yao.4": {
+   "chapter": "比卦・六四",
+   "text": "六四：外比之，貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.08.yao.5": {
+   "chapter": "比卦・九五",
+   "text": "九五：顯比，王用三驅，失前禽。邑人不誡，吉。",
+   "review": []
+  },
+  "zhouyi.gua.08.yao.6": {
+   "chapter": "比卦・上六",
+   "text": "上六：比之無首，凶。",
+   "review": []
+  },
+  "zhouyi.gua.08.xiaoxiang.1": {
+   "chapter": "比卦・小象・初六",
+   "text": "比之初六，有他吉也。",
+   "review": []
+  },
+  "zhouyi.gua.08.xiaoxiang.2": {
+   "chapter": "比卦・小象・六二",
+   "text": "比之自內，不自失也。",
+   "review": []
+  },
+  "zhouyi.gua.08.xiaoxiang.3": {
+   "chapter": "比卦・小象・六三",
+   "text": "比之匪人，不亦傷乎！",
+   "review": []
+  },
+  "zhouyi.gua.08.xiaoxiang.4": {
+   "chapter": "比卦・小象・六四",
+   "text": "外比於賢，以從上也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.08.xiaoxiang.5": {
+   "chapter": "比卦・小象・九五",
+   "text": "顯比之吉，位正中也。舍逆取順，失前禽也。邑人不誡，上使中也。",
+   "review": []
+  },
+  "zhouyi.gua.08.xiaoxiang.6": {
+   "chapter": "比卦・小象・上六",
+   "text": "比之無首，無所終也。",
+   "review": []
+  },
+  "zhouyi.gua.09.gua": {
+   "chapter": "小畜卦・卦辭",
+   "text": "小畜：亨。密雲不雨，自我西郊。",
+   "review": []
+  },
+  "zhouyi.gua.09.tuan": {
+   "chapter": "小畜卦・彖傳",
+   "text": "小畜；柔得位，而上下應之，曰小畜。健而巽，剛中而志行，乃亨。密雲不雨，尚往也。自我西郊，施未行也。",
+   "review": []
+  },
+  "zhouyi.gua.09.daxiang": {
+   "chapter": "小畜卦・大象",
+   "text": "風行天上，小畜；君子以懿文德。",
+   "review": []
+  },
+  "zhouyi.gua.09.yao.1": {
+   "chapter": "小畜卦・初九",
+   "text": "初九：復自道，何其咎，吉。",
+   "review": []
+  },
+  "zhouyi.gua.09.yao.2": {
+   "chapter": "小畜卦・九二",
+   "text": "九二：牽復，吉。",
+   "review": []
+  },
+  "zhouyi.gua.09.yao.3": {
+   "chapter": "小畜卦・九三",
+   "text": "九三：輿說輻，夫妻反目。",
+   "review": []
+  },
+  "zhouyi.gua.09.yao.4": {
+   "chapter": "小畜卦・六四",
+   "text": "六四：有孚，血去惕出，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.09.yao.5": {
+   "chapter": "小畜卦・九五",
+   "text": "九五：有孚攣如，富以其鄰。",
+   "review": []
+  },
+  "zhouyi.gua.09.yao.6": {
+   "chapter": "小畜卦・上九",
+   "text": "上九：既雨既處，尚德載，婦貞厲。月幾望，君子征凶。",
+   "review": []
+  },
+  "zhouyi.gua.09.xiaoxiang.1": {
+   "chapter": "小畜卦・小象・初九",
+   "text": "復自道，其義吉也。",
+   "review": []
+  },
+  "zhouyi.gua.09.xiaoxiang.2": {
+   "chapter": "小畜卦・小象・九二",
+   "text": "牽復在中，亦不自失也。",
+   "review": []
+  },
+  "zhouyi.gua.09.xiaoxiang.3": {
+   "chapter": "小畜卦・小象・九三",
+   "text": "夫妻反目，不能正室也。",
+   "review": []
+  },
+  "zhouyi.gua.09.xiaoxiang.4": {
+   "chapter": "小畜卦・小象・六四",
+   "text": "有孚惕出，上合志也。",
+   "review": []
+  },
+  "zhouyi.gua.09.xiaoxiang.5": {
+   "chapter": "小畜卦・小象・九五",
+   "text": "有孚攣如，不獨富也。",
+   "review": []
+  },
+  "zhouyi.gua.09.xiaoxiang.6": {
+   "chapter": "小畜卦・小象・上九",
+   "text": "既雨既處，德積載也。君子征凶，有所疑也。",
+   "review": []
+  },
+  "zhouyi.gua.10.gua": {
+   "chapter": "履卦・卦辭",
+   "text": "履虎尾，不咥人，亨。",
+   "review": []
+  },
+  "zhouyi.gua.10.tuan": {
+   "chapter": "履卦・彖傳",
+   "text": "履，柔履剛也。說而應乎乾，是以履虎尾，不咥人，亨。剛中正，履帝位而不疚，光明也。",
+   "review": []
+  },
+  "zhouyi.gua.10.daxiang": {
+   "chapter": "履卦・大象",
+   "text": "上天下澤，履；君子以辨上下，安民志。",
+   "review": []
+  },
+  "zhouyi.gua.10.yao.1": {
+   "chapter": "履卦・初九",
+   "text": "初九：素履，往無咎。",
+   "review": []
+  },
+  "zhouyi.gua.10.yao.2": {
+   "chapter": "履卦・九二",
+   "text": "九二：履道坦坦，幽人貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.10.yao.3": {
+   "chapter": "履卦・六三",
+   "text": "六三：眇能視，跛能履，履虎尾，咥人，凶。武人為於大君。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.10.yao.4": {
+   "chapter": "履卦・九四",
+   "text": "九四：履虎尾，訴訴，終吉。",
+   "review": []
+  },
+  "zhouyi.gua.10.yao.5": {
+   "chapter": "履卦・九五",
+   "text": "九五：夬履，貞厲。",
+   "review": []
+  },
+  "zhouyi.gua.10.yao.6": {
+   "chapter": "履卦・上九",
+   "text": "上九：視履考祥，其旋元吉。",
+   "review": []
+  },
+  "zhouyi.gua.10.xiaoxiang.1": {
+   "chapter": "履卦・小象・初九",
+   "text": "素履之往，獨行願也。",
+   "review": []
+  },
+  "zhouyi.gua.10.xiaoxiang.2": {
+   "chapter": "履卦・小象・九二",
+   "text": "幽人貞吉，中不自亂也。",
+   "review": []
+  },
+  "zhouyi.gua.10.xiaoxiang.3": {
+   "chapter": "履卦・小象・六三",
+   "text": "眇能視；不足以有明也。跛能履；不足以與行也，咥人之凶；位不當也。武人為於大君；志剛也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.10.xiaoxiang.4": {
+   "chapter": "履卦・小象・九四",
+   "text": "訴訴終吉，志行也。",
+   "review": []
+  },
+  "zhouyi.gua.10.xiaoxiang.5": {
+   "chapter": "履卦・小象・九五",
+   "text": "夬履貞厲，位正當也。",
+   "review": []
+  },
+  "zhouyi.gua.10.xiaoxiang.6": {
+   "chapter": "履卦・小象・上九",
+   "text": "元吉在上，大有慶也。",
+   "review": []
+  },
+  "zhouyi.gua.11.gua": {
+   "chapter": "泰卦・卦辭",
+   "text": "泰：小往大來，吉亨。",
+   "review": []
+  },
+  "zhouyi.gua.11.tuan": {
+   "chapter": "泰卦・彖傳",
+   "text": "泰，小往大來，吉亨。則是天地交，而萬物通也；上下交，而其志同也。內陽而外陰，內健而外順，內君子而外小人，君子道長，小人道消也。",
+   "review": []
+  },
+  "zhouyi.gua.11.daxiang": {
+   "chapter": "泰卦・大象",
+   "text": "天地交泰，后以財成天地之道，輔相天地之宜，以左右民。",
+   "review": []
+  },
+  "zhouyi.gua.11.yao.1": {
+   "chapter": "泰卦・初九",
+   "text": "初九：拔茅茹，以其彙，征吉。",
+   "review": []
+  },
+  "zhouyi.gua.11.yao.2": {
+   "chapter": "泰卦・九二",
+   "text": "九二：包荒，用馮河，不遐遺，朋亡，得尚於中行。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.11.yao.3": {
+   "chapter": "泰卦・九三",
+   "text": "九三：無平不陂，無往不復，艱貞無咎。勿恤其孚，於食有福。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.11.yao.4": {
+   "chapter": "泰卦・六四",
+   "text": "六四：翩翩，不富，以其鄰，不戒以孚。",
+   "review": []
+  },
+  "zhouyi.gua.11.yao.5": {
+   "chapter": "泰卦・六五",
+   "text": "六五：帝乙歸妹，以祉元吉。",
+   "review": []
+  },
+  "zhouyi.gua.11.yao.6": {
+   "chapter": "泰卦・上六",
+   "text": "上六：城復於隍，勿用師。自邑告命，貞吝。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.11.xiaoxiang.1": {
+   "chapter": "泰卦・小象・初九",
+   "text": "拔茅征吉，志在外也。",
+   "review": []
+  },
+  "zhouyi.gua.11.xiaoxiang.2": {
+   "chapter": "泰卦・小象・九二",
+   "text": "包荒，得尚於中行，以光大也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.11.xiaoxiang.3": {
+   "chapter": "泰卦・小象・九三",
+   "text": "無往不復，天地際也。",
+   "review": []
+  },
+  "zhouyi.gua.11.xiaoxiang.4": {
+   "chapter": "泰卦・小象・六四",
+   "text": "翩翩不富，皆失實也。不戒以孚，中心願也。",
+   "review": []
+  },
+  "zhouyi.gua.11.xiaoxiang.5": {
+   "chapter": "泰卦・小象・六五",
+   "text": "以祉元吉，中以行願也。",
+   "review": []
+  },
+  "zhouyi.gua.11.xiaoxiang.6": {
+   "chapter": "泰卦・小象・上六",
+   "text": "城復於隍，其命亂也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.12.gua": {
+   "chapter": "否卦・卦辭",
+   "text": "否之匪人，不利君子貞，大往小來。",
+   "review": []
+  },
+  "zhouyi.gua.12.tuan": {
+   "chapter": "否卦・彖傳",
+   "text": "否之匪人，不利君子貞。大往小來，則是天地不交，而萬物不通也；上下不交，而天下無邦也。內陰而外陽，內柔而外剛，內小人而外君子。小人道長，君子道消也。",
+   "review": []
+  },
+  "zhouyi.gua.12.daxiang": {
+   "chapter": "否卦・大象",
+   "text": "天地不交，否；君子以儉德辟難，不可榮以祿。",
+   "review": []
+  },
+  "zhouyi.gua.12.yao.1": {
+   "chapter": "否卦・初六",
+   "text": "初六：拔茅茹，以其彙，貞吉亨。",
+   "review": []
+  },
+  "zhouyi.gua.12.yao.2": {
+   "chapter": "否卦・六二",
+   "text": "六二：包承。小人吉，大人否，亨。",
+   "review": []
+  },
+  "zhouyi.gua.12.yao.3": {
+   "chapter": "否卦・六三",
+   "text": "六三：包羞。",
+   "review": []
+  },
+  "zhouyi.gua.12.yao.4": {
+   "chapter": "否卦・九四",
+   "text": "九四：有命，無咎，疇離祉。",
+   "review": []
+  },
+  "zhouyi.gua.12.yao.5": {
+   "chapter": "否卦・九五",
+   "text": "九五：休否，大人吉。其亡其亡，系於苞桑。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.12.yao.6": {
+   "chapter": "否卦・上九",
+   "text": "上九：傾否，先否後喜。",
+   "review": []
+  },
+  "zhouyi.gua.12.xiaoxiang.1": {
+   "chapter": "否卦・小象・初六",
+   "text": "拔茅貞吉，志在君也。",
+   "review": []
+  },
+  "zhouyi.gua.12.xiaoxiang.2": {
+   "chapter": "否卦・小象・六二",
+   "text": "大人否亨，不亂群也。",
+   "review": []
+  },
+  "zhouyi.gua.12.xiaoxiang.3": {
+   "chapter": "否卦・小象・六三",
+   "text": "包羞，位不當也。",
+   "review": []
+  },
+  "zhouyi.gua.12.xiaoxiang.4": {
+   "chapter": "否卦・小象・九四",
+   "text": "有命無咎，志行也。",
+   "review": []
+  },
+  "zhouyi.gua.12.xiaoxiang.5": {
+   "chapter": "否卦・小象・九五",
+   "text": "大人之吉，位正當也。",
+   "review": []
+  },
+  "zhouyi.gua.12.xiaoxiang.6": {
+   "chapter": "否卦・小象・上九",
+   "text": "否終則傾，何可長也。",
+   "review": []
+  },
+  "zhouyi.gua.13.gua": {
+   "chapter": "同人卦・卦辭",
+   "text": "同人於野，亨。利涉大川，利君子貞。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.13.tuan": {
+   "chapter": "同人卦・彖傳",
+   "text": "同人，柔得位得中，而應乎乾，曰同人。同人曰，同人於野，亨。利涉大川，乾行也。文明以健，中正而應，君子正也。唯君子為能通天下之志。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.13.daxiang": {
+   "chapter": "同人卦・大象",
+   "text": "天與火，同人；君子以類族辨物。",
+   "review": []
+  },
+  "zhouyi.gua.13.yao.1": {
+   "chapter": "同人卦・初九",
+   "text": "初九：同人於門，無咎。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.13.yao.2": {
+   "chapter": "同人卦・六二",
+   "text": "六二：同人於宗，吝。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.13.yao.3": {
+   "chapter": "同人卦・九三",
+   "text": "九三：伏戎於莽，升其高陵，三歲不興。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.13.yao.4": {
+   "chapter": "同人卦・九四",
+   "text": "九四：乘其墉，弗克攻，吉。",
+   "review": []
+  },
+  "zhouyi.gua.13.yao.5": {
+   "chapter": "同人卦・九五",
+   "text": "九五：同人，先號啕而後笑。大師克相遇。",
+   "review": []
+  },
+  "zhouyi.gua.13.yao.6": {
+   "chapter": "同人卦・上九",
+   "text": "上九：同人於郊，無悔。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.13.xiaoxiang.1": {
+   "chapter": "同人卦・小象・初九",
+   "text": "出門同人，又誰咎也。",
+   "review": []
+  },
+  "zhouyi.gua.13.xiaoxiang.2": {
+   "chapter": "同人卦・小象・六二",
+   "text": "同人於宗，吝道也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.13.xiaoxiang.3": {
+   "chapter": "同人卦・小象・九三",
+   "text": "伏戎於莽，敵剛也。三歲不興，安行也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.13.xiaoxiang.4": {
+   "chapter": "同人卦・小象・九四",
+   "text": "乘其墉，義弗克也，其吉，則困而反則也。  ",
+   "review": []
+  },
+  "zhouyi.gua.13.xiaoxiang.5": {
+   "chapter": "同人卦・小象・九五",
+   "text": "同人之先，以中直也。大師相遇，言相克也。",
+   "review": []
+  },
+  "zhouyi.gua.13.xiaoxiang.6": {
+   "chapter": "同人卦・小象・上九",
+   "text": "同人於郊，志未得也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.14.gua": {
+   "chapter": "大有卦・卦辭",
+   "text": "大有：元亨。",
+   "review": []
+  },
+  "zhouyi.gua.14.tuan": {
+   "chapter": "大有卦・彖傳",
+   "text": "大有，柔得尊位，大中而上下應之，曰大有。其德剛健而文明，應乎天而時行，是以元亨。",
+   "review": []
+  },
+  "zhouyi.gua.14.daxiang": {
+   "chapter": "大有卦・大象",
+   "text": "火在天上，大有；君子以遏惡揚善，順天休命。",
+   "review": []
+  },
+  "zhouyi.gua.14.yao.1": {
+   "chapter": "大有卦・初九",
+   "text": "初九：無交害，匪咎，艱則無咎。",
+   "review": []
+  },
+  "zhouyi.gua.14.yao.2": {
+   "chapter": "大有卦・六二",
+   "text": "六二：同人於宗，吝。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.14.yao.3": {
+   "chapter": "大有卦・九三",
+   "text": "九三：公用亨於天子，小人弗克。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.14.yao.4": {
+   "chapter": "大有卦・九四",
+   "text": "九四：匪其彭，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.14.yao.5": {
+   "chapter": "大有卦・六五",
+   "text": "六五：厥孚交如，威如；吉。",
+   "review": []
+  },
+  "zhouyi.gua.14.yao.6": {
+   "chapter": "大有卦・上九",
+   "text": "上九：自天佑之，吉無不利。",
+   "review": []
+  },
+  "zhouyi.gua.14.xiaoxiang.1": {
+   "chapter": "大有卦・小象・初九",
+   "text": "大有初九，無交害也。",
+   "review": []
+  },
+  "zhouyi.gua.14.xiaoxiang.2": {
+   "chapter": "大有卦・小象・六二",
+   "text": "大車以載，積中不敗也。",
+   "review": []
+  },
+  "zhouyi.gua.14.xiaoxiang.3": {
+   "chapter": "大有卦・小象・九三",
+   "text": "公用亨於天子，小人害也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.14.xiaoxiang.4": {
+   "chapter": "大有卦・小象・九四",
+   "text": "匪其彭，無咎；明辨晰也。",
+   "review": []
+  },
+  "zhouyi.gua.14.xiaoxiang.5": {
+   "chapter": "大有卦・小象・六五",
+   "text": "厥孚交如，信以發志也。威如之吉，易而無備也。",
+   "review": []
+  },
+  "zhouyi.gua.14.xiaoxiang.6": {
+   "chapter": "大有卦・小象・上九",
+   "text": "大有上吉，自天佑也。",
+   "review": []
+  },
+  "zhouyi.gua.15.gua": {
+   "chapter": "謙卦・卦辭",
+   "text": "謙：亨，君子有終。",
+   "review": []
+  },
+  "zhouyi.gua.15.tuan": {
+   "chapter": "謙卦・彖傳",
+   "text": "謙，亨，天道下濟而光明，地道卑而上行。天道虧盈而益謙，地道變盈而流謙，鬼神害盈而福謙，人道惡盈而好謙。謙尊而光，卑而不可逾，君子之終也。",
+   "review": []
+  },
+  "zhouyi.gua.15.daxiang": {
+   "chapter": "謙卦・大象",
+   "text": "地中有山，謙；君子以裒多益寡，稱物平施。",
+   "review": []
+  },
+  "zhouyi.gua.15.yao.1": {
+   "chapter": "謙卦・初六",
+   "text": "初六：謙謙君子，用涉大川，吉。",
+   "review": []
+  },
+  "zhouyi.gua.15.yao.2": {
+   "chapter": "謙卦・六二",
+   "text": "六二：鳴謙，貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.15.yao.3": {
+   "chapter": "謙卦・九三",
+   "text": "九三：勞謙，君子有終，吉。",
+   "review": []
+  },
+  "zhouyi.gua.15.yao.4": {
+   "chapter": "謙卦・六四",
+   "text": "六四：無不利，撝謙。",
+   "review": []
+  },
+  "zhouyi.gua.15.yao.5": {
+   "chapter": "謙卦・六五",
+   "text": "六五：不富，以其鄰，利用侵伐，無不利。",
+   "review": []
+  },
+  "zhouyi.gua.15.yao.6": {
+   "chapter": "謙卦・上六",
+   "text": "上六：鳴謙，利用行師，征邑國。",
+   "review": []
+  },
+  "zhouyi.gua.15.xiaoxiang.1": {
+   "chapter": "謙卦・小象・初六",
+   "text": "謙謙君子，卑以自牧也。",
+   "review": []
+  },
+  "zhouyi.gua.15.xiaoxiang.2": {
+   "chapter": "謙卦・小象・六二",
+   "text": "鳴謙貞吉，中心得也。",
+   "review": []
+  },
+  "zhouyi.gua.15.xiaoxiang.3": {
+   "chapter": "謙卦・小象・九三",
+   "text": "勞謙君子，萬民服也。",
+   "review": []
+  },
+  "zhouyi.gua.15.xiaoxiang.4": {
+   "chapter": "謙卦・小象・六四",
+   "text": "無不利，撝謙；不違則也。",
+   "review": []
+  },
+  "zhouyi.gua.15.xiaoxiang.5": {
+   "chapter": "謙卦・小象・六五",
+   "text": "利用侵伐，征不服也。",
+   "review": []
+  },
+  "zhouyi.gua.15.xiaoxiang.6": {
+   "chapter": "謙卦・小象・上六",
+   "text": "鳴謙，志未得也。可用行師，征邑國也。",
+   "review": []
+  },
+  "zhouyi.gua.16.gua": {
+   "chapter": "豫卦・卦辭",
+   "text": "豫：利建侯，行師。",
+   "review": []
+  },
+  "zhouyi.gua.16.tuan": {
+   "chapter": "豫卦・彖傳",
+   "text": "豫，剛應而志行，順以動，豫。豫，順以動，故天地如之，而況建侯行師乎？天地以順動，故日月不過，而四時不忒；聖人以順動，則刑罰清而民服。豫之時義大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.16.daxiang": {
+   "chapter": "豫卦・大象",
+   "text": "雷出地奮，豫。先王以作樂崇德，殷薦之上帝，以配祖考。",
+   "review": []
+  },
+  "zhouyi.gua.16.yao.1": {
+   "chapter": "豫卦・初六",
+   "text": "初六：鳴豫，凶。",
+   "review": []
+  },
+  "zhouyi.gua.16.yao.2": {
+   "chapter": "豫卦・六二",
+   "text": "六二：介於石，不終日，貞吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.16.yao.3": {
+   "chapter": "豫卦・六三",
+   "text": "六三：盱豫，悔。遲有悔。",
+   "review": []
+  },
+  "zhouyi.gua.16.yao.4": {
+   "chapter": "豫卦・九四",
+   "text": "九四：由豫，大有得。勿疑。朋盍簪。",
+   "review": []
+  },
+  "zhouyi.gua.16.yao.5": {
+   "chapter": "豫卦・六五",
+   "text": "六五：貞疾，恒不死。",
+   "review": []
+  },
+  "zhouyi.gua.16.yao.6": {
+   "chapter": "豫卦・上六",
+   "text": "上六：冥豫，成有渝，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.16.xiaoxiang.1": {
+   "chapter": "豫卦・小象・初六",
+   "text": "初六鳴豫，志窮凶也。",
+   "review": []
+  },
+  "zhouyi.gua.16.xiaoxiang.2": {
+   "chapter": "豫卦・小象・六二",
+   "text": "不終日，貞吉；以中正也。",
+   "review": []
+  },
+  "zhouyi.gua.16.xiaoxiang.3": {
+   "chapter": "豫卦・小象・六三",
+   "text": "盱豫有悔，位不當也。",
+   "review": []
+  },
+  "zhouyi.gua.16.xiaoxiang.4": {
+   "chapter": "豫卦・小象・九四",
+   "text": "由豫，大有得；志大行也。",
+   "review": []
+  },
+  "zhouyi.gua.16.xiaoxiang.5": {
+   "chapter": "豫卦・小象・六五",
+   "text": "六五貞疾，乘剛也。恒不死，中未亡也。",
+   "review": []
+  },
+  "zhouyi.gua.16.xiaoxiang.6": {
+   "chapter": "豫卦・小象・上六",
+   "text": "冥豫在上，何可長也。",
+   "review": []
+  },
+  "zhouyi.gua.17.gua": {
+   "chapter": "隨卦・卦辭",
+   "text": "隨：元亨利貞，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.17.tuan": {
+   "chapter": "隨卦・彖傳",
+   "text": "隨，剛來而下柔，動而說，隨。大亨貞，無咎，而天下隨時，隨之時義大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.17.daxiang": {
+   "chapter": "隨卦・大象",
+   "text": "澤中有雷，隨；君子以向晦入宴息。",
+   "review": []
+  },
+  "zhouyi.gua.17.yao.1": {
+   "chapter": "隨卦・初九",
+   "text": "初九：官有渝，貞吉。出門交有功。",
+   "review": []
+  },
+  "zhouyi.gua.17.yao.2": {
+   "chapter": "隨卦・六二",
+   "text": "六二：系小子，失丈夫。",
+   "review": []
+  },
+  "zhouyi.gua.17.yao.3": {
+   "chapter": "隨卦・六三",
+   "text": "六三：系丈夫，失小子。隨有求得，利居貞。",
+   "review": []
+  },
+  "zhouyi.gua.17.yao.4": {
+   "chapter": "隨卦・九四",
+   "text": "九四：隨有獲，貞凶。有孚在道，以明，何咎。",
+   "review": []
+  },
+  "zhouyi.gua.17.yao.5": {
+   "chapter": "隨卦・九五",
+   "text": "九五：孚於嘉，吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.17.yao.6": {
+   "chapter": "隨卦・上六",
+   "text": "上六：拘系之，乃從維之。王用亨於西山。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.17.xiaoxiang.1": {
+   "chapter": "隨卦・小象・初九",
+   "text": "官有渝，從正吉也。出門交有功，不失也。",
+   "review": []
+  },
+  "zhouyi.gua.17.xiaoxiang.2": {
+   "chapter": "隨卦・小象・六二",
+   "text": "系小子，弗兼與也。",
+   "review": []
+  },
+  "zhouyi.gua.17.xiaoxiang.3": {
+   "chapter": "隨卦・小象・六三",
+   "text": "系丈夫，志舍下也。",
+   "review": []
+  },
+  "zhouyi.gua.17.xiaoxiang.4": {
+   "chapter": "隨卦・小象・九四",
+   "text": "隨有獲，其義凶也。有孚在道，明功也。",
+   "review": []
+  },
+  "zhouyi.gua.17.xiaoxiang.5": {
+   "chapter": "隨卦・小象・九五",
+   "text": "孚於嘉，吉；位正中也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.17.xiaoxiang.6": {
+   "chapter": "隨卦・小象・上六",
+   "text": "拘系之，上窮也。",
+   "review": []
+  },
+  "zhouyi.gua.18.gua": {
+   "chapter": "蠱卦・卦辭",
+   "text": "蠱：元亨，利涉大川。先甲三日，後甲三日。",
+   "review": []
+  },
+  "zhouyi.gua.18.tuan": {
+   "chapter": "蠱卦・彖傳",
+   "text": "蠱，剛上而柔下，巽而止，蠱。蠱，元亨，而天下治也。利涉大川，往有事也。先甲三日，後甲三日，終則有始，天行也。",
+   "review": []
+  },
+  "zhouyi.gua.18.daxiang": {
+   "chapter": "蠱卦・大象",
+   "text": "山下有風，蠱；君子以振民育德。",
+   "review": []
+  },
+  "zhouyi.gua.18.yao.1": {
+   "chapter": "蠱卦・初六",
+   "text": "初六：幹父之蠱，有子，考無咎，厲終吉。",
+   "review": []
+  },
+  "zhouyi.gua.18.yao.2": {
+   "chapter": "蠱卦・九二",
+   "text": "九二：幹母之蠱，不可貞。",
+   "review": []
+  },
+  "zhouyi.gua.18.yao.3": {
+   "chapter": "蠱卦・九三",
+   "text": "九三：幹父之蠱，小有悔，無大咎。",
+   "review": []
+  },
+  "zhouyi.gua.18.yao.4": {
+   "chapter": "蠱卦・六四",
+   "text": "六四：裕父之蠱，往見吝。",
+   "review": []
+  },
+  "zhouyi.gua.18.yao.5": {
+   "chapter": "蠱卦・六五",
+   "text": "六五：幹父之蠱，用譽。",
+   "review": []
+  },
+  "zhouyi.gua.18.yao.6": {
+   "chapter": "蠱卦・上九",
+   "text": "上九：不事王侯，高尚其事。",
+   "review": []
+  },
+  "zhouyi.gua.18.xiaoxiang.1": {
+   "chapter": "蠱卦・小象・初六",
+   "text": "幹父之蠱，意承考也。",
+   "review": []
+  },
+  "zhouyi.gua.18.xiaoxiang.2": {
+   "chapter": "蠱卦・小象・九二",
+   "text": "幹母之蠱，得中道也。",
+   "review": []
+  },
+  "zhouyi.gua.18.xiaoxiang.3": {
+   "chapter": "蠱卦・小象・九三",
+   "text": "幹父之蠱，終無咎也。",
+   "review": []
+  },
+  "zhouyi.gua.18.xiaoxiang.4": {
+   "chapter": "蠱卦・小象・六四",
+   "text": "裕父之蠱，往未得也。",
+   "review": []
+  },
+  "zhouyi.gua.18.xiaoxiang.5": {
+   "chapter": "蠱卦・小象・六五",
+   "text": "幹父之蠱；承以德也。",
+   "review": []
+  },
+  "zhouyi.gua.18.xiaoxiang.6": {
+   "chapter": "蠱卦・小象・上九",
+   "text": "不事王侯，志可則也。",
+   "review": []
+  },
+  "zhouyi.gua.19.gua": {
+   "chapter": "臨卦・卦辭",
+   "text": "臨：元，亨，利，貞。至於八月有凶。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.19.tuan": {
+   "chapter": "臨卦・彖傳",
+   "text": "臨，剛浸而長。說而順，剛中而應，大亨以正，天之道也。至於八月有凶，消不久也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.19.daxiang": {
+   "chapter": "臨卦・大象",
+   "text": "澤上有地，臨；君子以教思無窮，容保民無疆。",
+   "review": []
+  },
+  "zhouyi.gua.19.yao.1": {
+   "chapter": "臨卦・初九",
+   "text": "初九：咸臨，貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.19.yao.2": {
+   "chapter": "臨卦・九二",
+   "text": "九二：咸臨，吉無不利。",
+   "review": []
+  },
+  "zhouyi.gua.19.yao.3": {
+   "chapter": "臨卦・六三",
+   "text": "六三：甘臨，無攸利。既憂之，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.19.yao.4": {
+   "chapter": "臨卦・六四",
+   "text": "六四：至臨，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.19.yao.5": {
+   "chapter": "臨卦・六五",
+   "text": "六五：知臨，大君之宜，吉。",
+   "review": []
+  },
+  "zhouyi.gua.19.yao.6": {
+   "chapter": "臨卦・上六",
+   "text": "上六：敦臨，吉無咎。",
+   "review": []
+  },
+  "zhouyi.gua.19.xiaoxiang.1": {
+   "chapter": "臨卦・小象・初九",
+   "text": "咸臨貞吉，志行正也。",
+   "review": []
+  },
+  "zhouyi.gua.19.xiaoxiang.2": {
+   "chapter": "臨卦・小象・九二",
+   "text": "咸臨，吉無不利；未順命也。",
+   "review": []
+  },
+  "zhouyi.gua.19.xiaoxiang.3": {
+   "chapter": "臨卦・小象・六三",
+   "text": "甘臨，位不當也。既憂之，咎不長也。",
+   "review": []
+  },
+  "zhouyi.gua.19.xiaoxiang.4": {
+   "chapter": "臨卦・小象・六四",
+   "text": "至臨無咎，位當也。",
+   "review": []
+  },
+  "zhouyi.gua.19.xiaoxiang.5": {
+   "chapter": "臨卦・小象・六五",
+   "text": "大君之宜，行中之謂也。",
+   "review": []
+  },
+  "zhouyi.gua.19.xiaoxiang.6": {
+   "chapter": "臨卦・小象・上六",
+   "text": "敦臨之吉，志在內也。",
+   "review": []
+  },
+  "zhouyi.gua.20.gua": {
+   "chapter": "觀卦・卦辭",
+   "text": "觀：盥而不薦，有孚顒若。",
+   "review": []
+  },
+  "zhouyi.gua.20.tuan": {
+   "chapter": "觀卦・彖傳",
+   "text": "大觀在上，順而巽，中正以觀天下。觀，盥而不薦，有孚顒若，下觀而化也。觀天之神道，而四時不忒，聖人以神道設教，而天下服矣。",
+   "review": []
+  },
+  "zhouyi.gua.20.daxiang": {
+   "chapter": "觀卦・大象",
+   "text": "風行地上，觀；先王以省方，觀民設教。",
+   "review": []
+  },
+  "zhouyi.gua.20.yao.1": {
+   "chapter": "觀卦・初六",
+   "text": "初六：童觀，小人無咎，君子吝。",
+   "review": []
+  },
+  "zhouyi.gua.20.yao.2": {
+   "chapter": "觀卦・六二",
+   "text": "六二：窺觀，利女貞。",
+   "review": []
+  },
+  "zhouyi.gua.20.yao.3": {
+   "chapter": "觀卦・六三",
+   "text": "六三：觀我生，進退。",
+   "review": []
+  },
+  "zhouyi.gua.20.yao.4": {
+   "chapter": "觀卦・六四",
+   "text": "六四：觀國之光，利用賓於王。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.20.yao.5": {
+   "chapter": "觀卦・九五",
+   "text": "九五：觀我生，君子無咎。",
+   "review": []
+  },
+  "zhouyi.gua.20.yao.6": {
+   "chapter": "觀卦・上九",
+   "text": "上九：觀其生，君子無咎。",
+   "review": []
+  },
+  "zhouyi.gua.20.xiaoxiang.1": {
+   "chapter": "觀卦・小象・初六",
+   "text": "初六童觀，小人道也。",
+   "review": []
+  },
+  "zhouyi.gua.20.xiaoxiang.2": {
+   "chapter": "觀卦・小象・六二",
+   "text": "窺觀女貞，亦可醜也。",
+   "review": []
+  },
+  "zhouyi.gua.20.xiaoxiang.3": {
+   "chapter": "觀卦・小象・六三",
+   "text": "觀我生，進退；未失道也。",
+   "review": []
+  },
+  "zhouyi.gua.20.xiaoxiang.4": {
+   "chapter": "觀卦・小象・六四",
+   "text": "觀國之光，尚賓也。",
+   "review": []
+  },
+  "zhouyi.gua.20.xiaoxiang.5": {
+   "chapter": "觀卦・小象・九五",
+   "text": "觀我生，觀民也。",
+   "review": []
+  },
+  "zhouyi.gua.20.xiaoxiang.6": {
+   "chapter": "觀卦・小象・上九",
+   "text": "觀其生，志未平也。",
+   "review": []
+  },
+  "zhouyi.gua.21.gua": {
+   "chapter": "噬嗑卦・卦辭",
+   "text": "噬嗑：亨。利用獄。",
+   "review": []
+  },
+  "zhouyi.gua.21.tuan": {
+   "chapter": "噬嗑卦・彖傳",
+   "text": "頤中有物，曰噬嗑，噬嗑而亨。剛柔分，動而明，雷電合而章。柔得中而上行，雖不當位，利用獄也。",
+   "review": []
+  },
+  "zhouyi.gua.21.daxiang": {
+   "chapter": "噬嗑卦・大象",
+   "text": "雷電噬嗑；先王以明罰敕法。",
+   "review": []
+  },
+  "zhouyi.gua.21.yao.1": {
+   "chapter": "噬嗑卦・初九",
+   "text": "初九：屨校滅趾，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.21.yao.2": {
+   "chapter": "噬嗑卦・六二",
+   "text": "六二：噬膚滅鼻，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.21.yao.3": {
+   "chapter": "噬嗑卦・六三",
+   "text": "六三：噬腊肉，遇毒；小吝，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.21.yao.4": {
+   "chapter": "噬嗑卦・九四",
+   "text": "九四：噬乾胏，得金矢，利艱貞，吉。",
+   "review": []
+  },
+  "zhouyi.gua.21.yao.5": {
+   "chapter": "噬嗑卦・六五",
+   "text": "六五：噬乾肉，得黃金，貞厲，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.21.yao.6": {
+   "chapter": "噬嗑卦・上九",
+   "text": "上九：何校滅耳，凶。",
+   "review": []
+  },
+  "zhouyi.gua.21.xiaoxiang.1": {
+   "chapter": "噬嗑卦・小象・初九",
+   "text": "屨校滅趾，不行也。",
+   "review": []
+  },
+  "zhouyi.gua.21.xiaoxiang.2": {
+   "chapter": "噬嗑卦・小象・六二",
+   "text": "噬膚滅鼻，乘剛也。",
+   "review": []
+  },
+  "zhouyi.gua.21.xiaoxiang.3": {
+   "chapter": "噬嗑卦・小象・六三",
+   "text": "遇毒，位不當也。",
+   "review": []
+  },
+  "zhouyi.gua.21.xiaoxiang.4": {
+   "chapter": "噬嗑卦・小象・九四",
+   "text": "利艱貞吉，未光也。",
+   "review": []
+  },
+  "zhouyi.gua.21.xiaoxiang.5": {
+   "chapter": "噬嗑卦・小象・六五",
+   "text": "貞厲無咎，得當也。",
+   "review": []
+  },
+  "zhouyi.gua.21.xiaoxiang.6": {
+   "chapter": "噬嗑卦・小象・上九",
+   "text": "何校滅耳，聰不明也。",
+   "review": []
+  },
+  "zhouyi.gua.22.gua": {
+   "chapter": "賁卦・卦辭",
+   "text": "賁：亨。小利有攸往。",
+   "review": []
+  },
+  "zhouyi.gua.22.tuan": {
+   "chapter": "賁卦・彖傳",
+   "text": "賁，亨；柔來而文剛，故亨。分剛上而文柔，故小利有攸往。天文也；文明以止，人文也。觀乎天文，以察時變；觀乎人文，以化成天下。",
+   "review": []
+  },
+  "zhouyi.gua.22.daxiang": {
+   "chapter": "賁卦・大象",
+   "text": "山下有火，賁；君子以明庶政，無敢折獄。",
+   "review": []
+  },
+  "zhouyi.gua.22.yao.1": {
+   "chapter": "賁卦・初九",
+   "text": "初九：賁其趾，舍車而徒。",
+   "review": []
+  },
+  "zhouyi.gua.22.yao.2": {
+   "chapter": "賁卦・六二",
+   "text": "六二：賁其須。",
+   "review": []
+  },
+  "zhouyi.gua.22.yao.3": {
+   "chapter": "賁卦・九三",
+   "text": "九三：賁如濡如，永貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.22.yao.4": {
+   "chapter": "賁卦・六四",
+   "text": "六四：賁如皤如，白馬翰如，匪寇婚媾。",
+   "review": []
+  },
+  "zhouyi.gua.22.yao.5": {
+   "chapter": "賁卦・六五",
+   "text": "六五：賁於丘園，束帛戔戔，吝，終吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.22.yao.6": {
+   "chapter": "賁卦・上九",
+   "text": "上九：白賁，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.22.xiaoxiang.1": {
+   "chapter": "賁卦・小象・初九",
+   "text": "舍車而徒，義弗乘也。",
+   "review": []
+  },
+  "zhouyi.gua.22.xiaoxiang.2": {
+   "chapter": "賁卦・小象・六二",
+   "text": "賁其須，與上興也。",
+   "review": []
+  },
+  "zhouyi.gua.22.xiaoxiang.3": {
+   "chapter": "賁卦・小象・九三",
+   "text": "永貞之吉，終莫之陵也。",
+   "review": []
+  },
+  "zhouyi.gua.22.xiaoxiang.4": {
+   "chapter": "賁卦・小象・六四",
+   "text": "六四，當位疑也。匪寇婚媾，終無尤也。",
+   "review": []
+  },
+  "zhouyi.gua.22.xiaoxiang.5": {
+   "chapter": "賁卦・小象・六五",
+   "text": "六五之吉，有喜也。",
+   "review": []
+  },
+  "zhouyi.gua.22.xiaoxiang.6": {
+   "chapter": "賁卦・小象・上九",
+   "text": "白賁無咎，上得志也。",
+   "review": []
+  },
+  "zhouyi.gua.23.gua": {
+   "chapter": "剝卦・卦辭",
+   "text": "剝：不利有攸往。",
+   "review": []
+  },
+  "zhouyi.gua.23.tuan": {
+   "chapter": "剝卦・彖傳",
+   "text": "剝，剝也，柔變剛也。不利有攸往，小人長也。順而止之，觀象也。君子尚消息盈虛，天行也。",
+   "review": []
+  },
+  "zhouyi.gua.23.daxiang": {
+   "chapter": "剝卦・大象",
+   "text": "山附地上，剝；上以厚下，安宅。",
+   "review": []
+  },
+  "zhouyi.gua.23.yao.1": {
+   "chapter": "剝卦・初六",
+   "text": "初六：剝床以足，蔑貞凶。",
+   "review": []
+  },
+  "zhouyi.gua.23.yao.2": {
+   "chapter": "剝卦・六二",
+   "text": "六二：剝床以辨，蔑貞凶。",
+   "review": []
+  },
+  "zhouyi.gua.23.yao.3": {
+   "chapter": "剝卦・六三",
+   "text": "六三：剝之，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.23.yao.4": {
+   "chapter": "剝卦・六四",
+   "text": "六四：剝床以膚，凶。",
+   "review": []
+  },
+  "zhouyi.gua.23.yao.5": {
+   "chapter": "剝卦・六五",
+   "text": "六五：貫魚，以宮人寵，無不利。",
+   "review": []
+  },
+  "zhouyi.gua.23.yao.6": {
+   "chapter": "剝卦・上九",
+   "text": "上九：碩果不食，君子得輿，小人剝廬。",
+   "review": []
+  },
+  "zhouyi.gua.23.xiaoxiang.1": {
+   "chapter": "剝卦・小象・初六",
+   "text": "剝床以足，以滅下也。",
+   "review": []
+  },
+  "zhouyi.gua.23.xiaoxiang.2": {
+   "chapter": "剝卦・小象・六二",
+   "text": "剝床以辨，未有與也。",
+   "review": []
+  },
+  "zhouyi.gua.23.xiaoxiang.3": {
+   "chapter": "剝卦・小象・六三",
+   "text": "剝之無咎，失上下也。",
+   "review": []
+  },
+  "zhouyi.gua.23.xiaoxiang.4": {
+   "chapter": "剝卦・小象・六四",
+   "text": "剝床以膚，切近災也。",
+   "review": []
+  },
+  "zhouyi.gua.23.xiaoxiang.5": {
+   "chapter": "剝卦・小象・六五",
+   "text": "以宮人寵，終無尤也。",
+   "review": []
+  },
+  "zhouyi.gua.23.xiaoxiang.6": {
+   "chapter": "剝卦・小象・上九",
+   "text": "君子得輿，民所載也。小人剝廬，終不可用也。",
+   "review": []
+  },
+  "zhouyi.gua.24.gua": {
+   "chapter": "復卦・卦辭",
+   "text": "復：亨。出入無疾，朋來無咎。反復其道，七日來復，利有攸往。",
+   "review": []
+  },
+  "zhouyi.gua.24.tuan": {
+   "chapter": "復卦・彖傳",
+   "text": "復亨；剛反，動而以順行，是以出入無疾，朋來無咎。反復其道，七日來復，天行也。利有攸往，剛長也。復其見天地之心乎？",
+   "review": []
+  },
+  "zhouyi.gua.24.daxiang": {
+   "chapter": "復卦・大象",
+   "text": "雷在地中，復；先王以至日閉關，商旅不行，后不省方。",
+   "review": []
+  },
+  "zhouyi.gua.24.yao.1": {
+   "chapter": "復卦・初九",
+   "text": "初九：不復遠，無祇悔，元吉。",
+   "review": []
+  },
+  "zhouyi.gua.24.yao.2": {
+   "chapter": "復卦・六二",
+   "text": "六二：休復，吉。",
+   "review": []
+  },
+  "zhouyi.gua.24.yao.3": {
+   "chapter": "復卦・六三",
+   "text": "六三：頻復，厲無咎。",
+   "review": []
+  },
+  "zhouyi.gua.24.yao.4": {
+   "chapter": "復卦・六四",
+   "text": "六四：中行獨復。",
+   "review": []
+  },
+  "zhouyi.gua.24.yao.5": {
+   "chapter": "復卦・六五",
+   "text": "六五：敦復，無悔。",
+   "review": []
+  },
+  "zhouyi.gua.24.yao.6": {
+   "chapter": "復卦・上六",
+   "text": "上六：迷復，凶，有災眚。用行師，終有大敗，以其國君，凶；至於十年，不克征。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.24.xiaoxiang.1": {
+   "chapter": "復卦・小象・初九",
+   "text": "不遠之復，以修身也。",
+   "review": []
+  },
+  "zhouyi.gua.24.xiaoxiang.2": {
+   "chapter": "復卦・小象・六二",
+   "text": "休復之吉，以下仁也。",
+   "review": []
+  },
+  "zhouyi.gua.24.xiaoxiang.3": {
+   "chapter": "復卦・小象・六三",
+   "text": "頻復之厲，義無咎也。",
+   "review": []
+  },
+  "zhouyi.gua.24.xiaoxiang.4": {
+   "chapter": "復卦・小象・六四",
+   "text": "中行獨復，以從道也。",
+   "review": []
+  },
+  "zhouyi.gua.24.xiaoxiang.5": {
+   "chapter": "復卦・小象・六五",
+   "text": "敦復無悔，中以自考也。",
+   "review": []
+  },
+  "zhouyi.gua.24.xiaoxiang.6": {
+   "chapter": "復卦・小象・上六",
+   "text": "迷復之凶，反君道也。",
+   "review": []
+  },
+  "zhouyi.gua.25.gua": {
+   "chapter": "無妄卦・卦辭",
+   "text": "無妄：元亨，利貞。其匪正有眚，不利有攸往。",
+   "review": []
+  },
+  "zhouyi.gua.25.tuan": {
+   "chapter": "無妄卦・彖傳",
+   "text": "無妄，剛自外來，而為主於內。動而健，剛中而應，大亨以正，天之命也。其匪正有眚，不利有攸往。無妄之往，何之矣？天命不佑，行矣哉？",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.25.daxiang": {
+   "chapter": "無妄卦・大象",
+   "text": "天下雷行，物與無妄；先王以茂對時，育萬物。",
+   "review": []
+  },
+  "zhouyi.gua.25.yao.1": {
+   "chapter": "無妄卦・初九",
+   "text": "初九：無妄，往吉。",
+   "review": []
+  },
+  "zhouyi.gua.25.yao.2": {
+   "chapter": "無妄卦・六二",
+   "text": "六二：不耕穫，不菑畬，則利有攸往。",
+   "review": []
+  },
+  "zhouyi.gua.25.yao.3": {
+   "chapter": "無妄卦・六三",
+   "text": "六三：無妄之災，或系之牛，行人之得，邑人之災。",
+   "review": []
+  },
+  "zhouyi.gua.25.yao.4": {
+   "chapter": "無妄卦・九四",
+   "text": "九四：可貞，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.25.yao.5": {
+   "chapter": "無妄卦・九五",
+   "text": "九五：無妄之疾，勿藥有喜。",
+   "review": []
+  },
+  "zhouyi.gua.25.yao.6": {
+   "chapter": "無妄卦・上九",
+   "text": "上九：無妄，行有眚，無攸利。",
+   "review": []
+  },
+  "zhouyi.gua.25.xiaoxiang.1": {
+   "chapter": "無妄卦・小象・初九",
+   "text": "無妄之往，得志也。",
+   "review": []
+  },
+  "zhouyi.gua.25.xiaoxiang.2": {
+   "chapter": "無妄卦・小象・六二",
+   "text": "不耕穫，未富也。",
+   "review": []
+  },
+  "zhouyi.gua.25.xiaoxiang.3": {
+   "chapter": "無妄卦・小象・六三",
+   "text": "行人得牛，邑人災也。",
+   "review": []
+  },
+  "zhouyi.gua.25.xiaoxiang.4": {
+   "chapter": "無妄卦・小象・九四",
+   "text": "可貞無咎，固有之也。",
+   "review": []
+  },
+  "zhouyi.gua.25.xiaoxiang.5": {
+   "chapter": "無妄卦・小象・九五",
+   "text": "無妄之藥，不可試也。",
+   "review": []
+  },
+  "zhouyi.gua.25.xiaoxiang.6": {
+   "chapter": "無妄卦・小象・上九",
+   "text": "無妄之行，窮之災也。",
+   "review": []
+  },
+  "zhouyi.gua.26.gua": {
+   "chapter": "大畜卦・卦辭",
+   "text": "大畜：利貞，不家食吉，利涉大川。",
+   "review": []
+  },
+  "zhouyi.gua.26.tuan": {
+   "chapter": "大畜卦・彖傳",
+   "text": "大畜，剛健篤實輝光，日新其德，剛上而尚賢。能止健，大正也。不家食吉，養賢也。利涉大川，應乎天也。",
+   "review": []
+  },
+  "zhouyi.gua.26.daxiang": {
+   "chapter": "大畜卦・大象",
+   "text": "天在山中，大畜；君子以多識前言往行，以畜其德。",
+   "review": []
+  },
+  "zhouyi.gua.26.yao.1": {
+   "chapter": "大畜卦・初九",
+   "text": "初九：有厲利已。",
+   "review": []
+  },
+  "zhouyi.gua.26.yao.2": {
+   "chapter": "大畜卦・九二",
+   "text": "九二：輿說輹。",
+   "review": []
+  },
+  "zhouyi.gua.26.yao.3": {
+   "chapter": "大畜卦・九三",
+   "text": "九三：良馬逐，利艱貞。曰閑輿衛，利有攸往。",
+   "review": []
+  },
+  "zhouyi.gua.26.yao.4": {
+   "chapter": "大畜卦・六四",
+   "text": "六四：童牛之牿，元吉。",
+   "review": []
+  },
+  "zhouyi.gua.26.yao.5": {
+   "chapter": "大畜卦・六五",
+   "text": "六五：豶豕之牙，吉。",
+   "review": []
+  },
+  "zhouyi.gua.26.yao.6": {
+   "chapter": "大畜卦・上九",
+   "text": "上九：何天之衢，亨。",
+   "review": []
+  },
+  "zhouyi.gua.26.xiaoxiang.1": {
+   "chapter": "大畜卦・小象・初九",
+   "text": "有厲利已，不犯災也。",
+   "review": []
+  },
+  "zhouyi.gua.26.xiaoxiang.2": {
+   "chapter": "大畜卦・小象・九二",
+   "text": "輿說輹，中無尤也。",
+   "review": []
+  },
+  "zhouyi.gua.26.xiaoxiang.3": {
+   "chapter": "大畜卦・小象・九三",
+   "text": "利有攸往，上合志也。",
+   "review": []
+  },
+  "zhouyi.gua.26.xiaoxiang.4": {
+   "chapter": "大畜卦・小象・六四",
+   "text": "六四元吉，有喜也。",
+   "review": []
+  },
+  "zhouyi.gua.26.xiaoxiang.5": {
+   "chapter": "大畜卦・小象・六五",
+   "text": "六五之吉，有慶也。",
+   "review": []
+  },
+  "zhouyi.gua.26.xiaoxiang.6": {
+   "chapter": "大畜卦・小象・上九",
+   "text": "何天之衢，道大行也。",
+   "review": []
+  },
+  "zhouyi.gua.27.gua": {
+   "chapter": "頤卦・卦辭",
+   "text": "頤：貞吉。觀頤，自求口實。",
+   "review": []
+  },
+  "zhouyi.gua.27.tuan": {
+   "chapter": "頤卦・彖傳",
+   "text": "頤貞吉，養正則吉也。觀頤，觀其所養也；自求口實，觀其自養也。天地養萬物，聖人養賢，以及萬民；頤之時義大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.27.daxiang": {
+   "chapter": "頤卦・大象",
+   "text": "山下有雷，頤；君子以慎言語，節飲食。",
+   "review": []
+  },
+  "zhouyi.gua.27.yao.1": {
+   "chapter": "頤卦・初九",
+   "text": "初九：舍爾靈龜，觀我朵頤，凶。",
+   "review": []
+  },
+  "zhouyi.gua.27.yao.2": {
+   "chapter": "頤卦・六二",
+   "text": "六二：顛頤，拂經，於丘頤，征凶。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.27.yao.3": {
+   "chapter": "頤卦・六三",
+   "text": "六三：拂頤，貞凶，十年勿用，無攸利。",
+   "review": []
+  },
+  "zhouyi.gua.27.yao.4": {
+   "chapter": "頤卦・六四",
+   "text": "六四：顛頤，吉，虎視眈眈，其欲逐逐，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.27.yao.5": {
+   "chapter": "頤卦・六五",
+   "text": "六五：拂經，居貞吉，不可涉大川。",
+   "review": []
+  },
+  "zhouyi.gua.27.yao.6": {
+   "chapter": "頤卦・上九",
+   "text": "上九：由頤，厲吉，利涉大川。",
+   "review": []
+  },
+  "zhouyi.gua.27.xiaoxiang.1": {
+   "chapter": "頤卦・小象・初九",
+   "text": "觀我朵頤，亦不足貴也。",
+   "review": []
+  },
+  "zhouyi.gua.27.xiaoxiang.2": {
+   "chapter": "頤卦・小象・六二",
+   "text": "六二征凶，行失類也。",
+   "review": []
+  },
+  "zhouyi.gua.27.xiaoxiang.3": {
+   "chapter": "頤卦・小象・六三",
+   "text": "十年勿用，道大悖也。",
+   "review": []
+  },
+  "zhouyi.gua.27.xiaoxiang.4": {
+   "chapter": "頤卦・小象・六四",
+   "text": "顛頤之吉，上施光也。",
+   "review": []
+  },
+  "zhouyi.gua.27.xiaoxiang.5": {
+   "chapter": "頤卦・小象・六五",
+   "text": "居貞之吉，順以從上也。",
+   "review": []
+  },
+  "zhouyi.gua.27.xiaoxiang.6": {
+   "chapter": "頤卦・小象・上九",
+   "text": "由頤厲吉，大有慶也。",
+   "review": []
+  },
+  "zhouyi.gua.28.gua": {
+   "chapter": "大過卦・卦辭",
+   "text": "大過：棟橈，利有攸往，亨。",
+   "review": []
+  },
+  "zhouyi.gua.28.tuan": {
+   "chapter": "大過卦・彖傳",
+   "text": "大過，大者過也。棟橈，本末弱也。剛過而中，巽而說行，利有攸往，乃亨。大過之時義大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.28.daxiang": {
+   "chapter": "大過卦・大象",
+   "text": "澤滅木，大過；君子以獨立不懼，遯世無悶。",
+   "review": []
+  },
+  "zhouyi.gua.28.yao.1": {
+   "chapter": "大過卦・初六",
+   "text": "初六：藉用白茅，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.28.yao.2": {
+   "chapter": "大過卦・九二",
+   "text": "九二：枯楊生稊，老夫得其女妻，無不利。",
+   "review": []
+  },
+  "zhouyi.gua.28.yao.3": {
+   "chapter": "大過卦・九三",
+   "text": "九三：棟橈，凶。",
+   "review": []
+  },
+  "zhouyi.gua.28.yao.4": {
+   "chapter": "大過卦・九四",
+   "text": "九四：棟隆，吉；有它吝。",
+   "review": []
+  },
+  "zhouyi.gua.28.yao.5": {
+   "chapter": "大過卦・九五",
+   "text": "九五：枯楊生華，老婦得士夫，無咎無譽。",
+   "review": []
+  },
+  "zhouyi.gua.28.yao.6": {
+   "chapter": "大過卦・上六",
+   "text": "上六：過涉滅頂，凶，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.28.xiaoxiang.1": {
+   "chapter": "大過卦・小象・初六",
+   "text": "藉用白茅，柔在下也。",
+   "review": []
+  },
+  "zhouyi.gua.28.xiaoxiang.2": {
+   "chapter": "大過卦・小象・九二",
+   "text": "老夫女妻，過以相與也。",
+   "review": []
+  },
+  "zhouyi.gua.28.xiaoxiang.3": {
+   "chapter": "大過卦・小象・九三",
+   "text": "棟橈之凶，不可以有輔也。",
+   "review": []
+  },
+  "zhouyi.gua.28.xiaoxiang.4": {
+   "chapter": "大過卦・小象・九四",
+   "text": "棟隆之吉，不橈乎下也。",
+   "review": []
+  },
+  "zhouyi.gua.28.xiaoxiang.5": {
+   "chapter": "大過卦・小象・九五",
+   "text": "枯楊生華，何可久也。老婦士夫，亦可醜也。",
+   "review": []
+  },
+  "zhouyi.gua.28.xiaoxiang.6": {
+   "chapter": "大過卦・小象・上六",
+   "text": "過涉之凶，不可咎也。",
+   "review": []
+  },
+  "zhouyi.gua.29.gua": {
+   "chapter": "坎卦・卦辭",
+   "text": "坎：習坎，有孚，維心亨，行有尚。",
+   "review": []
+  },
+  "zhouyi.gua.29.tuan": {
+   "chapter": "坎卦・彖傳",
+   "text": "習坎，重險也。水流而不盈，行險而不失其信。維心亨，乃以剛中也。行有尚，往有功也。天險不可升也，地險山川丘陵也，王公設險以守其國，坎之時用大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.29.daxiang": {
+   "chapter": "坎卦・大象",
+   "text": "水洊至，習坎；君子以常德行，習教事。",
+   "review": []
+  },
+  "zhouyi.gua.29.yao.1": {
+   "chapter": "坎卦・初六",
+   "text": "初六：習坎，入於坎窞，凶。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.29.yao.2": {
+   "chapter": "坎卦・九二",
+   "text": "九二：坎有險，求小得。",
+   "review": []
+  },
+  "zhouyi.gua.29.yao.3": {
+   "chapter": "坎卦・六三",
+   "text": "六三：來之坎坎，險且枕，入於坎窞，勿用。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.29.yao.4": {
+   "chapter": "坎卦・六四",
+   "text": "六四：樽酒簋貳，用缶，納約自牖，終無咎。",
+   "review": []
+  },
+  "zhouyi.gua.29.yao.5": {
+   "chapter": "坎卦・九五",
+   "text": "九五：坎不盈，祗既平，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.29.yao.6": {
+   "chapter": "坎卦・上六",
+   "text": "上六：系用徽纆，置於叢棘，三歲不得，凶。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.29.xiaoxiang.1": {
+   "chapter": "坎卦・小象・初六",
+   "text": "習坎入坎，失道凶也。",
+   "review": []
+  },
+  "zhouyi.gua.29.xiaoxiang.2": {
+   "chapter": "坎卦・小象・九二",
+   "text": "求小得，未出中也。",
+   "review": []
+  },
+  "zhouyi.gua.29.xiaoxiang.3": {
+   "chapter": "坎卦・小象・六三",
+   "text": "來之坎坎，終無功也。",
+   "review": []
+  },
+  "zhouyi.gua.29.xiaoxiang.4": {
+   "chapter": "坎卦・小象・六四",
+   "text": "樽酒簋貳，剛柔際也。",
+   "review": []
+  },
+  "zhouyi.gua.29.xiaoxiang.5": {
+   "chapter": "坎卦・小象・九五",
+   "text": "坎不盈，中未大也。",
+   "review": []
+  },
+  "zhouyi.gua.29.xiaoxiang.6": {
+   "chapter": "坎卦・小象・上六",
+   "text": "上六失道，凶三歲也。",
+   "review": []
+  },
+  "zhouyi.gua.30.gua": {
+   "chapter": "離卦・卦辭",
+   "text": "離：利貞，亨。畜牝牛，吉。",
+   "review": []
+  },
+  "zhouyi.gua.30.tuan": {
+   "chapter": "離卦・彖傳",
+   "text": "離，麗也；日月麗乎天，百谷草木麗乎土，重明以麗乎正，乃化成天下。柔麗乎中正，故亨；是以畜牝牛吉也。",
+   "review": []
+  },
+  "zhouyi.gua.30.daxiang": {
+   "chapter": "離卦・大象",
+   "text": "明兩作離，大人以繼明照於四方。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.30.yao.1": {
+   "chapter": "離卦・初九",
+   "text": "初九：履錯然，敬之無咎。",
+   "review": []
+  },
+  "zhouyi.gua.30.yao.2": {
+   "chapter": "離卦・六二",
+   "text": "六二：黃離，元吉。",
+   "review": []
+  },
+  "zhouyi.gua.30.yao.3": {
+   "chapter": "離卦・九三",
+   "text": "九三：日昃之離，不鼓缶而歌，則大耋之嗟，凶。",
+   "review": []
+  },
+  "zhouyi.gua.30.yao.4": {
+   "chapter": "離卦・九四",
+   "text": "九四：突如其來如，焚如，死如，棄如。",
+   "review": []
+  },
+  "zhouyi.gua.30.yao.5": {
+   "chapter": "離卦・六五",
+   "text": "六五：出涕沱若，戚嗟若，吉。",
+   "review": []
+  },
+  "zhouyi.gua.30.yao.6": {
+   "chapter": "離卦・上九",
+   "text": "上九：王用出征，有嘉折首，獲匪其醜，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.30.xiaoxiang.1": {
+   "chapter": "離卦・小象・初九",
+   "text": "履錯之敬，以辟咎也。",
+   "review": []
+  },
+  "zhouyi.gua.30.xiaoxiang.2": {
+   "chapter": "離卦・小象・六二",
+   "text": "黃離元吉，得中道也。",
+   "review": []
+  },
+  "zhouyi.gua.30.xiaoxiang.3": {
+   "chapter": "離卦・小象・九三",
+   "text": "日昃之離，何可久也。",
+   "review": []
+  },
+  "zhouyi.gua.30.xiaoxiang.4": {
+   "chapter": "離卦・小象・九四",
+   "text": "突如其來如，無所容也。",
+   "review": []
+  },
+  "zhouyi.gua.30.xiaoxiang.5": {
+   "chapter": "離卦・小象・六五",
+   "text": "六五之吉，離王公也。",
+   "review": []
+  },
+  "zhouyi.gua.30.xiaoxiang.6": {
+   "chapter": "離卦・小象・上九",
+   "text": "王用出征，以正邦也。",
+   "review": []
+  },
+  "zhouyi.gua.31.gua": {
+   "chapter": "咸卦・卦辭",
+   "text": "咸，亨，利貞，取女吉。",
+   "review": []
+  },
+  "zhouyi.gua.31.tuan": {
+   "chapter": "咸卦・彖傳",
+   "text": "咸，感也。柔上而剛下，二氣感應以相與，止而說，男下女，是以亨利貞，取女吉也。天地感而萬物化生，聖人感人心而天下和平，觀其所感，而天地萬物之情可見矣。",
+   "review": []
+  },
+  "zhouyi.gua.31.daxiang": {
+   "chapter": "咸卦・大象",
+   "text": "山上有澤，咸，君子以虛受人。",
+   "review": []
+  },
+  "zhouyi.gua.31.yao.1": {
+   "chapter": "咸卦・初六，咸其拇。",
+   "text": "初六，咸其拇。",
+   "review": []
+  },
+  "zhouyi.gua.31.yao.2": {
+   "chapter": "咸卦・六二，咸其腓，凶，居吉。",
+   "text": "六二，咸其腓，凶，居吉。",
+   "review": []
+  },
+  "zhouyi.gua.31.yao.3": {
+   "chapter": "咸卦・九三，咸其股，執其隨，往吝。",
+   "text": "九三，咸其股，執其隨，往吝。",
+   "review": []
+  },
+  "zhouyi.gua.31.yao.4": {
+   "chapter": "咸卦・九四，貞吉，悔亡，憧憧往來，朋從爾思。",
+   "text": "九四，貞吉，悔亡，憧憧往來，朋從爾思。",
+   "review": []
+  },
+  "zhouyi.gua.31.yao.5": {
+   "chapter": "咸卦・九五，咸其脢，無悔。",
+   "text": "九五，咸其脢，無悔。",
+   "review": []
+  },
+  "zhouyi.gua.31.yao.6": {
+   "chapter": "咸卦・上六，咸其輔頰舌。",
+   "text": "上六，咸其輔頰舌。",
+   "review": []
+  },
+  "zhouyi.gua.31.xiaoxiang.1": {
+   "chapter": "咸卦・小象・初六，咸其拇。",
+   "text": "咸其拇，志在外也。",
+   "review": []
+  },
+  "zhouyi.gua.31.xiaoxiang.2": {
+   "chapter": "咸卦・小象・六二，咸其腓，凶，居吉。",
+   "text": "雖凶居吉，順不害也。",
+   "review": []
+  },
+  "zhouyi.gua.31.xiaoxiang.3": {
+   "chapter": "咸卦・小象・九三，咸其股，執其隨，往吝。",
+   "text": "咸其股，亦不處也。志在隨人，所執下也。",
+   "review": []
+  },
+  "zhouyi.gua.31.xiaoxiang.4": {
+   "chapter": "咸卦・小象・九四，貞吉，悔亡，憧憧往來，朋從爾思。",
+   "text": "貞吉悔亡，未感害也。憧憧往來，未光大也。",
+   "review": []
+  },
+  "zhouyi.gua.31.xiaoxiang.5": {
+   "chapter": "咸卦・小象・九五，咸其脢，無悔。",
+   "text": "咸其脢，志末也。",
+   "review": []
+  },
+  "zhouyi.gua.31.xiaoxiang.6": {
+   "chapter": "咸卦・小象・上六，咸其輔頰舌。",
+   "text": "咸其輔頰舌，滕口說也。",
+   "review": []
+  },
+  "zhouyi.gua.32.gua": {
+   "chapter": "恒卦・卦辭",
+   "text": "恒：亨，無咎，利貞，利有攸往。",
+   "review": []
+  },
+  "zhouyi.gua.32.tuan": {
+   "chapter": "恒卦・彖傳",
+   "text": "恒，久也。剛上而柔下，雷風相與，巽而動，剛柔皆應，恒。恒亨無咎，利貞；久於其道也，天地之道，恒久而不已也。利有攸往，終則有始也。日月得天，而能久照，四時變化，而能久成，聖人久於其道，而天下化成；觀其所恒，而天地萬物之情可見矣！",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.32.daxiang": {
+   "chapter": "恒卦・大象",
+   "text": "雷風，恒；君子以立不易方。",
+   "review": []
+  },
+  "zhouyi.gua.32.yao.1": {
+   "chapter": "恒卦・初六",
+   "text": "初六：浚恒，貞凶，無攸利。",
+   "review": []
+  },
+  "zhouyi.gua.32.yao.2": {
+   "chapter": "恒卦・九二",
+   "text": "九二：悔亡。",
+   "review": []
+  },
+  "zhouyi.gua.32.yao.3": {
+   "chapter": "恒卦・九三",
+   "text": "九三：不恒其德，或承之羞，貞吝。",
+   "review": []
+  },
+  "zhouyi.gua.32.yao.4": {
+   "chapter": "恒卦・九四",
+   "text": "九四：田無禽。",
+   "review": []
+  },
+  "zhouyi.gua.32.yao.5": {
+   "chapter": "恒卦・六五",
+   "text": "六五：恒其德，貞，婦人吉，夫子凶。",
+   "review": []
+  },
+  "zhouyi.gua.32.yao.6": {
+   "chapter": "恒卦・上六",
+   "text": "上六：振恒，凶。",
+   "review": []
+  },
+  "zhouyi.gua.32.xiaoxiang.1": {
+   "chapter": "恒卦・小象・初六",
+   "text": "浚恒之凶，始求深也。",
+   "review": []
+  },
+  "zhouyi.gua.32.xiaoxiang.2": {
+   "chapter": "恒卦・小象・九二",
+   "text": "九二悔亡，能久中也。",
+   "review": []
+  },
+  "zhouyi.gua.32.xiaoxiang.3": {
+   "chapter": "恒卦・小象・九三",
+   "text": "不恒其德，無所容也。",
+   "review": []
+  },
+  "zhouyi.gua.32.xiaoxiang.4": {
+   "chapter": "恒卦・小象・九四",
+   "text": "久非其位，安得禽也。",
+   "review": []
+  },
+  "zhouyi.gua.32.xiaoxiang.5": {
+   "chapter": "恒卦・小象・六五",
+   "text": "婦人貞吉，從一而終也。夫子制義，從婦凶也。",
+   "review": []
+  },
+  "zhouyi.gua.32.xiaoxiang.6": {
+   "chapter": "恒卦・小象・上六",
+   "text": "振恒在上，大無功也。",
+   "review": []
+  },
+  "zhouyi.gua.33.gua": {
+   "chapter": "遯卦・卦辭",
+   "text": "遯：亨，小利貞。",
+   "review": []
+  },
+  "zhouyi.gua.33.tuan": {
+   "chapter": "遯卦・彖傳",
+   "text": "遯亨，遯而亨也。剛當位而應，與時行也。小利貞，浸而長也。遯之時義大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.33.daxiang": {
+   "chapter": "遯卦・大象",
+   "text": "天下有山，遯；君子以遠小人，不惡而嚴。",
+   "review": []
+  },
+  "zhouyi.gua.33.yao.1": {
+   "chapter": "遯卦・初六",
+   "text": "初六：遯尾，厲，勿用有攸往。",
+   "review": []
+  },
+  "zhouyi.gua.33.yao.2": {
+   "chapter": "遯卦・六二",
+   "text": "六二：執之用黃牛之革，莫之勝說。",
+   "review": []
+  },
+  "zhouyi.gua.33.yao.3": {
+   "chapter": "遯卦・九三",
+   "text": "九三：系遯，有疾厲，畜臣妾吉。",
+   "review": []
+  },
+  "zhouyi.gua.33.yao.4": {
+   "chapter": "遯卦・九四",
+   "text": "九四：好遯，君子吉，小人否。",
+   "review": []
+  },
+  "zhouyi.gua.33.yao.5": {
+   "chapter": "遯卦・九五",
+   "text": "九五：嘉遯，貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.33.yao.6": {
+   "chapter": "遯卦・上九",
+   "text": "上九：肥遯，無不利。",
+   "review": []
+  },
+  "zhouyi.gua.33.xiaoxiang.1": {
+   "chapter": "遯卦・小象・初六",
+   "text": "遯尾之厲，不往何災也。",
+   "review": []
+  },
+  "zhouyi.gua.33.xiaoxiang.2": {
+   "chapter": "遯卦・小象・六二",
+   "text": "執用黃牛，固志也。",
+   "review": []
+  },
+  "zhouyi.gua.33.xiaoxiang.3": {
+   "chapter": "遯卦・小象・九三",
+   "text": "系遯之厲，有疾憊也。畜臣妾吉，不可大事也。",
+   "review": []
+  },
+  "zhouyi.gua.33.xiaoxiang.4": {
+   "chapter": "遯卦・小象・九四",
+   "text": "君子好遯，小人否也。",
+   "review": []
+  },
+  "zhouyi.gua.33.xiaoxiang.5": {
+   "chapter": "遯卦・小象・九五",
+   "text": "嘉遯貞吉，以正志也。",
+   "review": []
+  },
+  "zhouyi.gua.33.xiaoxiang.6": {
+   "chapter": "遯卦・小象・上九",
+   "text": "肥遯，無不利；無所疑也。",
+   "review": []
+  },
+  "zhouyi.gua.34.gua": {
+   "chapter": "大壯卦・卦辭",
+   "text": "大壯：利貞",
+   "review": []
+  },
+  "zhouyi.gua.34.tuan": {
+   "chapter": "大壯卦・彖傳",
+   "text": "大壯，大者壯也。剛以動，故壯。大壯利貞；大者正也。正大而天地之情可見矣！",
+   "review": []
+  },
+  "zhouyi.gua.34.daxiang": {
+   "chapter": "大壯卦・大象",
+   "text": "雷在天上，大壯；君子以非禮勿履。",
+   "review": []
+  },
+  "zhouyi.gua.34.yao.1": {
+   "chapter": "大壯卦・初九",
+   "text": "初九：壯於趾，征凶，有孚。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.34.yao.2": {
+   "chapter": "大壯卦・九二",
+   "text": "九二：貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.34.yao.3": {
+   "chapter": "大壯卦・九三",
+   "text": "九三：小人用壯，君子用罔，貞厲。羝羊觸藩，羸其角。",
+   "review": []
+  },
+  "zhouyi.gua.34.yao.4": {
+   "chapter": "大壯卦・九四",
+   "text": "九四：貞吉悔亡，藩決不羸，壯於大輿之輹。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.34.yao.5": {
+   "chapter": "大壯卦・六五",
+   "text": "六五：喪羊於易，無悔。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.34.yao.6": {
+   "chapter": "大壯卦・上六",
+   "text": "上六：羝羊觸藩，不能退，不能遂，無攸利，艱則吉。",
+   "review": []
+  },
+  "zhouyi.gua.34.xiaoxiang.1": {
+   "chapter": "大壯卦・小象・初九",
+   "text": "壯於趾，其孚窮也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.34.xiaoxiang.2": {
+   "chapter": "大壯卦・小象・九二",
+   "text": "九二貞吉，以中也。",
+   "review": []
+  },
+  "zhouyi.gua.34.xiaoxiang.3": {
+   "chapter": "大壯卦・小象・九三",
+   "text": "小人用壯，君子罔也。",
+   "review": []
+  },
+  "zhouyi.gua.34.xiaoxiang.4": {
+   "chapter": "大壯卦・小象・九四",
+   "text": "藩決不羸，尚往也。",
+   "review": []
+  },
+  "zhouyi.gua.34.xiaoxiang.5": {
+   "chapter": "大壯卦・小象・六五",
+   "text": "喪羊於易，位不當也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.34.xiaoxiang.6": {
+   "chapter": "大壯卦・小象・上六",
+   "text": "不能退，不能遂，不祥也。艱則吉，咎不長也。",
+   "review": []
+  },
+  "zhouyi.gua.35.gua": {
+   "chapter": "晉卦・卦辭",
+   "text": "晉：康侯用錫馬蕃庶，晝日三接。",
+   "review": []
+  },
+  "zhouyi.gua.35.tuan": {
+   "chapter": "晉卦・彖傳",
+   "text": "晉，進也。明出地上，順而麗乎大明，柔進而上行。是以康侯用錫馬蕃庶，晝日三接也。",
+   "review": []
+  },
+  "zhouyi.gua.35.daxiang": {
+   "chapter": "晉卦・大象",
+   "text": "明出地上，晉；君子以自昭明德。",
+   "review": []
+  },
+  "zhouyi.gua.35.yao.1": {
+   "chapter": "晉卦・初六",
+   "text": "初六：晉如，摧如，貞吉。罔孚，裕無咎。",
+   "review": []
+  },
+  "zhouyi.gua.35.yao.2": {
+   "chapter": "晉卦・六二",
+   "text": "六二：晉如，愁如，貞吉。受茲介福，於其王母。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.35.yao.3": {
+   "chapter": "晉卦・六三",
+   "text": "六三：眾允，悔亡。",
+   "review": []
+  },
+  "zhouyi.gua.35.yao.4": {
+   "chapter": "晉卦・九四",
+   "text": "九四：晉如碩鼠，貞厲。",
+   "review": []
+  },
+  "zhouyi.gua.35.yao.5": {
+   "chapter": "晉卦・六五",
+   "text": "六五：悔亡，失得勿恤，往吉，無不利。",
+   "review": []
+  },
+  "zhouyi.gua.35.yao.6": {
+   "chapter": "晉卦・上九",
+   "text": "上九：晉其角，維用伐邑，厲吉無咎，貞吝。",
+   "review": []
+  },
+  "zhouyi.gua.35.xiaoxiang.1": {
+   "chapter": "晉卦・小象・初六",
+   "text": "晉如，摧如；獨行正也。裕無咎；未受命也。",
+   "review": []
+  },
+  "zhouyi.gua.35.xiaoxiang.2": {
+   "chapter": "晉卦・小象・六二",
+   "text": "受之介福，以中正也。",
+   "review": []
+  },
+  "zhouyi.gua.35.xiaoxiang.3": {
+   "chapter": "晉卦・小象・六三",
+   "text": "眾允之，志上行也。",
+   "review": []
+  },
+  "zhouyi.gua.35.xiaoxiang.4": {
+   "chapter": "晉卦・小象・九四",
+   "text": "碩鼠貞厲，位不當也。",
+   "review": []
+  },
+  "zhouyi.gua.35.xiaoxiang.5": {
+   "chapter": "晉卦・小象・六五",
+   "text": "失得勿恤，往有慶也。",
+   "review": []
+  },
+  "zhouyi.gua.35.xiaoxiang.6": {
+   "chapter": "晉卦・小象・上九",
+   "text": "維用伐邑，道未光也。",
+   "review": []
+  },
+  "zhouyi.gua.36.gua": {
+   "chapter": "明夷卦・卦辭",
+   "text": "明夷：利艱貞。",
+   "review": []
+  },
+  "zhouyi.gua.36.tuan": {
+   "chapter": "明夷卦・彖傳",
+   "text": "明入地中，明夷。內文明而外柔順，以蒙大難，文王以之。利艱貞，晦其明也，內難而能正其志，箕子以之。",
+   "review": []
+  },
+  "zhouyi.gua.36.daxiang": {
+   "chapter": "明夷卦・大象",
+   "text": "明入地中，明夷；君子以蒞眾，用晦而明。",
+   "review": []
+  },
+  "zhouyi.gua.36.yao.1": {
+   "chapter": "明夷卦・初九",
+   "text": "初九：明夷於飛，垂其翼。君子於行，三日不食，有攸往，主人有言。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.36.yao.2": {
+   "chapter": "明夷卦・六二",
+   "text": "六二：明夷，夷於左股，用拯馬壯，吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.36.yao.3": {
+   "chapter": "明夷卦・九三",
+   "text": "九三：明夷於南狩，得其大首，不可疾貞。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.36.yao.4": {
+   "chapter": "明夷卦・六四",
+   "text": "六四：入於左腹，獲明夷之心，出於門庭。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.36.yao.5": {
+   "chapter": "明夷卦・六五",
+   "text": "六五：箕子之明夷，利貞。",
+   "review": []
+  },
+  "zhouyi.gua.36.yao.6": {
+   "chapter": "明夷卦・上六",
+   "text": "上六：不明晦，初登於天，後入於地。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.36.xiaoxiang.1": {
+   "chapter": "明夷卦・小象・初九",
+   "text": "君子於行，義不食也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.36.xiaoxiang.2": {
+   "chapter": "明夷卦・小象・六二",
+   "text": "六二之吉，順以則也。",
+   "review": []
+  },
+  "zhouyi.gua.36.xiaoxiang.3": {
+   "chapter": "明夷卦・小象・九三",
+   "text": "南狩之志，乃大得也。",
+   "review": []
+  },
+  "zhouyi.gua.36.xiaoxiang.4": {
+   "chapter": "明夷卦・小象・六四",
+   "text": "入於左腹，獲心意也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.36.xiaoxiang.5": {
+   "chapter": "明夷卦・小象・六五",
+   "text": "箕子之貞，明不可息也。",
+   "review": []
+  },
+  "zhouyi.gua.36.xiaoxiang.6": {
+   "chapter": "明夷卦・小象・上六",
+   "text": "初登於天，照四國也。後入於地，失則也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.37.gua": {
+   "chapter": "家人卦・卦辭",
+   "text": "家人：利女貞。",
+   "review": []
+  },
+  "zhouyi.gua.37.tuan": {
+   "chapter": "家人卦・彖傳",
+   "text": "家人，女正位乎內，男正位乎外，男女正，天地之大義也。家人有嚴君焉，父母之謂也。父父，子子，兄兄，弟弟，夫夫，婦婦，而家道正；正家而天下定矣。",
+   "review": []
+  },
+  "zhouyi.gua.37.daxiang": {
+   "chapter": "家人卦・大象",
+   "text": "風自火出，家人；君子以言有物，而行有恒。",
+   "review": []
+  },
+  "zhouyi.gua.37.yao.1": {
+   "chapter": "家人卦・初九",
+   "text": "初九：閑有家，悔亡。",
+   "review": []
+  },
+  "zhouyi.gua.37.yao.2": {
+   "chapter": "家人卦・六二",
+   "text": "六二：無攸遂，在中饋，貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.37.yao.3": {
+   "chapter": "家人卦・九三",
+   "text": "九三：家人嗃嗃，悔厲吉；婦子嘻嘻，終吝。",
+   "review": []
+  },
+  "zhouyi.gua.37.yao.4": {
+   "chapter": "家人卦・六四",
+   "text": "六四：富家，大吉。",
+   "review": []
+  },
+  "zhouyi.gua.37.yao.5": {
+   "chapter": "家人卦・九五",
+   "text": "九五：王假有家，勿恤，往吉。",
+   "review": []
+  },
+  "zhouyi.gua.37.yao.6": {
+   "chapter": "家人卦・上九",
+   "text": "上九：有孚威如，終吉。",
+   "review": []
+  },
+  "zhouyi.gua.37.xiaoxiang.1": {
+   "chapter": "家人卦・小象・初九",
+   "text": "閑有家，志未變也。",
+   "review": []
+  },
+  "zhouyi.gua.37.xiaoxiang.2": {
+   "chapter": "家人卦・小象・六二",
+   "text": "六二之吉，順以巽也。",
+   "review": []
+  },
+  "zhouyi.gua.37.xiaoxiang.3": {
+   "chapter": "家人卦・小象・九三",
+   "text": "家人嗃嗃，未失也；婦子嘻嘻，失家節也。",
+   "review": []
+  },
+  "zhouyi.gua.37.xiaoxiang.4": {
+   "chapter": "家人卦・小象・六四",
+   "text": "富家大吉，順在位也。",
+   "review": []
+  },
+  "zhouyi.gua.37.xiaoxiang.5": {
+   "chapter": "家人卦・小象・九五",
+   "text": "王假有家，交相愛也。",
+   "review": []
+  },
+  "zhouyi.gua.37.xiaoxiang.6": {
+   "chapter": "家人卦・小象・上九",
+   "text": "威如之吉，反身之謂也。",
+   "review": []
+  },
+  "zhouyi.gua.38.gua": {
+   "chapter": "睽卦・卦辭",
+   "text": "睽：小事吉。",
+   "review": []
+  },
+  "zhouyi.gua.38.tuan": {
+   "chapter": "睽卦・彖傳",
+   "text": "睽，火動而上，澤動而下；二女同居，其志不同行；說而麗乎明，柔進而上行，得中而應乎剛；是以小事吉。天地睽，而其事同也；男女睽，而其志通也；萬物睽，而其事類也；睽之時用大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.38.daxiang": {
+   "chapter": "睽卦・大象",
+   "text": "上火下澤，睽；君子以同而異。",
+   "review": []
+  },
+  "zhouyi.gua.38.yao.1": {
+   "chapter": "睽卦・初九",
+   "text": "初九：悔亡，喪馬勿逐，自復；見惡人無咎。",
+   "review": []
+  },
+  "zhouyi.gua.38.yao.2": {
+   "chapter": "睽卦・九二",
+   "text": "九二：遇主於巷，無咎。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.38.yao.3": {
+   "chapter": "睽卦・六三",
+   "text": "六三：見輿曳，其牛掣，其人天且劓，無初有終。",
+   "review": []
+  },
+  "zhouyi.gua.38.yao.4": {
+   "chapter": "睽卦・九四",
+   "text": "九四：睽孤，遇元夫，交孚，厲無咎。",
+   "review": []
+  },
+  "zhouyi.gua.38.yao.5": {
+   "chapter": "睽卦・六五",
+   "text": "六五：悔亡，厥宗噬膚，往何咎。",
+   "review": []
+  },
+  "zhouyi.gua.38.yao.6": {
+   "chapter": "睽卦・上九",
+   "text": "上九：睽孤，見豕負塗，載鬼一車，先張之弧，後說之弧，匪寇婚媾，往遇雨則吉。",
+   "review": []
+  },
+  "zhouyi.gua.38.xiaoxiang.1": {
+   "chapter": "睽卦・小象・初九",
+   "text": "見惡人，以辟咎也。",
+   "review": []
+  },
+  "zhouyi.gua.38.xiaoxiang.2": {
+   "chapter": "睽卦・小象・九二",
+   "text": "遇主於巷，未失道也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.38.xiaoxiang.3": {
+   "chapter": "睽卦・小象・六三",
+   "text": "見輿曳，位不當也。無初有終，遇剛也。",
+   "review": []
+  },
+  "zhouyi.gua.38.xiaoxiang.4": {
+   "chapter": "睽卦・小象・九四",
+   "text": "交孚無咎，志行也。",
+   "review": []
+  },
+  "zhouyi.gua.38.xiaoxiang.5": {
+   "chapter": "睽卦・小象・六五",
+   "text": "厥宗噬膚，往有慶也。",
+   "review": []
+  },
+  "zhouyi.gua.38.xiaoxiang.6": {
+   "chapter": "睽卦・小象・上九",
+   "text": "遇雨之吉，群疑亡也。",
+   "review": []
+  },
+  "zhouyi.gua.39.gua": {
+   "chapter": "蹇卦・卦辭",
+   "text": "蹇：利西南，不利東北；利見大人，貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.39.tuan": {
+   "chapter": "蹇卦・彖傳",
+   "text": "蹇，難也，險在前也。見險而能止，知矣哉！蹇利西南，往得中也；不利東北，其道窮也。利見大人，往有功也。當位貞吉，以正邦也。蹇之時用大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.39.daxiang": {
+   "chapter": "蹇卦・大象",
+   "text": "山上有水，蹇；君子以反身修德。",
+   "review": []
+  },
+  "zhouyi.gua.39.yao.1": {
+   "chapter": "蹇卦・初六",
+   "text": "初六：往蹇，來譽。",
+   "review": []
+  },
+  "zhouyi.gua.39.yao.2": {
+   "chapter": "蹇卦・六二",
+   "text": "六二：王臣蹇蹇，匪躬之故。",
+   "review": []
+  },
+  "zhouyi.gua.39.yao.3": {
+   "chapter": "蹇卦・九三",
+   "text": "九三：往蹇來反。",
+   "review": []
+  },
+  "zhouyi.gua.39.yao.4": {
+   "chapter": "蹇卦・六四",
+   "text": "六四：往蹇來連。",
+   "review": []
+  },
+  "zhouyi.gua.39.yao.5": {
+   "chapter": "蹇卦・九五",
+   "text": "九五：大蹇朋來。",
+   "review": []
+  },
+  "zhouyi.gua.39.yao.6": {
+   "chapter": "蹇卦・上六",
+   "text": "上六：往蹇來碩，吉；利見大人。",
+   "review": []
+  },
+  "zhouyi.gua.39.xiaoxiang.1": {
+   "chapter": "蹇卦・小象・初六",
+   "text": "往蹇來譽，宜待也。",
+   "review": []
+  },
+  "zhouyi.gua.39.xiaoxiang.2": {
+   "chapter": "蹇卦・小象・六二",
+   "text": "王臣蹇蹇，終無尤也。",
+   "review": []
+  },
+  "zhouyi.gua.39.xiaoxiang.3": {
+   "chapter": "蹇卦・小象・九三",
+   "text": "往蹇來反，內喜之也。",
+   "review": []
+  },
+  "zhouyi.gua.39.xiaoxiang.4": {
+   "chapter": "蹇卦・小象・六四",
+   "text": "往蹇來連，當位實也。",
+   "review": []
+  },
+  "zhouyi.gua.39.xiaoxiang.5": {
+   "chapter": "蹇卦・小象・九五",
+   "text": "大蹇朋來，以中節也。",
+   "review": []
+  },
+  "zhouyi.gua.39.xiaoxiang.6": {
+   "chapter": "蹇卦・小象・上六",
+   "text": "往蹇來碩，志在內也。利見大人，以從貴也。",
+   "review": []
+  },
+  "zhouyi.gua.40.gua": {
+   "chapter": "解卦・卦辭",
+   "text": "解：利西南，無所往，其來復吉。有攸往，夙吉。",
+   "review": []
+  },
+  "zhouyi.gua.40.tuan": {
+   "chapter": "解卦・彖傳",
+   "text": "解，險以動，動而免乎險，解。解利西南，往得眾也。其來復吉，乃得中也。有攸往夙吉，往有功也。天地解，而雷雨作，雷雨作，而百果草木皆甲坼，解之時義大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.40.daxiang": {
+   "chapter": "解卦・大象",
+   "text": "雷雨作，解；君子以赦過宥罪。",
+   "review": []
+  },
+  "zhouyi.gua.40.yao.1": {
+   "chapter": "解卦・初六",
+   "text": "初六：無咎。",
+   "review": []
+  },
+  "zhouyi.gua.40.yao.2": {
+   "chapter": "解卦・九二",
+   "text": "九二：田獲三狐，得黃矢，貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.40.yao.3": {
+   "chapter": "解卦・六三",
+   "text": "六三：負且乘，致寇至，貞吝。",
+   "review": []
+  },
+  "zhouyi.gua.40.yao.4": {
+   "chapter": "解卦・九四",
+   "text": "九四：解而拇，朋至斯孚。",
+   "review": []
+  },
+  "zhouyi.gua.40.yao.5": {
+   "chapter": "解卦・六五",
+   "text": "六五：君子維有解，吉；有孚於小人。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.40.yao.6": {
+   "chapter": "解卦・上六",
+   "text": "上六：公用射隼於高墉之上，獲之，無不利。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.40.xiaoxiang.1": {
+   "chapter": "解卦・小象・初六",
+   "text": "剛柔之際，義無咎也。",
+   "review": []
+  },
+  "zhouyi.gua.40.xiaoxiang.2": {
+   "chapter": "解卦・小象・九二",
+   "text": "九二貞吉，得中道也。",
+   "review": []
+  },
+  "zhouyi.gua.40.xiaoxiang.3": {
+   "chapter": "解卦・小象・六三",
+   "text": "負且乘，亦可醜也，自我致戎，又誰咎也。",
+   "review": []
+  },
+  "zhouyi.gua.40.xiaoxiang.4": {
+   "chapter": "解卦・小象・九四",
+   "text": "解而拇，未當位也。",
+   "review": []
+  },
+  "zhouyi.gua.40.xiaoxiang.5": {
+   "chapter": "解卦・小象・六五",
+   "text": "君子有解，小人退也。",
+   "review": []
+  },
+  "zhouyi.gua.40.xiaoxiang.6": {
+   "chapter": "解卦・小象・上六",
+   "text": "公用射隼，以解悖也。",
+   "review": []
+  },
+  "zhouyi.gua.41.gua": {
+   "chapter": "損卦・卦辭",
+   "text": "損：有孚，元吉，無咎，可貞，利有攸往。曷之用，二簋可用享。",
+   "review": []
+  },
+  "zhouyi.gua.41.tuan": {
+   "chapter": "損卦・彖傳",
+   "text": "損，損下益上，其道上行。損而有孚，元吉，無咎，可貞，利有攸往。曷之用？二簋可用享；二簋應有時。損剛益柔有時，損益盈虛，與時偕行。",
+   "review": []
+  },
+  "zhouyi.gua.41.daxiang": {
+   "chapter": "損卦・大象",
+   "text": "山下有澤，損；君子以懲忿窒欲。",
+   "review": []
+  },
+  "zhouyi.gua.41.yao.1": {
+   "chapter": "損卦・初九",
+   "text": "初九：巳事遄往，無咎，酌損之。",
+   "review": []
+  },
+  "zhouyi.gua.41.yao.2": {
+   "chapter": "損卦・九二",
+   "text": "九二：利貞，征凶，弗損，益之。",
+   "review": []
+  },
+  "zhouyi.gua.41.yao.3": {
+   "chapter": "損卦・六三",
+   "text": "六三：三人行，則損一人；一人行，則得其友。",
+   "review": []
+  },
+  "zhouyi.gua.41.yao.4": {
+   "chapter": "損卦・六四",
+   "text": "六四：損其疾，使遄有喜，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.41.yao.5": {
+   "chapter": "損卦・六五",
+   "text": "六五：或益之，十朋之龜弗克違，元吉。",
+   "review": []
+  },
+  "zhouyi.gua.41.yao.6": {
+   "chapter": "損卦・上九",
+   "text": "上九：弗損益之，無咎，貞吉，有攸往，得臣無家。",
+   "review": []
+  },
+  "zhouyi.gua.41.xiaoxiang.1": {
+   "chapter": "損卦・小象・初九",
+   "text": "巳事遄往，尚合志也。",
+   "review": []
+  },
+  "zhouyi.gua.41.xiaoxiang.2": {
+   "chapter": "損卦・小象・九二",
+   "text": "九二利貞，中以為志也。",
+   "review": []
+  },
+  "zhouyi.gua.41.xiaoxiang.3": {
+   "chapter": "損卦・小象・六三",
+   "text": "一人行，三則疑也。",
+   "review": []
+  },
+  "zhouyi.gua.41.xiaoxiang.4": {
+   "chapter": "損卦・小象・六四",
+   "text": "損其疾，亦可喜也。",
+   "review": []
+  },
+  "zhouyi.gua.41.xiaoxiang.5": {
+   "chapter": "損卦・小象・六五",
+   "text": "六五元吉，自上佑也。",
+   "review": []
+  },
+  "zhouyi.gua.41.xiaoxiang.6": {
+   "chapter": "損卦・小象・上九",
+   "text": "弗損益之，大得志也。",
+   "review": []
+  },
+  "zhouyi.gua.42.gua": {
+   "chapter": "益卦・卦辭",
+   "text": "益：利有攸往，利涉大川。",
+   "review": []
+  },
+  "zhouyi.gua.42.tuan": {
+   "chapter": "益卦・彖傳",
+   "text": "益，損上益下，民說無疆，自上下下，其道大光。利有攸往，中正有慶。利涉大川，木道乃行。益動而巽，日進無疆。天施地生，其益無方。凡益之道，與時偕行。",
+   "review": []
+  },
+  "zhouyi.gua.42.daxiang": {
+   "chapter": "益卦・大象",
+   "text": "風雷，益；君子以見善則遷，有過則改。",
+   "review": []
+  },
+  "zhouyi.gua.42.yao.1": {
+   "chapter": "益卦・初九",
+   "text": "初九：利用為大作，元吉，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.42.yao.2": {
+   "chapter": "益卦・六二",
+   "text": "六二：或益之，十朋之龜弗克違，永貞吉。王用享於帝，吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.42.yao.3": {
+   "chapter": "益卦・六三",
+   "text": "六三：益之用凶事，無咎。有孚中行，告公用圭。",
+   "review": []
+  },
+  "zhouyi.gua.42.yao.4": {
+   "chapter": "益卦・六四",
+   "text": "六四：中行，告公從。利用為依遷國。",
+   "review": []
+  },
+  "zhouyi.gua.42.yao.5": {
+   "chapter": "益卦・九五",
+   "text": "九五：有孚惠心，勿問元吉。有孚惠我德。",
+   "review": []
+  },
+  "zhouyi.gua.42.yao.6": {
+   "chapter": "益卦・上九",
+   "text": "上九：莫益之，或擊之，立心勿恒，凶。",
+   "review": []
+  },
+  "zhouyi.gua.42.xiaoxiang.1": {
+   "chapter": "益卦・小象・初九",
+   "text": "元吉無咎，下不厚事也。",
+   "review": []
+  },
+  "zhouyi.gua.42.xiaoxiang.2": {
+   "chapter": "益卦・小象・六二",
+   "text": "或益之，自外來也。",
+   "review": []
+  },
+  "zhouyi.gua.42.xiaoxiang.3": {
+   "chapter": "益卦・小象・六三",
+   "text": "益用凶事，固有之也。",
+   "review": []
+  },
+  "zhouyi.gua.42.xiaoxiang.4": {
+   "chapter": "益卦・小象・六四",
+   "text": "告公從，以益志也。",
+   "review": []
+  },
+  "zhouyi.gua.42.xiaoxiang.5": {
+   "chapter": "益卦・小象・九五",
+   "text": "有孚惠心，勿問之矣。惠我德，大得志也。",
+   "review": []
+  },
+  "zhouyi.gua.42.xiaoxiang.6": {
+   "chapter": "益卦・小象・上九",
+   "text": "莫益之，偏辭也。或擊之，自外來也。",
+   "review": []
+  },
+  "zhouyi.gua.43.gua": {
+   "chapter": "夬卦・卦辭",
+   "text": "夬：揚於王庭，孚號，有厲，告自邑，不利即戎，利有攸往。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.43.tuan": {
+   "chapter": "夬卦・彖傳",
+   "text": "夬，決也，剛決柔也。健而說，決而和，揚於王庭，柔乘五剛也。孚號有厲，其危乃光也。告自邑，不利即戎，所尚乃窮也。利有攸往，剛長乃終也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.43.daxiang": {
+   "chapter": "夬卦・大象",
+   "text": "澤上於天，夬；君子以施祿及下，居德則忌。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.43.yao.1": {
+   "chapter": "夬卦・初九",
+   "text": "初九：壯於前趾，往不勝為咎。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.43.yao.2": {
+   "chapter": "夬卦・九二",
+   "text": "九二：惕號，莫夜有戎，勿恤。",
+   "review": []
+  },
+  "zhouyi.gua.43.yao.3": {
+   "chapter": "夬卦・九三",
+   "text": "九三：壯於頄，有凶。君子夬夬，獨行，遇雨，若濡，有慍，無咎。   ",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.43.yao.4": {
+   "chapter": "夬卦・九四",
+   "text": "九四：臀無膚，其行次且。牽羊悔亡，聞言不信。",
+   "review": []
+  },
+  "zhouyi.gua.43.yao.5": {
+   "chapter": "夬卦・九五",
+   "text": "九五：莧陸夬夬，中行無咎。",
+   "review": []
+  },
+  "zhouyi.gua.43.yao.6": {
+   "chapter": "夬卦・上六",
+   "text": "上六：無號，終有凶。",
+   "review": []
+  },
+  "zhouyi.gua.43.xiaoxiang.1": {
+   "chapter": "夬卦・小象・初九",
+   "text": "不勝而往，咎也。",
+   "review": []
+  },
+  "zhouyi.gua.43.xiaoxiang.2": {
+   "chapter": "夬卦・小象・九二",
+   "text": "莫夜有戎，得中道也。",
+   "review": []
+  },
+  "zhouyi.gua.43.xiaoxiang.3": {
+   "chapter": "夬卦・小象・九三",
+   "text": "君子夬夬，終無咎也。",
+   "review": []
+  },
+  "zhouyi.gua.43.xiaoxiang.4": {
+   "chapter": "夬卦・小象・九四",
+   "text": "其行次且，位不當也。聞言不信，聰不明也。",
+   "review": []
+  },
+  "zhouyi.gua.43.xiaoxiang.5": {
+   "chapter": "夬卦・小象・九五",
+   "text": "中行無咎，中未光也。",
+   "review": []
+  },
+  "zhouyi.gua.43.xiaoxiang.6": {
+   "chapter": "夬卦・小象・上六",
+   "text": "無號之凶，終不可長也。",
+   "review": []
+  },
+  "zhouyi.gua.44.gua": {
+   "chapter": "姤卦・卦辭",
+   "text": "姤：女壯，勿用取女。",
+   "review": []
+  },
+  "zhouyi.gua.44.tuan": {
+   "chapter": "姤卦・彖傳",
+   "text": "姤，遇也，柔遇剛也。勿用取女，不可與長也。天地相遇，品物咸章也。剛遇中正，天下大行也。姤之時義大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.44.daxiang": {
+   "chapter": "姤卦・大象",
+   "text": "天下有風，姤；后以施命誥四方。",
+   "review": []
+  },
+  "zhouyi.gua.44.yao.1": {
+   "chapter": "姤卦・初六",
+   "text": "初六：系於金柅，貞吉，有攸往，見凶，羸豕孚踟躅。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.44.yao.2": {
+   "chapter": "姤卦・九二",
+   "text": "九二：包有魚，無咎，不利賓。",
+   "review": []
+  },
+  "zhouyi.gua.44.yao.3": {
+   "chapter": "姤卦・九三",
+   "text": "九三：臀無膚，其行次且，厲，無大咎。   ",
+   "review": []
+  },
+  "zhouyi.gua.44.yao.4": {
+   "chapter": "姤卦・九四",
+   "text": "九四：包無魚，起凶。",
+   "review": []
+  },
+  "zhouyi.gua.44.yao.5": {
+   "chapter": "姤卦・九五",
+   "text": "九五：以杞包瓜，含章，有隕自天。九五：以杞包瓜，含章，有隕自天。",
+   "review": []
+  },
+  "zhouyi.gua.44.yao.6": {
+   "chapter": "姤卦・上九",
+   "text": "上九：姤其角，吝，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.44.xiaoxiang.1": {
+   "chapter": "姤卦・小象・初六",
+   "text": "系於金柅，柔道牽也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.44.xiaoxiang.2": {
+   "chapter": "姤卦・小象・九二",
+   "text": "包有魚，義不及賓也。",
+   "review": []
+  },
+  "zhouyi.gua.44.xiaoxiang.3": {
+   "chapter": "姤卦・小象・九三",
+   "text": "其行次且，行未牽也。",
+   "review": []
+  },
+  "zhouyi.gua.44.xiaoxiang.4": {
+   "chapter": "姤卦・小象・九四",
+   "text": "無魚之凶，遠民也。",
+   "review": []
+  },
+  "zhouyi.gua.44.xiaoxiang.5": {
+   "chapter": "姤卦・小象・九五",
+   "text": "九五含章，中正也。有隕自天，志不舍命也。",
+   "review": []
+  },
+  "zhouyi.gua.44.xiaoxiang.6": {
+   "chapter": "姤卦・小象・上九",
+   "text": "姤其角，上窮吝也。",
+   "review": []
+  },
+  "zhouyi.gua.45.gua": {
+   "chapter": "萃卦・卦辭",
+   "text": "萃：亨。王假有廟，利見大人，亨，利貞。用大牲吉，利有攸往。",
+   "review": []
+  },
+  "zhouyi.gua.45.tuan": {
+   "chapter": "萃卦・彖傳",
+   "text": "萃，聚也；順以說，剛中而應，故聚也。王假有廟，致孝享也。利見大人亨，聚以正也。用大牲吉，利有攸往，順天命也。觀其所聚，而天地萬物之情可見矣。",
+   "review": []
+  },
+  "zhouyi.gua.45.daxiang": {
+   "chapter": "萃卦・大象",
+   "text": "澤上於地，萃；君子以除戎器，戒不虞。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.45.yao.1": {
+   "chapter": "萃卦・初六",
+   "text": "初六：有孚不終，乃亂乃萃，若號一握為笑，勿恤，往無咎。",
+   "review": []
+  },
+  "zhouyi.gua.45.yao.2": {
+   "chapter": "萃卦・六二",
+   "text": "六二：引吉，無咎，孚乃利用禴。",
+   "review": []
+  },
+  "zhouyi.gua.45.yao.3": {
+   "chapter": "萃卦・六三",
+   "text": "六三：萃如，嗟如，無攸利，往無咎，小吝。   ",
+   "review": []
+  },
+  "zhouyi.gua.45.yao.4": {
+   "chapter": "萃卦・九四",
+   "text": "九四：大吉，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.45.yao.5": {
+   "chapter": "萃卦・九五",
+   "text": "九五：萃有位，無咎。匪孚，元永貞，悔亡。",
+   "review": []
+  },
+  "zhouyi.gua.45.yao.6": {
+   "chapter": "萃卦・上六",
+   "text": "上六：齎咨涕洟，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.45.xiaoxiang.1": {
+   "chapter": "萃卦・小象・初六",
+   "text": "乃亂乃萃，其志亂也。",
+   "review": []
+  },
+  "zhouyi.gua.45.xiaoxiang.2": {
+   "chapter": "萃卦・小象・六二",
+   "text": "引吉無咎，中未變也。",
+   "review": []
+  },
+  "zhouyi.gua.45.xiaoxiang.3": {
+   "chapter": "萃卦・小象・六三",
+   "text": "往無咎，上巽也。",
+   "review": []
+  },
+  "zhouyi.gua.45.xiaoxiang.4": {
+   "chapter": "萃卦・小象・九四",
+   "text": "大吉無咎，位不當也。",
+   "review": []
+  },
+  "zhouyi.gua.45.xiaoxiang.5": {
+   "chapter": "萃卦・小象・九五",
+   "text": "萃有位，志未光也。",
+   "review": []
+  },
+  "zhouyi.gua.45.xiaoxiang.6": {
+   "chapter": "萃卦・小象・上六",
+   "text": "齎咨涕洟，未安上也。",
+   "review": []
+  },
+  "zhouyi.gua.46.gua": {
+   "chapter": "升卦・卦辭",
+   "text": "升：元亨，用見大人，勿恤，南征吉。",
+   "review": []
+  },
+  "zhouyi.gua.46.tuan": {
+   "chapter": "升卦・彖傳",
+   "text": "柔以時升，巽而順，剛中而應，是以大亨。用見大人，勿恤；有慶也。南征吉，志行也。",
+   "review": []
+  },
+  "zhouyi.gua.46.daxiang": {
+   "chapter": "升卦・大象",
+   "text": "地中生木，升；君子以順德，積小以高大。",
+   "review": []
+  },
+  "zhouyi.gua.46.yao.1": {
+   "chapter": "升卦・初六",
+   "text": "初六：允升，大吉。",
+   "review": []
+  },
+  "zhouyi.gua.46.yao.2": {
+   "chapter": "升卦・九二",
+   "text": "九二：孚乃利用禴，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.46.yao.3": {
+   "chapter": "升卦・九三",
+   "text": "九三：升虛邑。   ",
+   "review": []
+  },
+  "zhouyi.gua.46.yao.4": {
+   "chapter": "升卦・六四",
+   "text": "六四：王用亨於岐山，吉無咎。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.46.yao.5": {
+   "chapter": "升卦・六五",
+   "text": "六五：貞吉，升階。",
+   "review": []
+  },
+  "zhouyi.gua.46.yao.6": {
+   "chapter": "升卦・上六",
+   "text": "上六：冥升，利於不息之貞。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.46.xiaoxiang.1": {
+   "chapter": "升卦・小象・初六",
+   "text": "允升大吉，上合志也。",
+   "review": []
+  },
+  "zhouyi.gua.46.xiaoxiang.2": {
+   "chapter": "升卦・小象・九二",
+   "text": "九二之孚，有喜也。",
+   "review": []
+  },
+  "zhouyi.gua.46.xiaoxiang.3": {
+   "chapter": "升卦・小象・九三",
+   "text": "升虛邑，無所疑也。",
+   "review": []
+  },
+  "zhouyi.gua.46.xiaoxiang.4": {
+   "chapter": "升卦・小象・六四",
+   "text": "王用亨於岐山，順事也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.46.xiaoxiang.5": {
+   "chapter": "升卦・小象・六五",
+   "text": "貞吉升階，大得志也。",
+   "review": []
+  },
+  "zhouyi.gua.46.xiaoxiang.6": {
+   "chapter": "升卦・小象・上六",
+   "text": "冥升在上，消不富也。",
+   "review": []
+  },
+  "zhouyi.gua.47.gua": {
+   "chapter": "困卦・卦辭",
+   "text": "困：亨，貞，大人吉，無咎，有言不信。",
+   "review": []
+  },
+  "zhouyi.gua.47.tuan": {
+   "chapter": "困卦・彖傳",
+   "text": "困，剛掩也。險以說，困而不失其所，亨；其唯君子乎？貞大人吉，以剛中也。有言不信，尚口乃窮也。",
+   "review": []
+  },
+  "zhouyi.gua.47.daxiang": {
+   "chapter": "困卦・大象",
+   "text": "澤無水，困；君子以致命遂志。",
+   "review": []
+  },
+  "zhouyi.gua.47.yao.1": {
+   "chapter": "困卦・初六",
+   "text": "初六：臀困於株木，入於幽谷，三歲不覿。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.47.yao.2": {
+   "chapter": "困卦・九二",
+   "text": "九二：困於酒食，朱紱方來，利用享祀，征凶，無咎。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.47.yao.3": {
+   "chapter": "困卦・六三",
+   "text": "六三：困於石，據於蒺藜，入於其宮，不見其妻，凶。   ",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.47.yao.4": {
+   "chapter": "困卦・九四",
+   "text": "九四：來徐徐，困於金車，吝，有終。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.47.yao.5": {
+   "chapter": "困卦・九五",
+   "text": "九五：劓刖，困於赤紱，乃徐有說，利用祭祀。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.47.yao.6": {
+   "chapter": "困卦・上六",
+   "text": "上六：困於葛藟，於臲卼，曰動悔。有悔，征吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.47.xiaoxiang.1": {
+   "chapter": "困卦・小象・初六",
+   "text": "入於幽谷，幽不明也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.47.xiaoxiang.2": {
+   "chapter": "困卦・小象・九二",
+   "text": "困於酒食，中有慶也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.47.xiaoxiang.3": {
+   "chapter": "困卦・小象・六三",
+   "text": "據於蒺藜，乘剛也。入於其宮，不見其妻，不祥也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.47.xiaoxiang.4": {
+   "chapter": "困卦・小象・九四",
+   "text": "來徐徐，志在下也。雖不當位，有與也。",
+   "review": []
+  },
+  "zhouyi.gua.47.xiaoxiang.5": {
+   "chapter": "困卦・小象・九五",
+   "text": "劓刖，志未得也。乃徐有說，以中直也。利用祭祀，受福也。",
+   "review": []
+  },
+  "zhouyi.gua.47.xiaoxiang.6": {
+   "chapter": "困卦・小象・上六",
+   "text": "困於葛藟，未當也。動悔，有悔吉，行也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.48.gua": {
+   "chapter": "井卦・卦辭",
+   "text": "井：改邑不改井，無喪無得，往來井井。汔至，亦未繘井，羸其瓶，凶。",
+   "review": []
+  },
+  "zhouyi.gua.48.tuan": {
+   "chapter": "井卦・彖傳",
+   "text": "巽乎水而上水，井；井養而不窮也。改邑不改井，乃以剛中也。汔至亦未繘井，未有功也。羸其瓶，是以凶也。",
+   "review": []
+  },
+  "zhouyi.gua.48.daxiang": {
+   "chapter": "井卦・大象",
+   "text": "木上有水，井；君子以勞民勸相。",
+   "review": []
+  },
+  "zhouyi.gua.48.yao.1": {
+   "chapter": "井卦・初六",
+   "text": "初六：井泥不食，舊井無禽。",
+   "review": []
+  },
+  "zhouyi.gua.48.yao.2": {
+   "chapter": "井卦・九二",
+   "text": "九二：井谷射鮒，甕敝漏。",
+   "review": []
+  },
+  "zhouyi.gua.48.yao.3": {
+   "chapter": "井卦・九三",
+   "text": "九三：井渫不食，為我心惻，可用汲，王明，並受其福。   ",
+   "review": []
+  },
+  "zhouyi.gua.48.yao.4": {
+   "chapter": "井卦・六四",
+   "text": "六四：井甃，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.48.yao.5": {
+   "chapter": "井卦・九五",
+   "text": "九五：井冽，寒泉食。",
+   "review": []
+  },
+  "zhouyi.gua.48.yao.6": {
+   "chapter": "井卦・上六",
+   "text": "上六：井收勿幕，有孚元吉。",
+   "review": []
+  },
+  "zhouyi.gua.48.xiaoxiang.1": {
+   "chapter": "井卦・小象・初六",
+   "text": "井泥不食，下也。舊井無禽，時舍也。",
+   "review": []
+  },
+  "zhouyi.gua.48.xiaoxiang.2": {
+   "chapter": "井卦・小象・九二",
+   "text": "井谷射鮒，無與也。",
+   "review": []
+  },
+  "zhouyi.gua.48.xiaoxiang.3": {
+   "chapter": "井卦・小象・九三",
+   "text": "井渫不食，行惻也。求王明，受福也。",
+   "review": []
+  },
+  "zhouyi.gua.48.xiaoxiang.4": {
+   "chapter": "井卦・小象・六四",
+   "text": "井甃無咎，修井也。",
+   "review": []
+  },
+  "zhouyi.gua.48.xiaoxiang.5": {
+   "chapter": "井卦・小象・九五",
+   "text": "寒泉之食，中正也。",
+   "review": []
+  },
+  "zhouyi.gua.48.xiaoxiang.6": {
+   "chapter": "井卦・小象・上六",
+   "text": "元吉在上，大成也。",
+   "review": []
+  },
+  "zhouyi.gua.49.gua": {
+   "chapter": "革卦・卦辭",
+   "text": "革：巳日乃孚，元亨利貞，悔亡。",
+   "review": []
+  },
+  "zhouyi.gua.49.tuan": {
+   "chapter": "革卦・彖傳",
+   "text": "革，水火相息，二女同居，其志不相得，曰革。巳日乃孚；革而信也。文明以說，大亨以正，革而當，其悔乃亡。天地革而四時成，湯武革命，順乎天而應乎人，革之時義大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.49.daxiang": {
+   "chapter": "革卦・大象",
+   "text": "澤中有火，革；君子以治曆明時。",
+   "review": []
+  },
+  "zhouyi.gua.49.yao.1": {
+   "chapter": "革卦・初九",
+   "text": "初九：鞏用黃牛之革。",
+   "review": []
+  },
+  "zhouyi.gua.49.yao.2": {
+   "chapter": "革卦・六二",
+   "text": "六二：巳日乃革之，征吉，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.49.yao.3": {
+   "chapter": "革卦・九三",
+   "text": "九三：征凶，貞厲，革言三就，有孚。   ",
+   "review": []
+  },
+  "zhouyi.gua.49.yao.4": {
+   "chapter": "革卦・九四",
+   "text": "九四：悔亡，有孚改命，吉。",
+   "review": []
+  },
+  "zhouyi.gua.49.yao.5": {
+   "chapter": "革卦・九五",
+   "text": "九五：大人虎變，未占有孚。",
+   "review": []
+  },
+  "zhouyi.gua.49.yao.6": {
+   "chapter": "革卦・上六",
+   "text": "上六：君子豹變，小人革面，征凶，居貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.49.xiaoxiang.1": {
+   "chapter": "革卦・小象・初九",
+   "text": "鞏用黃牛，不可以有為也。",
+   "review": []
+  },
+  "zhouyi.gua.49.xiaoxiang.2": {
+   "chapter": "革卦・小象・六二",
+   "text": "巳日革之，行有嘉也。",
+   "review": []
+  },
+  "zhouyi.gua.49.xiaoxiang.3": {
+   "chapter": "革卦・小象・九三",
+   "text": "革言三就，又何之矣。",
+   "review": []
+  },
+  "zhouyi.gua.49.xiaoxiang.4": {
+   "chapter": "革卦・小象・九四",
+   "text": "改命之吉，信志也。",
+   "review": []
+  },
+  "zhouyi.gua.49.xiaoxiang.5": {
+   "chapter": "革卦・小象・九五",
+   "text": "大人虎變，其文炳也。",
+   "review": []
+  },
+  "zhouyi.gua.49.xiaoxiang.6": {
+   "chapter": "革卦・小象・上六",
+   "text": "君子豹變，其文蔚也。小人革面，順以從君也。",
+   "review": []
+  },
+  "zhouyi.gua.50.gua": {
+   "chapter": "鼎卦・卦辭",
+   "text": "鼎：元吉，亨。",
+   "review": []
+  },
+  "zhouyi.gua.50.tuan": {
+   "chapter": "鼎卦・彖傳",
+   "text": "鼎，象也。以木巽火，亨飪也。聖人亨以享上帝，而大亨以養聖賢。巽而耳目聰明，柔進而上行，得中而應乎剛，是以元亨。",
+   "review": []
+  },
+  "zhouyi.gua.50.daxiang": {
+   "chapter": "鼎卦・大象",
+   "text": "木上有火，鼎；君子以正位凝命。",
+   "review": []
+  },
+  "zhouyi.gua.50.yao.1": {
+   "chapter": "鼎卦・初六",
+   "text": "初六：鼎顛趾，利出否，得妾以其子，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.50.yao.2": {
+   "chapter": "鼎卦・九二",
+   "text": "九二：鼎有實，我仇有疾，不我能即，吉。",
+   "review": []
+  },
+  "zhouyi.gua.50.yao.3": {
+   "chapter": "鼎卦・九三",
+   "text": "九三：鼎耳革，其行塞，雉膏不食，方雨虧悔，終吉。   ",
+   "review": []
+  },
+  "zhouyi.gua.50.yao.4": {
+   "chapter": "鼎卦・九四",
+   "text": "九四：鼎折足，覆公餗，其形渥，凶。",
+   "review": []
+  },
+  "zhouyi.gua.50.yao.5": {
+   "chapter": "鼎卦・六五",
+   "text": "六五：鼎黃耳，金鉉，利貞。",
+   "review": []
+  },
+  "zhouyi.gua.50.yao.6": {
+   "chapter": "鼎卦・上九",
+   "text": "上九：鼎玉鉉，大吉，無不利。",
+   "review": []
+  },
+  "zhouyi.gua.50.xiaoxiang.1": {
+   "chapter": "鼎卦・小象・初六",
+   "text": "鼎顛趾，未悖也。利出否，以從貴也。",
+   "review": []
+  },
+  "zhouyi.gua.50.xiaoxiang.2": {
+   "chapter": "鼎卦・小象・九二",
+   "text": "鼎有實，慎所之也。我仇有疾，終無尤也。",
+   "review": []
+  },
+  "zhouyi.gua.50.xiaoxiang.3": {
+   "chapter": "鼎卦・小象・九三",
+   "text": "鼎耳革，失其義也。",
+   "review": []
+  },
+  "zhouyi.gua.50.xiaoxiang.4": {
+   "chapter": "鼎卦・小象・九四",
+   "text": "覆公餗，信如何也。",
+   "review": []
+  },
+  "zhouyi.gua.50.xiaoxiang.5": {
+   "chapter": "鼎卦・小象・六五",
+   "text": "鼎黃耳，中以為實也。",
+   "review": []
+  },
+  "zhouyi.gua.50.xiaoxiang.6": {
+   "chapter": "鼎卦・小象・上九",
+   "text": "玉鉉在上，剛柔節也。",
+   "review": []
+  },
+  "zhouyi.gua.51.gua": {
+   "chapter": "震卦・卦辭",
+   "text": "震：亨。震來虩虩，笑言啞啞。震驚百里，不喪匕鬯。",
+   "review": []
+  },
+  "zhouyi.gua.51.tuan": {
+   "chapter": "震卦・彖傳",
+   "text": "震，亨。震來虩虩，恐致福也。笑言啞啞，後有則也。震驚百里，驚遠而懼邇也。出可以守宗廟社稷，以為祭主也。",
+   "review": []
+  },
+  "zhouyi.gua.51.daxiang": {
+   "chapter": "震卦・大象",
+   "text": "虩雷，震；君子以恐懼修身。",
+   "review": []
+  },
+  "zhouyi.gua.51.yao.1": {
+   "chapter": "震卦・初九",
+   "text": "初九：震來虩虩，後笑言啞啞，吉。",
+   "review": []
+  },
+  "zhouyi.gua.51.yao.2": {
+   "chapter": "震卦・六二",
+   "text": "六二：震來厲，億喪貝，躋於九陵，勿逐，七日得。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.51.yao.3": {
+   "chapter": "震卦・六三",
+   "text": "六三：震蘇蘇，震行無眚。   ",
+   "review": []
+  },
+  "zhouyi.gua.51.yao.4": {
+   "chapter": "震卦・九四",
+   "text": "九四：震遂泥。",
+   "review": []
+  },
+  "zhouyi.gua.51.yao.5": {
+   "chapter": "震卦・六五",
+   "text": "六五：震往來厲，億無喪，有事。",
+   "review": []
+  },
+  "zhouyi.gua.51.yao.6": {
+   "chapter": "震卦・上六",
+   "text": "上六：震索索，視矍矍，征凶。震不於其躬，於其鄰，無咎。婚媾有言。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.51.xiaoxiang.1": {
+   "chapter": "震卦・小象・初九",
+   "text": "震來虩虩，恐致福也。笑言啞啞，後有則也。",
+   "review": []
+  },
+  "zhouyi.gua.51.xiaoxiang.2": {
+   "chapter": "震卦・小象・六二",
+   "text": "震來厲，乘剛也。",
+   "review": []
+  },
+  "zhouyi.gua.51.xiaoxiang.3": {
+   "chapter": "震卦・小象・六三",
+   "text": "震蘇蘇，位不當也。",
+   "review": []
+  },
+  "zhouyi.gua.51.xiaoxiang.4": {
+   "chapter": "震卦・小象・九四",
+   "text": "震遂泥，未光也。",
+   "review": []
+  },
+  "zhouyi.gua.51.xiaoxiang.5": {
+   "chapter": "震卦・小象・六五",
+   "text": "震往來厲，危行也。其事在中，大無喪也。",
+   "review": []
+  },
+  "zhouyi.gua.51.xiaoxiang.6": {
+   "chapter": "震卦・小象・上六",
+   "text": "震索索，中未得也。雖凶無咎，畏鄰戒也。",
+   "review": []
+  },
+  "zhouyi.gua.52.gua": {
+   "chapter": "艮卦・卦辭",
+   "text": "艮：艮其背，不獲其身，行其庭，不見其人，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.52.tuan": {
+   "chapter": "艮卦・彖傳",
+   "text": "艮，止也。時止則止，時行則行，動靜不失其時，其道光明。艮其止，止其所也。上下敵應，不相與也。是以不獲其身，行其庭不見其人，無咎也。",
+   "review": []
+  },
+  "zhouyi.gua.52.daxiang": {
+   "chapter": "艮卦・大象",
+   "text": "兼山，艮；君子以思不出其位。",
+   "review": []
+  },
+  "zhouyi.gua.52.yao.1": {
+   "chapter": "艮卦・初六",
+   "text": "初六：艮其趾，無咎，利永貞。",
+   "review": []
+  },
+  "zhouyi.gua.52.yao.2": {
+   "chapter": "艮卦・六二",
+   "text": "六二：艮其腓，不拯其隨，其心不快。",
+   "review": []
+  },
+  "zhouyi.gua.52.yao.3": {
+   "chapter": "艮卦・九三",
+   "text": "九三：艮其限，列其夤，厲薰心。",
+   "review": []
+  },
+  "zhouyi.gua.52.yao.4": {
+   "chapter": "艮卦・六四",
+   "text": "六四：艮其身，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.52.yao.5": {
+   "chapter": "艮卦・六五",
+   "text": "六五：艮其輔，言有序，悔亡。",
+   "review": []
+  },
+  "zhouyi.gua.52.yao.6": {
+   "chapter": "艮卦・上九",
+   "text": "上九：敦艮，吉。",
+   "review": []
+  },
+  "zhouyi.gua.52.xiaoxiang.1": {
+   "chapter": "艮卦・小象・初六",
+   "text": "艮其趾，未失正也。",
+   "review": []
+  },
+  "zhouyi.gua.52.xiaoxiang.2": {
+   "chapter": "艮卦・小象・六二",
+   "text": "不拯其隨，未退聽也。",
+   "review": []
+  },
+  "zhouyi.gua.52.xiaoxiang.3": {
+   "chapter": "艮卦・小象・九三",
+   "text": "艮其限，危薰心也。",
+   "review": []
+  },
+  "zhouyi.gua.52.xiaoxiang.4": {
+   "chapter": "艮卦・小象・六四",
+   "text": "艮其身，止諸躬也。",
+   "review": []
+  },
+  "zhouyi.gua.52.xiaoxiang.5": {
+   "chapter": "艮卦・小象・六五",
+   "text": "艮其輔，以中正也。",
+   "review": []
+  },
+  "zhouyi.gua.52.xiaoxiang.6": {
+   "chapter": "艮卦・小象・上九",
+   "text": "敦艮之吉，以厚終也。",
+   "review": []
+  },
+  "zhouyi.gua.53.gua": {
+   "chapter": "漸卦・卦辭",
+   "text": "漸：女歸吉，利貞。",
+   "review": []
+  },
+  "zhouyi.gua.53.tuan": {
+   "chapter": "漸卦・彖傳",
+   "text": "漸之進也，女歸吉也。進得位，往有功也。進以正，可以正邦也。其位剛，得中也。止而巽，動不窮也。",
+   "review": []
+  },
+  "zhouyi.gua.53.daxiang": {
+   "chapter": "漸卦・大象",
+   "text": "山上有木，漸；君子以居賢德，善俗。",
+   "review": []
+  },
+  "zhouyi.gua.53.yao.1": {
+   "chapter": "漸卦・初六",
+   "text": "初六：鴻漸于干，小子厲，有言，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.53.yao.2": {
+   "chapter": "漸卦・六二",
+   "text": "六二：鴻漸於磐，飲食衎衎，吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.53.yao.3": {
+   "chapter": "漸卦・九三",
+   "text": "九三：鴻漸於陸，夫征不復，婦孕不育，凶；利禦寇。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.53.yao.4": {
+   "chapter": "漸卦・六四",
+   "text": "六四：鴻漸於木，或得其桷，無咎。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.53.yao.5": {
+   "chapter": "漸卦・九五",
+   "text": "九五：鴻漸於陵，婦三歲不孕，終莫之勝，吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.53.yao.6": {
+   "chapter": "漸卦・上九",
+   "text": "上九：鴻漸於陸，其羽可用為儀，吉。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.53.xiaoxiang.1": {
+   "chapter": "漸卦・小象・初六",
+   "text": "小子之厲，義無咎也。",
+   "review": []
+  },
+  "zhouyi.gua.53.xiaoxiang.2": {
+   "chapter": "漸卦・小象・六二",
+   "text": "飲食衎衎，吉，不素飽也。",
+   "review": []
+  },
+  "zhouyi.gua.53.xiaoxiang.3": {
+   "chapter": "漸卦・小象・九三",
+   "text": "夫征不復，離群醜也。婦孕不育，失其道也。利用禦寇，順相保也。",
+   "review": []
+  },
+  "zhouyi.gua.53.xiaoxiang.4": {
+   "chapter": "漸卦・小象・六四",
+   "text": "或得其桷，順以巽也。",
+   "review": []
+  },
+  "zhouyi.gua.53.xiaoxiang.5": {
+   "chapter": "漸卦・小象・九五",
+   "text": "終莫之勝，吉；得所願也。",
+   "review": []
+  },
+  "zhouyi.gua.53.xiaoxiang.6": {
+   "chapter": "漸卦・小象・上九",
+   "text": "其羽可用為儀，吉；不可亂也。",
+   "review": []
+  },
+  "zhouyi.gua.54.gua": {
+   "chapter": "歸妹卦・卦辭",
+   "text": "歸妹：征凶，無攸利。",
+   "review": []
+  },
+  "zhouyi.gua.54.tuan": {
+   "chapter": "歸妹卦・彖傳",
+   "text": "歸妹，天地之大義也。天地不交，而萬物不興，歸妹人之終始也。說以動，所歸妹也。征凶，位不當也。無攸利，柔乘剛也。",
+   "review": []
+  },
+  "zhouyi.gua.54.daxiang": {
+   "chapter": "歸妹卦・大象",
+   "text": "澤上有雷，歸妹；君子以永終知敝。",
+   "review": []
+  },
+  "zhouyi.gua.54.yao.1": {
+   "chapter": "歸妹卦・初九",
+   "text": "初九：歸妹以娣，跛能履，征吉。",
+   "review": []
+  },
+  "zhouyi.gua.54.yao.2": {
+   "chapter": "歸妹卦・九二",
+   "text": "九二：眇能視，利幽人之貞。",
+   "review": []
+  },
+  "zhouyi.gua.54.yao.3": {
+   "chapter": "歸妹卦・六三",
+   "text": "六三：歸妹以須，反歸以娣。",
+   "review": []
+  },
+  "zhouyi.gua.54.yao.4": {
+   "chapter": "歸妹卦・九四",
+   "text": "九四：歸妹愆期，遲歸有時。",
+   "review": []
+  },
+  "zhouyi.gua.54.yao.5": {
+   "chapter": "歸妹卦・六五",
+   "text": "六五：帝乙歸妹，其君之袂，不如其娣之袂良，月幾望，吉。",
+   "review": []
+  },
+  "zhouyi.gua.54.yao.6": {
+   "chapter": "歸妹卦・上六",
+   "text": "上六：女承筐無實，士刲羊無血，無攸利。",
+   "review": []
+  },
+  "zhouyi.gua.54.xiaoxiang.1": {
+   "chapter": "歸妹卦・小象・初九",
+   "text": "歸妹以娣，以恒也。跛能履吉，相承也。",
+   "review": []
+  },
+  "zhouyi.gua.54.xiaoxiang.2": {
+   "chapter": "歸妹卦・小象・九二",
+   "text": "利幽人之貞，未變常也。",
+   "review": []
+  },
+  "zhouyi.gua.54.xiaoxiang.3": {
+   "chapter": "歸妹卦・小象・六三",
+   "text": "歸妹以須，未當也。",
+   "review": []
+  },
+  "zhouyi.gua.54.xiaoxiang.4": {
+   "chapter": "歸妹卦・小象・九四",
+   "text": "愆期之志，有待而行也。",
+   "review": []
+  },
+  "zhouyi.gua.54.xiaoxiang.5": {
+   "chapter": "歸妹卦・小象・六五",
+   "text": "帝乙歸妹，不如其娣之袂良也。其位在中，以貴行也。",
+   "review": []
+  },
+  "zhouyi.gua.54.xiaoxiang.6": {
+   "chapter": "歸妹卦・小象・上六",
+   "text": "上六無實，承虛筐也。",
+   "review": []
+  },
+  "zhouyi.gua.55.gua": {
+   "chapter": "豐卦・卦辭",
+   "text": "豐：亨，王假之，勿憂，宜日中。",
+   "review": []
+  },
+  "zhouyi.gua.55.tuan": {
+   "chapter": "豐卦・彖傳",
+   "text": "豐，大也。明以動，故豐。王假之，尚大也。勿憂宜日中，宜照天下也。日中則昃，月盈則食，天地盈虛，與時消息，而況人於人乎？況於鬼神乎？",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.55.daxiang": {
+   "chapter": "豐卦・大象",
+   "text": "雷電皆至，豐；君子以折獄致刑。",
+   "review": []
+  },
+  "zhouyi.gua.55.yao.1": {
+   "chapter": "豐卦・初九",
+   "text": "初九：遇其配主，雖旬無咎，往有尚。",
+   "review": []
+  },
+  "zhouyi.gua.55.yao.2": {
+   "chapter": "豐卦・六二",
+   "text": "六二：豐其蔀，日中見斗，往得疑疾，有孚發若，吉。",
+   "review": []
+  },
+  "zhouyi.gua.55.yao.3": {
+   "chapter": "豐卦・九三",
+   "text": "九三：豐其沛，日中見沫，折其右肱，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.55.yao.4": {
+   "chapter": "豐卦・九四",
+   "text": "九四：豐其蔀，日中見斗，遇其夷主，吉。",
+   "review": []
+  },
+  "zhouyi.gua.55.yao.5": {
+   "chapter": "豐卦・六五",
+   "text": "六五：來章，有慶譽，吉。",
+   "review": []
+  },
+  "zhouyi.gua.55.yao.6": {
+   "chapter": "豐卦・上六",
+   "text": "上六：豐其屋，蔀其家，闚其戶，闃其無人，三歲不覿，凶。",
+   "review": []
+  },
+  "zhouyi.gua.55.xiaoxiang.1": {
+   "chapter": "豐卦・小象・初九",
+   "text": "雖旬無咎，過旬災也。",
+   "review": []
+  },
+  "zhouyi.gua.55.xiaoxiang.2": {
+   "chapter": "豐卦・小象・六二",
+   "text": "有孚發若，信以發志也。",
+   "review": []
+  },
+  "zhouyi.gua.55.xiaoxiang.3": {
+   "chapter": "豐卦・小象・九三",
+   "text": "豐其沛，不可大事也。折其右肱，終不可用也。",
+   "review": []
+  },
+  "zhouyi.gua.55.xiaoxiang.4": {
+   "chapter": "豐卦・小象・九四",
+   "text": "豐其蔀，位不當也。日中見斗，幽不明也。遇其夷主，吉；行也。",
+   "review": []
+  },
+  "zhouyi.gua.55.xiaoxiang.5": {
+   "chapter": "豐卦・小象・六五",
+   "text": "六五之吉，有慶也。",
+   "review": []
+  },
+  "zhouyi.gua.55.xiaoxiang.6": {
+   "chapter": "豐卦・小象・上六",
+   "text": "豐其屋，天際翔也。闚其戶，闃其無人，自藏也。",
+   "review": []
+  },
+  "zhouyi.gua.56.gua": {
+   "chapter": "旅卦・卦辭",
+   "text": "旅：小亨，旅貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.56.tuan": {
+   "chapter": "旅卦・彖傳",
+   "text": "旅，小亨，柔得中乎外，而順乎剛，止而麗乎明，是以小亨，旅貞吉也。旅之時義大矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.56.daxiang": {
+   "chapter": "旅卦・大象",
+   "text": "山上有火，旅；君子以明慎用刑，而不留獄。",
+   "review": []
+  },
+  "zhouyi.gua.56.yao.1": {
+   "chapter": "旅卦・初六",
+   "text": "初六：旅瑣瑣，斯其所取災。",
+   "review": []
+  },
+  "zhouyi.gua.56.yao.2": {
+   "chapter": "旅卦・六二",
+   "text": "六二：旅即次，懷其資，得童仆貞。",
+   "review": []
+  },
+  "zhouyi.gua.56.yao.3": {
+   "chapter": "旅卦・九三",
+   "text": "九三：旅焚其次，喪其童仆，貞厲。",
+   "review": []
+  },
+  "zhouyi.gua.56.yao.4": {
+   "chapter": "旅卦・九四",
+   "text": "九四：旅於處，得其資斧，我心不快。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.56.yao.5": {
+   "chapter": "旅卦・六五",
+   "text": "六五：射雉一矢亡，終以譽命。",
+   "review": []
+  },
+  "zhouyi.gua.56.yao.6": {
+   "chapter": "旅卦・上九",
+   "text": "上九：鳥焚其巢，旅人先笑後號啕。喪牛於易，凶。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.56.xiaoxiang.1": {
+   "chapter": "旅卦・小象・初六",
+   "text": "旅瑣瑣，志窮災也。",
+   "review": []
+  },
+  "zhouyi.gua.56.xiaoxiang.2": {
+   "chapter": "旅卦・小象・六二",
+   "text": "得童仆貞，終無尤也。",
+   "review": []
+  },
+  "zhouyi.gua.56.xiaoxiang.3": {
+   "chapter": "旅卦・小象・九三",
+   "text": "旅焚其次，亦以傷矣。以旅與下，其義喪也。",
+   "review": []
+  },
+  "zhouyi.gua.56.xiaoxiang.4": {
+   "chapter": "旅卦・小象・九四",
+   "text": "旅於處，未得位也。得其資斧，心未快也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.56.xiaoxiang.5": {
+   "chapter": "旅卦・小象・六五",
+   "text": "終以譽命，上逮也。",
+   "review": []
+  },
+  "zhouyi.gua.56.xiaoxiang.6": {
+   "chapter": "旅卦・小象・上九",
+   "text": "以旅在上，其義焚也。喪牛於易，終莫之聞也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.57.gua": {
+   "chapter": "巽卦・卦辭",
+   "text": "巽：小亨，利攸往，利見大人。",
+   "review": []
+  },
+  "zhouyi.gua.57.tuan": {
+   "chapter": "巽卦・彖傳",
+   "text": "重巽以申命，剛巽乎中正而志行。柔皆順乎剛，是以小亨，利有攸往，利見大人。",
+   "review": []
+  },
+  "zhouyi.gua.57.daxiang": {
+   "chapter": "巽卦・大象",
+   "text": "隨風，巽；君子以申命行事。",
+   "review": []
+  },
+  "zhouyi.gua.57.yao.1": {
+   "chapter": "巽卦・初六",
+   "text": "初六：進退，利武人之貞。",
+   "review": []
+  },
+  "zhouyi.gua.57.yao.2": {
+   "chapter": "巽卦・九二",
+   "text": "九二：巽在床下，用史巫紛若，吉，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.57.yao.3": {
+   "chapter": "巽卦・九三",
+   "text": "九三：頻巽，吝。",
+   "review": []
+  },
+  "zhouyi.gua.57.yao.4": {
+   "chapter": "巽卦・六四",
+   "text": "六四：悔亡，田獲三品。",
+   "review": []
+  },
+  "zhouyi.gua.57.yao.5": {
+   "chapter": "巽卦・九五",
+   "text": "九五：貞吉悔亡，無不利。無初有終，先庚三日，後庚三日，吉。",
+   "review": []
+  },
+  "zhouyi.gua.57.yao.6": {
+   "chapter": "巽卦・上九",
+   "text": "上九：巽在床下，喪其資斧，貞凶。",
+   "review": []
+  },
+  "zhouyi.gua.57.xiaoxiang.1": {
+   "chapter": "巽卦・小象・初六",
+   "text": "進退，志疑也。利武人之貞，志治也。",
+   "review": []
+  },
+  "zhouyi.gua.57.xiaoxiang.2": {
+   "chapter": "巽卦・小象・九二",
+   "text": "紛若之吉，得中也。",
+   "review": []
+  },
+  "zhouyi.gua.57.xiaoxiang.3": {
+   "chapter": "巽卦・小象・九三",
+   "text": "頻巽之吝，志窮也。",
+   "review": []
+  },
+  "zhouyi.gua.57.xiaoxiang.4": {
+   "chapter": "巽卦・小象・六四",
+   "text": "田獲三品，有功也。",
+   "review": []
+  },
+  "zhouyi.gua.57.xiaoxiang.5": {
+   "chapter": "巽卦・小象・九五",
+   "text": "九五之吉，位正中也。",
+   "review": []
+  },
+  "zhouyi.gua.57.xiaoxiang.6": {
+   "chapter": "巽卦・小象・上九",
+   "text": "巽在床下，上窮也。喪其資斧，正乎凶也。",
+   "review": []
+  },
+  "zhouyi.gua.58.gua": {
+   "chapter": "兌卦・卦辭",
+   "text": "兌：亨，利貞。",
+   "review": []
+  },
+  "zhouyi.gua.58.tuan": {
+   "chapter": "兌卦・彖傳",
+   "text": "兌，說也。剛中而柔外，說以利貞，是以順乎天，而應乎人。說以先民，民忘其勞；說以犯難，民忘其死；說之大，民勸矣哉！",
+   "review": []
+  },
+  "zhouyi.gua.58.daxiang": {
+   "chapter": "兌卦・大象",
+   "text": "麗澤，兌；君子以朋友講習。",
+   "review": []
+  },
+  "zhouyi.gua.58.yao.1": {
+   "chapter": "兌卦・初九",
+   "text": "初九：和兌，吉。",
+   "review": []
+  },
+  "zhouyi.gua.58.yao.2": {
+   "chapter": "兌卦・九二",
+   "text": "九二：孚兌，吉，悔亡。",
+   "review": []
+  },
+  "zhouyi.gua.58.yao.3": {
+   "chapter": "兌卦・六三",
+   "text": "六三：來兌，凶。",
+   "review": []
+  },
+  "zhouyi.gua.58.yao.4": {
+   "chapter": "兌卦・九四",
+   "text": "九四：商兌，未寧，介疾有喜。",
+   "review": []
+  },
+  "zhouyi.gua.58.yao.5": {
+   "chapter": "兌卦・九五",
+   "text": "九五：孚於剝，有厲。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.58.yao.6": {
+   "chapter": "兌卦・上六",
+   "text": "上六：引兌。",
+   "review": []
+  },
+  "zhouyi.gua.58.xiaoxiang.1": {
+   "chapter": "兌卦・小象・初九",
+   "text": "和兌之吉，行未疑也。",
+   "review": []
+  },
+  "zhouyi.gua.58.xiaoxiang.2": {
+   "chapter": "兌卦・小象・九二",
+   "text": "孚兌之吉，信志也。",
+   "review": []
+  },
+  "zhouyi.gua.58.xiaoxiang.3": {
+   "chapter": "兌卦・小象・六三",
+   "text": "來兌之凶，位不當也。",
+   "review": []
+  },
+  "zhouyi.gua.58.xiaoxiang.4": {
+   "chapter": "兌卦・小象・九四",
+   "text": "九四之喜，有慶也。",
+   "review": []
+  },
+  "zhouyi.gua.58.xiaoxiang.5": {
+   "chapter": "兌卦・小象・九五",
+   "text": "孚於剝，位正當也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.58.xiaoxiang.6": {
+   "chapter": "兌卦・小象・上六",
+   "text": "上六引兌，未光也。",
+   "review": []
+  },
+  "zhouyi.gua.59.gua": {
+   "chapter": "渙卦・卦辭",
+   "text": "渙：亨。王假有廟，利涉大川，利貞。",
+   "review": []
+  },
+  "zhouyi.gua.59.tuan": {
+   "chapter": "渙卦・彖傳",
+   "text": "渙，亨。剛來而不窮，柔得位乎外而上同。王假有廟，王乃在中也。利涉大川，乘木有功也。",
+   "review": []
+  },
+  "zhouyi.gua.59.daxiang": {
+   "chapter": "渙卦・大象",
+   "text": "風行水上，渙；先王以享於帝立廟。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.59.yao.1": {
+   "chapter": "渙卦・初六",
+   "text": "初六：用拯馬壯，吉。",
+   "review": []
+  },
+  "zhouyi.gua.59.yao.2": {
+   "chapter": "渙卦・九二",
+   "text": "九二：渙奔其机，悔亡。",
+   "review": []
+  },
+  "zhouyi.gua.59.yao.3": {
+   "chapter": "渙卦・六三",
+   "text": "六三：渙其躬，無悔。",
+   "review": []
+  },
+  "zhouyi.gua.59.yao.4": {
+   "chapter": "渙卦・六四",
+   "text": "六四：渙其群，元吉。渙有丘，匪夷所思。",
+   "review": []
+  },
+  "zhouyi.gua.59.yao.5": {
+   "chapter": "渙卦・九五",
+   "text": "九五：渙汗其大號，渙王居，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.59.yao.6": {
+   "chapter": "渙卦・上九",
+   "text": "上九：渙其血，去逖出，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.59.xiaoxiang.1": {
+   "chapter": "渙卦・小象・初六",
+   "text": "初六之吉，順也。",
+   "review": []
+  },
+  "zhouyi.gua.59.xiaoxiang.2": {
+   "chapter": "渙卦・小象・九二",
+   "text": "渙奔其机，得願也。",
+   "review": []
+  },
+  "zhouyi.gua.59.xiaoxiang.3": {
+   "chapter": "渙卦・小象・六三",
+   "text": "渙其躬，志在外也。",
+   "review": []
+  },
+  "zhouyi.gua.59.xiaoxiang.4": {
+   "chapter": "渙卦・小象・六四",
+   "text": "渙其群，元吉；光大也。",
+   "review": []
+  },
+  "zhouyi.gua.59.xiaoxiang.5": {
+   "chapter": "渙卦・小象・九五",
+   "text": "王居無咎，正位也。",
+   "review": []
+  },
+  "zhouyi.gua.59.xiaoxiang.6": {
+   "chapter": "渙卦・小象・上九",
+   "text": "渙其血，遠害也。",
+   "review": []
+  },
+  "zhouyi.gua.60.gua": {
+   "chapter": "節卦・卦辭",
+   "text": "節：亨。苦節，不可貞。",
+   "review": []
+  },
+  "zhouyi.gua.60.tuan": {
+   "chapter": "節卦・彖傳",
+   "text": "節，亨，剛柔分，而剛得中。苦節不可貞，其道窮也。說以行險，當位以節，中正以通。天地節而四時成，節以制度，不傷財，不害民。",
+   "review": []
+  },
+  "zhouyi.gua.60.daxiang": {
+   "chapter": "節卦・大象",
+   "text": "澤上有水，節；君子以制數度，議德行。",
+   "review": []
+  },
+  "zhouyi.gua.60.yao.1": {
+   "chapter": "節卦・初九",
+   "text": "初九：不出戶庭，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.60.yao.2": {
+   "chapter": "節卦・九二",
+   "text": "九二：不出門庭，凶。",
+   "review": []
+  },
+  "zhouyi.gua.60.yao.3": {
+   "chapter": "節卦・六三",
+   "text": "六三：不節若，則嗟若，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.60.yao.4": {
+   "chapter": "節卦・六四",
+   "text": "六四：安節，亨。",
+   "review": []
+  },
+  "zhouyi.gua.60.yao.5": {
+   "chapter": "節卦・九五",
+   "text": "九五：甘節，吉；往有尚。",
+   "review": []
+  },
+  "zhouyi.gua.60.yao.6": {
+   "chapter": "節卦・上六",
+   "text": "上六：苦節，貞凶，悔亡。",
+   "review": []
+  },
+  "zhouyi.gua.60.xiaoxiang.1": {
+   "chapter": "節卦・小象・初九",
+   "text": "不出戶庭，知通塞也。",
+   "review": []
+  },
+  "zhouyi.gua.60.xiaoxiang.2": {
+   "chapter": "節卦・小象・九二",
+   "text": "不出門庭，失時極也。",
+   "review": []
+  },
+  "zhouyi.gua.60.xiaoxiang.3": {
+   "chapter": "節卦・小象・六三",
+   "text": "不節之嗟，又誰咎也。",
+   "review": []
+  },
+  "zhouyi.gua.60.xiaoxiang.4": {
+   "chapter": "節卦・小象・六四",
+   "text": "安節之亨，承上道也。",
+   "review": []
+  },
+  "zhouyi.gua.60.xiaoxiang.5": {
+   "chapter": "節卦・小象・九五",
+   "text": "甘節之吉，居位中也。",
+   "review": []
+  },
+  "zhouyi.gua.60.xiaoxiang.6": {
+   "chapter": "節卦・小象・上六",
+   "text": "苦節貞凶，其道窮也。",
+   "review": []
+  },
+  "zhouyi.gua.61.gua": {
+   "chapter": "中孚卦・卦辭",
+   "text": "中孚：豚魚吉，利涉大川，利貞。",
+   "review": []
+  },
+  "zhouyi.gua.61.tuan": {
+   "chapter": "中孚卦・彖傳",
+   "text": "中孚，柔在內而剛得中。說而巽，孚，乃化邦也。豚魚吉，信及豚魚也。利涉大川，乘木舟虛也。中孚以利貞，乃應乎天也。",
+   "review": []
+  },
+  "zhouyi.gua.61.daxiang": {
+   "chapter": "中孚卦・大象",
+   "text": "澤上有風，中孚；君子以議獄緩死。",
+   "review": []
+  },
+  "zhouyi.gua.61.yao.1": {
+   "chapter": "中孚卦・初九",
+   "text": "初九：虞吉，有它不燕。",
+   "review": []
+  },
+  "zhouyi.gua.61.yao.2": {
+   "chapter": "中孚卦・九二",
+   "text": "九二：鳴鶴在陰，其子和之，我有好爵，吾與爾靡之。",
+   "review": []
+  },
+  "zhouyi.gua.61.yao.3": {
+   "chapter": "中孚卦・六三",
+   "text": "六三：得敵，或鼓或罷，或泣或歌。",
+   "review": []
+  },
+  "zhouyi.gua.61.yao.4": {
+   "chapter": "中孚卦・六四",
+   "text": "六四：月幾望，馬匹亡，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.61.yao.5": {
+   "chapter": "中孚卦・九五",
+   "text": "九五：有孚攣如，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.61.yao.6": {
+   "chapter": "中孚卦・上九",
+   "text": "上九：翰音登於天，貞凶。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.61.xiaoxiang.1": {
+   "chapter": "中孚卦・小象・初九",
+   "text": "初九虞吉，志未變也。",
+   "review": []
+  },
+  "zhouyi.gua.61.xiaoxiang.2": {
+   "chapter": "中孚卦・小象・九二",
+   "text": "其子和之，中心願也。",
+   "review": []
+  },
+  "zhouyi.gua.61.xiaoxiang.3": {
+   "chapter": "中孚卦・小象・六三",
+   "text": "可鼓或罷，位不當也。",
+   "review": []
+  },
+  "zhouyi.gua.61.xiaoxiang.4": {
+   "chapter": "中孚卦・小象・六四",
+   "text": "馬匹亡，絕類上也。",
+   "review": []
+  },
+  "zhouyi.gua.61.xiaoxiang.5": {
+   "chapter": "中孚卦・小象・九五",
+   "text": "有孚攣如，位正當也。",
+   "review": []
+  },
+  "zhouyi.gua.61.xiaoxiang.6": {
+   "chapter": "中孚卦・小象・上九",
+   "text": "翰音登於天，何可長也。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.62.gua": {
+   "chapter": "小過卦・卦辭",
+   "text": "小過：亨，利貞，可小事，不可大事。飛鳥遺之音，不宜上，宜下，大吉。",
+   "review": []
+  },
+  "zhouyi.gua.62.tuan": {
+   "chapter": "小過卦・彖傳",
+   "text": "小過，小者過而亨也。過以利貞，與時行也。柔得中，是以小事吉也。剛失位而不中，是以不可大事也。有飛鳥之象焉，有飛鳥遺之音，不宜上宜下，大吉；上逆而下順也。",
+   "review": []
+  },
+  "zhouyi.gua.62.daxiang": {
+   "chapter": "小過卦・大象",
+   "text": "山上有雷，小過；君子以行過乎恭，喪過乎哀，用過乎儉。",
+   "review": []
+  },
+  "zhouyi.gua.62.yao.1": {
+   "chapter": "小過卦・初六",
+   "text": "初六：飛鳥以凶。",
+   "review": []
+  },
+  "zhouyi.gua.62.yao.2": {
+   "chapter": "小過卦・六二",
+   "text": "六二：過其祖，遇其妣；不及其君，遇其臣；無咎。",
+   "review": []
+  },
+  "zhouyi.gua.62.yao.3": {
+   "chapter": "小過卦・九三",
+   "text": "九三：弗過防之，從或戕之，凶。",
+   "review": []
+  },
+  "zhouyi.gua.62.yao.4": {
+   "chapter": "小過卦・九四",
+   "text": "九四：無咎，弗過遇之。往厲必戒，勿用永貞。",
+   "review": []
+  },
+  "zhouyi.gua.62.yao.5": {
+   "chapter": "小過卦・六五",
+   "text": "六五：密雲不雨，自我西郊，公弋取彼在穴。",
+   "review": []
+  },
+  "zhouyi.gua.62.yao.6": {
+   "chapter": "小過卦・上六",
+   "text": "上六：弗遇過之，飛鳥離之，凶，是謂災眚。",
+   "review": []
+  },
+  "zhouyi.gua.62.xiaoxiang.1": {
+   "chapter": "小過卦・小象・初六",
+   "text": "飛鳥以凶，不可如何也。",
+   "review": []
+  },
+  "zhouyi.gua.62.xiaoxiang.2": {
+   "chapter": "小過卦・小象・六二",
+   "text": "不及其君，臣不可過也。",
+   "review": []
+  },
+  "zhouyi.gua.62.xiaoxiang.3": {
+   "chapter": "小過卦・小象・九三",
+   "text": "從或戕之，凶如何也。",
+   "review": []
+  },
+  "zhouyi.gua.62.xiaoxiang.4": {
+   "chapter": "小過卦・小象・九四",
+   "text": "弗過遇之，位不當也。往厲必戒，終不可長也。",
+   "review": []
+  },
+  "zhouyi.gua.62.xiaoxiang.5": {
+   "chapter": "小過卦・小象・六五",
+   "text": "密雲不雨，已上也。",
+   "review": []
+  },
+  "zhouyi.gua.62.xiaoxiang.6": {
+   "chapter": "小過卦・小象・上六",
+   "text": "弗遇過之，已亢也。",
+   "review": []
+  },
+  "zhouyi.gua.63.gua": {
+   "chapter": "既濟卦・卦辭",
+   "text": "既濟：亨，小利貞，初吉終亂。",
+   "review": []
+  },
+  "zhouyi.gua.63.tuan": {
+   "chapter": "既濟卦・彖傳",
+   "text": "既濟，亨，小者亨也。利貞，剛柔正而位當也。初吉，柔得中也。終止則亂，其道窮也。",
+   "review": []
+  },
+  "zhouyi.gua.63.daxiang": {
+   "chapter": "既濟卦・大象",
+   "text": "水在火上，既濟；君子以思患而預防之。",
+   "review": []
+  },
+  "zhouyi.gua.63.yao.1": {
+   "chapter": "既濟卦・初九",
+   "text": "初九：曳其輪，濡其尾，無咎。",
+   "review": []
+  },
+  "zhouyi.gua.63.yao.2": {
+   "chapter": "既濟卦・六二",
+   "text": "六二：婦喪其茀，勿逐，七日得。",
+   "review": []
+  },
+  "zhouyi.gua.63.yao.3": {
+   "chapter": "既濟卦・九三",
+   "text": "九三：高宗伐鬼方，三年克之，小人勿用。",
+   "review": []
+  },
+  "zhouyi.gua.63.yao.4": {
+   "chapter": "既濟卦・六四",
+   "text": "六四：繻有衣袽，終日戒。",
+   "review": []
+  },
+  "zhouyi.gua.63.yao.5": {
+   "chapter": "既濟卦・九五",
+   "text": "九五：東鄰殺牛，不如西鄰之禴祭，實受其福。",
+   "review": []
+  },
+  "zhouyi.gua.63.yao.6": {
+   "chapter": "既濟卦・上六",
+   "text": "上六：濡其首，厲。",
+   "review": []
+  },
+  "zhouyi.gua.63.xiaoxiang.1": {
+   "chapter": "既濟卦・小象・初九",
+   "text": "曳其輪，義無咎也。",
+   "review": []
+  },
+  "zhouyi.gua.63.xiaoxiang.2": {
+   "chapter": "既濟卦・小象・六二",
+   "text": "七日得，以中道也。",
+   "review": []
+  },
+  "zhouyi.gua.63.xiaoxiang.3": {
+   "chapter": "既濟卦・小象・九三",
+   "text": "三年克之，憊也。",
+   "review": []
+  },
+  "zhouyi.gua.63.xiaoxiang.4": {
+   "chapter": "既濟卦・小象・六四",
+   "text": "終日戒，有所疑也。",
+   "review": []
+  },
+  "zhouyi.gua.63.xiaoxiang.5": {
+   "chapter": "既濟卦・小象・九五",
+   "text": "東鄰殺牛，不如西鄰之時也；實受其福，吉大來也。",
+   "review": []
+  },
+  "zhouyi.gua.63.xiaoxiang.6": {
+   "chapter": "既濟卦・小象・上六",
+   "text": "濡其首厲，何可久也。",
+   "review": []
+  },
+  "zhouyi.gua.64.gua": {
+   "chapter": "未濟卦・卦辭",
+   "text": "未濟：亨，小狐汔濟，濡其尾，無攸利。",
+   "review": []
+  },
+  "zhouyi.gua.64.tuan": {
+   "chapter": "未濟卦・彖傳",
+   "text": "未濟，亨；柔得中也。小狐汔濟，未出中也。濡其尾，無攸利；不續終也。雖不當位，剛柔應也。",
+   "review": []
+  },
+  "zhouyi.gua.64.daxiang": {
+   "chapter": "未濟卦・大象",
+   "text": "火在水上，未濟；君子以慎辨物居方。",
+   "review": []
+  },
+  "zhouyi.gua.64.yao.1": {
+   "chapter": "未濟卦・初六",
+   "text": "初六：濡其尾，吝。",
+   "review": []
+  },
+  "zhouyi.gua.64.yao.2": {
+   "chapter": "未濟卦・九二",
+   "text": "九二：曳其輪，貞吉。",
+   "review": []
+  },
+  "zhouyi.gua.64.yao.3": {
+   "chapter": "未濟卦・六三",
+   "text": "六三：未濟，征凶，利涉大川。",
+   "review": []
+  },
+  "zhouyi.gua.64.yao.4": {
+   "chapter": "未濟卦・九四",
+   "text": "九四：貞吉，悔亡，震用伐鬼方，三年有賞於大國。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.64.yao.5": {
+   "chapter": "未濟卦・六五",
+   "text": "六五：貞吉，無悔，君子之光，有孚，吉。",
+   "review": []
+  },
+  "zhouyi.gua.64.yao.6": {
+   "chapter": "未濟卦・上九",
+   "text": "上九：有孚於飲酒，無咎，濡其首，有孚失是。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.gua.64.xiaoxiang.1": {
+   "chapter": "未濟卦・小象・初六",
+   "text": "濡其尾，亦不知極也。",
+   "review": []
+  },
+  "zhouyi.gua.64.xiaoxiang.2": {
+   "chapter": "未濟卦・小象・九二",
+   "text": "九二貞吉，中以行正也。",
+   "review": []
+  },
+  "zhouyi.gua.64.xiaoxiang.3": {
+   "chapter": "未濟卦・小象・六三",
+   "text": "未濟征凶，位不當也。",
+   "review": []
+  },
+  "zhouyi.gua.64.xiaoxiang.4": {
+   "chapter": "未濟卦・小象・九四",
+   "text": "貞吉悔亡，志行也。",
+   "review": []
+  },
+  "zhouyi.gua.64.xiaoxiang.5": {
+   "chapter": "未濟卦・小象・六五",
+   "text": "君子之光，其暉吉也。",
+   "review": []
+  },
+  "zhouyi.gua.64.xiaoxiang.6": {
+   "chapter": "未濟卦・小象・上九",
+   "text": "飲酒濡首，亦不知節也。",
+   "review": []
+  },
+  "zhouyi.xici.shang.01": {
+   "chapter": "繫辭上傳・第 1 段",
+   "text": "天尊地卑，乾坤定矣。卑高以陳，貴賤位矣。動靜有常，剛柔斷矣。方以類聚，物以群分，吉凶生矣。在天成象，在地成形，變化見矣。",
+   "review": []
+  },
+  "zhouyi.xici.shang.02": {
+   "chapter": "繫辭上傳・第 2 段",
+   "text": "是故，剛柔相摩，八卦相盪。鼓之以雷霆，潤之以風雨，日月運行，一寒一暑，乾道成男，坤道成女。乾知大始，坤作成物。乾以易知，坤以簡能。",
+   "review": []
+  },
+  "zhouyi.xici.shang.03": {
+   "chapter": "繫辭上傳・第 3 段",
+   "text": "易則易知，簡則易從。易知則有親，易從則有功。有親則可久，有功則可大。可久則賢人之德，可大則賢人之業。易簡，而天下之理得矣；天下之理得，而成位乎其中矣。",
+   "review": []
+  },
+  "zhouyi.xici.shang.04": {
+   "chapter": "繫辭上傳・第 4 段",
+   "text": "聖人設卦觀象，繫辭焉而明吉凶，剛柔相推而生變化。",
+   "review": []
+  },
+  "zhouyi.xici.shang.05": {
+   "chapter": "繫辭上傳・第 5 段",
+   "text": "是故，吉凶者，失得之象也。悔吝者，憂虞之象也。變化者，進退之象也。剛柔者，晝夜之象也。六爻之動，三極之道也。是故，君子所居而安者，易之序也。所樂而玩者，爻之辭也。",
+   "review": []
+  },
+  "zhouyi.xici.shang.06": {
+   "chapter": "繫辭上傳・第 6 段",
+   "text": "是故，君子居則觀其象，而玩其辭；動則觀其變，而玩其占。是以自天祐之，吉无不利。",
+   "review": []
+  },
+  "zhouyi.xici.shang.07": {
+   "chapter": "繫辭上傳・第 7 段",
+   "text": "彖者，言乎象者也。爻者，言乎變者也。吉凶者，言乎其失得也。悔吝者，言乎其小疵也。无咎者，善補過也。",
+   "review": []
+  },
+  "zhouyi.xici.shang.08": {
+   "chapter": "繫辭上傳・第 8 段",
+   "text": "是故，列貴賤者存乎位。齊小大者，存乎卦。辯吉凶者，存乎辭。憂悔吝者，存乎介。震无咎者，存乎悔。是故，卦有小大，辭有險易。辭也者，各指其所之。",
+   "review": []
+  },
+  "zhouyi.xici.shang.09": {
+   "chapter": "繫辭上傳・第 9 段",
+   "text": "易與天地準，故能彌綸天地之道。仰以觀於天文，俯以察於地理，是故知幽明之故。原始反終，故知死生之說。精氣為物，遊魂為變，是故知鬼神之情狀。與天地相似，故不違。知周乎萬物，而道濟天下，故不過。旁行而不流，樂天知命，故不憂。安土敦乎仁，故能愛。範圍天地之化而不過，曲成萬物而不遺，通乎晝夜之道而知，故神无方而易无體。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.shang.10": {
+   "chapter": "繫辭上傳・第 10 段",
+   "text": "一陰一陽之謂道，繼之者善也，成之者性也。仁者見之謂之仁，知者見之謂之知。百姓日用而不知，故君子之道鮮矣。顯諸仁，藏諸用，鼓萬物而不與聖人同憂，盛德大業至矣哉。富有之謂大業，日新之謂盛德。生生之謂易，成象之謂乾，效法之為坤，極數知來之謂占，通變之謂事，陰陽不測之謂神。",
+   "review": []
+  },
+  "zhouyi.xici.shang.11": {
+   "chapter": "繫辭上傳・第 11 段",
+   "text": "夫易，廣矣大矣，以言乎遠，則不禦；以言乎邇，則靜而正；以言乎天地之間，則備矣。夫乾，其靜也專，其動也直，是以大生焉。夫坤，其靜也翕，其動也闢，是以廣生焉。廣大配天地，變通配四時，陰陽之義配日月，易簡之善配至德。",
+   "review": []
+  },
+  "zhouyi.xici.shang.12": {
+   "chapter": "繫辭上傳・第 12 段",
+   "text": "子曰：「易其至矣乎！」，夫易，聖人所以崇德而廣業也。知崇禮卑，崇效天，卑法地。天地設位，而易行乎其中矣，成性存存，道義之門。",
+   "review": []
+  },
+  "zhouyi.xici.shang.13": {
+   "chapter": "繫辭上傳・第 13 段",
+   "text": "聖人有以見天下之賾，而擬諸其形容，象其物宜，是故謂之象。聖人有以見天下之動，而觀其會通，以行其典禮。繫辭焉，以斷其吉凶，是故謂之爻。言天下之至賾，而不可惡也。言天下之至動，而不可亂也。擬之而後言，議之而後動，擬議以成其變化。「鳴鶴在陰，其子和之，我有好爵，吾與爾靡之。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.14": {
+   "chapter": "繫辭上傳・第 14 段",
+   "text": "子曰：「君子居其室，出其言，善則千里之外應之，況其邇者乎，居其室，出其言不善，則千里之外違之，況其邇者乎，言出乎身，加乎民，行發乎邇，見乎遠。言行君子之樞機，樞機之發，榮辱之主也。言行，君子之所以動天地也，可不慎乎。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.15": {
+   "chapter": "繫辭上傳・第 15 段",
+   "text": "「同人，先號咷而後笑。」子曰：「君子之道，或出或處，或默或語，二人同心，其利斷金。同心之言，其臭如蘭。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.16": {
+   "chapter": "繫辭上傳・第 16 段",
+   "text": "「初六，藉用白茅，无咎。」子曰：「苟錯諸地而可矣。藉之用茅，何咎之有？慎之至也。夫茅之為物薄，而用可重也。慎斯術也以往，其无所失矣。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.17": {
+   "chapter": "繫辭上傳・第 17 段",
+   "text": "「勞謙君子，有終吉。」子曰：「勞而不伐，有功而不德，厚之至也，語以其功下人者也。德言盛，禮言恭，謙也者，致恭以存其位者也。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.18": {
+   "chapter": "繫辭上傳・第 18 段",
+   "text": "「亢龍有悔」，子曰：「貴而无位，高而无民，賢人在下位而无輔，是以動而有悔也。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.19": {
+   "chapter": "繫辭上傳・第 19 段",
+   "text": "「不出戶庭，无咎。」子曰：「亂之所生也，則言語以為階。君不密，則失臣；臣不密，則失身；幾事不密，則害成。是以君子慎密而不出也。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.20": {
+   "chapter": "繫辭上傳・第 20 段",
+   "text": "子曰：「作易者其知盜乎？易曰：負且乘，致寇至。負也者，小人之事也。乘也者，君子之器也。小人而乘君子之器，盜思奪之矣！上慢下暴，盜思伐之矣！慢藏誨盜，冶容誨淫，易曰：「負且乘，致寇至，盜之招也。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.21": {
+   "chapter": "繫辭上傳・第 21 段",
+   "text": "天一地二，天三地四，天五地六，天七地八，天九地十。天數五，地數五，五位相得而各有合。天數二十有五，地數三十，凡天地之數，五十有五，此所以成變化，而行鬼神也。大衍之數五十，其用四十有九。分而為二以象兩，掛一以象三，揲之以四以象四時，歸奇於扐以象閏。五歲再閏，故再扐而後掛。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.shang.22": {
+   "chapter": "繫辭上傳・第 22 段",
+   "text": "乾之策，二百一十有六；坤之策，百四十有四，凡三百有六十，當期之日。二篇之策，萬有一千五百二十，當萬物之數也。是故，四營而成易，十有八變而成卦。八卦而小成，引而伸之，觸類而長之，天下之能事畢矣。顯道神德行，是故可與酬酢，可與祐神矣。子曰：「知變化之道者，其知神之所為乎。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.23": {
+   "chapter": "繫辭上傳・第 23 段",
+   "text": "易有聖人之道四焉；以言者尚其辭，以動者尚其變，以制器者尚其象，以卜筮者尚其占。以君子將有為也，將有行也，問焉而以言，其受命也如響，无有遠近幽深，遂知來物。非天下之至精，其孰能與於此。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.shang.24": {
+   "chapter": "繫辭上傳・第 24 段",
+   "text": "參伍以變，錯綜其數，通其變，遂成天下之文。極其數，遂定天下之象。非天下之至變，其孰能與於此。易无思也，无為也，寂然不動，感而遂通天下之故。非天下之至神，其孰能與於此。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.shang.25": {
+   "chapter": "繫辭上傳・第 25 段",
+   "text": "夫易，聖人之所以極深而研幾也。唯深也，故能通天下之志。唯幾也，故能成天下之務。唯神也，故不疾而速，不行而至。子曰：「易有聖人之道四焉」者，此之謂也。",
+   "review": []
+  },
+  "zhouyi.xici.shang.26": {
+   "chapter": "繫辭上傳・第 26 段",
+   "text": "子曰：「夫易，何為者也？夫易開物成務，冒天下之道，如斯而已者也。是故，聖人以通天下之志，以定天下之業，以斷天下之疑。」是故，蓍之德，圓而神；卦之德，方以知；六爻之義，易以貢。聖人以此洗心，退藏於密，吉凶與民同患。神以知來，知以藏往，其孰能與此哉！古之聰明叡知神武而不殺者夫？",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.shang.27": {
+   "chapter": "繫辭上傳・第 27 段",
+   "text": "是以，明於天之道，而察於民之故，是興神物以前民用。聖人以此齊戒，以神明其德夫！是故，闔戶謂之坤；闢戶謂之乾；一闔一闢謂之變；往來不窮謂之通；見乃謂之象；形乃謂之器；制而用之，謂之法；利用出入，民咸用之，謂之神。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.shang.28": {
+   "chapter": "繫辭上傳・第 28 段",
+   "text": "是故，易有太極，是生兩儀，兩儀生四象，四象生八卦，八卦定吉凶，吉凶生大業。是故，法象莫大乎天地，變通莫大乎四時，縣象著明莫大乎日月，崇高莫大乎富貴；備物致用，立成器以為天下利，莫大乎聖人；探賾索隱，鉤深致遠，以定天下之吉凶，成天下之亹亹者，莫大乎蓍龜。",
+   "review": []
+  },
+  "zhouyi.xici.shang.29": {
+   "chapter": "繫辭上傳・第 29 段",
+   "text": "是故，天生神物，聖人則之；天地變化，聖人效之；天垂象，見吉凶，聖人象之。河出圖，洛出書，聖人則之。易有四象，所以示也。繫辭焉，所以告也。定之以吉凶，所以斷也。",
+   "review": []
+  },
+  "zhouyi.xici.shang.30": {
+   "chapter": "繫辭上傳・第 30 段",
+   "text": "易曰：「自天祐之，吉无不利。」子曰：「祐者，助也。天之所助者，順也；人之所助者，信也。履信思乎順，又以尚賢也。是以自天祐之，吉无不利也。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.31": {
+   "chapter": "繫辭上傳・第 31 段",
+   "text": "子曰：「書不盡言，言不盡意。然則聖人之意，其不可見乎。」子曰：「聖人立象以盡意，設卦以盡情偽，繫辭以盡其言，變而通之以盡利，鼓之舞之以盡神。」",
+   "review": []
+  },
+  "zhouyi.xici.shang.32": {
+   "chapter": "繫辭上傳・第 32 段",
+   "text": "乾坤其易之縕邪？乾坤成列，而易立乎其中矣。乾坤毀，則无以見易，易不可見，則乾坤或幾乎息矣。是故，形而上者謂之道，形而下者謂之器。化而裁之謂之變，推而行之謂之通，舉而錯之天下之民，謂之事業。",
+   "review": []
+  },
+  "zhouyi.xici.shang.33": {
+   "chapter": "繫辭上傳・第 33 段",
+   "text": "是故，夫象，聖人有以見天下之賾，而擬諸其形容，象其物宜，是故謂之象。聖人有以見天下之動，而觀其會通，以行其典禮，繫辭焉，以斷其吉凶，是故謂之爻。極天下之賾者，存乎卦；鼓天下之動者，存乎辭；化而裁之，存乎變；推而行之，存乎通；神而明之，存乎其人；默而成之，不言而信，存乎德行。",
+   "review": []
+  },
+  "zhouyi.xici.xia.01": {
+   "chapter": "繫辭下傳・第 1 段",
+   "text": "八卦成列，象在其中矣。因而重之，爻在其中矣。剛柔相推，變在其中矣。繫辭焉而命之，動在其中矣。",
+   "review": []
+  },
+  "zhouyi.xici.xia.02": {
+   "chapter": "繫辭下傳・第 2 段",
+   "text": "吉凶悔吝者，生乎動者也。剛柔者，立本者也。變通者，趣時者也。",
+   "review": []
+  },
+  "zhouyi.xici.xia.03": {
+   "chapter": "繫辭下傳・第 3 段",
+   "text": "吉凶者，貞勝者也。天地之道，貞觀者也。日月之道，貞明者也，天下之動，貞夫一者也。",
+   "review": []
+  },
+  "zhouyi.xici.xia.04": {
+   "chapter": "繫辭下傳・第 4 段",
+   "text": "夫乾，確然示人易矣。夫坤，隤然示人簡矣。爻也者，效此者也。象也者，像此者也。",
+   "review": []
+  },
+  "zhouyi.xici.xia.05": {
+   "chapter": "繫辭下傳・第 5 段",
+   "text": "爻象動乎內，吉凶見乎外，功業見乎變，聖人之情見乎辭。",
+   "review": []
+  },
+  "zhouyi.xici.xia.06": {
+   "chapter": "繫辭下傳・第 6 段",
+   "text": "天地之大德曰生，聖人之大寶曰位。何以守位曰仁，何以聚人曰財。理財正辭，禁民為非曰義。",
+   "review": []
+  },
+  "zhouyi.xici.xia.07": {
+   "chapter": "繫辭下傳・第 7 段",
+   "text": "古者包犧氏之王天下也，仰則觀象於天，俯則觀法於地，觀鳥獸之文，與地之宜，近取諸身，遠取諸物，於是始作八卦，以通神明之德，以類萬物之情。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.xia.08": {
+   "chapter": "繫辭下傳・第 8 段",
+   "text": "作結繩而為罔罟，以佃以漁，蓋取諸離。",
+   "review": []
+  },
+  "zhouyi.xici.xia.09": {
+   "chapter": "繫辭下傳・第 9 段",
+   "text": "包犧氏沒，神農氏作，斲木為耜，揉木為耒，耒耨之利，以教天下，蓋取諸益。",
+   "review": []
+  },
+  "zhouyi.xici.xia.10": {
+   "chapter": "繫辭下傳・第 10 段",
+   "text": "日中為市，致天下之民，聚天下之貨，交易而退，各得其所，蓋取諸噬嗑。",
+   "review": []
+  },
+  "zhouyi.xici.xia.11": {
+   "chapter": "繫辭下傳・第 11 段",
+   "text": "神農氏沒，黃帝、堯、舜氏作，通其變，使民不倦，神而化之，使民宜之。易窮則變，變則通，通則久。是以自天祐之，吉无不利，黃帝、堯、舜垂衣裳而天下治，蓋取諸乾坤。",
+   "review": []
+  },
+  "zhouyi.xici.xia.12": {
+   "chapter": "繫辭下傳・第 12 段",
+   "text": "刳木為舟，剡木為楫，舟楫之利，以濟不通，致遠以利天下，蓋取諸渙。",
+   "review": []
+  },
+  "zhouyi.xici.xia.13": {
+   "chapter": "繫辭下傳・第 13 段",
+   "text": "服牛乘馬，引重致遠，以利天下，蓋取諸隨。",
+   "review": []
+  },
+  "zhouyi.xici.xia.14": {
+   "chapter": "繫辭下傳・第 14 段",
+   "text": "重門擊柝，以待暴客，蓋取諸豫。",
+   "review": []
+  },
+  "zhouyi.xici.xia.15": {
+   "chapter": "繫辭下傳・第 15 段",
+   "text": "斷木為杵，掘地為臼，臼杵之利，萬民以濟，蓋取諸小過。",
+   "review": []
+  },
+  "zhouyi.xici.xia.16": {
+   "chapter": "繫辭下傳・第 16 段",
+   "text": "弦木為弧，剡木為矢，弧矢之利，以威天下，蓋取諸睽。",
+   "review": []
+  },
+  "zhouyi.xici.xia.17": {
+   "chapter": "繫辭下傳・第 17 段",
+   "text": "上古穴居而野處，後世聖人易之以宮室，上棟下宇，以待風雨，蓋取諸大壯。",
+   "review": []
+  },
+  "zhouyi.xici.xia.18": {
+   "chapter": "繫辭下傳・第 18 段",
+   "text": "古之葬者，厚衣之以薪，葬之中野，不封不樹，喪期无數。後世聖人易之以棺槨，蓋取諸大過。",
+   "review": []
+  },
+  "zhouyi.xici.xia.19": {
+   "chapter": "繫辭下傳・第 19 段",
+   "text": "上古結繩而治，後世聖人易之以書契，百官以治，萬民以察，蓋取諸夬。",
+   "review": []
+  },
+  "zhouyi.xici.xia.20": {
+   "chapter": "繫辭下傳・第 20 段",
+   "text": "是故，易者，象也，象也者像也。彖者，材也，爻也者，效天下之動者也。是故，吉凶生，而悔吝著也。",
+   "review": []
+  },
+  "zhouyi.xici.xia.21": {
+   "chapter": "繫辭下傳・第 21 段",
+   "text": "陽卦多陰，陰卦多陽，其故何也？陽卦奇，陰卦偶。其德行何也？陽一君而二民，君子之道也。陰二君而一民，小人之道也。",
+   "review": []
+  },
+  "zhouyi.xici.xia.22": {
+   "chapter": "繫辭下傳・第 22 段",
+   "text": "易曰：「憧憧往來，朋從爾思。」子曰：「天下何思何慮？天下同歸而殊塗，一致而百慮，天下何思何慮？」",
+   "review": []
+  },
+  "zhouyi.xici.xia.23": {
+   "chapter": "繫辭下傳・第 23 段",
+   "text": "「日往則月來，月往則日來，日月相推而明生焉。寒往則暑來，暑往則寒來，寒暑相推而歲成焉。往者屈也，來者信也，屈信相感而利生焉。」",
+   "review": []
+  },
+  "zhouyi.xici.xia.24": {
+   "chapter": "繫辭下傳・第 24 段",
+   "text": "「尺蠖之屈，以求信也。龍蛇之蟄，以存身也。精義入神，以致用也。利用安身，以崇德也。過此以往，未之或知也。窮神知化，德之盛也。」",
+   "review": []
+  },
+  "zhouyi.xici.xia.25": {
+   "chapter": "繫辭下傳・第 25 段",
+   "text": "易曰：「困于石，據于蒺蔾，入于其宮，不見其妻，凶。」子曰：「非所困而困焉，名必辱。非所據而據焉，身必危。既辱且危，死期將至，妻其可得見耶？」",
+   "review": []
+  },
+  "zhouyi.xici.xia.26": {
+   "chapter": "繫辭下傳・第 26 段",
+   "text": "易曰：「公用射隼，于高墉之上，獲之无不利。」子曰：「隼者禽也，弓矢者器也，射之者人也。君子藏器於身，待時而動，何不利之有？動而不括，是以出而有獲，語成器而動者也。」",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.xia.27": {
+   "chapter": "繫辭下傳・第 27 段",
+   "text": "子曰：「小人不恥不仁，不畏不義，不見利不勸，不威不懲，小懲而大誡，此小人之福也。易曰：『履校滅趾无咎，此之謂也』。」",
+   "review": []
+  },
+  "zhouyi.xici.xia.28": {
+   "chapter": "繫辭下傳・第 28 段",
+   "text": "「善不積，不足以成名；惡不積，不足以滅身。小人以小善為无益，而弗為也，以小惡為无傷，而弗去也，故惡積而不可掩，罪大而不可解。易曰：『何校滅耳凶』。」",
+   "review": []
+  },
+  "zhouyi.xici.xia.29": {
+   "chapter": "繫辭下傳・第 29 段",
+   "text": "子曰：「危者，安其位者也；亡者，保其存者也；亂者，有其治者也。是故，君子安而不忘危，存而不忘亡，治而不忘亂；是以身安而國家可保也。易曰：『其亡其亡，繫于苞桑』。」",
+   "review": []
+  },
+  "zhouyi.xici.xia.30": {
+   "chapter": "繫辭下傳・第 30 段",
+   "text": "子曰：「德薄而位尊，知小而謀大，力小而任重，鮮不及矣，易曰：『鼎折足，覆公餗，其形渥，凶。』言不勝其任也。」",
+   "review": []
+  },
+  "zhouyi.xici.xia.31": {
+   "chapter": "繫辭下傳・第 31 段",
+   "text": "子曰：「知幾其神乎？君子上交不諂，下交不瀆，其知幾乎，幾者動之微，吉之先見者也，君子見幾而作，不俟終日。易曰：『介于石，不終日，貞吉。』介如石焉，寧用終日，斷可識矣，君子知微知彰，知柔知剛，萬夫之望。」",
+   "review": []
+  },
+  "zhouyi.xici.xia.32": {
+   "chapter": "繫辭下傳・第 32 段",
+   "text": "子曰：「顏氏之子，其殆庶幾乎？有不善未嘗不知，知之未嘗復行也。易曰：『不遠復，无祇悔，元吉。』」",
+   "review": []
+  },
+  "zhouyi.xici.xia.33": {
+   "chapter": "繫辭下傳・第 33 段",
+   "text": "天地絪縕，萬物化醇，男女構精，萬物化生，易曰：『三人行，則損一人；一人行，則得其友。』言致一也。",
+   "review": []
+  },
+  "zhouyi.xici.xia.34": {
+   "chapter": "繫辭下傳・第 34 段",
+   "text": "子曰：「君子安其身而後動，易其心而後語，定其交而後求，君子脩此三者，故全也，危以動，則民不與也，懼以語，則民不應也，无交而求，則民不與也，莫之與，則傷之者至矣。易曰：『莫益之，或擊之，立心勿恆，凶。』。」",
+   "review": []
+  },
+  "zhouyi.xici.xia.35": {
+   "chapter": "繫辭下傳・第 35 段",
+   "text": "子曰：「乾坤其易之門邪？乾，陽物也；坤，陰物也；陰陽合德，而剛柔有體，以體天地之撰，以通神明之德，其稱名也雜而不越，於稽其類，其衰世之意邪？」夫易，彰往而察來，而微顯闡幽，開而當名，辨物正言，斷辭則備矣，其稱名也小，其取類也大，其旨遠，其辭文，其言曲而中，其事肆而隱，因貳以濟民行，以明失得之報。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.xia.36": {
+   "chapter": "繫辭下傳・第 36 段",
+   "text": "易之興也，其於中古乎，作易者，其有憂患乎。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.xia.37": {
+   "chapter": "繫辭下傳・第 37 段",
+   "text": "是故，履，德之基也；謙，德之柄也；復，德之本也；恆，德之固也；損德之脩也；益，德之裕也；困，德之辨也；井，德之地也；巽，德之制也。",
+   "review": []
+  },
+  "zhouyi.xici.xia.38": {
+   "chapter": "繫辭下傳・第 38 段",
+   "text": "履，和而至；謙，尊而光；復，小而辨於物；恆，雜而不厭；損，先難而後易；益，長裕而不設；困，窮而通；井，居其所而遷，巽，稱而隱。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.xia.39": {
+   "chapter": "繫辭下傳・第 39 段",
+   "text": "履以和行，謙以制禮，復以自知，恆以一德，損以遠害，益以興利，困以寡怨，井以辯義，巽以行權。",
+   "review": []
+  },
+  "zhouyi.xici.xia.40": {
+   "chapter": "繫辭下傳・第 40 段",
+   "text": "易之為書也不可遠，為道也屢遷，變動不居，周流六虛，上下无常，剛柔相易，不可為典要，唯變所適，其出入以度，外內使知懼，又明於憂患與故，无有師保，如臨父母，初率其辭，而揆其方，既有典常，苟非其人，道不虛行。",
+   "review": [
+    "「於」在簡體底本中與「于」不分，通行本經文多作「于」，待人工校勘"
+   ]
+  },
+  "zhouyi.xici.xia.41": {
+   "chapter": "繫辭下傳・第 41 段",
+   "text": "易之為書也，原始要終，以為質也，六爻相雜，唯其時物也，其初難知，其上易知，本末也，初辭擬之，卒成之終，若夫雜物撰德，辨是與非，則非其中爻不備。",
+   "review": []
+  },
+  "zhouyi.xici.xia.42": {
+   "chapter": "繫辭下傳・第 42 段",
+   "text": "噫，亦要存亡吉凶，則居可知矣，知者觀其彖辭，則思過半矣。",
+   "review": []
+  },
+  "zhouyi.xici.xia.43": {
+   "chapter": "繫辭下傳・第 43 段",
+   "text": "二與四同功，而異位，其善不同，二多譽，四多懼，近也，柔之為道，不利遠者，其要无咎，其用柔中也，三與五同功，而異位，三多凶，五多功，貴賤之等也，其柔危，其剛勝邪？",
+   "review": []
+  },
+  "zhouyi.xici.xia.44": {
+   "chapter": "繫辭下傳・第 44 段",
+   "text": "易之為書也，廣大悉備，有天道焉，有人道焉，有地道焉。兼三材而兩之，故六六者，非它也，三材之道也，道有變動，故曰爻，爻有等，故曰物，物相雜，故曰文，文不當，故吉凶生焉。",
+   "review": []
+  },
+  "zhouyi.xici.xia.45": {
+   "chapter": "繫辭下傳・第 45 段",
+   "text": "易之興也，其當殷之末世，周之盛德邪，當文王與紂之事邪，是故其辭危，危者使平，易者使傾，其道甚大，百物不廢，懼以終始，其要无咎，此之謂易之道也。",
+   "review": []
+  },
+  "zhouyi.xici.xia.46": {
+   "chapter": "繫辭下傳・第 46 段",
+   "text": "夫乾，天下之至健也，德行恆易以知險，夫坤，天下之至順也，德行恆簡以知阻。",
+   "review": []
+  },
+  "zhouyi.xici.xia.47": {
+   "chapter": "繫辭下傳・第 47 段",
+   "text": "能說諸心，能研諸侯之慮，定天下之吉凶，成天下之亹亹者，是故，變化云為，吉事有祥，象事知器，占事知來。天地設位，聖人成能。人謀鬼謀，百姓與能。",
+   "review": []
+  },
+  "zhouyi.xici.xia.48": {
+   "chapter": "繫辭下傳・第 48 段",
+   "text": "八卦以象告，爻彖以情言，剛柔雜居，而吉凶可見矣。",
+   "review": []
+  },
+  "zhouyi.xici.xia.49": {
+   "chapter": "繫辭下傳・第 49 段",
+   "text": "變動以利言，吉凶以情遷。是故愛惡相攻而吉凶生，遠近相取而悔吝生，情偽相感而利害生。凡易之情，近而不相得則凶，或害之，悔且吝。",
+   "review": []
+  },
+  "zhouyi.xici.xia.50": {
+   "chapter": "繫辭下傳・第 50 段",
+   "text": "將叛者其辭慚，中心疑者其辭枝，吉人之辭寡，躁人之辭多，誣善之人其辭游，失其守者其辭屈。",
+   "review": []
+  }
+ }
+}
