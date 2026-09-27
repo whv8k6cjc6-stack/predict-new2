@@ -1,0 +1,4942 @@
+{
+ "meta": {
+  "format": "golden-v1",
+  "kind": "canonical",
+  "generatedAt": "2026-09-27T05:28:58.217Z",
+  "generatedFromCommit": "5a1901042b7f7bceaca2e5a8b822d894b5297bd7",
+  "engineStamp": {
+   "school": "中州派基準・全書起例",
+   "engine_version": "3.0.0",
+   "rule_version": "3.0.0",
+   "source_version": "iztro 2.6.1（MIT）"
+  },
+  "transitDates": [
+   "2026-09-27",
+   "2027-02-06",
+   "2030-07-01"
+  ],
+  "calculationSettings": {
+   "pre-refactor-default": {
+    "id": "school-default",
+    "name": "預設（子平・中州派・時家轉盤拆補）",
+    "isDefault": true,
+    "bazi": {
+     "school": "子平・滴天髓闡微",
+     "ziHour": "lateZiSameDay"
+    },
+    "ziwei": {
+     "school": "中州派",
+     "leapMonth": "splitAt15",
+     "fireBell": "quanshu",
+     "gengSihua": "陽武陰同"
+    },
+    "qimen": {
+     "school": "時家轉盤",
+     "method": "chaibu",
+     "plate": "rotating"
+    },
+    "iching": {
+     "dailyMethod": "meihua_date_birthhour"
+    },
+    "createdAt": "",
+    "updatedAt": ""
+   },
+   "pre-refactor-earlyZi": {
+    "id": "school-legacy-earlyzi",
+    "name": "早子時換日（由舊版設定匯入）",
+    "isDefault": false,
+    "bazi": {
+     "school": "子平・滴天髓闡微",
+     "ziHour": "earlyZiNextDay"
+    },
+    "ziwei": {
+     "school": "中州派",
+     "leapMonth": "splitAt15",
+     "fireBell": "quanshu",
+     "gengSihua": "陽武陰同"
+    },
+    "qimen": {
+     "school": "時家轉盤",
+     "method": "chaibu",
+     "plate": "rotating"
+    },
+    "iching": {
+     "dailyMethod": "meihua_date_birthhour"
+    },
+    "createdAt": "",
+    "updatedAt": ""
+   }
+  },
+  "iztro": {
+   "version": "2.6.1",
+   "role": "softwareDataset / compatibilityReference（非古籍來源）",
+   "compatConfig": {
+    "algorithm": "default",
+    "yearDivide": "normal",
+    "horoscopeDivide": "normal",
+    "ageDivide": "normal",
+    "dayDivide": "current"
+   },
+   "defaultConfig": {
+    "algorithm": "default",
+    "yearDivide": "normal",
+    "horoscopeDivide": "normal",
+    "ageDivide": "normal",
+    "dayDivide": "forward"
+   },
+   "bySolarOptions": {
+    "fixLeap": true,
+    "language": "zh-TW"
+   }
+  },
+  "note": "修改前金樣本：由當時的程式直接輸出，代表「既有命盤結果」，不是古法正確性的證明。verificationStatus 另行分級。"
+ },
+ "fixtures": [
+  {
+   "fixtureId": "fixture_19880114_0115_male",
+   "covers": [
+    "丑時",
+    "陰年",
+    "男",
+    "陰男逆行",
+    "金四局"
+   ],
+   "note": "使用者確認之命盤：命亥、身丑（福德）、金四局、丁干四化、大限 4–13 逆行",
+   "input": {
+    "gender": "male",
+    "localDate": "1988-01-14",
+    "localTime": "01:15",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台南",
+     "lat": 22.99,
+     "lng": 120.21
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1988-01-14 01:15",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1987-11-25",
+     "effectiveMonth": 11,
+     "yearGz": "丁卯",
+     "hour": "丑",
+     "life": "亥",
+     "body": "丑",
+     "bodyPalace": "福德",
+     "bureau": "金四局",
+     "forward": false,
+     "birthHua": "太陰祿@父母,天同權@父母,天機科@交友,巨門忌@田宅",
+     "notes": [],
+     "palaces": [
+      "子|壬子|父母|天同旺權,太陰廟祿|右弼,地劫|咸池,紅鸞|114-123",
+      "丑|癸丑|福德|武曲廟,貪狼廟|-|-|104-113",
+      "寅|壬寅|田宅|太陽旺,巨門廟忌|左輔|-|94-103",
+      "卯|癸卯|官祿|天相陷|-|-|84-93",
+      "辰|甲辰|交友|天機利科,天梁廟|-|-|74-83",
+      "巳|乙巳|遷移|紫微旺,七殺平|文曲,陀羅,天馬|-|64-73",
+      "午|丙午|疾厄|-|祿存|天喜|54-63",
+      "未|丁未|財帛|-|擎羊|天刑|44-53",
+      "申|戊申|子女|-|-|-|34-43",
+      "酉|己酉|夫妻|廉貞平,破軍陷|文昌,天鉞|-|24-33",
+      "戌|庚戌|兄弟|-|地空,火星|-|14-23",
+      "亥|辛亥|命宮|天府得|天魁,鈴星|天姚|4-13"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 40,
+       "decade": "申子女|戊|貪狼,太陰,右弼,天機",
+       "year": "午疾厄|丙|天同,天機,文昌,廉貞",
+       "month": "辰交友|丁|太陰,天同,天機,巨門",
+       "day": "申子女|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 41,
+       "decade": "申子女|戊|貪狼,太陰,右弼,天機",
+       "year": "未財帛|丁|太陰,天同,天機,巨門",
+       "month": "戌兄弟|壬|天梁,紫微,左輔,武曲",
+       "day": "戌兄弟|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 44,
+       "decade": "未財帛|丁|太陰,天同,天機,巨門",
+       "year": "戌兄弟|庚|太陽,武曲,太陰,天同",
+       "month": "午疾厄|癸|破軍,巨門,太陰,貪狼",
+       "day": "午疾厄|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "丁卯 癸丑 戊辰 癸丑",
+     "qimenNianMing": "丁",
+     "ichingPersonalNo": 2
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": true,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "fixture_19880114_0115_male_tst",
+   "covers": [
+    "真太陽時不跨時辰",
+    "丑時"
+   ],
+   "note": "真太陽時約 01:07，仍為丑時",
+   "input": {
+    "gender": "male",
+    "localDate": "1988-01-14",
+    "localTime": "01:15",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台南",
+     "lat": 22.99,
+     "lng": 120.21
+    },
+    "useTrueSolarTime": true
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1988-01-14 01:07",
+     "basis": "trueSolar",
+     "correctionMinutes": -8,
+     "eotMinutes": -8.56,
+     "longitudeMinutes": 0.84,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1987-11-25",
+     "effectiveMonth": 11,
+     "yearGz": "丁卯",
+     "hour": "丑",
+     "life": "亥",
+     "body": "丑",
+     "bodyPalace": "福德",
+     "bureau": "金四局",
+     "forward": false,
+     "birthHua": "太陰祿@父母,天同權@父母,天機科@交友,巨門忌@田宅",
+     "notes": [],
+     "palaces": [
+      "子|壬子|父母|天同旺權,太陰廟祿|右弼,地劫|咸池,紅鸞|114-123",
+      "丑|癸丑|福德|武曲廟,貪狼廟|-|-|104-113",
+      "寅|壬寅|田宅|太陽旺,巨門廟忌|左輔|-|94-103",
+      "卯|癸卯|官祿|天相陷|-|-|84-93",
+      "辰|甲辰|交友|天機利科,天梁廟|-|-|74-83",
+      "巳|乙巳|遷移|紫微旺,七殺平|文曲,陀羅,天馬|-|64-73",
+      "午|丙午|疾厄|-|祿存|天喜|54-63",
+      "未|丁未|財帛|-|擎羊|天刑|44-53",
+      "申|戊申|子女|-|-|-|34-43",
+      "酉|己酉|夫妻|廉貞平,破軍陷|文昌,天鉞|-|24-33",
+      "戌|庚戌|兄弟|-|地空,火星|-|14-23",
+      "亥|辛亥|命宮|天府得|天魁,鈴星|天姚|4-13"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 40,
+       "decade": "申子女|戊|貪狼,太陰,右弼,天機",
+       "year": "午疾厄|丙|天同,天機,文昌,廉貞",
+       "month": "辰交友|丁|太陰,天同,天機,巨門",
+       "day": "申子女|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 41,
+       "decade": "申子女|戊|貪狼,太陰,右弼,天機",
+       "year": "未財帛|丁|太陰,天同,天機,巨門",
+       "month": "戌兄弟|壬|天梁,紫微,左輔,武曲",
+       "day": "戌兄弟|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 44,
+       "decade": "未財帛|丁|太陰,天同,天機,巨門",
+       "year": "戌兄弟|庚|太陽,武曲,太陰,天同",
+       "month": "午疾厄|癸|破軍,巨門,太陰,貪狼",
+       "day": "午疾厄|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "丁卯 癸丑 戊辰 癸丑",
+     "qimenNianMing": "丁",
+     "ichingPersonalNo": 2
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "tst_cross_20240114_0105_std",
+   "covers": [
+    "真太陽時跨時辰（標準時間對照）",
+    "丑時"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2024-01-14",
+    "localTime": "01:05",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台南",
+     "lat": 22.99,
+     "lng": 120.21
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2024-01-14 01:05",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2023-12-4",
+     "effectiveMonth": 12,
+     "yearGz": "癸卯",
+     "hour": "丑",
+     "life": "子",
+     "body": "寅",
+     "bodyPalace": "福德",
+     "bureau": "金四局",
+     "forward": true,
+     "birthHua": "破軍祿@命宮,巨門權@交友,太陰科@田宅,貪狼忌@官祿",
+     "notes": [],
+     "palaces": [
+      "子|甲子|命宮|破軍廟祿|祿存,地劫|咸池,紅鸞,天姚|4-13",
+      "丑|乙丑|父母|天機陷|擎羊|-|14-23",
+      "寅|甲寅|福德|紫微旺,天府廟|-|-|24-33",
+      "卯|乙卯|田宅|太陰陷科|左輔,天魁|-|34-43",
+      "辰|丙辰|官祿|貪狼廟忌|-|-|44-53",
+      "巳|丁巳|交友|巨門旺權|文曲,天鉞,天馬|-|54-63",
+      "午|戊午|遷移|廉貞平,天相廟|-|天喜|64-73",
+      "未|己未|疾厄|天梁旺|-|-|74-83",
+      "申|庚申|財帛|七殺廟|-|天刑|84-93",
+      "酉|辛酉|子女|天同平|文昌|-|94-103",
+      "戌|壬戌|夫妻|武曲廟|地空,火星|-|104-113",
+      "亥|癸亥|兄弟|太陽陷|右弼,陀羅,鈴星|-|114-123"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 4,
+       "decade": "子命宮|甲|廉貞,破軍,武曲,太陽",
+       "year": "午遷移|丙|天同,天機,文昌,廉貞",
+       "month": "卯田宅|丁|太陰,天同,天機,巨門",
+       "day": "未疾厄|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 5,
+       "decade": "子命宮|甲|廉貞,破軍,武曲,太陽",
+       "year": "未疾厄|丁|太陰,天同,天機,巨門",
+       "month": "酉子女|壬|天梁,紫微,左輔,武曲",
+       "day": "酉子女|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 8,
+       "decade": "子命宮|甲|廉貞,破軍,武曲,太陽",
+       "year": "戌夫妻|庚|太陽,武曲,太陰,天同",
+       "month": "巳交友|癸|破軍,巨門,太陰,貪狼",
+       "day": "巳交友|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "癸卯 乙丑 丁丑 辛丑",
+     "qimenNianMing": "癸",
+     "ichingPersonalNo": 2
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "tst_cross_20240114_0105_tst",
+   "covers": [
+    "真太陽時跨時辰",
+    "子時"
+   ],
+   "note": "均時差約 −9 分，校正後落入子時",
+   "input": {
+    "gender": "female",
+    "localDate": "2024-01-14",
+    "localTime": "01:05",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台南",
+     "lat": 22.99,
+     "lng": 120.21
+    },
+    "useTrueSolarTime": true
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2024-01-14 00:57",
+     "basis": "trueSolar",
+     "correctionMinutes": -8,
+     "eotMinutes": -8.57,
+     "longitudeMinutes": 0.84,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2023-12-4",
+     "effectiveMonth": 12,
+     "yearGz": "癸卯",
+     "hour": "子",
+     "life": "丑",
+     "body": "丑",
+     "bodyPalace": "命宮",
+     "bureau": "金四局",
+     "forward": true,
+     "birthHua": "破軍祿@兄弟,巨門權@官祿,太陰科@福德,貪狼忌@田宅",
+     "notes": [],
+     "palaces": [
+      "子|甲子|兄弟|破軍廟祿|祿存|咸池,紅鸞,天姚|114-123",
+      "丑|乙丑|命宮|天機陷|擎羊|-|4-13",
+      "寅|甲寅|父母|紫微旺,天府廟|-|-|14-23",
+      "卯|乙卯|福德|太陰陷科|左輔,天魁|-|24-33",
+      "辰|丙辰|田宅|貪狼廟忌|文曲|-|34-43",
+      "巳|丁巳|官祿|巨門旺權|天鉞,天馬|-|44-53",
+      "午|戊午|交友|廉貞平,天相廟|-|天喜|54-63",
+      "未|己未|遷移|天梁旺|-|-|64-73",
+      "申|庚申|疾厄|七殺廟|-|天刑|74-83",
+      "酉|辛酉|財帛|天同平|火星|-|84-93",
+      "戌|壬戌|子女|武曲廟|文昌,鈴星|-|94-103",
+      "亥|癸亥|夫妻|太陽陷|右弼,陀羅,地空,地劫|-|104-113"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 4,
+       "decade": "丑命宮|乙|天機,天梁,紫微,太陰",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 5,
+       "decade": "丑命宮|乙|天機,天梁,紫微,太陰",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 8,
+       "decade": "丑命宮|乙|天機,天梁,紫微,太陰",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "癸卯 乙丑 丁丑 庚子",
+     "qimenNianMing": "癸",
+     "ichingPersonalNo": 1
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "hour_zi_19950610_0030",
+   "covers": [
+    "子時"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "1995-06-10",
+    "localTime": "00:30",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1995-06-10 00:30",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1995-5-13",
+     "effectiveMonth": 5,
+     "yearGz": "乙亥",
+     "hour": "子",
+     "life": "午",
+     "body": "午",
+     "bodyPalace": "命宮",
+     "bureau": "木三局",
+     "forward": false,
+     "birthHua": "天機祿@父母,天梁權@疾厄,紫微科@福德,太陰忌@田宅",
+     "notes": [],
+     "palaces": [
+      "子|戊子|遷移|廉貞平,天相廟|天魁|咸池|63-72",
+      "丑|己丑|疾厄|天梁旺權|-|天刑|53-62",
+      "寅|戊寅|財帛|七殺廟|陀羅|-|43-52",
+      "卯|己卯|子女|天同平|祿存|-|33-42",
+      "辰|庚辰|夫妻|武曲廟|文曲,擎羊|紅鸞|23-32",
+      "巳|辛巳|兄弟|太陽旺|天馬|天姚|13-22",
+      "午|壬午|命宮|破軍廟|右弼|-|3-12",
+      "未|癸未|父母|天機陷祿|-|-|113-122",
+      "申|甲申|福德|紫微旺科,天府得|左輔,天鉞|-|103-112",
+      "酉|乙酉|田宅|太陰旺忌|火星|-|93-102",
+      "戌|丙戌|官祿|貪狼廟|文昌,鈴星|天喜|83-92",
+      "亥|丁亥|交友|巨門旺|地空,地劫|-|73-82"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 32,
+       "decade": "辰夫妻|庚|太陽,武曲,太陰,天同",
+       "year": "午命宮|丙|天同,天機,文昌,廉貞",
+       "month": "酉田宅|丁|太陰,天同,天機,巨門",
+       "day": "丑疾厄|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 33,
+       "decade": "卯子女|己|武曲,貪狼,天梁,文曲",
+       "year": "未父母|丁|太陰,天同,天機,巨門",
+       "month": "卯子女|壬|天梁,紫微,左輔,武曲",
+       "day": "卯子女|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 36,
+       "decade": "卯子女|己|武曲,貪狼,天梁,文曲",
+       "year": "戌官祿|庚|太陽,武曲,太陰,天同",
+       "month": "亥交友|癸|破軍,巨門,太陰,貪狼",
+       "day": "亥交友|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "乙亥 壬午 壬申 庚子",
+     "qimenNianMing": "乙",
+     "ichingPersonalNo": 1
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "hour_wu_19950610_1200",
+   "covers": [
+    "午時"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1995-06-10",
+    "localTime": "12:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1995-06-10 12:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1995-5-13",
+     "effectiveMonth": 5,
+     "yearGz": "乙亥",
+     "hour": "午",
+     "life": "子",
+     "body": "子",
+     "bodyPalace": "命宮",
+     "bureau": "火六局",
+     "forward": true,
+     "birthHua": "天機祿@夫妻,天梁權@夫妻,紫微科@兄弟,太陰忌@遷移",
+     "notes": [],
+     "palaces": [
+      "子|戊子|命宮|-|天魁|咸池|6-15",
+      "丑|己丑|父母|-|-|天刑|16-25",
+      "寅|戊寅|福德|-|陀羅|-|26-35",
+      "卯|己卯|田宅|廉貞平,破軍陷|祿存,火星|-|36-45",
+      "辰|庚辰|官祿|-|文昌,擎羊,鈴星|紅鸞|46-55",
+      "巳|辛巳|交友|天府得|地空,地劫,天馬|天姚|56-65",
+      "午|壬午|遷移|天同陷,太陰不忌|右弼|-|66-75",
+      "未|癸未|疾厄|武曲廟,貪狼廟|-|-|76-85",
+      "申|甲申|財帛|太陽得,巨門廟|左輔,天鉞|-|86-95",
+      "酉|乙酉|子女|天相陷|-|-|96-105",
+      "戌|丙戌|夫妻|天機利祿,天梁廟權|文曲|天喜|106-115",
+      "亥|丁亥|兄弟|紫微旺科,七殺平|-|-|116-125"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 32,
+       "decade": "寅福德|戊|貪狼,太陰,右弼,天機",
+       "year": "午遷移|丙|天同,天機,文昌,廉貞",
+       "month": "卯田宅|丁|太陰,天同,天機,巨門",
+       "day": "未疾厄|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 33,
+       "decade": "寅福德|戊|貪狼,太陰,右弼,天機",
+       "year": "未疾厄|丁|太陰,天同,天機,巨門",
+       "month": "酉子女|壬|天梁,紫微,左輔,武曲",
+       "day": "酉子女|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 36,
+       "decade": "卯田宅|己|武曲,貪狼,天梁,文曲",
+       "year": "戌夫妻|庚|太陽,武曲,太陰,天同",
+       "month": "巳交友|癸|破軍,巨門,太陰,貪狼",
+       "day": "巳交友|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "乙亥 壬午 壬申 丙午",
+     "qimenNianMing": "乙",
+     "ichingPersonalNo": 7
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "day_boundary_20000315_2259",
+   "covers": [
+    "亥時",
+    "23點附近"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2000-03-15",
+    "localTime": "22:59",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2000-03-15 22:59",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2000-2-10",
+     "effectiveMonth": 2,
+     "yearGz": "庚辰",
+     "hour": "亥",
+     "life": "辰",
+     "body": "寅",
+     "bodyPalace": "夫妻",
+     "bureau": "金四局",
+     "forward": true,
+     "birthHua": "太陽祿@兄弟,武曲權@夫妻,太陰科@疾厄,天同忌@子女",
+     "notes": [],
+     "palaces": [
+      "子|戊子|財帛|貪狼旺|地空|-|84-93",
+      "丑|己丑|子女|天同不忌,巨門不|天魁,火星|-|94-103",
+      "寅|戊寅|夫妻|武曲得權,天相廟|天馬|天姚|104-113",
+      "卯|己卯|兄弟|太陽廟祿,天梁廟|文曲|-|114-123",
+      "辰|庚辰|命宮|七殺廟|-|-|4-13",
+      "巳|辛巳|父母|天機平|左輔|天喜|14-23",
+      "午|壬午|福德|紫微廟|-|-|24-33",
+      "未|癸未|田宅|-|天鉞,陀羅|-|34-43",
+      "申|甲申|官祿|破軍得|祿存|-|44-53",
+      "酉|乙酉|交友|-|右弼,擎羊,鈴星|咸池|54-63",
+      "戌|丙戌|遷移|廉貞利,天府廟|地劫|天刑|64-73",
+      "亥|丁亥|疾厄|太陰廟科|文昌|紅鸞|74-83"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 27,
+       "decade": "午福德|壬|天梁,紫微,左輔,武曲",
+       "year": "午福德|丙|天同,天機,文昌,廉貞",
+       "month": "亥疾厄|丁|太陰,天同,天機,巨門",
+       "day": "卯兄弟|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 28,
+       "decade": "午福德|壬|天梁,紫微,左輔,武曲",
+       "year": "未田宅|丁|太陰,天同,天機,巨門",
+       "month": "巳父母|壬|天梁,紫微,左輔,武曲",
+       "day": "巳父母|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 31,
+       "decade": "午福德|壬|天梁,紫微,左輔,武曲",
+       "year": "戌遷移|庚|太陽,武曲,太陰,天同",
+       "month": "丑子女|癸|破軍,巨門,太陰,貪狼",
+       "day": "丑子女|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己卯 壬申 辛亥",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 12
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "day_boundary_20000315_2300",
+   "covers": [
+    "23點附近",
+    "23點附近"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2000-03-15",
+    "localTime": "23:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2000-03-15 23:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2000-2-10",
+     "effectiveMonth": 2,
+     "yearGz": "庚辰",
+     "hour": "子",
+     "life": "卯",
+     "body": "卯",
+     "bodyPalace": "命宮",
+     "bureau": "土五局",
+     "forward": true,
+     "birthHua": "太陽祿@子女,武曲權@財帛,太陰科@兄弟,天同忌@疾厄",
+     "notes": [],
+     "palaces": [
+      "子|戊子|子女|太陽陷祿|-|-|95-104",
+      "丑|己丑|夫妻|天府廟|天魁|-|105-114",
+      "寅|戊寅|兄弟|天機得,太陰旺科|火星,天馬|天姚|115-124",
+      "卯|己卯|命宮|紫微旺,貪狼利|-|-|5-14",
+      "辰|庚辰|父母|巨門陷|文曲|-|15-24",
+      "巳|辛巳|福德|天相得|左輔|天喜|25-34",
+      "午|壬午|田宅|天梁廟|-|-|35-44",
+      "未|癸未|官祿|廉貞利,七殺廟|天鉞,陀羅|-|45-54",
+      "申|甲申|交友|-|祿存|-|55-64",
+      "酉|乙酉|遷移|-|右弼,擎羊|咸池|65-74",
+      "戌|丙戌|疾厄|天同平忌|文昌,鈴星|天刑|75-84",
+      "亥|丁亥|財帛|武曲平權,破軍平|地空,地劫|紅鸞|85-94"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 27,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "午田宅|丙|天同,天機,文昌,廉貞",
+       "month": "子子女|丁|太陰,天同,天機,巨門",
+       "day": "辰父母|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 28,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "未官祿|丁|太陰,天同,天機,巨門",
+       "month": "午田宅|壬|天梁,紫微,左輔,武曲",
+       "day": "午田宅|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 31,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "戌疾厄|庚|太陽,武曲,太陰,天同",
+       "month": "寅兄弟|癸|破軍,巨門,太陰,貪狼",
+       "day": "寅兄弟|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己卯 壬申 壬子",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 1
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": false,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false,
+    "notes": "與 iztro 預設設定（dayDivide=forward，晚子時以次日安紫微）差異：12 欄（主星位置）"
+   }
+  },
+  {
+   "fixtureId": "day_boundary_20000315_2330",
+   "covers": [
+    "23點附近",
+    "23點附近"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2000-03-15",
+    "localTime": "23:30",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2000-03-15 23:30",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2000-2-10",
+     "effectiveMonth": 2,
+     "yearGz": "庚辰",
+     "hour": "子",
+     "life": "卯",
+     "body": "卯",
+     "bodyPalace": "命宮",
+     "bureau": "土五局",
+     "forward": true,
+     "birthHua": "太陽祿@子女,武曲權@財帛,太陰科@兄弟,天同忌@疾厄",
+     "notes": [],
+     "palaces": [
+      "子|戊子|子女|太陽陷祿|-|-|95-104",
+      "丑|己丑|夫妻|天府廟|天魁|-|105-114",
+      "寅|戊寅|兄弟|天機得,太陰旺科|火星,天馬|天姚|115-124",
+      "卯|己卯|命宮|紫微旺,貪狼利|-|-|5-14",
+      "辰|庚辰|父母|巨門陷|文曲|-|15-24",
+      "巳|辛巳|福德|天相得|左輔|天喜|25-34",
+      "午|壬午|田宅|天梁廟|-|-|35-44",
+      "未|癸未|官祿|廉貞利,七殺廟|天鉞,陀羅|-|45-54",
+      "申|甲申|交友|-|祿存|-|55-64",
+      "酉|乙酉|遷移|-|右弼,擎羊|咸池|65-74",
+      "戌|丙戌|疾厄|天同平忌|文昌,鈴星|天刑|75-84",
+      "亥|丁亥|財帛|武曲平權,破軍平|地空,地劫|紅鸞|85-94"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 27,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "午田宅|丙|天同,天機,文昌,廉貞",
+       "month": "子子女|丁|太陰,天同,天機,巨門",
+       "day": "辰父母|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 28,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "未官祿|丁|太陰,天同,天機,巨門",
+       "month": "午田宅|壬|天梁,紫微,左輔,武曲",
+       "day": "午田宅|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 31,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "戌疾厄|庚|太陽,武曲,太陰,天同",
+       "month": "寅兄弟|癸|破軍,巨門,太陰,貪狼",
+       "day": "寅兄弟|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己卯 壬申 壬子",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 1
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": false,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false,
+    "notes": "與 iztro 預設設定（dayDivide=forward，晚子時以次日安紫微）差異：12 欄（主星位置）"
+   }
+  },
+  {
+   "fixtureId": "day_boundary_20000315_2359",
+   "covers": [
+    "0點附近",
+    "23點附近"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2000-03-15",
+    "localTime": "23:59",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2000-03-15 23:59",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2000-2-10",
+     "effectiveMonth": 2,
+     "yearGz": "庚辰",
+     "hour": "子",
+     "life": "卯",
+     "body": "卯",
+     "bodyPalace": "命宮",
+     "bureau": "土五局",
+     "forward": true,
+     "birthHua": "太陽祿@子女,武曲權@財帛,太陰科@兄弟,天同忌@疾厄",
+     "notes": [],
+     "palaces": [
+      "子|戊子|子女|太陽陷祿|-|-|95-104",
+      "丑|己丑|夫妻|天府廟|天魁|-|105-114",
+      "寅|戊寅|兄弟|天機得,太陰旺科|火星,天馬|天姚|115-124",
+      "卯|己卯|命宮|紫微旺,貪狼利|-|-|5-14",
+      "辰|庚辰|父母|巨門陷|文曲|-|15-24",
+      "巳|辛巳|福德|天相得|左輔|天喜|25-34",
+      "午|壬午|田宅|天梁廟|-|-|35-44",
+      "未|癸未|官祿|廉貞利,七殺廟|天鉞,陀羅|-|45-54",
+      "申|甲申|交友|-|祿存|-|55-64",
+      "酉|乙酉|遷移|-|右弼,擎羊|咸池|65-74",
+      "戌|丙戌|疾厄|天同平忌|文昌,鈴星|天刑|75-84",
+      "亥|丁亥|財帛|武曲平權,破軍平|地空,地劫|紅鸞|85-94"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 27,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "午田宅|丙|天同,天機,文昌,廉貞",
+       "month": "子子女|丁|太陰,天同,天機,巨門",
+       "day": "辰父母|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 28,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "未官祿|丁|太陰,天同,天機,巨門",
+       "month": "午田宅|壬|天梁,紫微,左輔,武曲",
+       "day": "午田宅|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 31,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "戌疾厄|庚|太陽,武曲,太陰,天同",
+       "month": "寅兄弟|癸|破軍,巨門,太陰,貪狼",
+       "day": "寅兄弟|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己卯 壬申 壬子",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 1
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": false,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false,
+    "notes": "與 iztro 預設設定（dayDivide=forward，晚子時以次日安紫微）差異：12 欄（主星位置）"
+   }
+  },
+  {
+   "fixtureId": "day_boundary_20000316_0000",
+   "covers": [
+    "0點附近",
+    "子時"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2000-03-16",
+    "localTime": "00:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2000-03-16 00:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2000-2-11",
+     "effectiveMonth": 2,
+     "yearGz": "庚辰",
+     "hour": "子",
+     "life": "卯",
+     "body": "卯",
+     "bodyPalace": "命宮",
+     "bureau": "土五局",
+     "forward": true,
+     "birthHua": "太陽祿@福德,武曲權@父母,太陰科@遷移,天同忌@命宮",
+     "notes": [],
+     "palaces": [
+      "子|戊子|子女|廉貞平,天相廟|-|-|95-104",
+      "丑|己丑|夫妻|天梁旺|天魁|-|105-114",
+      "寅|戊寅|兄弟|七殺廟|火星,天馬|天姚|115-124",
+      "卯|己卯|命宮|天同平忌|-|-|5-14",
+      "辰|庚辰|父母|武曲廟權|文曲|-|15-24",
+      "巳|辛巳|福德|太陽旺祿|左輔|天喜|25-34",
+      "午|壬午|田宅|破軍廟|-|-|35-44",
+      "未|癸未|官祿|天機陷|天鉞,陀羅|-|45-54",
+      "申|甲申|交友|紫微旺,天府得|祿存|-|55-64",
+      "酉|乙酉|遷移|太陰旺科|右弼,擎羊|咸池|65-74",
+      "戌|丙戌|疾厄|貪狼廟|文昌,鈴星|天刑|75-84",
+      "亥|丁亥|財帛|巨門旺|地空,地劫|紅鸞|85-94"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 27,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "午田宅|丙|天同,天機,文昌,廉貞",
+       "month": "子子女|丁|太陰,天同,天機,巨門",
+       "day": "辰父母|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 28,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "未官祿|丁|太陰,天同,天機,巨門",
+       "month": "午田宅|壬|天梁,紫微,左輔,武曲",
+       "day": "午田宅|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 31,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "戌疾厄|庚|太陽,武曲,太陰,天同",
+       "month": "寅兄弟|癸|破軍,巨門,太陰,貪狼",
+       "day": "寅兄弟|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己卯 癸酉 壬子",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 1
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "day_boundary_20000316_0001",
+   "covers": [
+    "0點附近",
+    "子時"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2000-03-16",
+    "localTime": "00:01",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2000-03-16 00:01",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2000-2-11",
+     "effectiveMonth": 2,
+     "yearGz": "庚辰",
+     "hour": "子",
+     "life": "卯",
+     "body": "卯",
+     "bodyPalace": "命宮",
+     "bureau": "土五局",
+     "forward": true,
+     "birthHua": "太陽祿@福德,武曲權@父母,太陰科@遷移,天同忌@命宮",
+     "notes": [],
+     "palaces": [
+      "子|戊子|子女|廉貞平,天相廟|-|-|95-104",
+      "丑|己丑|夫妻|天梁旺|天魁|-|105-114",
+      "寅|戊寅|兄弟|七殺廟|火星,天馬|天姚|115-124",
+      "卯|己卯|命宮|天同平忌|-|-|5-14",
+      "辰|庚辰|父母|武曲廟權|文曲|-|15-24",
+      "巳|辛巳|福德|太陽旺祿|左輔|天喜|25-34",
+      "午|壬午|田宅|破軍廟|-|-|35-44",
+      "未|癸未|官祿|天機陷|天鉞,陀羅|-|45-54",
+      "申|甲申|交友|紫微旺,天府得|祿存|-|55-64",
+      "酉|乙酉|遷移|太陰旺科|右弼,擎羊|咸池|65-74",
+      "戌|丙戌|疾厄|貪狼廟|文昌,鈴星|天刑|75-84",
+      "亥|丁亥|財帛|巨門旺|地空,地劫|紅鸞|85-94"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 27,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "午田宅|丙|天同,天機,文昌,廉貞",
+       "month": "子子女|丁|太陰,天同,天機,巨門",
+       "day": "辰父母|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 28,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "未官祿|丁|太陰,天同,天機,巨門",
+       "month": "午田宅|壬|天梁,紫微,左輔,武曲",
+       "day": "午田宅|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 31,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "戌疾厄|庚|太陽,武曲,太陰,天同",
+       "month": "寅兄弟|癸|破軍,巨門,太陰,貪狼",
+       "day": "寅兄弟|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己卯 癸酉 壬子",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 1
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "day_boundary_20000315_2330_earlyZi",
+   "covers": [
+    "23點附近",
+    "舊版早子時設定"
+   ],
+   "note": "舊版匯入之「早子時換日」設定",
+   "input": {
+    "gender": "male",
+    "localDate": "2000-03-15",
+    "localTime": "23:30",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-earlyZi",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2000-03-15 23:30",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2000-2-11",
+     "effectiveMonth": 2,
+     "yearGz": "庚辰",
+     "hour": "子",
+     "life": "卯",
+     "body": "卯",
+     "bodyPalace": "命宮",
+     "bureau": "土五局",
+     "forward": true,
+     "birthHua": "太陽祿@福德,武曲權@父母,太陰科@遷移,天同忌@命宮",
+     "notes": [
+      "生於子初，依設定以次日為紫微生日。"
+     ],
+     "palaces": [
+      "子|戊子|子女|廉貞平,天相廟|-|-|95-104",
+      "丑|己丑|夫妻|天梁旺|天魁|-|105-114",
+      "寅|戊寅|兄弟|七殺廟|火星,天馬|天姚|115-124",
+      "卯|己卯|命宮|天同平忌|-|-|5-14",
+      "辰|庚辰|父母|武曲廟權|文曲|-|15-24",
+      "巳|辛巳|福德|太陽旺祿|左輔|天喜|25-34",
+      "午|壬午|田宅|破軍廟|-|-|35-44",
+      "未|癸未|官祿|天機陷|天鉞,陀羅|-|45-54",
+      "申|甲申|交友|紫微旺,天府得|祿存|-|55-64",
+      "酉|乙酉|遷移|太陰旺科|右弼,擎羊|咸池|65-74",
+      "戌|丙戌|疾厄|貪狼廟|文昌,鈴星|天刑|75-84",
+      "亥|丁亥|財帛|巨門旺|地空,地劫|紅鸞|85-94"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 27,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "午田宅|丙|天同,天機,文昌,廉貞",
+       "month": "子子女|丁|太陰,天同,天機,巨門",
+       "day": "辰父母|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 28,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "未官祿|丁|太陰,天同,天機,巨門",
+       "month": "午田宅|壬|天梁,紫微,左輔,武曲",
+       "day": "午田宅|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 31,
+       "decade": "巳福德|辛|巨門,太陽,文曲,文昌",
+       "year": "戌疾厄|庚|太陽,武曲,太陰,天同",
+       "month": "寅兄弟|癸|破軍,巨門,太陰,貪狼",
+       "day": "寅兄弟|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己卯 癸酉 壬子",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 1
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "spring_festival_before_20240209",
+   "covers": [
+    "春節前後"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2024-02-09",
+    "localTime": "12:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2024-02-09 12:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2023-12-30",
+     "effectiveMonth": 12,
+     "yearGz": "癸卯",
+     "hour": "午",
+     "life": "未",
+     "body": "未",
+     "bodyPalace": "命宮",
+     "bureau": "火六局",
+     "forward": true,
+     "birthHua": "破軍祿@父母,巨門權@遷移,太陰科@官祿,貪狼忌@交友",
+     "notes": [],
+     "palaces": [
+      "子|甲子|交友|貪狼旺忌|祿存|咸池,紅鸞,天姚|56-65",
+      "丑|乙丑|遷移|天同不,巨門不權|擎羊|-|66-75",
+      "寅|甲寅|疾厄|武曲得,天相廟|-|-|76-85",
+      "卯|乙卯|財帛|太陽廟,天梁廟|左輔,天魁,火星|-|86-95",
+      "辰|丙辰|子女|七殺廟|文昌,鈴星|-|96-105",
+      "巳|丁巳|夫妻|天機平|天鉞,地空,地劫,天馬|-|106-115",
+      "午|戊午|兄弟|紫微廟|-|天喜|116-125",
+      "未|己未|命宮|-|-|-|6-15",
+      "申|庚申|父母|破軍得祿|-|天刑|16-25",
+      "酉|辛酉|福德|-|-|-|26-35",
+      "戌|壬戌|田宅|廉貞利,天府廟|文曲|-|36-45",
+      "亥|癸亥|官祿|太陰廟科|右弼,陀羅|-|46-55"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 4,
+       "decade": null,
+       "year": "午兄弟|丙|天同,天機,文昌,廉貞",
+       "month": "申父母|丁|太陰,天同,天機,巨門",
+       "day": "子交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 5,
+       "decade": null,
+       "year": "未命宮|丁|太陰,天同,天機,巨門",
+       "month": "寅疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "寅疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 8,
+       "decade": "未命宮|己|武曲,貪狼,天梁,文曲",
+       "year": "戌田宅|庚|太陽,武曲,太陰,天同",
+       "month": "戌田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "戌田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "甲辰 丙寅 癸卯 戊午",
+     "qimenNianMing": "壬",
+     "ichingPersonalNo": 7
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "spring_festival_after_20240210",
+   "covers": [
+    "春節前後"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2024-02-10",
+    "localTime": "12:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2024-02-10 12:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2024-1-1",
+     "effectiveMonth": 1,
+     "yearGz": "甲辰",
+     "hour": "午",
+     "life": "申",
+     "body": "申",
+     "bodyPalace": "命宮",
+     "bureau": "金四局",
+     "forward": false,
+     "birthHua": "廉貞祿@疾厄,破軍權@疾厄,武曲科@兄弟,太陽忌@命宮",
+     "notes": [],
+     "palaces": [
+      "子|丙子|官祿|-|-|-|84-93",
+      "丑|丁丑|交友|-|天魁,陀羅|天姚|74-83",
+      "寅|丙寅|遷移|-|祿存,天馬|-|64-73",
+      "卯|丁卯|疾厄|廉貞平祿,破軍陷權|擎羊|-|54-63",
+      "辰|戊辰|財帛|-|左輔,文昌,鈴星|-|44-53",
+      "巳|己巳|子女|天府得|地空,地劫|天喜|34-43",
+      "午|庚午|夫妻|天同陷,太陰不|-|-|24-33",
+      "未|辛未|兄弟|武曲廟科,貪狼廟|天鉞|-|14-23",
+      "申|壬申|命宮|太陽得忌,巨門廟|火星|-|4-13",
+      "酉|癸酉|父母|天相陷|-|咸池,天刑|114-123",
+      "戌|甲戌|福德|天機利,天梁廟|右弼,文曲|-|104-113",
+      "亥|乙亥|田宅|紫微旺,七殺平|-|紅鸞|94-103"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 3,
+       "decade": null,
+       "year": "午夫妻|丙|天同,天機,文昌,廉貞",
+       "month": "未兄弟|丁|太陰,天同,天機,巨門",
+       "day": "亥田宅|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 4,
+       "decade": "申命宮|壬|天梁,紫微,左輔,武曲",
+       "year": "未兄弟|丁|太陰,天同,天機,巨門",
+       "month": "丑交友|壬|天梁,紫微,左輔,武曲",
+       "day": "丑交友|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 7,
+       "decade": "申命宮|壬|天梁,紫微,左輔,武曲",
+       "year": "戌福德|庚|太陽,武曲,太陰,天同",
+       "month": "酉父母|癸|破軍,巨門,太陰,貪狼",
+       "day": "酉父母|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "甲辰 丙寅 甲辰 庚午",
+     "qimenNianMing": "壬",
+     "ichingPersonalNo": 7
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "lichun_before_20240204_1600",
+   "covers": [
+    "立春前後"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2024-02-04",
+    "localTime": "16:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2024-02-04 16:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2023-12-25",
+     "effectiveMonth": 12,
+     "yearGz": "癸卯",
+     "hour": "申",
+     "life": "巳",
+     "body": "酉",
+     "bodyPalace": "官祿",
+     "bureau": "土五局",
+     "forward": false,
+     "birthHua": "破軍祿@田宅,巨門權@財帛,太陰科@遷移,貪狼忌@疾厄",
+     "notes": [],
+     "palaces": [
+      "子|甲子|疾厄|貪狼旺忌|文曲,祿存|咸池,紅鸞,天姚|55-64",
+      "丑|乙丑|財帛|天同不,巨門不權|擎羊|-|45-54",
+      "寅|甲寅|子女|武曲得,天相廟|文昌|-|35-44",
+      "卯|乙卯|夫妻|太陽廟,天梁廟|左輔,天魁,地空|-|25-34",
+      "辰|丙辰|兄弟|七殺廟|-|-|15-24",
+      "巳|丁巳|命宮|天機平|天鉞,火星,天馬|-|5-14",
+      "午|戊午|父母|紫微廟|鈴星|天喜|115-124",
+      "未|己未|福德|-|地劫|-|105-114",
+      "申|庚申|田宅|破軍得祿|-|天刑|95-104",
+      "酉|辛酉|官祿|-|-|-|85-94",
+      "戌|壬戌|交友|廉貞利,天府廟|-|-|75-84",
+      "亥|癸亥|遷移|太陰廟科|右弼,陀羅|-|65-74"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 4,
+       "decade": null,
+       "year": "午父母|丙|天同,天機,文昌,廉貞",
+       "month": "戌交友|丁|太陰,天同,天機,巨門",
+       "day": "寅子女|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 5,
+       "decade": "巳命宮|丁|太陰,天同,天機,巨門",
+       "year": "未福德|丁|太陰,天同,天機,巨門",
+       "month": "辰兄弟|壬|天梁,紫微,左輔,武曲",
+       "day": "辰兄弟|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 8,
+       "decade": "巳命宮|丁|太陰,天同,天機,巨門",
+       "year": "戌交友|庚|太陽,武曲,太陰,天同",
+       "month": "子疾厄|癸|破軍,巨門,太陰,貪狼",
+       "day": "子疾厄|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "癸卯 乙丑 戊戌 庚申",
+     "qimenNianMing": "癸",
+     "ichingPersonalNo": 9
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "lichun_after_20240204_1700",
+   "covers": [
+    "立春前後"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2024-02-04",
+    "localTime": "17:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2024-02-04 17:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2023-12-25",
+     "effectiveMonth": 12,
+     "yearGz": "癸卯",
+     "hour": "酉",
+     "life": "辰",
+     "body": "戌",
+     "bodyPalace": "遷移",
+     "bureau": "土五局",
+     "forward": false,
+     "birthHua": "破軍祿@官祿,巨門權@子女,太陰科@疾厄,貪狼忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|甲子|財帛|貪狼旺忌|祿存|咸池,紅鸞,天姚|45-54",
+      "丑|乙丑|子女|天同不,巨門不權|文昌,文曲,擎羊|-|35-44",
+      "寅|甲寅|夫妻|武曲得,天相廟|地空|-|25-34",
+      "卯|乙卯|兄弟|太陽廟,天梁廟|左輔,天魁|-|15-24",
+      "辰|丙辰|命宮|七殺廟|-|-|5-14",
+      "巳|丁巳|父母|天機平|天鉞,天馬|-|115-124",
+      "午|戊午|福德|紫微廟|火星|天喜|105-114",
+      "未|己未|田宅|-|鈴星|-|95-104",
+      "申|庚申|官祿|破軍得祿|地劫|天刑|85-94",
+      "酉|辛酉|交友|-|-|-|75-84",
+      "戌|壬戌|遷移|廉貞利,天府廟|-|-|65-74",
+      "亥|癸亥|疾厄|太陰廟科|右弼,陀羅|-|55-64"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 4,
+       "decade": null,
+       "year": "午福德|丙|天同,天機,文昌,廉貞",
+       "month": "亥疾厄|丁|太陰,天同,天機,巨門",
+       "day": "卯兄弟|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 5,
+       "decade": "辰命宮|丙|天同,天機,文昌,廉貞",
+       "year": "未田宅|丁|太陰,天同,天機,巨門",
+       "month": "巳父母|壬|天梁,紫微,左輔,武曲",
+       "day": "巳父母|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 8,
+       "decade": "辰命宮|丙|天同,天機,文昌,廉貞",
+       "year": "戌遷移|庚|太陽,武曲,太陰,天同",
+       "month": "丑子女|癸|破軍,巨門,太陰,貪狼",
+       "day": "丑子女|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "甲辰 丙寅 戊戌 辛酉",
+     "qimenNianMing": "壬",
+     "ichingPersonalNo": 10
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "lichun_after_newyear_before_20240205",
+   "covers": [
+    "立春前後",
+    "春節前後"
+   ],
+   "note": "立春後、春節前：八字已換年、紫微尚未換年",
+   "input": {
+    "gender": "male",
+    "localDate": "2024-02-05",
+    "localTime": "12:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2024-02-05 12:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2023-12-26",
+     "effectiveMonth": 12,
+     "yearGz": "癸卯",
+     "hour": "午",
+     "life": "未",
+     "body": "未",
+     "bodyPalace": "命宮",
+     "bureau": "火六局",
+     "forward": false,
+     "birthHua": "破軍祿@子女,巨門權@福德,太陰科@命宮,貪狼忌@父母",
+     "notes": [],
+     "palaces": [
+      "子|甲子|交友|七殺旺|祿存|咸池,紅鸞,天姚|76-85",
+      "丑|乙丑|遷移|-|擎羊|-|66-75",
+      "寅|甲寅|疾厄|廉貞廟|-|-|56-65",
+      "卯|乙卯|財帛|-|左輔,天魁,火星|-|46-55",
+      "辰|丙辰|子女|破軍旺祿|文昌,鈴星|-|36-45",
+      "巳|丁巳|夫妻|天同廟|天鉞,地空,地劫,天馬|-|26-35",
+      "午|戊午|兄弟|武曲旺,天府旺|-|天喜|16-25",
+      "未|己未|命宮|太陽得,太陰不科|-|-|6-15",
+      "申|庚申|父母|貪狼平忌|-|天刑|116-125",
+      "酉|辛酉|福德|天機旺,巨門廟權|-|-|106-115",
+      "戌|壬戌|田宅|紫微得,天相得|文曲|-|96-105",
+      "亥|癸亥|官祿|天梁陷|右弼,陀羅|-|86-95"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 4,
+       "decade": null,
+       "year": "午兄弟|丙|天同,天機,文昌,廉貞",
+       "month": "申父母|丁|太陰,天同,天機,巨門",
+       "day": "子交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 5,
+       "decade": null,
+       "year": "未命宮|丁|太陰,天同,天機,巨門",
+       "month": "寅疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "寅疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 8,
+       "decade": "未命宮|己|武曲,貪狼,天梁,文曲",
+       "year": "戌田宅|庚|太陽,武曲,太陰,天同",
+       "month": "戌田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "戌田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "甲辰 丙寅 己亥 庚午",
+     "qimenNianMing": "壬",
+     "ichingPersonalNo": 7
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "leap_2023_leap2_d14",
+   "covers": [
+    "閏月十四"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2023-04-04",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2023-04-04 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2023-閏2-14",
+     "effectiveMonth": 2,
+     "yearGz": "癸卯",
+     "hour": "巳",
+     "life": "戌",
+     "body": "申",
+     "bodyPalace": "夫妻",
+     "bureau": "水二局",
+     "forward": true,
+     "birthHua": "破軍祿@財帛,巨門權@父母,太陰科@兄弟,貪狼忌@命宮",
+     "notes": [
+      "生於閏2月14日，依「十五日前算本月、後算下月」以2月安星。"
+     ],
+     "palaces": [
+      "子|甲子|福德|廉貞平,天相廟|祿存|咸池,紅鸞|22-31",
+      "丑|乙丑|田宅|天梁旺|擎羊|-|32-41",
+      "寅|甲寅|官祿|七殺廟|火星|天姚|42-51",
+      "卯|乙卯|交友|天同平|天魁,鈴星|-|52-61",
+      "辰|丙辰|遷移|武曲廟|地劫|-|62-71",
+      "巳|丁巳|疾厄|太陽旺|左輔,文昌,天鉞,天馬|-|72-81",
+      "午|戊午|財帛|破軍廟祿|地空|天喜|82-91",
+      "未|己未|子女|天機陷|-|-|92-101",
+      "申|庚申|夫妻|紫微旺,天府得|-|-|102-111",
+      "酉|辛酉|兄弟|太陰旺科|右弼,文曲|-|112-121",
+      "戌|壬戌|命宮|貪狼廟忌|-|天刑|2-11",
+      "亥|癸亥|父母|巨門旺權|陀羅|-|12-21"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 4,
+       "decade": "戌命宮|壬|天梁,紫微,左輔,武曲",
+       "year": "午財帛|丙|天同,天機,文昌,廉貞",
+       "month": "巳疾厄|丁|太陰,天同,天機,巨門",
+       "day": "酉兄弟|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 5,
+       "decade": "戌命宮|壬|天梁,紫微,左輔,武曲",
+       "year": "未子女|丁|太陰,天同,天機,巨門",
+       "month": "亥父母|壬|天梁,紫微,左輔,武曲",
+       "day": "亥父母|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 8,
+       "decade": "戌命宮|壬|天梁,紫微,左輔,武曲",
+       "year": "戌命宮|庚|太陽,武曲,太陰,天同",
+       "month": "未子女|癸|破軍,巨門,太陰,貪狼",
+       "day": "未子女|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "癸卯 乙卯 壬辰 乙巳",
+     "qimenNianMing": "癸",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "leap_2023_leap2_d15",
+   "covers": [
+    "閏月十五"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2023-04-05",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2023-04-05 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2023-閏2-15",
+     "effectiveMonth": 2,
+     "yearGz": "癸卯",
+     "hour": "巳",
+     "life": "戌",
+     "body": "申",
+     "bodyPalace": "夫妻",
+     "bureau": "水二局",
+     "forward": false,
+     "birthHua": "破軍祿@財帛,巨門權@父母,太陰科@兄弟,貪狼忌@命宮",
+     "notes": [
+      "生於閏2月15日，依「十五日前算本月、後算下月」以2月安星。"
+     ],
+     "palaces": [
+      "子|甲子|福德|廉貞平,天相廟|祿存|咸池,紅鸞|102-111",
+      "丑|乙丑|田宅|天梁旺|擎羊|-|92-101",
+      "寅|甲寅|官祿|七殺廟|火星|天姚|82-91",
+      "卯|乙卯|交友|天同平|天魁,鈴星|-|72-81",
+      "辰|丙辰|遷移|武曲廟|地劫|-|62-71",
+      "巳|丁巳|疾厄|太陽旺|左輔,文昌,天鉞,天馬|-|52-61",
+      "午|戊午|財帛|破軍廟祿|地空|天喜|42-51",
+      "未|己未|子女|天機陷|-|-|32-41",
+      "申|庚申|夫妻|紫微旺,天府得|-|-|22-31",
+      "酉|辛酉|兄弟|太陰旺科|右弼,文曲|-|12-21",
+      "戌|壬戌|命宮|貪狼廟忌|-|天刑|2-11",
+      "亥|癸亥|父母|巨門旺權|陀羅|-|112-121"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 4,
+       "decade": "戌命宮|壬|天梁,紫微,左輔,武曲",
+       "year": "午財帛|丙|天同,天機,文昌,廉貞",
+       "month": "巳疾厄|丁|太陰,天同,天機,巨門",
+       "day": "酉兄弟|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 5,
+       "decade": "戌命宮|壬|天梁,紫微,左輔,武曲",
+       "year": "未子女|丁|太陰,天同,天機,巨門",
+       "month": "亥父母|壬|天梁,紫微,左輔,武曲",
+       "day": "亥父母|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 8,
+       "decade": "戌命宮|壬|天梁,紫微,左輔,武曲",
+       "year": "戌命宮|庚|太陽,武曲,太陰,天同",
+       "month": "未子女|癸|破軍,巨門,太陰,貪狼",
+       "day": "未子女|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "癸卯 丙辰 癸巳 丁巳",
+     "qimenNianMing": "癸",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "leap_2023_leap2_d16",
+   "covers": [
+    "閏月十六"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2023-04-06",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2023-04-06 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2023-閏2-16",
+     "effectiveMonth": 3,
+     "yearGz": "癸卯",
+     "hour": "巳",
+     "life": "亥",
+     "body": "酉",
+     "bodyPalace": "夫妻",
+     "bureau": "水二局",
+     "forward": true,
+     "birthHua": "破軍祿@遷移,巨門權@兄弟,太陰科@子女,貪狼忌@夫妻",
+     "notes": [
+      "生於閏2月16日，依「十五日前算本月、後算下月」以3月安星。"
+     ],
+     "palaces": [
+      "子|甲子|父母|天梁廟|祿存|咸池,紅鸞|12-21",
+      "丑|乙丑|福德|廉貞利,七殺廟|擎羊|-|22-31",
+      "寅|甲寅|田宅|-|火星|-|32-41",
+      "卯|乙卯|官祿|-|天魁,鈴星|天姚|42-51",
+      "辰|丙辰|交友|天同平|地劫|-|52-61",
+      "巳|丁巳|遷移|武曲平,破軍平祿|文昌,天鉞,天馬|-|62-71",
+      "午|戊午|疾厄|太陽旺|左輔,地空|天喜|72-81",
+      "未|己未|財帛|天府廟|-|-|82-91",
+      "申|庚申|子女|天機得,太陰利科|右弼|-|92-101",
+      "酉|辛酉|夫妻|紫微旺,貪狼利忌|文曲|-|102-111",
+      "戌|壬戌|兄弟|巨門陷權|-|-|112-121",
+      "亥|癸亥|命宮|天相得|陀羅|天刑|2-11"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 4,
+       "decade": "亥命宮|癸|破軍,巨門,太陰,貪狼",
+       "year": "午疾厄|丙|天同,天機,文昌,廉貞",
+       "month": "辰交友|丁|太陰,天同,天機,巨門",
+       "day": "申子女|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 5,
+       "decade": "亥命宮|癸|破軍,巨門,太陰,貪狼",
+       "year": "未財帛|丁|太陰,天同,天機,巨門",
+       "month": "戌兄弟|壬|天梁,紫微,左輔,武曲",
+       "day": "戌兄弟|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 8,
+       "decade": "亥命宮|癸|破軍,巨門,太陰,貪狼",
+       "year": "戌兄弟|庚|太陽,武曲,太陰,天同",
+       "month": "午疾厄|癸|破軍,巨門,太陰,貪狼",
+       "day": "午疾厄|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "癸卯 丙辰 甲午 己巳",
+     "qimenNianMing": "癸",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1984_male",
+   "covers": [
+    "年干甲",
+    "陽年",
+    "男"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "1984-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1984-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1984-5-16",
+     "effectiveMonth": 5,
+     "yearGz": "甲子",
+     "hour": "巳",
+     "life": "丑",
+     "body": "亥",
+     "bodyPalace": "夫妻",
+     "bureau": "水二局",
+     "forward": true,
+     "birthHua": "廉貞祿@命宮,破軍權@官祿,武曲科@官祿,太陽忌@交友",
+     "notes": [],
+     "palaces": [
+      "子|丙子|兄弟|天梁廟|-|-|112-121",
+      "丑|丁丑|命宮|廉貞利祿,七殺廟|天魁,陀羅|天刑|2-11",
+      "寅|丙寅|父母|-|祿存,天馬|-|12-21",
+      "卯|丁卯|福德|-|擎羊,鈴星|紅鸞|22-31",
+      "辰|戊辰|田宅|天同平|地劫|-|32-41",
+      "巳|己巳|官祿|武曲平科,破軍平權|文昌|天姚|42-51",
+      "午|庚午|交友|太陽旺忌|右弼,地空|-|52-61",
+      "未|辛未|遷移|天府廟|天鉞,火星|-|62-71",
+      "申|壬申|疾厄|天機得,太陰利|左輔|-|72-81",
+      "酉|癸酉|財帛|紫微旺,貪狼利|文曲|咸池,天喜|82-91",
+      "戌|甲戌|子女|巨門陷|-|-|92-101",
+      "亥|乙亥|夫妻|天相得|-|-|102-111"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 43,
+       "decade": "巳官祿|己|武曲,貪狼,天梁,文曲",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 44,
+       "decade": "巳官祿|己|武曲,貪狼,天梁,文曲",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 47,
+       "decade": "巳官祿|己|武曲,貪狼,天梁,文曲",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "甲子 庚午 庚辰 辛巳",
+     "qimenNianMing": "戊",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1985_male",
+   "covers": [
+    "年干乙",
+    "陰年",
+    "男"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "1985-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1985-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1985-4-27",
+     "effectiveMonth": 4,
+     "yearGz": "乙丑",
+     "hour": "巳",
+     "life": "子",
+     "body": "戌",
+     "bodyPalace": "夫妻",
+     "bureau": "火六局",
+     "forward": false,
+     "birthHua": "天機祿@福德,天梁權@遷移,紫微科@田宅,太陰忌@福德",
+     "notes": [],
+     "palaces": [
+      "子|戊子|命宮|太陽陷|天魁|天刑|6-15",
+      "丑|己丑|父母|天府廟|-|-|116-125",
+      "寅|戊寅|福德|天機得祿,太陰旺忌|陀羅|紅鸞|106-115",
+      "卯|己卯|田宅|紫微旺科,貪狼利|祿存,鈴星|-|96-105",
+      "辰|庚辰|官祿|巨門陷|擎羊,地劫|天姚|86-95",
+      "巳|辛巳|交友|天相得|文昌|-|76-85",
+      "午|壬午|遷移|天梁廟權|地空|咸池|66-75",
+      "未|癸未|疾厄|廉貞利,七殺廟|左輔,右弼|-|56-65",
+      "申|甲申|財帛|-|天鉞,火星|天喜|46-55",
+      "酉|乙酉|子女|-|文曲|-|36-45",
+      "戌|丙戌|夫妻|天同平|-|-|26-35",
+      "亥|丁亥|兄弟|武曲平,破軍平|天馬|-|16-25"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 42,
+       "decade": "酉子女|乙|天機,天梁,紫微,太陰",
+       "year": "午遷移|丙|天同,天機,文昌,廉貞",
+       "month": "卯田宅|丁|太陰,天同,天機,巨門",
+       "day": "未疾厄|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 43,
+       "decade": "酉子女|乙|天機,天梁,紫微,太陰",
+       "year": "未疾厄|丁|太陰,天同,天機,巨門",
+       "month": "酉子女|壬|天梁,紫微,左輔,武曲",
+       "day": "酉子女|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 46,
+       "decade": "申財帛|甲|廉貞,破軍,武曲,太陽",
+       "year": "戌夫妻|庚|太陽,武曲,太陰,天同",
+       "month": "巳交友|癸|破軍,巨門,太陰,貪狼",
+       "day": "巳交友|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "乙丑 壬午 乙酉 辛巳",
+     "qimenNianMing": "乙",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1986_female",
+   "covers": [
+    "年干丙",
+    "陽年",
+    "女"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1986-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1986-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1986-5-9",
+     "effectiveMonth": 5,
+     "yearGz": "丙寅",
+     "hour": "巳",
+     "life": "丑",
+     "body": "亥",
+     "bodyPalace": "夫妻",
+     "bureau": "土五局",
+     "forward": false,
+     "birthHua": "天同祿@財帛,天機權@命宮,文昌科@官祿,廉貞忌@交友",
+     "notes": [],
+     "palaces": [
+      "子|庚子|兄弟|破軍廟|-|-|15-24",
+      "丑|辛丑|命宮|天機陷權|-|紅鸞,天刑|5-14",
+      "寅|庚寅|父母|紫微旺,天府廟|-|-|115-124",
+      "卯|辛卯|福德|太陰陷|-|咸池|105-114",
+      "辰|壬辰|田宅|貪狼廟|陀羅,地劫|-|95-104",
+      "巳|癸巳|官祿|巨門旺|文昌科,祿存|天姚|85-94",
+      "午|甲午|交友|廉貞平忌,天相廟|右弼,擎羊,地空,火星|-|75-84",
+      "未|乙未|遷移|天梁旺|-|天喜|65-74",
+      "申|丙申|疾厄|七殺廟|左輔,鈴星,天馬|-|55-64",
+      "酉|丁酉|財帛|天同平祿|文曲,天鉞|-|45-54",
+      "戌|戊戌|子女|武曲廟|-|-|35-44",
+      "亥|己亥|夫妻|太陽陷|天魁|-|25-34"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 41,
+       "decade": "戌子女|戊|貪狼,太陰,右弼,天機",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 42,
+       "decade": "戌子女|戊|貪狼,太陰,右弼,天機",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 45,
+       "decade": "酉財帛|丁|太陰,天同,天機,巨門",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "丙寅 甲午 庚寅 辛巳",
+     "qimenNianMing": "丙",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1987_female",
+   "covers": [
+    "年干丁",
+    "陰年",
+    "女"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1987-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1987-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1987-5-20",
+     "effectiveMonth": 5,
+     "yearGz": "丁卯",
+     "hour": "巳",
+     "life": "丑",
+     "body": "亥",
+     "bodyPalace": "夫妻",
+     "bureau": "木三局",
+     "forward": true,
+     "birthHua": "太陰祿@子女,天同權@父母,天機科@交友,巨門忌@兄弟",
+     "notes": [],
+     "palaces": [
+      "子|壬子|兄弟|巨門旺忌|-|咸池,紅鸞|113-122",
+      "丑|癸丑|命宮|天相廟|-|天刑|3-12",
+      "寅|壬寅|父母|天同利權,天梁廟|火星|-|13-22",
+      "卯|癸卯|福德|武曲利,七殺旺|鈴星|-|23-32",
+      "辰|甲辰|田宅|太陽旺|地劫|-|33-42",
+      "巳|乙巳|官祿|-|文昌,陀羅,天馬|天姚|43-52",
+      "午|丙午|交友|天機廟科|右弼,祿存,地空|天喜|53-62",
+      "未|丁未|遷移|紫微廟,破軍旺|擎羊|-|63-72",
+      "申|戊申|疾厄|-|左輔|-|73-82",
+      "酉|己酉|財帛|天府旺|文曲,天鉞|-|83-92",
+      "戌|庚戌|子女|太陰旺祿|-|-|93-102",
+      "亥|辛亥|夫妻|廉貞陷,貪狼陷|天魁|-|103-112"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 40,
+       "decade": "辰田宅|甲|廉貞,破軍,武曲,太陽",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 41,
+       "decade": "辰田宅|甲|廉貞,破軍,武曲,太陽",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 44,
+       "decade": "巳官祿|乙|天機,天梁,紫微,太陰",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "丁卯 丙午 乙未 辛巳",
+     "qimenNianMing": "丁",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1988_male",
+   "covers": [
+    "年干戊",
+    "陽年",
+    "男"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "1988-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1988-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1988-5-2",
+     "effectiveMonth": 5,
+     "yearGz": "戊辰",
+     "hour": "巳",
+     "life": "丑",
+     "body": "亥",
+     "bodyPalace": "夫妻",
+     "bureau": "金四局",
+     "forward": true,
+     "birthHua": "貪狼祿@父母,太陰權@命宮,右弼科@交友,天機忌@福德",
+     "notes": [],
+     "palaces": [
+      "子|甲子|兄弟|武曲旺,天府廟|-|-|114-123",
+      "丑|乙丑|命宮|太陽不,太陰廟權|天魁|天刑|4-13",
+      "寅|甲寅|父母|貪狼平祿|天馬|-|14-23",
+      "卯|乙卯|福德|天機旺忌,巨門廟|鈴星|-|24-33",
+      "辰|丙辰|田宅|紫微得,天相得|陀羅,地劫|-|34-43",
+      "巳|丁巳|官祿|天梁陷|文昌,祿存|天喜,天姚|44-53",
+      "午|戊午|交友|七殺旺|右弼科,擎羊,地空|-|54-63",
+      "未|己未|遷移|-|天鉞,火星|-|64-73",
+      "申|庚申|疾厄|廉貞廟|左輔|-|74-83",
+      "酉|辛酉|財帛|-|文曲|咸池|84-93",
+      "戌|壬戌|子女|破軍旺|-|-|94-103",
+      "亥|癸亥|夫妻|天同廟|-|紅鸞|104-113"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 39,
+       "decade": "辰田宅|丙|天同,天機,文昌,廉貞",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 40,
+       "decade": "辰田宅|丙|天同,天機,文昌,廉貞",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 43,
+       "decade": "辰田宅|丙|天同,天機,文昌,廉貞",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "戊辰 戊午 辛丑 癸巳",
+     "qimenNianMing": "戊",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1989_male",
+   "covers": [
+    "年干己",
+    "陰年",
+    "男"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "1989-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1989-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1989-5-12",
+     "effectiveMonth": 5,
+     "yearGz": "己巳",
+     "hour": "巳",
+     "life": "丑",
+     "body": "亥",
+     "bodyPalace": "夫妻",
+     "bureau": "水二局",
+     "forward": false,
+     "birthHua": "武曲祿@福德,貪狼權@夫妻,天梁科@父母,文曲忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|丙子|兄弟|巨門旺|天魁|-|12-21",
+      "丑|丁丑|命宮|天相廟|-|天刑|2-11",
+      "寅|丙寅|父母|天同利,天梁廟科|-|-|112-121",
+      "卯|丁卯|福德|武曲利祿,七殺旺|鈴星|-|102-111",
+      "辰|戊辰|田宅|太陽旺|地劫|天喜|92-101",
+      "巳|己巳|官祿|-|文昌,陀羅|天姚|82-91",
+      "午|庚午|交友|天機廟|右弼,祿存,地空|咸池|72-81",
+      "未|辛未|遷移|紫微廟,破軍旺|擎羊|-|62-71",
+      "申|壬申|疾厄|-|左輔,天鉞,火星|-|52-61",
+      "酉|癸酉|財帛|天府旺|文曲忌|-|42-51",
+      "戌|甲戌|子女|太陰旺|-|紅鸞|32-41",
+      "亥|乙亥|夫妻|廉貞陷,貪狼陷權|天馬|-|22-31"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 38,
+       "decade": "戌子女|甲|廉貞,破軍,武曲,太陽",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 39,
+       "decade": "戌子女|甲|廉貞,破軍,武曲,太陽",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 42,
+       "decade": "酉財帛|癸|破軍,巨門,太陰,貪狼",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "己巳 庚午 丙午 癸巳",
+     "qimenNianMing": "己",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1990_female",
+   "covers": [
+    "年干庚",
+    "陽年",
+    "女"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1990-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1990-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1990-5-23",
+     "effectiveMonth": 5,
+     "yearGz": "庚午",
+     "hour": "巳",
+     "life": "丑",
+     "body": "亥",
+     "bodyPalace": "夫妻",
+     "bureau": "火六局",
+     "forward": false,
+     "birthHua": "太陽祿@命宮,武曲權@兄弟,太陰科@命宮,天同忌@夫妻",
+     "notes": [],
+     "palaces": [
+      "子|戊子|兄弟|武曲旺權,天府廟|-|-|16-25",
+      "丑|己丑|命宮|太陽不祿,太陰廟科|天魁|天刑|6-15",
+      "寅|戊寅|父母|貪狼平|-|-|116-125",
+      "卯|己卯|福德|天機旺,巨門廟|-|咸池,天喜|106-115",
+      "辰|庚辰|田宅|紫微得,天相得|地劫|-|96-105",
+      "巳|辛巳|官祿|天梁陷|文昌|天姚|86-95",
+      "午|壬午|交友|七殺旺|右弼,地空,火星|-|76-85",
+      "未|癸未|遷移|-|天鉞,陀羅|-|66-75",
+      "申|甲申|疾厄|廉貞廟|左輔,祿存,鈴星,天馬|-|56-65",
+      "酉|乙酉|財帛|-|文曲,擎羊|紅鸞|46-55",
+      "戌|丙戌|子女|破軍旺|-|-|36-45",
+      "亥|丁亥|夫妻|天同廟忌|-|-|26-35"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 37,
+       "decade": "戌子女|丙|天同,天機,文昌,廉貞",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 38,
+       "decade": "戌子女|丙|天同,天機,文昌,廉貞",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 41,
+       "decade": "戌子女|丙|天同,天機,文昌,廉貞",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚午 壬午 辛亥 癸巳",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1991_female",
+   "covers": [
+    "年干辛",
+    "陰年",
+    "女"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1991-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1991-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1991-5-4",
+     "effectiveMonth": 5,
+     "yearGz": "辛未",
+     "hour": "巳",
+     "life": "丑",
+     "body": "亥",
+     "bodyPalace": "夫妻",
+     "bureau": "土五局",
+     "forward": true,
+     "birthHua": "巨門祿@交友,太陽權@子女,文曲科@財帛,文昌忌@官祿",
+     "notes": [],
+     "palaces": [
+      "子|庚子|兄弟|天機廟|-|咸池|115-124",
+      "丑|辛丑|命宮|紫微廟,破軍旺|-|天刑|5-14",
+      "寅|庚寅|父母|-|天鉞,火星|天喜|15-24",
+      "卯|辛卯|福德|天府得|鈴星|-|25-34",
+      "辰|壬辰|田宅|太陰陷|地劫|-|35-44",
+      "巳|癸巳|官祿|廉貞陷,貪狼陷|文昌忌,天馬|天姚|45-54",
+      "午|甲午|交友|巨門旺祿|右弼,天魁,地空|-|55-64",
+      "未|乙未|遷移|天相得|-|-|65-74",
+      "申|丙申|疾厄|天同旺,天梁陷|左輔,陀羅|紅鸞|75-84",
+      "酉|丁酉|財帛|武曲利,七殺旺|文曲科,祿存|-|85-94",
+      "戌|戊戌|子女|太陽不權|擎羊|-|95-104",
+      "亥|己亥|夫妻|-|-|-|105-114"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 36,
+       "decade": "辰田宅|壬|天梁,紫微,左輔,武曲",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 37,
+       "decade": "辰田宅|壬|天梁,紫微,左輔,武曲",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 40,
+       "decade": "辰田宅|壬|天梁,紫微,左輔,武曲",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "辛未 甲午 丙辰 癸巳",
+     "qimenNianMing": "辛",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1992_male",
+   "covers": [
+    "年干壬",
+    "陽年",
+    "男"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "1992-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1992-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1992-5-15",
+     "effectiveMonth": 5,
+     "yearGz": "壬申",
+     "hour": "巳",
+     "life": "丑",
+     "body": "亥",
+     "bodyPalace": "夫妻",
+     "bureau": "木三局",
+     "forward": true,
+     "birthHua": "天梁祿@福德,紫微權@交友,左輔科@疾厄,武曲忌@父母",
+     "notes": [],
+     "palaces": [
+      "子|壬子|兄弟|貪狼旺|擎羊|-|113-122",
+      "丑|癸丑|命宮|天同不,巨門不|-|天喜,天刑|3-12",
+      "寅|壬寅|父母|武曲得忌,天相廟|天馬|-|13-22",
+      "卯|癸卯|福德|太陽廟,天梁廟祿|天魁,鈴星|-|23-32",
+      "辰|甲辰|田宅|七殺廟|地劫|-|33-42",
+      "巳|乙巳|官祿|天機平|文昌,天鉞|天姚|43-52",
+      "午|丙午|交友|紫微廟權|右弼,地空|-|53-62",
+      "未|丁未|遷移|-|火星|紅鸞|63-72",
+      "申|戊申|疾厄|破軍得|左輔科|-|73-82",
+      "酉|己酉|財帛|-|文曲|咸池|83-92",
+      "戌|庚戌|子女|廉貞利,天府廟|陀羅|-|93-102",
+      "亥|辛亥|夫妻|太陰廟|祿存|-|103-112"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 35,
+       "decade": "辰田宅|甲|廉貞,破軍,武曲,太陽",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 36,
+       "decade": "辰田宅|甲|廉貞,破軍,武曲,太陽",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 39,
+       "decade": "辰田宅|甲|廉貞,破軍,武曲,太陽",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "壬申 丙午 壬戌 乙巳",
+     "qimenNianMing": "壬",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "stem_1993_male",
+   "covers": [
+    "年干癸",
+    "陰年",
+    "男"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "1993-06-15",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1993-06-15 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1993-4-26",
+     "effectiveMonth": 4,
+     "yearGz": "癸酉",
+     "hour": "巳",
+     "life": "子",
+     "body": "戌",
+     "bodyPalace": "夫妻",
+     "bureau": "金四局",
+     "forward": false,
+     "birthHua": "破軍祿@官祿,巨門權@子女,太陰科@疾厄,貪狼忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|甲子|命宮|七殺旺|祿存|天喜,天刑|4-13",
+      "丑|乙丑|父母|-|擎羊|-|114-123",
+      "寅|甲寅|福德|廉貞廟|-|-|104-113",
+      "卯|乙卯|田宅|-|天魁,鈴星|-|94-103",
+      "辰|丙辰|官祿|破軍旺祿|地劫|天姚|84-93",
+      "巳|丁巳|交友|天同廟|文昌,天鉞|-|74-83",
+      "午|戊午|遷移|武曲旺,天府旺|地空|咸池,紅鸞|64-73",
+      "未|己未|疾厄|太陽得,太陰不科|左輔,右弼|-|54-63",
+      "申|庚申|財帛|貪狼平忌|火星|-|44-53",
+      "酉|辛酉|子女|天機旺,巨門廟權|文曲|-|34-43",
+      "戌|壬戌|夫妻|紫微得,天相得|-|-|24-33",
+      "亥|癸亥|兄弟|天梁陷|陀羅,天馬|-|14-23"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 34,
+       "decade": "酉子女|辛|巨門,太陽,文曲,文昌",
+       "year": "午遷移|丙|天同,天機,文昌,廉貞",
+       "month": "卯田宅|丁|太陰,天同,天機,巨門",
+       "day": "未疾厄|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 35,
+       "decade": "酉子女|辛|巨門,太陽,文曲,文昌",
+       "year": "未疾厄|丁|太陰,天同,天機,巨門",
+       "month": "酉子女|壬|天梁,紫微,左輔,武曲",
+       "day": "酉子女|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 38,
+       "decade": "酉子女|辛|巨門,太陽,文曲,文昌",
+       "year": "戌夫妻|庚|太陽,武曲,太陰,天同",
+       "month": "巳交友|癸|破軍,巨門,太陰,貪狼",
+       "day": "巳交友|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "癸酉 戊午 丁卯 乙巳",
+     "qimenNianMing": "癸",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb00",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2001-02-02",
+    "localTime": "00:30",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 00:30",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "子",
+     "life": "寅",
+     "body": "寅",
+     "bodyPalace": "命宮",
+     "bureau": "木三局",
+     "forward": false,
+     "birthHua": "巨門祿@夫妻,太陽權@福德,文曲科@福德,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|夫妻|巨門旺祿|-|-|23-32",
+      "丑|辛丑|兄弟|天相廟|-|天姚|13-22",
+      "寅|庚寅|命宮|天同利,天梁廟|天鉞|-|3-12",
+      "卯|辛卯|父母|武曲利,七殺旺|火星|-|113-122",
+      "辰|壬辰|福德|太陽旺權|左輔,文曲科|天喜|103-112",
+      "巳|癸巳|田宅|-|-|-|93-102",
+      "午|甲午|官祿|天機廟|天魁|咸池|83-92",
+      "未|乙未|交友|紫微廟,破軍旺|-|-|73-82",
+      "申|丙申|遷移|-|陀羅|-|63-72",
+      "酉|丁酉|疾厄|天府旺|祿存|天刑|53-62",
+      "戌|戊戌|財帛|太陰旺|右弼,文昌忌,擎羊,鈴星|紅鸞|43-52",
+      "亥|己亥|子女|廉貞陷,貪狼陷|地空,地劫,天馬|-|33-42"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "子夫妻|庚|太陽,武曲,太陰,天同",
+       "year": "午官祿|丙|天同,天機,文昌,廉貞",
+       "month": "丑兄弟|丁|太陰,天同,天機,巨門",
+       "day": "巳田宅|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "子夫妻|庚|太陽,武曲,太陰,天同",
+       "year": "未交友|丁|太陰,天同,天機,巨門",
+       "month": "未交友|壬|天梁,紫微,左輔,武曲",
+       "day": "未交友|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "子夫妻|庚|太陽,武曲,太陰,天同",
+       "year": "戌財帛|庚|太陽,武曲,太陰,天同",
+       "month": "卯父母|癸|破軍,巨門,太陰,貪狼",
+       "day": "卯父母|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 戊子",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 1
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb01",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2001-02-02",
+    "localTime": "02:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 02:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "丑",
+     "life": "丑",
+     "body": "卯",
+     "bodyPalace": "福德",
+     "bureau": "土五局",
+     "forward": true,
+     "birthHua": "巨門祿@田宅,太陽權@兄弟,文曲科@官祿,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|兄弟|太陽陷權|地劫|-|115-124",
+      "丑|辛丑|命宮|天府廟|-|天姚|5-14",
+      "寅|庚寅|父母|天機得,太陰旺|天鉞|-|15-24",
+      "卯|辛卯|福德|紫微旺,貪狼利|-|-|25-34",
+      "辰|壬辰|田宅|巨門陷祿|左輔,火星|天喜|35-44",
+      "巳|癸巳|官祿|天相得|文曲科|-|45-54",
+      "午|甲午|交友|天梁廟|天魁|咸池|55-64",
+      "未|乙未|遷移|廉貞利,七殺廟|-|-|65-74",
+      "申|丙申|疾厄|-|陀羅|-|75-84",
+      "酉|丁酉|財帛|-|文昌忌,祿存|天刑|85-94",
+      "戌|戊戌|子女|天同平|右弼,擎羊,地空|紅鸞|95-104",
+      "亥|己亥|夫妻|武曲平,破軍平|鈴星,天馬|-|105-114"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "卯福德|辛|巨門,太陽,文曲,文昌",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "卯福德|辛|巨門,太陽,文曲,文昌",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "卯福德|辛|巨門,太陽,文曲,文昌",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 己丑",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 2
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb02",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2001-02-02",
+    "localTime": "04:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 04:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "寅",
+     "life": "子",
+     "body": "辰",
+     "bodyPalace": "官祿",
+     "bureau": "土五局",
+     "forward": false,
+     "birthHua": "巨門祿@官祿,太陽權@命宮,文曲科@遷移,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|命宮|太陽陷權|鈴星|-|5-14",
+      "丑|辛丑|父母|天府廟|地劫|天姚|115-124",
+      "寅|庚寅|福德|天機得,太陰旺|天鉞|-|105-114",
+      "卯|辛卯|田宅|紫微旺,貪狼利|-|-|95-104",
+      "辰|壬辰|官祿|巨門陷祿|左輔|天喜|85-94",
+      "巳|癸巳|交友|天相得|火星|-|75-84",
+      "午|甲午|遷移|天梁廟|文曲科,天魁|咸池|65-74",
+      "未|乙未|疾厄|廉貞利,七殺廟|-|-|55-64",
+      "申|丙申|財帛|-|文昌忌,陀羅|-|45-54",
+      "酉|丁酉|子女|-|祿存,地空|天刑|35-44",
+      "戌|戊戌|夫妻|天同平|右弼,擎羊|紅鸞|25-34",
+      "亥|己亥|兄弟|武曲平,破軍平|天馬|-|15-24"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "戌夫妻|戊|貪狼,太陰,右弼,天機",
+       "year": "午遷移|丙|天同,天機,文昌,廉貞",
+       "month": "卯田宅|丁|太陰,天同,天機,巨門",
+       "day": "未疾厄|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "戌夫妻|戊|貪狼,太陰,右弼,天機",
+       "year": "未疾厄|丁|太陰,天同,天機,巨門",
+       "month": "酉子女|壬|天梁,紫微,左輔,武曲",
+       "day": "酉子女|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "戌夫妻|戊|貪狼,太陰,右弼,天機",
+       "year": "戌夫妻|庚|太陽,武曲,太陰,天同",
+       "month": "巳交友|癸|破軍,巨門,太陰,貪狼",
+       "day": "巳交友|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 庚寅",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 3
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb03",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2001-02-02",
+    "localTime": "06:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 06:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "卯",
+     "life": "亥",
+     "body": "巳",
+     "bodyPalace": "遷移",
+     "bureau": "木三局",
+     "forward": true,
+     "birthHua": "巨門祿@父母,太陽權@交友,文曲科@財帛,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|父母|巨門旺祿|-|-|13-22",
+      "丑|辛丑|福德|天相廟|鈴星|天姚|23-32",
+      "寅|庚寅|田宅|天同利,天梁廟|天鉞,地劫|-|33-42",
+      "卯|辛卯|官祿|武曲利,七殺旺|-|-|43-52",
+      "辰|壬辰|交友|太陽旺權|左輔|天喜|53-62",
+      "巳|癸巳|遷移|-|-|-|63-72",
+      "午|甲午|疾厄|天機廟|天魁,火星|咸池|73-82",
+      "未|乙未|財帛|紫微廟,破軍旺|文昌忌,文曲科|-|83-92",
+      "申|丙申|子女|-|陀羅,地空|-|93-102",
+      "酉|丁酉|夫妻|天府旺|祿存|天刑|103-112",
+      "戌|戊戌|兄弟|太陰旺|右弼,擎羊|紅鸞|113-122",
+      "亥|己亥|命宮|廉貞陷,貪狼陷|天馬|-|3-12"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "丑福德|辛|巨門,太陽,文曲,文昌",
+       "year": "午疾厄|丙|天同,天機,文昌,廉貞",
+       "month": "辰交友|丁|太陰,天同,天機,巨門",
+       "day": "申子女|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "丑福德|辛|巨門,太陽,文曲,文昌",
+       "year": "未財帛|丁|太陰,天同,天機,巨門",
+       "month": "戌兄弟|壬|天梁,紫微,左輔,武曲",
+       "day": "戌兄弟|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "丑福德|辛|巨門,太陽,文曲,文昌",
+       "year": "戌兄弟|庚|太陽,武曲,太陰,天同",
+       "month": "午疾厄|癸|破軍,巨門,太陰,貪狼",
+       "day": "午疾厄|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 辛卯",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 4
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb04",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2001-02-02",
+    "localTime": "08:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 08:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "辰",
+     "life": "戌",
+     "body": "午",
+     "bodyPalace": "財帛",
+     "bureau": "木三局",
+     "forward": false,
+     "birthHua": "巨門祿@福德,太陽權@遷移,文曲科@夫妻,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|福德|巨門旺祿|-|-|103-112",
+      "丑|辛丑|田宅|天相廟|-|天姚|93-102",
+      "寅|庚寅|官祿|天同利,天梁廟|天鉞,鈴星|-|83-92",
+      "卯|辛卯|交友|武曲利,七殺旺|地劫|-|73-82",
+      "辰|壬辰|遷移|太陽旺權|左輔|天喜|63-72",
+      "巳|癸巳|疾厄|-|-|-|53-62",
+      "午|甲午|財帛|天機廟|文昌忌,天魁|咸池|43-52",
+      "未|乙未|子女|紫微廟,破軍旺|地空,火星|-|33-42",
+      "申|丙申|夫妻|-|文曲科,陀羅|-|23-32",
+      "酉|丁酉|兄弟|天府旺|祿存|天刑|13-22",
+      "戌|戊戌|命宮|太陰旺|右弼,擎羊|紅鸞|3-12",
+      "亥|己亥|父母|廉貞陷,貪狼陷|天馬|-|113-122"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "申夫妻|丙|天同,天機,文昌,廉貞",
+       "year": "午財帛|丙|天同,天機,文昌,廉貞",
+       "month": "巳疾厄|丁|太陰,天同,天機,巨門",
+       "day": "酉兄弟|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "申夫妻|丙|天同,天機,文昌,廉貞",
+       "year": "未子女|丁|太陰,天同,天機,巨門",
+       "month": "亥父母|壬|天梁,紫微,左輔,武曲",
+       "day": "亥父母|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "申夫妻|丙|天同,天機,文昌,廉貞",
+       "year": "戌命宮|庚|太陽,武曲,太陰,天同",
+       "month": "未子女|癸|破軍,巨門,太陰,貪狼",
+       "day": "未子女|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 壬辰",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 5
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb05",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2001-02-02",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "巳",
+     "life": "酉",
+     "body": "未",
+     "bodyPalace": "夫妻",
+     "bureau": "火六局",
+     "forward": true,
+     "birthHua": "巨門祿@交友,太陽權@交友,文曲科@命宮,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|田宅|天同旺,太陰廟|-|-|36-45",
+      "丑|辛丑|官祿|武曲廟,貪狼廟|-|天姚|46-55",
+      "寅|庚寅|交友|太陽旺權,巨門廟祿|天鉞|-|56-65",
+      "卯|辛卯|遷移|天相陷|鈴星|-|66-75",
+      "辰|壬辰|疾厄|天機利,天梁廟|左輔,地劫|天喜|76-85",
+      "巳|癸巳|財帛|紫微旺,七殺平|文昌忌|-|86-95",
+      "午|甲午|子女|-|天魁,地空|咸池|96-105",
+      "未|乙未|夫妻|-|-|-|106-115",
+      "申|丙申|兄弟|-|陀羅,火星|-|116-125",
+      "酉|丁酉|命宮|廉貞平,破軍陷|文曲科,祿存|天刑|6-15",
+      "戌|戊戌|父母|-|右弼,擎羊|紅鸞|16-25",
+      "亥|己亥|福德|天府得|天馬|-|26-35"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "亥福德|己|武曲,貪狼,天梁,文曲",
+       "year": "午子女|丙|天同,天機,文昌,廉貞",
+       "month": "午子女|丁|太陰,天同,天機,巨門",
+       "day": "戌父母|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "亥福德|己|武曲,貪狼,天梁,文曲",
+       "year": "未夫妻|丁|太陰,天同,天機,巨門",
+       "month": "子田宅|壬|天梁,紫微,左輔,武曲",
+       "day": "子田宅|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "亥福德|己|武曲,貪狼,天梁,文曲",
+       "year": "戌父母|庚|太陽,武曲,太陰,天同",
+       "month": "申兄弟|癸|破軍,巨門,太陰,貪狼",
+       "day": "申兄弟|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 癸巳",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb06",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2001-02-02",
+    "localTime": "12:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 12:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "午",
+     "life": "申",
+     "body": "申",
+     "bodyPalace": "命宮",
+     "bureau": "火六局",
+     "forward": false,
+     "birthHua": "巨門祿@遷移,太陽權@遷移,文曲科@福德,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|官祿|天同旺,太陰廟|-|-|86-95",
+      "丑|辛丑|交友|武曲廟,貪狼廟|-|天姚|76-85",
+      "寅|庚寅|遷移|太陽旺權,巨門廟祿|天鉞|-|66-75",
+      "卯|辛卯|疾厄|天相陷|-|-|56-65",
+      "辰|壬辰|財帛|天機利,天梁廟|左輔,文昌忌,鈴星|天喜|46-55",
+      "巳|癸巳|子女|紫微旺,七殺平|地空,地劫|-|36-45",
+      "午|甲午|夫妻|-|天魁|咸池|26-35",
+      "未|乙未|兄弟|-|-|-|16-25",
+      "申|丙申|命宮|-|陀羅|-|6-15",
+      "酉|丁酉|父母|廉貞平,破軍陷|祿存,火星|天刑|116-125",
+      "戌|戊戌|福德|-|右弼,文曲科,擎羊|紅鸞|106-115",
+      "亥|己亥|田宅|天府得|天馬|-|96-105"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "午夫妻|甲|廉貞,破軍,武曲,太陽",
+       "year": "午夫妻|丙|天同,天機,文昌,廉貞",
+       "month": "未兄弟|丁|太陰,天同,天機,巨門",
+       "day": "亥田宅|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "午夫妻|甲|廉貞,破軍,武曲,太陽",
+       "year": "未兄弟|丁|太陰,天同,天機,巨門",
+       "month": "丑交友|壬|天梁,紫微,左輔,武曲",
+       "day": "丑交友|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "午夫妻|甲|廉貞,破軍,武曲,太陽",
+       "year": "戌福德|庚|太陽,武曲,太陰,天同",
+       "month": "酉父母|癸|破軍,巨門,太陰,貪狼",
+       "day": "酉父母|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 甲午",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 7
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb07",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2001-02-02",
+    "localTime": "14:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 14:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "未",
+     "life": "未",
+     "body": "酉",
+     "bodyPalace": "福德",
+     "bureau": "金四局",
+     "forward": true,
+     "birthHua": "巨門祿@遷移,太陽權@財帛,文曲科@官祿,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|交友|貪狼旺|-|-|54-63",
+      "丑|辛丑|遷移|天同不,巨門不祿|-|天姚|64-73",
+      "寅|庚寅|疾厄|武曲得,天相廟|天鉞|-|74-83",
+      "卯|辛卯|財帛|太陽廟權,天梁廟|文昌忌|-|84-93",
+      "辰|壬辰|子女|七殺廟|左輔,地空|天喜|94-103",
+      "巳|癸巳|夫妻|天機平|鈴星|-|104-113",
+      "午|甲午|兄弟|紫微廟|天魁,地劫|咸池|114-123",
+      "未|乙未|命宮|-|-|-|4-13",
+      "申|丙申|父母|破軍得|陀羅|-|14-23",
+      "酉|丁酉|福德|-|祿存|天刑|24-33",
+      "戌|戊戌|田宅|廉貞利,天府廟|右弼,擎羊,火星|紅鸞|34-43",
+      "亥|己亥|官祿|太陰廟|文曲科,天馬|-|44-53"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "酉福德|丁|太陰,天同,天機,巨門",
+       "year": "午兄弟|丙|天同,天機,文昌,廉貞",
+       "month": "申父母|丁|太陰,天同,天機,巨門",
+       "day": "子交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "酉福德|丁|太陰,天同,天機,巨門",
+       "year": "未命宮|丁|太陰,天同,天機,巨門",
+       "month": "寅疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "寅疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "酉福德|丁|太陰,天同,天機,巨門",
+       "year": "戌田宅|庚|太陽,武曲,太陰,天同",
+       "month": "戌田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "戌田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 乙未",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 8
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb08",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2001-02-02",
+    "localTime": "16:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 16:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "申",
+     "life": "午",
+     "body": "戌",
+     "bodyPalace": "官祿",
+     "bureau": "金四局",
+     "forward": false,
+     "birthHua": "巨門祿@疾厄,太陽權@子女,文曲科@遷移,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|遷移|貪狼旺|文曲科|-|64-73",
+      "丑|辛丑|疾厄|天同不,巨門不祿|-|天姚|54-63",
+      "寅|庚寅|財帛|武曲得,天相廟|文昌忌,天鉞|-|44-53",
+      "卯|辛卯|子女|太陽廟權,天梁廟|地空|-|34-43",
+      "辰|壬辰|夫妻|七殺廟|左輔|天喜|24-33",
+      "巳|癸巳|兄弟|天機平|-|-|14-23",
+      "午|甲午|命宮|紫微廟|天魁,鈴星|咸池|4-13",
+      "未|乙未|父母|-|地劫|-|114-123",
+      "申|丙申|福德|破軍得|陀羅|-|104-113",
+      "酉|丁酉|田宅|-|祿存|天刑|94-103",
+      "戌|戊戌|官祿|廉貞利,天府廟|右弼,擎羊|紅鸞|84-93",
+      "亥|己亥|交友|太陰廟|火星,天馬|-|74-83"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "辰夫妻|壬|天梁,紫微,左輔,武曲",
+       "year": "午命宮|丙|天同,天機,文昌,廉貞",
+       "month": "酉田宅|丁|太陰,天同,天機,巨門",
+       "day": "丑疾厄|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "辰夫妻|壬|天梁,紫微,左輔,武曲",
+       "year": "未父母|丁|太陰,天同,天機,巨門",
+       "month": "卯子女|壬|天梁,紫微,左輔,武曲",
+       "day": "卯子女|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "辰夫妻|壬|天梁,紫微,左輔,武曲",
+       "year": "戌官祿|庚|太陽,武曲,太陰,天同",
+       "month": "亥交友|癸|破軍,巨門,太陰,貪狼",
+       "day": "亥交友|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 丙申",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 9
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb09",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2001-02-02",
+    "localTime": "18:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 18:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "酉",
+     "life": "巳",
+     "body": "亥",
+     "bodyPalace": "遷移",
+     "bureau": "水二局",
+     "forward": true,
+     "birthHua": "巨門祿@財帛,太陽權@夫妻,文曲科@財帛,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|疾厄|貪狼旺|火星|-|72-81",
+      "丑|辛丑|財帛|天同不,巨門不祿|文昌忌,文曲科|天姚|82-91",
+      "寅|庚寅|子女|武曲得,天相廟|天鉞,地空|-|92-101",
+      "卯|辛卯|夫妻|太陽廟權,天梁廟|-|-|102-111",
+      "辰|壬辰|兄弟|七殺廟|左輔|天喜|112-121",
+      "巳|癸巳|命宮|天機平|-|-|2-11",
+      "午|甲午|父母|紫微廟|天魁|咸池|12-21",
+      "未|乙未|福德|-|鈴星|-|22-31",
+      "申|丙申|田宅|破軍得|陀羅,地劫|-|32-41",
+      "酉|丁酉|官祿|-|祿存|天刑|42-51",
+      "戌|戊戌|交友|廉貞利,天府廟|右弼,擎羊|紅鸞|52-61",
+      "亥|己亥|遷移|太陰廟|天馬|-|62-71"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "未福德|乙|天機,天梁,紫微,太陰",
+       "year": "午父母|丙|天同,天機,文昌,廉貞",
+       "month": "戌交友|丁|太陰,天同,天機,巨門",
+       "day": "寅子女|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "未福德|乙|天機,天梁,紫微,太陰",
+       "year": "未福德|丁|太陰,天同,天機,巨門",
+       "month": "辰兄弟|壬|天梁,紫微,左輔,武曲",
+       "day": "辰兄弟|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "未福德|乙|天機,天梁,紫微,太陰",
+       "year": "戌交友|庚|太陽,武曲,太陰,天同",
+       "month": "子疾厄|癸|破軍,巨門,太陰,貪狼",
+       "day": "子疾厄|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 丁酉",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 10
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb10",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2001-02-02",
+    "localTime": "20:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 20:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "戌",
+     "life": "辰",
+     "body": "子",
+     "bodyPalace": "財帛",
+     "bureau": "水二局",
+     "forward": false,
+     "birthHua": "巨門祿@子女,太陽權@兄弟,文曲科@夫妻,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|財帛|貪狼旺|文昌忌|-|42-51",
+      "丑|辛丑|子女|天同不,巨門不祿|地空,火星|天姚|32-41",
+      "寅|庚寅|夫妻|武曲得,天相廟|文曲科,天鉞|-|22-31",
+      "卯|辛卯|兄弟|太陽廟權,天梁廟|-|-|12-21",
+      "辰|壬辰|命宮|七殺廟|左輔|天喜|2-11",
+      "巳|癸巳|父母|天機平|-|-|112-121",
+      "午|甲午|福德|紫微廟|天魁|咸池|102-111",
+      "未|乙未|田宅|-|-|-|92-101",
+      "申|丙申|官祿|破軍得|陀羅,鈴星|-|82-91",
+      "酉|丁酉|交友|-|祿存,地劫|天刑|72-81",
+      "戌|戊戌|遷移|廉貞利,天府廟|右弼,擎羊|紅鸞|62-71",
+      "亥|己亥|疾厄|太陰廟|天馬|-|52-61"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "寅夫妻|庚|太陽,武曲,太陰,天同",
+       "year": "午福德|丙|天同,天機,文昌,廉貞",
+       "month": "亥疾厄|丁|太陰,天同,天機,巨門",
+       "day": "卯兄弟|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "寅夫妻|庚|太陽,武曲,太陰,天同",
+       "year": "未田宅|丁|太陰,天同,天機,巨門",
+       "month": "巳父母|壬|天梁,紫微,左輔,武曲",
+       "day": "巳父母|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "寅夫妻|庚|太陽,武曲,太陰,天同",
+       "year": "戌遷移|庚|太陽,武曲,太陰,天同",
+       "month": "丑子女|癸|破軍,巨門,太陰,貪狼",
+       "day": "丑子女|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 戊戌",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 11
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "life_branch_hb11",
+   "covers": [
+    "十二命宮"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "2001-02-02",
+    "localTime": "22:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2001-02-02 22:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2001-1-10",
+     "effectiveMonth": 1,
+     "yearGz": "辛巳",
+     "hour": "亥",
+     "life": "卯",
+     "body": "丑",
+     "bodyPalace": "夫妻",
+     "bureau": "木三局",
+     "forward": true,
+     "birthHua": "巨門祿@子女,太陽權@父母,文曲科@命宮,文昌忌@財帛",
+     "notes": [],
+     "palaces": [
+      "子|庚子|子女|巨門旺祿|地空|-|93-102",
+      "丑|辛丑|夫妻|天相廟|-|天姚|103-112",
+      "寅|庚寅|兄弟|天同利,天梁廟|天鉞,火星|-|113-122",
+      "卯|辛卯|命宮|武曲利,七殺旺|文曲科|-|3-12",
+      "辰|壬辰|父母|太陽旺權|左輔|天喜|13-22",
+      "巳|癸巳|福德|-|-|-|23-32",
+      "午|甲午|田宅|天機廟|天魁|咸池|33-42",
+      "未|乙未|官祿|紫微廟,破軍旺|-|-|43-52",
+      "申|丙申|交友|-|陀羅|-|53-62",
+      "酉|丁酉|遷移|天府旺|祿存,鈴星|天刑|63-72",
+      "戌|戊戌|疾厄|太陰旺|右弼,擎羊,地劫|紅鸞|73-82",
+      "亥|己亥|財帛|廉貞陷,貪狼陷|文昌忌,天馬|-|83-92"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 26,
+       "decade": "巳福德|癸|破軍,巨門,太陰,貪狼",
+       "year": "午田宅|丙|天同,天機,文昌,廉貞",
+       "month": "子子女|丁|太陰,天同,天機,巨門",
+       "day": "辰父母|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 27,
+       "decade": "巳福德|癸|破軍,巨門,太陰,貪狼",
+       "year": "未官祿|丁|太陰,天同,天機,巨門",
+       "month": "午田宅|壬|天梁,紫微,左輔,武曲",
+       "day": "午田宅|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 30,
+       "decade": "巳福德|癸|破軍,巨門,太陰,貪狼",
+       "year": "戌疾厄|庚|太陽,武曲,太陰,天同",
+       "month": "寅兄弟|癸|破軍,巨門,太陰,貪狼",
+       "day": "寅兄弟|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 己丑 丙申 己亥",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 12
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "bureau_土五局_19900301",
+   "covers": [
+    "土五局"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1990-03-01",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1990-03-01 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1990-2-5",
+     "effectiveMonth": 2,
+     "yearGz": "庚午",
+     "hour": "巳",
+     "life": "戌",
+     "body": "申",
+     "bodyPalace": "夫妻",
+     "bureau": "土五局",
+     "forward": false,
+     "birthHua": "太陽祿@父母,武曲權@命宮,太陰科@交友,天同忌@兄弟",
+     "notes": [],
+     "palaces": [
+      "子|戊子|福德|破軍廟|-|-|105-114",
+      "丑|己丑|田宅|天機陷|天魁|-|95-104",
+      "寅|戊寅|官祿|紫微旺,天府廟|-|天姚|85-94",
+      "卯|己卯|交友|太陰陷科|-|咸池,天喜|75-84",
+      "辰|庚辰|遷移|貪狼廟|地劫|-|65-74",
+      "巳|辛巳|疾厄|巨門旺|左輔,文昌|-|55-64",
+      "午|壬午|財帛|廉貞平,天相廟|地空,火星|-|45-54",
+      "未|癸未|子女|天梁旺|天鉞,陀羅|-|35-44",
+      "申|甲申|夫妻|七殺廟|祿存,鈴星,天馬|-|25-34",
+      "酉|乙酉|兄弟|天同平忌|右弼,文曲,擎羊|紅鸞|15-24",
+      "戌|丙戌|命宮|武曲廟權|-|天刑|5-14",
+      "亥|丁亥|父母|太陽陷祿|-|-|115-124"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 37,
+       "decade": "未子女|癸|破軍,巨門,太陰,貪狼",
+       "year": "午財帛|丙|天同,天機,文昌,廉貞",
+       "month": "巳疾厄|丁|太陰,天同,天機,巨門",
+       "day": "酉兄弟|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 38,
+       "decade": "未子女|癸|破軍,巨門,太陰,貪狼",
+       "year": "未子女|丁|太陰,天同,天機,巨門",
+       "month": "亥父母|壬|天梁,紫微,左輔,武曲",
+       "day": "亥父母|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 41,
+       "decade": "未子女|癸|破軍,巨門,太陰,貪狼",
+       "year": "戌命宮|庚|太陽,武曲,太陰,天同",
+       "month": "未子女|癸|破軍,巨門,太陰,貪狼",
+       "day": "未子女|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚午 戊寅 乙丑 辛巳",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "bureau_火六局_19900425",
+   "covers": [
+    "火六局"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1990-04-25",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1990-04-25 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1990-4-1",
+     "effectiveMonth": 4,
+     "yearGz": "庚午",
+     "hour": "巳",
+     "life": "子",
+     "body": "戌",
+     "bodyPalace": "夫妻",
+     "bureau": "火六局",
+     "forward": false,
+     "birthHua": "太陽祿@遷移,武曲權@交友,太陰科@財帛,天同忌@官祿",
+     "notes": [],
+     "palaces": [
+      "子|戊子|命宮|天梁廟|-|天刑|6-15",
+      "丑|己丑|父母|廉貞利,七殺廟|天魁|-|116-125",
+      "寅|戊寅|福德|-|-|-|106-115",
+      "卯|己卯|田宅|-|-|咸池,天喜|96-105",
+      "辰|庚辰|官祿|天同平忌|地劫|天姚|86-95",
+      "巳|辛巳|交友|武曲平權,破軍平|文昌|-|76-85",
+      "午|壬午|遷移|太陽旺祿|地空,火星|-|66-75",
+      "未|癸未|疾厄|天府廟|左輔,右弼,天鉞,陀羅|-|56-65",
+      "申|甲申|財帛|天機得,太陰利科|祿存,鈴星,天馬|-|46-55",
+      "酉|乙酉|子女|紫微旺,貪狼利|文曲,擎羊|紅鸞|36-45",
+      "戌|丙戌|夫妻|巨門陷|-|-|26-35",
+      "亥|丁亥|兄弟|天相得|-|-|16-25"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 37,
+       "decade": "酉子女|乙|天機,天梁,紫微,太陰",
+       "year": "午遷移|丙|天同,天機,文昌,廉貞",
+       "month": "卯田宅|丁|太陰,天同,天機,巨門",
+       "day": "未疾厄|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 38,
+       "decade": "酉子女|乙|天機,天梁,紫微,太陰",
+       "year": "未疾厄|丁|太陰,天同,天機,巨門",
+       "month": "酉子女|壬|天梁,紫微,左輔,武曲",
+       "day": "酉子女|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 41,
+       "decade": "酉子女|乙|天機,天梁,紫微,太陰",
+       "year": "戌夫妻|庚|太陽,武曲,太陰,天同",
+       "month": "巳交友|癸|破軍,巨門,太陰,貪狼",
+       "day": "巳交友|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚午 庚辰 庚申 辛巳",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "bureau_金四局_19900919",
+   "covers": [
+    "金四局"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1990-09-19",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1990-09-19 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1990-8-1",
+     "effectiveMonth": 8,
+     "yearGz": "庚午",
+     "hour": "巳",
+     "life": "辰",
+     "body": "寅",
+     "bodyPalace": "夫妻",
+     "bureau": "金四局",
+     "forward": false,
+     "birthHua": "太陽祿@官祿,武曲權@田宅,太陰科@福德,天同忌@福德",
+     "notes": [],
+     "palaces": [
+      "子|戊子|財帛|-|-|-|44-53",
+      "丑|己丑|子女|-|天魁|-|34-43",
+      "寅|戊寅|夫妻|-|-|-|24-33",
+      "卯|己卯|兄弟|廉貞平,破軍陷|右弼|咸池,天喜|14-23",
+      "辰|庚辰|命宮|-|地劫|天刑|4-13",
+      "巳|辛巳|父母|天府得|文昌|-|114-123",
+      "午|壬午|福德|天同陷忌,太陰不科|地空,火星|-|104-113",
+      "未|癸未|田宅|武曲廟權,貪狼廟|天鉞,陀羅|-|94-103",
+      "申|甲申|官祿|太陽得祿,巨門廟|祿存,鈴星,天馬|天姚|84-93",
+      "酉|乙酉|交友|天相陷|文曲,擎羊|紅鸞|74-83",
+      "戌|丙戌|遷移|天機利,天梁廟|-|-|64-73",
+      "亥|丁亥|疾厄|紫微旺,七殺平|左輔|-|54-63"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 37,
+       "decade": "丑子女|己|武曲,貪狼,天梁,文曲",
+       "year": "午福德|丙|天同,天機,文昌,廉貞",
+       "month": "亥疾厄|丁|太陰,天同,天機,巨門",
+       "day": "卯兄弟|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 38,
+       "decade": "丑子女|己|武曲,貪狼,天梁,文曲",
+       "year": "未田宅|丁|太陰,天同,天機,巨門",
+       "month": "巳父母|壬|天梁,紫微,左輔,武曲",
+       "day": "巳父母|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 41,
+       "decade": "丑子女|己|武曲,貪狼,天梁,文曲",
+       "year": "戌遷移|庚|太陽,武曲,太陰,天同",
+       "month": "丑子女|癸|破軍,巨門,太陰,貪狼",
+       "day": "丑子女|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚午 乙酉 丁亥 乙巳",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "bureau_木三局_19901117",
+   "covers": [
+    "木三局"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1990-11-17",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1990-11-17 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1990-10-1",
+     "effectiveMonth": 10,
+     "yearGz": "庚午",
+     "hour": "巳",
+     "life": "午",
+     "body": "辰",
+     "bodyPalace": "夫妻",
+     "bureau": "木三局",
+     "forward": false,
+     "birthHua": "太陽祿@疾厄,武曲權@遷移,太陰科@疾厄,天同忌@交友",
+     "notes": [],
+     "palaces": [
+      "子|戊子|遷移|武曲旺權,天府廟|-|-|63-72",
+      "丑|己丑|疾厄|太陽不祿,太陰廟科|左輔,右弼,天魁|-|53-62",
+      "寅|戊寅|財帛|貪狼平|-|-|43-52",
+      "卯|己卯|子女|天機旺,巨門廟|-|咸池,天喜|33-42",
+      "辰|庚辰|夫妻|紫微得,天相得|地劫|-|23-32",
+      "巳|辛巳|兄弟|天梁陷|文昌|-|13-22",
+      "午|壬午|命宮|七殺旺|地空,火星|天刑|3-12",
+      "未|癸未|父母|-|天鉞,陀羅|-|113-122",
+      "申|甲申|福德|廉貞廟|祿存,鈴星,天馬|-|103-112",
+      "酉|乙酉|田宅|-|文曲,擎羊|紅鸞|93-102",
+      "戌|丙戌|官祿|破軍旺|-|天姚|83-92",
+      "亥|丁亥|交友|天同廟忌|-|-|73-82"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 37,
+       "decade": "卯子女|己|武曲,貪狼,天梁,文曲",
+       "year": "午命宮|丙|天同,天機,文昌,廉貞",
+       "month": "酉田宅|丁|太陰,天同,天機,巨門",
+       "day": "丑疾厄|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 38,
+       "decade": "卯子女|己|武曲,貪狼,天梁,文曲",
+       "year": "未父母|丁|太陰,天同,天機,巨門",
+       "month": "卯子女|壬|天梁,紫微,左輔,武曲",
+       "day": "卯子女|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 41,
+       "decade": "卯子女|己|武曲,貪狼,天梁,文曲",
+       "year": "戌官祿|庚|太陽,武曲,太陰,天同",
+       "month": "亥交友|癸|破軍,巨門,太陰,貪狼",
+       "day": "亥交友|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚午 丁亥 丙戌 癸巳",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "bureau_水二局_19910116",
+   "covers": [
+    "水二局"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1991-01-16",
+    "localTime": "10:00",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1991-01-16 10:00",
+     "basis": "standard",
+     "correctionMinutes": 0,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": 0
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1990-12-1",
+     "effectiveMonth": 12,
+     "yearGz": "庚午",
+     "hour": "巳",
+     "life": "申",
+     "body": "午",
+     "bodyPalace": "夫妻",
+     "bureau": "水二局",
+     "forward": false,
+     "birthHua": "太陽祿@福德,武曲權@父母,太陰科@財帛,天同忌@命宮",
+     "notes": [],
+     "palaces": [
+      "子|戊子|官祿|天機廟|-|天姚|82-91",
+      "丑|己丑|交友|紫微廟,破軍旺|天魁|-|72-81",
+      "寅|戊寅|遷移|-|-|-|62-71",
+      "卯|己卯|疾厄|天府得|左輔|咸池,天喜|52-61",
+      "辰|庚辰|財帛|太陰陷科|地劫|-|42-51",
+      "巳|辛巳|子女|廉貞陷,貪狼陷|文昌|-|32-41",
+      "午|壬午|夫妻|巨門旺|地空,火星|-|22-31",
+      "未|癸未|兄弟|天相得|天鉞,陀羅|-|12-21",
+      "申|甲申|命宮|天同旺忌,天梁陷|祿存,鈴星,天馬|天刑|2-11",
+      "酉|乙酉|父母|武曲利權,七殺旺|文曲,擎羊|紅鸞|112-121",
+      "戌|丙戌|福德|太陽不祿|-|-|102-111",
+      "亥|丁亥|田宅|-|右弼|-|92-101"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 37,
+       "decade": "巳子女|辛|巨門,太陽,文曲,文昌",
+       "year": "午夫妻|丙|天同,天機,文昌,廉貞",
+       "month": "未兄弟|丁|太陰,天同,天機,巨門",
+       "day": "亥田宅|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 38,
+       "decade": "巳子女|辛|巨門,太陽,文曲,文昌",
+       "year": "未兄弟|丁|太陰,天同,天機,巨門",
+       "month": "丑交友|壬|天梁,紫微,左輔,武曲",
+       "day": "丑交友|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 41,
+       "decade": "巳子女|辛|巨門,太陽,文曲,文昌",
+       "year": "戌福德|庚|太陽,武曲,太陰,天同",
+       "month": "酉父母|癸|破軍,巨門,太陰,貪狼",
+       "day": "酉父母|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚午 己丑 丙戌 癸巳",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 6
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "dst_19750718_0740_tainan",
+   "covers": [
+    "夏令時間"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1975-07-18",
+    "localTime": "07:40",
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台南",
+     "lat": 22.99,
+     "lng": 120.21
+    },
+    "useTrueSolarTime": true
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1975-07-18 06:34",
+     "basis": "trueSolar",
+     "correctionMinutes": -65,
+     "eotMinutes": -6.06,
+     "longitudeMinutes": 0.84,
+     "dstMinutes": -60
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "1975-6-10",
+     "effectiveMonth": 6,
+     "yearGz": "乙卯",
+     "hour": "卯",
+     "life": "辰",
+     "body": "戌",
+     "bodyPalace": "遷移",
+     "bureau": "金四局",
+     "forward": true,
+     "birthHua": "天機祿@父母,天梁權@兄弟,紫微科@福德,太陰忌@疾厄",
+     "notes": [],
+     "palaces": [
+      "子|戊子|財帛|貪狼旺|天魁,火星|咸池,紅鸞|84-93",
+      "丑|己丑|子女|天同不,巨門不|鈴星|-|94-103",
+      "寅|戊寅|夫妻|武曲得,天相廟|陀羅,地劫|天刑|104-113",
+      "卯|己卯|兄弟|太陽廟,天梁廟權|祿存|-|114-123",
+      "辰|庚辰|命宮|七殺廟|擎羊|-|4-13",
+      "巳|辛巳|父母|天機平祿|右弼,天馬|-|14-23",
+      "午|壬午|福德|紫微廟科|-|天喜,天姚|24-33",
+      "未|癸未|田宅|-|文昌,文曲|-|34-43",
+      "申|甲申|官祿|破軍得|天鉞,地空|-|44-53",
+      "酉|乙酉|交友|-|左輔|-|54-63",
+      "戌|丙戌|遷移|廉貞利,天府廟|-|-|64-73",
+      "亥|丁亥|疾厄|太陰廟忌|-|-|74-83"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 52,
+       "decade": "申官祿|甲|廉貞,破軍,武曲,太陽",
+       "year": "午福德|丙|天同,天機,文昌,廉貞",
+       "month": "亥疾厄|丁|太陰,天同,天機,巨門",
+       "day": "卯兄弟|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 53,
+       "decade": "申官祿|甲|廉貞,破軍,武曲,太陽",
+       "year": "未田宅|丁|太陰,天同,天機,巨門",
+       "month": "巳父母|壬|天梁,紫微,左輔,武曲",
+       "day": "巳父母|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 56,
+       "decade": "酉交友|乙|天機,天梁,紫微,太陰",
+       "year": "戌遷移|庚|太陽,武曲,太陰,天同",
+       "month": "丑子女|癸|破軍,巨門,太陰,貪狼",
+       "day": "丑子女|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "乙卯 癸未 乙丑 己卯",
+     "qimenNianMing": "乙",
+     "ichingPersonalNo": 4
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "overseas_london_20000601_0900",
+   "covers": [
+    "海外時區"
+   ],
+   "input": {
+    "gender": "male",
+    "localDate": "2000-06-01",
+    "localTime": "09:00",
+    "timeZone": "Europe/London",
+    "place": {
+     "name": "London",
+     "lat": 51.51,
+     "lng": -0.13
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "2000-06-01 08:00",
+     "basis": "standard",
+     "correctionMinutes": -60,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": -60
+    },
+    "ziwei": {
+     "ok": true,
+     "lunar": "2000-4-29",
+     "effectiveMonth": 4,
+     "yearGz": "庚辰",
+     "hour": "辰",
+     "life": "丑",
+     "body": "酉",
+     "bodyPalace": "財帛",
+     "bureau": "火六局",
+     "forward": true,
+     "birthHua": "太陽祿@父母,武曲權@命宮,太陰科@兄弟,天同忌@兄弟",
+     "notes": [],
+     "palaces": [
+      "子|戊子|兄弟|天同旺忌,太陰廟科|-|天刑|116-125",
+      "丑|己丑|命宮|武曲廟權,貪狼廟|天魁|-|6-15",
+      "寅|戊寅|父母|太陽旺祿,巨門廟|鈴星,天馬|-|16-25",
+      "卯|己卯|福德|天相陷|地劫|-|26-35",
+      "辰|庚辰|田宅|天機利,天梁廟|-|天姚|36-45",
+      "巳|辛巳|官祿|紫微旺,七殺平|-|天喜|46-55",
+      "午|壬午|交友|-|文昌,火星|-|56-65",
+      "未|癸未|遷移|-|左輔,右弼,天鉞,陀羅,地空|-|66-75",
+      "申|甲申|疾厄|-|文曲,祿存|-|76-85",
+      "酉|乙酉|財帛|廉貞平,破軍陷|擎羊|咸池|86-95",
+      "戌|丙戌|子女|-|-|-|96-105",
+      "亥|丁亥|夫妻|天府得|-|紅鸞|106-115"
+     ],
+     "transits": [
+      {
+       "date": "2026-09-27",
+       "nominalAge": 27,
+       "decade": "卯福德|己|武曲,貪狼,天梁,文曲",
+       "year": "午交友|丙|天同,天機,文昌,廉貞",
+       "month": "寅父母|丁|太陰,天同,天機,巨門",
+       "day": "午交友|甲|廉貞,破軍,武曲,太陽"
+      },
+      {
+       "date": "2027-02-06",
+       "nominalAge": 28,
+       "decade": "卯福德|己|武曲,貪狼,天梁,文曲",
+       "year": "未遷移|丁|太陰,天同,天機,巨門",
+       "month": "申疾厄|壬|天梁,紫微,左輔,武曲",
+       "day": "申疾厄|丙|天同,天機,文昌,廉貞"
+      },
+      {
+       "date": "2030-07-01",
+       "nominalAge": 31,
+       "decade": "卯福德|己|武曲,貪狼,天梁,文曲",
+       "year": "戌子女|庚|太陽,武曲,太陰,天同",
+       "month": "辰田宅|癸|破軍,巨門,太陰,貪狼",
+       "day": "辰田宅|丁|太陰,天同,天機,巨門"
+      }
+     ]
+    },
+    "crossSystem": {
+     "baziPillars": "庚辰 辛巳 庚寅 庚辰",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 5
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": true,
+    "iztroDefaultMatched": true,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  },
+  {
+   "fixtureId": "unknown_time_19500502",
+   "covers": [
+    "時辰不詳"
+   ],
+   "input": {
+    "gender": "female",
+    "localDate": "1950-05-02",
+    "localTime": null,
+    "timeZone": "Asia/Taipei",
+    "place": {
+     "name": "台北",
+     "lat": 25.04,
+     "lng": 121.51
+    },
+    "useTrueSolarTime": false
+   },
+   "calculationSettings": "pre-refactor-default",
+   "expected": {
+    "calendar": {
+     "chartLocal": "1950-05-02 11:00",
+     "basis": "standard",
+     "correctionMinutes": -60,
+     "eotMinutes": 0,
+     "longitudeMinutes": 0,
+     "dstMinutes": -60
+    },
+    "ziwei": {
+     "ok": false,
+     "error": "紫微斗數需要出生時辰"
+    },
+    "crossSystem": {
+     "baziPillars": "庚寅 庚辰 丁酉 --",
+     "qimenNianMing": "庚",
+     "ichingPersonalNo": 10
+    }
+   },
+   "verificationStatus": {
+    "ruleVerified": false,
+    "iztroMatched": null,
+    "iztroDefaultMatched": null,
+    "secondSourceVerified": false,
+    "classicalSourceVerified": false
+   }
+  }
+ ]
+}
