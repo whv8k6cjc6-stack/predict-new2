@@ -53,6 +53,8 @@ export interface FiredRule {
   rule: RuleDefinition;
   match: RuleMatch;
   text: { conclusion: string; plain: string; pro: string; actions: string[] };
+  /** 靜態 based_on.text_ids 加上依盤面決定的原文 id */
+  textIds: string[];
 }
 
 export function runRules(rules: RuleDefinition[], facts: Fact[], globalSlots: Record<string, string> = {}): { fired: FiredRule[]; warnings: string[] } {
@@ -72,7 +74,8 @@ export function runRules(rules: RuleDefinition[], facts: Fact[], globalSlots: Re
         actions: rule.templates.actions.map(a => renderTemplate(a, slots, idx)),
       };
       const uniq = [...new Map(used.map(u => [u.key, u])).values()];
-      fired.push({ rule, match: { rule_id: rule.id, matched: uniq.map(u => ({ fact: u.key, value: u.value, derivation: u.derivation })) }, text });
+      const dyn = (rule.dynamic_text_slots ?? []).map(k => idx.get(k)?.value).filter((v): v is string => typeof v === "string");
+      fired.push({ rule, match: { rule_id: rule.id, matched: uniq.map(u => ({ fact: u.key, value: u.value, derivation: u.derivation })) }, text, textIds: [...rule.based_on.text_ids, ...dyn] });
     } catch (e) {
       warnings.push(`${rule.id}: ${(e as Error).message}`);
     }

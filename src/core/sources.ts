@@ -70,6 +70,8 @@ export interface RuleDefinition {
   terms: string[];
   priority?: number;
   excludes?: string[];
+  /** 依本次盤面才決定引用哪段原文時（例：易經動爻爻辭），列出其值為 text_id 的事實鍵 */
+  dynamic_text_slots?: string[];
   verification: VerificationStatus;
   enabled: boolean;
 }
