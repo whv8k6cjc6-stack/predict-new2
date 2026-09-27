@@ -81,14 +81,15 @@ function scanCitation(citationId: string, spanId: string, o: { originalText?: st
   const sp = scanSpan(spanId);
   if (!sp) throw new Error(`找不到轉錄段落 ${spanId}`);
   const originalText = o.originalText ?? sp.text;
+  const ok = sp.visualVerified === true && sp.transcriptionStatus === "verified";
   return {
     citationId, sourceId: GUANGYI_SOURCE.sourceId, edition: GUANGYI_SOURCE.editionLabel, volume: sp.volume, section: sp.section, entry: sp.entry,
     locationStatus: "verifiedAgainstText", originalText, normalizedText: originalText, classicalCommentary: null,
-    modernTranslation: o.modernTranslation, verificationStatus: sp.transcriptionStatus === "verified" ? "verified" : "pendingVerification",
+    modernTranslation: o.modernTranslation, verificationStatus: ok ? "verified" : "pendingVerification",
     textualVariants: [],
     notes: [o.notes, sp.notes, "集文版尚未取得，異文未比對。"].filter(Boolean).join(" "),
     locator: { pdfPage: sp.pdfPage, printedPage: sp.printedPage, spanId },
-    transcriptionStatus: sp.transcriptionStatus === "verified" ? "verified" : "transcriptionUnverified",
+    transcriptionStatus: ok ? "verified" : "transcriptionUnverified",
     verifiedBy: GUANGYI_TRANSCRIPTION.verification.verifiedBy, verifiedAt: GUANGYI_TRANSCRIPTION.verification.verifiedAt,
   };
 }

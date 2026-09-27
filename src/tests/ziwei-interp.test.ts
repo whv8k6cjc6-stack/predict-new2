@@ -70,7 +70,7 @@ describe("廣益版掃描：PDF 影像為 Source of Truth，雜湊可重現", ()
       expect(sp.printedPage).toBe(sp.pdfPage - 2);
       expect(sp.volume && sp.section && sp.entry).toBeTruthy();
       expect(sp.clip.every(v => v >= 0 && v <= 1) && sp.clip[0] < sp.clip[2] && sp.clip[1] < sp.clip[3]).toBe(true);
-      expect(sp.transcriptionStatus).toBe("verified");
+      expect([sp.transcriptionStatus, sp.visualVerified]).toEqual(["verified", true]);
       expect(sp.text, sp.spanId).toMatch(/^[\u4e00-\u9fff]+$/);
     }
     expect(GUANGYI_TRANSCRIPTION.verification.verifiedBy).toContain("非人工");
@@ -83,6 +83,7 @@ describe("ClassicalCitation：每條原文都能回到 PDF 頁面與轉錄段落
     for (const c of ZIWEI_CITATIONS) {
       const sp = GUANGYI_TRANSCRIPTION.spans.find(x => x.spanId === c.locator?.spanId)!;
       expect(sp, c.citationId).toBeTruthy();
+      expect(sp.visualVerified, c.citationId).toBe(true); // 只有逐字目視核對通過的原文可供 verified 規則引用
       expect(sp.text.includes(c.originalText!), c.citationId).toBe(true);
       expect([c.verificationStatus, c.transcriptionStatus, c.locationStatus]).toEqual(["verified", "verified", "verifiedAgainstText"]);
       expect([c.locator!.pdfPage, c.locator!.printedPage, c.volume, c.section]).toEqual([sp.pdfPage, sp.printedPage, sp.volume, sp.section]);
