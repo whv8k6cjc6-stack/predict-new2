@@ -7,6 +7,7 @@
 2. 完全離線可用；人物與出生資料預設只存在本機，不需帳號、不自動上傳。
 3. 「精準」＝排盤與規則計算正確、結果可追溯、同樣輸入可重現；不包裝成科學預測。
 4. 每個分數都能反查：分數 → 加權項目 → 命理規則 → 命盤因素 → 古籍原文；分數代表命理因素的淨方向與強度，不是成功機率。
+5. 算完之後一定給具體、白話、可執行的建議；每條建議都能反查：建議規則 → 生活因素 → 判讀規則 → 命盤資料 → 原文。
 
 完整設計：`docs/V3_DESIGN.md`（系統架構、資料庫 Schema、規則引擎、交叉判讀、評分公式、頁面架構、Design System、開發階段）。
 
@@ -20,6 +21,7 @@
 | 5 | 奇門遁甲（時家轉盤拆補法） | ✅ |
 | 6 | 易經（《周易》原文＋勘誤、梅花易數） | ✅ |
 | 7–8 | 交叉判讀、正式運勢分數 | ✅ |
+| 9 | 具體行動建議引擎（生活因素 → 主題判讀 → 跨系統整合 → 行動建議） | ✅ |
 
 各階段驗證方式與已知限制見 `docs/V3_DESIGN.md` 文末紀錄。
 
@@ -35,7 +37,7 @@ npx vitest run --config scripts/fuzz/vitest.config.ts        # 紫微 Fuzz 測�
 # E2E：npm run build 後以 out/ 起靜態伺服器（port 3200），再執行 node e2e/*.e2e.mjs
 ```
 
-紫微斗數排盤規則與重構紀錄見 `docs/ZIWEI_REFACTOR_PLAN.md`。
+紫微斗數排盤規則與重構紀錄見 `docs/ZIWEI_REFACTOR_PLAN.md`；具體行動建議引擎見 `docs/ACTION_ADVICE.md`（逐條對照表 `docs/LIFE_FACTOR_MAPPING.md`、完整建議文字 `docs/ADVICE_TEMPLATES.md`，修改規則或文字後以 `ADVICE_DOCS_WRITE=1 npx vitest run src/tests/advice-docs.test.ts` 重新產生）。
 
 ## 部署與安裝
 - 靜態輸出，可直接部署到 Vercel（沿用現有專案，合併到 main 即自動更新）。

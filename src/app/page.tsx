@@ -68,14 +68,6 @@ function Dashboard() {
       <div role="tablist" aria-label="時間尺度" className="no-scrollbar -mx-4 mt-3 flex gap-2 overflow-x-auto px-4">
         {SCALES.map(s => <Chip key={s.key} active={scale === s.key} onClick={() => setScale(s.key)}>{s.label}</Chip>)}
       </div>
-      <nav aria-label="工具" className="mt-3 grid grid-cols-4 gap-2">
-        {TOOLS.map(t => (
-          <Link key={t.href} href={t.href} className="card flex flex-col items-center gap-1 py-2.5 text-[12px] text-[var(--ink-2)]">
-            <span className="font-serif text-[18px] text-[var(--accent)]">{t.glyph}</span>{t.label}
-          </Link>
-        ))}
-      </nav>
-      <div className="mt-4"><BackupReminder /></div>
       <div className="mt-4">
         {!natal || !key || !tz || !date ? <Busy /> :
           scale === "week" ? <WeekView natal={natal} natalKey={key} from={today!} tz={tz} /> :
@@ -83,6 +75,15 @@ function Dashboard() {
           scale === "year" ? <YearView natal={natal} natalKey={key} year={Number(today!.slice(0, 4))} tz={tz} /> :
           <DayView natal={natal} natalKey={key} date={date} tz={tz} />}
       </div>
+      {/* 第一眼先看建議；工具與備份提醒放在後面 */}
+      <nav aria-label="工具" className="mt-6 grid grid-cols-4 gap-2">
+        {TOOLS.map(t => (
+          <Link key={t.href} href={t.href} className="card flex flex-col items-center gap-1 py-2.5 text-[12px] text-[var(--ink-2)]">
+            <span className="font-serif text-[18px] text-[var(--accent)]">{t.glyph}</span>{t.label}
+          </Link>
+        ))}
+      </nav>
+      <div className="mt-4"><BackupReminder /></div>
     </main>
   );
 }

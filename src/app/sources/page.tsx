@@ -3,6 +3,11 @@ import { SOURCE_EDITIONS, ZHOUYI_ERRATA, ZHOUYI_NOTES } from "@/kb/sources";
 import { ENGINES, STATUS_LABEL } from "@/core/registry";
 import { BAZI_RULES } from "@/kb/rules/bazi";
 import { legacyZiweiScoring } from "@/kb/rules/ziwei";
+import { FACTOR_IDS } from "@/core/advice/factors";
+import { ADVICE_RULES, ADVICE_RULES_VERSION } from "@/kb/advice/rules";
+import { TEMPLATE_IDS } from "@/kb/advice/templates";
+import { LIFE_FACTOR_MAPPING, MAPPING_VERSION } from "@/kb/advice/lifeFactorMapping";
+import { TOPIC_IDS } from "@/kb/advice/topics";
 import { QIMEN_RULES, QIMEN_EVENT_RULES } from "@/kb/rules/qimen";
 import { ICHING_RULES } from "@/kb/rules/iching";
 import { BACKGROUND_CAP, CALIBRATION_INFO, K, B, OVERALL_MIX, OVERALL_OWN_WEIGHT, W_SYSTEM, W_TIMESCALE, WEIGHTS_VERSION, TIMESCALE_LABEL } from "@/kb/weights";
@@ -66,6 +71,13 @@ export default function SourcesPage() {
           </li>
         ))}
       </ul>
+
+      <SectionTitle right={`版本 ${ADVICE_RULES_VERSION}`}>行動建議引擎</SectionTitle>
+      <div className="card space-y-2 p-4 text-[12px] leading-relaxed">
+        <p>命盤 → 客觀關係 → 各術判讀 → 生活因素 → 主題判讀 → 跨系統整合 → 行動建議規則 → 白話模板。全部在本機以固定規則產生，不使用任何 AI。</p>
+        <p className="num">生活因素 {FACTOR_IDS.length} 個（各系統共用）・既有規則對照 {Object.keys(LIFE_FACTOR_MAPPING).length} 族（版本 {MAPPING_VERSION}）・建議規則 {ADVICE_RULES.length} 條・建議文字 {TEMPLATE_IDS.length} 段・主題 {TOPIC_IDS.length} 個</p>
+        <p className="text-[var(--ink-3)]">既有規則只依已明確寫出的語意映射成生活因素，不新增命理推論；文字武斷或屬傷病預測的規則標為「待驗證」，只作低信心參考。紫微判讀引擎建置中，未納入建議。</p>
+      </div>
 
       <SectionTitle right={`版本 ${WEIGHTS_VERSION}`}>計分權重</SectionTitle>
       <div className="card space-y-3 p-4 text-[12px] leading-relaxed">

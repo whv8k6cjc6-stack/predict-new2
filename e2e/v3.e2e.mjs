@@ -30,10 +30,10 @@ log("人物詳細頁本命摘要 OK");
 
 await page.goto(B + "/");
 await expectText("今日命理分析");
+await expectText("今天最重要的一件事");
 await expectText("各領域");
-await expectText("今日宜忌");
 await expectText("吉時時間軸");
-await expectText("今日卦");
+await expectText("命理細節");
 await shot("02-home");
 log("今日儀表板 OK");
 
@@ -54,7 +54,8 @@ log("領域詳情與證據鏈 OK");
 await page.goto(B + "/event/");
 await page.getByRole("button", { name: "面試", exact: true }).click();
 await page.getByRole("button", { name: "分析這一天" }).click();
-await expectText("主要優勢", 30000);
+await expectText("這個時段最重要的一件事", 30000);
+await expectText("具體建議與判斷依據");
 await shot("05-event");
 await page.getByRole("button", { name: "幫我找時間" }).click();
 await expectText("較適合「面試」的時段", 60000);
@@ -89,7 +90,7 @@ log("占卜、來源 OK");
 
 await page.setViewportSize({ width: 1280, height: 900 });
 await page.goto(B + "/");
-await expectText("今日宜忌");
+await expectText("今天最重要的一件事");
 await shot("12-desktop", false);
 
 await browser.close();

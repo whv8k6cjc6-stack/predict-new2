@@ -13,6 +13,9 @@ import { NoPersonBanner } from "@/ui/Scales";
 import { dateTitle, deviceTimeZone, todayIn, useComputed, useNatal } from "@/ui/useAnalysis";
 import { ScoringNote } from "@/ui/ZiweiSystem";
 import { legacyZiweiScoring } from "@/kb/rules/ziwei";
+import { adviseDay, dayWordOf, HORIZON_LABEL, type Horizon } from "@/core/advice";
+import { DOMAIN_TOPIC } from "@/kb/advice/topics";
+import { TodayFocus } from "@/ui/Advice";
 
 export default function DomainPage() { return <Suspense><DomainDetail /></Suspense>; }
 
@@ -30,6 +33,10 @@ function DomainDetail() {
   const { data: a, busy } = useComputed(natal && key && tz && date ? `${level === "day" ? "day" : `lvl-${level}`}|${key}|${date}|${tz}` : null, () => analyze(natal!, date!, tz!, level));
   // 開發者模式：另算一份含 legacy 紫微計分的結果，只作比較，不作為正式分數
   const legacy = useComputed(prefs.developerMode && natal && key && tz && date ? `legacy|${level}|${key}|${date}|${tz}` : null, () => analyze(natal!, date!, tz!, level, { hours: false, legacyZiwei: true }));
+  const topic = DOMAIN_TOPIC[d];
+  const dayWord = date && tz ? dayWordOf(date, todayIn(tz)) : "今天";
+  const adv = useComputed(natal && key && tz && date ? `advice|${key}|${date}|${tz}|${topic}|${dayWord}` : null, () => adviseDay(natal!, date!, tz!, [topic], dayWord).byTopic[topic]!);
+  const LEVEL_HORIZON: Record<Level, Horizon> = { day: "today", month: "thisMonth", year: "thisYear", decade: "longTerm" };
   const def = domainOf(d);
   const r = a?.domains[d];
   const [tab, setTab] = useState<"all" | "pos" | "neg">("all");
@@ -47,12 +54,33 @@ function DomainDetail() {
           <>
             <section className="card p-5">
               <ScoreHeader score={r.score} confidence={r.confidence} />
-              <p className="font-serif mt-3 text-[18px] leading-snug">{r.interp.oneLine}</p>
+              <p className="font-serif mt-3 text-[18px] leading-snug">{prefs.displayMode === "pro" || !adv.data ? r.interp.oneLine : adv.data.headline}</p>
               <DivergenceNote d={r.divergence} />
             </section>
 
-            <SectionTitle>白話說明</SectionTitle>
-            <div className="card space-y-2 p-4 text-[15px] leading-relaxed">{r.interp.plain.map((t, i) => <p key={i}>{t}</p>)}</div>
+            <SectionTitle>具體建議</SectionTitle>
+            {!adv.data ? <Busy label="整理建議中…" /> : level === "day" ? (
+              <TodayFocus a={adv.data} detailHref={`/advice/?topic=${topic}&date=${date}`} />
+            ) : (() => {
+              const h = adv.data.otherHorizons.find(x => x.horizon === LEVEL_HORIZON[level]);
+              return (
+                <div className="card p-4 text-[15px] leading-relaxed">
+                  {h ? (
+                    <>
+                      <p>{h.headline}</p>
+                      <ul className="mt-2 space-y-2">{[...h.doNow, ...h.avoidNow].map(it => <li key={it.id} className="flex gap-2"><span aria-hidden style={{ color: it.kind === "do" ? "var(--sig-pos)" : "var(--sig-neg)" }}>{it.kind === "do" ? "✓" : "✕"}</span><span>{it.kind === "avoid" ? `避免${it.text}` : it.text}</span></li>)}</ul>
+                    </>
+                  ) : <p className="text-[var(--ink-3)]">{HORIZON_LABEL[LEVEL_HORIZON[level]]}沒有需要特別調整的做法。</p>}
+                  <a href={`/advice/?topic=${topic}&date=${date}`} className="mt-2 inline-block text-[14px] text-[var(--accent)]">查看詳細判斷 →</a>
+                </div>
+              );
+            })()}
+
+            <SectionTitle>命理白話說明</SectionTitle>
+            <details className="card p-4 text-[15px] leading-relaxed" open={prefs.displayMode === "pro"}>
+              <summary className="cursor-pointer text-[13px] text-[var(--accent)]">展開各系統的判讀說明</summary>
+              <div className="mt-2 space-y-2">{r.interp.plain.map((t, i) => <p key={i}>{t}</p>)}</div>
+            </details>
 
             <SectionTitle right={prefs.displayMode === "plain" ? "切到「專業」可預設展開" : undefined}>專業分析</SectionTitle>
             <details className="card p-4 text-[14px] leading-relaxed" open={prefs.displayMode === "pro"}>
@@ -60,10 +88,6 @@ function DomainDetail() {
               <div className="mt-2 space-y-1.5 text-[var(--ink-2)]">{r.interp.pro.map((t, i) => <p key={i}>{t}</p>)}</div>
             </details>
 
-            <SectionTitle>實際建議</SectionTitle>
-            <ul className="card space-y-1.5 p-4 text-[15px] leading-relaxed">
-              {r.interp.actions.map((t, i) => <li key={i} className="flex gap-2"><span className="text-[var(--accent)]">・</span>{t}</li>)}
-            </ul>
 
             {level === "day" && (r.bestHours.length > 0 || r.avoidHours.length > 0) && (
               <>

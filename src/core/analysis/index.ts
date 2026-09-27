@@ -8,6 +8,7 @@ import type { IchingReading } from "../iching";
 import { eventTypeOf, type EventType } from "../events";
 import { buildNatal, collect, collectHour, hourLabel, type Collected, type NatalSet, type Subject } from "./collect";
 import { scoreDomain, scoreOverall, signalsFor, confidenceOf, divergenceOf, toEvidence, activeUnavailable, scoringComposition, type ScoringComposition, toScore, SYSTEM_LABEL, type DomainResult, type Evidence } from "./score";
+import { adviseEvent, plainHour, type StructuredAdvice } from "../advice";
 import { K, W_SYSTEM, W_TIMESCALE, OVERALL_MIX, WEIGHTS_VERSION, type Level, type ScoredSystem } from "@/kb/weights";
 
 export { buildNatal, SYSTEM_LABEL };
@@ -16,15 +17,16 @@ export type { Subject, NatalSet, DomainResult, Evidence };
 export const DOMAIN_KEYS = DOMAINS.map(d => d.key);
 const SCORED_DOMAINS = DOMAIN_KEYS.filter(d => d !== "overall");
 
-export interface Interpretation { oneLine: string; plain: string[]; pro: string[]; actions: string[] }
+/** 命理解讀（結論、白話、專業）。實際行動建議一律由 ActionAdviceEngine 產生，不再取自規則附帶的 legacyAdviceText。 */
+export interface Interpretation { oneLine: string; plain: string[]; pro: string[] }
 export type DomainView = DomainResult & { interp: Interpretation; bestHours: string[]; avoidHours: string[] };
 
 const scaleName: Record<string, string> = { natal: "本命", decade: "大運", year: "流年", month: "流月", day: "流日", hour: "時辰" };
 const uniqBy = <T,>(xs: T[], key: (x: T) => string) => { const s = new Set<string>(); return xs.filter(x => { const k = key(x); if (s.has(k)) return false; s.add(k); return true; }); };
 
-export function interpret(r: DomainResult, bestHours: string[] = [], net = r.raw - r.baseline): Interpretation {
+export function interpret(r: DomainResult, net = r.raw - r.baseline): Interpretation {
   if (!r.evidence.length) {
-    return { oneLine: `${r.label}沒有明顯的命理訊號，分數落在中間。`, plain: [`今天沒有任何規則對「${r.label}」產生作用，照平常節奏即可。`], pro: ["無命中規則。"], actions: ["照原本計畫進行"] };
+    return { oneLine: `${r.label}沒有明顯的命理訊號，分數落在中間。`, plain: [`今天沒有任何規則對「${r.label}」產生作用，照平常節奏即可。`], pro: ["無命中規則。"] };
   }
   const main = net >= 0 ? r.positives : r.negatives;
   const other = net >= 0 ? r.negatives : r.positives;
@@ -33,12 +35,7 @@ export function interpret(r: DomainResult, bestHours: string[] = [], net = r.raw
   const oneLine = `${r.band.label}｜${top.text.conclusion}`;
   const plain = uniqBy([...main.slice(0, 2), ...other.slice(0, 1)], e => e.ruleId).map(e => `【${SYSTEM_LABEL[e.system]}】${e.text.plain}`);
   const pro = ev.slice(0, 6).map(e => `【${SYSTEM_LABEL[e.system]}・${scaleName[e.timescale]}】${e.text.pro}`);
-  const actions = uniqBy([
-    ...main.slice(0, 3).flatMap(e => e.text.actions.slice(0, 1)),
-    ...other.slice(0, 2).flatMap(e => e.text.actions.slice(0, 1)),
-    ...(bestHours.length && net < 0 ? [`必須進行時，選${bestHours.join("或")}`] : []),
-  ], x => x).slice(0, 4);
-  return { oneLine, plain, pro, actions };
+  return { oneLine, plain, pro };
 }
 
 export interface HourSlot {
@@ -48,16 +45,12 @@ export interface HourSlot {
   reasons: string[];
 }
 
-export interface AdviceItem { text: string; why: string; domain: DomainKey; system: ScoredSystem; evidenceId: string }
-
 export interface DayAnalysis {
   kind: "day"; date: string; timeZone: string; level: Level;
   overall: { score: number; band: ScoreBand; confidence: ConfidenceLevel; confidenceLabel: string; oneLine: string; domainAvg: number; parts: { domain: DomainKey; weight: number; z: number }[] };
   domains: Record<DomainKey, DomainView>;
-  yi: AdviceItem[]; ji: AdviceItem[];
   hours: HourSlot[] | null;
   directions: { good: string[]; bad: string[]; basis: string } | null;
-  reminders: (AdviceItem & { kind: "risk" | "chance" })[];
   readings: { iching: IchingReading | null; qimen: string | null; baziDay: string | null; ziweiDay: string | null };
   facts: Fact[];
   unavailable: NatalSet["unavailable"]; warnings: string[];
@@ -100,13 +93,6 @@ function bestAvoid(hours: HourSlot[] | null, c: Collected, d: DomainKey): { best
   return { best, avoid };
 }
 
-function advice(ev: Evidence[], sign: 1 | -1, n: number): AdviceItem[] {
-  const xs = ev.filter(e => e.domain !== "overall" && Math.sign(e.contribution) === sign && Math.abs(e.contribution) >= 1)
-    .sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution));
-  return uniqBy(uniqBy(xs, e => e.ruleId), e => e.text.actions[0] ?? e.ruleId).slice(0, n)
-    .map(e => ({ text: e.text.actions[0], why: e.text.conclusion, domain: e.domain, system: e.system, evidenceId: e.id }));
-}
-
 /** legacyZiwei：開發者模式比較用，加入已停用的舊紫微計分（結果不得作為正式分數顯示） */
 export interface AnalyzeOptions { hours?: boolean; legacyZiwei?: boolean }
 
@@ -120,7 +106,7 @@ export function analyze(n: NatalSet, date: string, timeZone: string, level: Leve
   for (const d of DOMAIN_KEYS) {
     const { best, avoid } = level === "day" ? bestAvoid(hours, c, d) : { best: [], avoid: [] };
     const r = scoreDomain(d, ev, n, level, best.join("或") || null);
-    domains[d] = { ...r, interp: interpret(r, best), bestHours: best, avoidHours: avoid };
+    domains[d] = { ...r, interp: interpret(r), bestHours: best, avoidHours: avoid };
   }
   const ov = scoreOverall(domains);
   const allSignals = signalsFor(ev, n);
@@ -129,21 +115,17 @@ export function analyze(n: NatalSet, date: string, timeZone: string, level: Leve
   const o = domains.overall;
   const oDiv = divergenceOf(ev, allSignals, o.bestHours.join("或") || null);
   domains.overall = { ...o, score: ov.score, band, signals: allSignals, divergence: oDiv, confidence: conf, confidenceLabel: CONFIDENCE_LEVELS.find(x => x.level === conf)!.label };
-  domains.overall.interp = interpret(domains.overall, o.bestHours, ov.score - 50);
+  domains.overall.interp = interpret(domains.overall, ov.score - 50);
   const best = [...SCORED_DOMAINS].sort((a, b) => domains[b].score - domains[a].score);
   const lead = domains[best[0]], weak = domains[best[best.length - 1]];
   const oneLine = `${band.label}｜${lead.score >= 55 ? `${lead.label}相對最有利` : "各領域支持力道都不強"}${weak.score < 55 ? `，${weak.label}需要多留意` : ""}。`;
-  const reminders = uniqBy(ev.filter(e => e.strength === 3 && e.polarity !== 0 && ["month", "day"].includes(e.timescale)), e => e.ruleId).slice(0, 3)
-    .map(e => ({ kind: (e.polarity < 0 ? "risk" : "chance") as "risk" | "chance", text: e.text.actions[0], why: e.text.conclusion, domain: e.domain, system: e.system, evidenceId: e.id }));
   const qf = (k: string) => c.facts.find(f => f.key === k)?.value;
   return {
     kind: "day", date, timeZone, level,
     overall: { score: ov.score, band, confidence: conf, confidenceLabel: domains.overall.confidenceLabel, oneLine, domainAvg: ov.domainAvg, parts: ov.parts },
     domains,
-    yi: advice(ev, 1, 4), ji: advice(ev, -1, 4),
     hours,
     directions: c.qimen ? { good: c.qimen.goodDirs, bad: c.qimen.badDirs, basis: `奇門${String(qf("qimen.term") ?? "")}：白天各時辰九宮門、星、神與格局積分` } : null,
-    reminders,
     readings: {
       iching: c.iching, qimen: (qf("qimen.term") as string) ?? null,
       baziDay: (qf(level === "day" ? "bazi.day.gz" : level === "month" ? "bazi.month.gz" : "bazi.year.gz") as string) ?? null,
@@ -166,6 +148,7 @@ export interface EventAnalysis {
   reading: IchingReading | null;
   facts: Fact[];
   scoring: ScoringComposition;
+  advice: StructuredAdvice;         // 具體行動建議（ActionAdviceEngine）
 }
 
 function eventAt(n: NatalSet, base: Evidence[], type: EventType, date: string, time: string, tz: string) {
@@ -186,11 +169,14 @@ export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: s
   const { r, h } = eventAt(n, base, type, date, chosen, timeZone);
   const bestHours = ranked.filter(s => s.r.score >= 55).slice(0, 2).map(s => hourLabel(s.i));
   const avoidHours = [...ranked].reverse().filter(s => s.r.score < 50).slice(0, 2).map(s => hourLabel(s.i));
-  const interp = interpret(r, bestHours);
-  const divAdvice = r.divergence ? [r.divergence.advice] : [];
+  const interp = interpret(r);
+  const advice = adviseEvent(n, typeKey, date, chosen, timeZone, {
+    best: ranked.filter(s => s.r.score >= 55).slice(0, 2).map(s => plainHour(s.i)),
+    avoid: [...ranked].reverse().filter(s => s.r.score < 50).slice(0, 2).map(s => plainHour(s.i)),
+  });
   return {
     type, date, time: chosen, chosenBy: time ? "user" : "best",
-    result: r, interp: { ...interp, actions: uniqBy([...divAdvice, ...interp.actions], x => x).slice(0, 5) },
+    result: r, interp, advice,
     strengths: uniqBy(r.positives, e => e.ruleId).slice(0, 3).map(e => e.text.conclusion),
     risks: uniqBy(r.negatives, e => e.ruleId).slice(0, 3).map(e => e.text.conclusion),
     bestHours, avoidHours,
