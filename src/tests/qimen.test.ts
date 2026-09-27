@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeQimen, xunYi } from "@/engines/qimen";
+import { computeQimen, xunYi } from "@/legacy/engines/qimen";
 
 describe("奇門 旬首遁儀", () => {
   // 六甲旬首：甲子戊、甲戌己、甲申庚、甲午辛、甲辰壬、甲寅癸

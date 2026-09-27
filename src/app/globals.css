@@ -1,19 +1,82 @@
 @import "tailwindcss";
 
+/* ── Design Tokens（docs/V3_DESIGN.md G-2）── */
 :root {
-  --bg: #0c0a14;
-  --panel: #16121f;
-  --ink: #ece7f4;
-  --ink-dim: #9a92ab;
-  --gold: #d4af6a;
-  --jade: #4fb286;
-  --vermilion: #d4604f;
+  color-scheme: dark;
+  --bg: #111012;
+  --surface-1: #18171a;
+  --surface-2: #211f23;
+  --surface-3: #2a282c;
+  --line: rgba(237, 230, 214, 0.08);
+  --line-strong: rgba(237, 230, 214, 0.16);
+  --ink-1: #ede6d6;
+  --ink-2: #b7b0a2;
+  --ink-3: #7e786d;
+  --accent: #c6a15b;
+  --accent-ink: #1a1510;
+  --sig-pos: #8db6a4;
+  --sig-neu: #a39d90;
+  --sig-neg: #c98d6e;
+  --danger: #d9776a;
+  --demo: #b98ad6;
+  --el-wood: #7fa88b; --el-fire: #c9806a; --el-earth: #c2a36b; --el-metal: #d9d2c0; --el-water: #6f8fb0;
+
+  /* 分數區間：單一暖金色相、由暗到亮＝由低到高（已通過 dataviz 順序色驗證）；永遠搭配文字標示 */
+  --band-unfavorable: #7c6540;
+  --band-weak: #9f8151;
+  --band-mixed: #c49e62;
+  --band-favorable: #e3ba79;
+  --band-strong: #fcd8a2;
+
+  --radius: 16px;
+  --font-sans: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-serif: "Songti TC", "Noto Serif TC", "PMingLiU", "MingLiU", serif;
 }
 
 html { background: var(--bg); }
 body {
   background: var(--bg);
-  color: var(--ink);
-  font-family: "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+  color: var(--ink-1);
+  font-family: var(--font-sans);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+.font-serif { font-family: var(--font-serif); }
+.num { font-variant-numeric: tabular-nums; }
+
+@layer components {
+.card { background: var(--surface-1); border: 1px solid var(--line); border-radius: var(--radius); }
+.inset { background: var(--surface-2); border-radius: 12px; }
+
+.band-strong { --tone: var(--band-strong); }
+.band-favorable { --tone: var(--band-favorable); }
+.band-mixed { --tone: var(--band-mixed); }
+.band-weak { --tone: var(--band-weak); }
+.band-unfavorable { --tone: var(--band-unfavorable); }
+
+.input {
+  width: 100%; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--surface-2);
+  padding: 10px 12px; font-size: 16px; color: var(--ink-1); outline: none;
+}
+.input:focus { border-color: var(--accent); }
+.input::placeholder { color: var(--ink-3); }
+select.input { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--ink-3) 50%), linear-gradient(135deg, var(--ink-3) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@keyframes sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.animate-sheet { animation: sheet-up 240ms cubic-bezier(.2,.8,.2,1); }
+.animate-fade { animation: fade-in 180ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .animate-sheet, .animate-fade { animation: none; } }
+
+.safe-top { padding-top: calc(env(safe-area-inset-top) + 16px); }
+.safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 88px); }
+
+.demo-stripe {
+  background-image: repeating-linear-gradient(135deg, rgba(185,138,214,0.10) 0 10px, transparent 10px 20px);
 }
