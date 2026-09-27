@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { ziweiPosition, fireBellPosition, yearSihua } from "@/engines/ziwei";
+import { ziweiPosition, fireBellPosition, yearSihua } from "@/legacy/engines/ziwei";
 
 const B = ["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
 

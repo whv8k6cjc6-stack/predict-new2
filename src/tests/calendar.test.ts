@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { dayPillar, fourPillars, yearPillar } from "@/engines/calendar/ganzhi";
-import { termJDOfYear, jdFromLocal } from "@/engines/calendar/astro";
+import { dayPillar, fourPillars, yearPillar } from "@/legacy/engines/calendar/ganzhi";
+import { termJDOfYear, jdFromLocal } from "@/legacy/engines/calendar/astro";
 
 describe("日柱錨點", () => {
   it("1949-10-01 為甲子日", () => {

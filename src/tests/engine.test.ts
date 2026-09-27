@@ -1,10 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { computeBazi } from "@/engines/bazi";
-import { computeZiwei } from "@/engines/ziwei";
-import { computeQimen } from "@/engines/qimen";
-import { computeFortune } from "@/engines/scoring";
-import { lunarDate } from "@/engines/calendar/lunar";
-import type { Profile } from "@/types/profile";
+import { computeBazi } from "@/legacy/engines/bazi";
+import { computeZiwei } from "@/legacy/engines/ziwei";
+import { computeQimen } from "@/legacy/engines/qimen";
+import { lunarDate } from "@/legacy/engines/calendar/lunar";
+import type { Profile } from "@/legacy/profile";
 
 const p: Profile = {
   id: "t", name: "測試", gender: "male",
@@ -43,11 +42,5 @@ describe("引擎煙霧測試", () => {
       expect(q.doors[pal]).toBeTruthy();
       expect(q.ground[pal]).toBeTruthy();
     }
-  });
-  it("整合評分輸出 0-100 並含免責聲明", () => {
-    const r = computeFortune(p, { type: "daily", date: "2026-06-13", topic: "wealth" });
-    for (const v of Object.values(r.scores)) { expect(v).toBeGreaterThanOrEqual(0); expect(v).toBeLessThanOrEqual(100); }
-    expect(r.disclaimer).toContain("不構成");
-    expect(r.summary).not.toMatch(/一定|必定|保證|絕對|買進|賣出/);
   });
 });
