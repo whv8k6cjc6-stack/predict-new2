@@ -66,6 +66,8 @@ describe("Profile 不可修改", () => {
     expect(again).toEqual({ id: r.id, created: null });
     const next = profileForOverrides(P.id, [{ field: "leapMonthRule", value: "asNext" }], [r.created!], now);
     expect(next.id).toBe("custom_20260927_002");
+    const legacy = legacyProfileFromV1({ baziZiHour: "earlyZiNextDay" }, "t").record!;
+    expect(profileForOverrides(P.id, [{ field: "dayBoundaryRule", value: "23:00" }], [legacy], now).id).toBe("custom_20260927_001");
     const resolved = resolveZiweiProfile(r.id, [r.created!]);
     expect([resolved.name, resolved.rules.dayBoundaryRule.value, resolved.rules.dayBoundaryRule.verification]).toEqual(["自訂（基於通行排盤（iztro 相容））", "23:00", "pendingVerification"]);
     expect(P.rules.dayBoundaryRule.value).toBe("00:00");

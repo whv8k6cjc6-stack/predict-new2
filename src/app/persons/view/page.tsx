@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useApp } from "../../providers";
 import { relationLabel, TIME_ACCURACY, type PersonBundle } from "@/core/person";
 import { computeBaziTransit } from "@/core/bazi";
-import { deviceTimeZone, todayIn, useNatal } from "@/ui/useAnalysis";
+import { deviceTimeZone, resolveCalculation, todayIn, useNatal } from "@/ui/useAnalysis";
+import { SolarTimePanel } from "@/ui/SolarTime";
 import { localOffset, formatOffset } from "@/core/calendar/tz";
 import { setFavorite } from "@/data/repo";
 import { Button, EmptyState, Icon, SectionTitle } from "@/ui/primitives";
@@ -65,7 +66,7 @@ function NatalSummary({ b, onGo }: { b: PersonBundle; onGo: (href: string) => vo
 function PersonView() {
   const params = useSearchParams();
   const router = useRouter();
-  const { persons, tags, schools, refresh, setActive, active } = useApp();
+  const { persons, tags, settingsList, ziweiProfiles, refresh, setActive, active } = useApp();
   const [exp, setExp] = useState(false);
   const b = persons.find(x => x.person.id === params.get("id"));
 
@@ -76,7 +77,7 @@ function PersonView() {
   );
 
   const off = b.birth.localTime ? localOffset(b.birth.localDate, b.birth.localTime, b.birth.timeZone) : null;
-  const school = schools.find(s => s.id === b.birth.schoolProfileId);
+  const calc = resolveCalculation(b.birth, settingsList, ziweiProfiles);
   const isActive = active?.person.id === b.person.id;
 
   return (
@@ -112,10 +113,12 @@ function PersonView() {
         <dt className="text-[var(--ink-3)]">出生時間</dt><dd className="num">{b.birth.localTime ?? "不詳"}{b.birth.localTime && `・${TIME_ACCURACY.find(a => a.key === b.birth.timeAccuracy)?.label}`}</dd>
         <dt className="text-[var(--ink-3)]">出生地</dt><dd>{b.birth.place.name || "—"}<span className="num text-[var(--ink-3)]">（{b.birth.place.lat}, {b.birth.place.lng}）</span></dd>
         <dt className="text-[var(--ink-3)]">時區</dt><dd>{b.birth.timeZone}{off && <span className="num">・{formatOffset(off.offsetMinutes)}{off.isDST && "・夏令時間"}</span>}</dd>
-        <dt className="text-[var(--ink-3)]">真太陽時</dt><dd>{b.birth.useTrueSolarTime ? "採用" : "不採用"}</dd>
-        <dt className="text-[var(--ink-3)]">流派設定</dt><dd>{school?.name ?? "—"}</dd>
+        <dt className="text-[var(--ink-3)]">真太陽時校正</dt><dd>{b.birth.useTrueSolarTime ? "開啟" : "關閉（標準時間）"}</dd>
+        <dt className="text-[var(--ink-3)]">計算設定</dt><dd>{calc.settings.name}</dd>
+        <dt className="text-[var(--ink-3)]">紫微排盤體系</dt><dd>{calc.ziweiProfile ? `${calc.ziweiProfile.name}（${calc.ziweiProfile.id} v${calc.ziweiProfile.version}）` : `找不到規則「${calc.settings.ziwei.ruleProfileId}」`}</dd>
         {b.person.note && <><dt className="text-[var(--ink-3)]">備註</dt><dd className="whitespace-pre-wrap">{b.person.note}</dd></>}
       </dl>
+      {b.birth.localTime && <div className="mt-2"><SolarTimePanel birth={b.birth} showAuditDiff /></div>}
 
       <NatalSummary b={b} onGo={async href => { await setActive(b.person.id); router.push(href); }} />
 

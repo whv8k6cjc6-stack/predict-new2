@@ -61,7 +61,7 @@ CalendarEngine 只提供曆法與節氣資料。八字（立春）、奇門年�
 
 ## 六、計分（修正 4）
 - 以下規則族停止參與正式分數，移為 `legacyZiweiScoring`（`userFacing=false`、`enabled=false`），僅開發者模式可比較：`ziwei.*.hua.*`（化祿權科固定加分、化忌固定扣分）、`ziwei.*.jichong.*`（同一化忌重複扣分）、`ziwei.*.focus.*`（廟旺加分、有煞扣分）、`ziwei.natal.*`（廟旺加分、吉煞數量加減）。星曜、亮度、四化等**資料顯示不變**。
-- **ScoreAggregator** 記錄各系統狀態：八字 `active`、紫微 `interpretationPending`、奇門 `active`、梅花 `active`，並輸出 `activeScoringSystems`。
+- **ScoreAggregator** 記錄各系統狀態：八字 `active`、紫微 `interpretationPending`、奇門 `active`、梅花 `active`，並輸出 `activeSystems`／`pendingSystems`／`inactiveSystems`／`unavailableSystems`（`scoringComposition`）。
 - **不放大其他三術權重來補滿**。若綜合分需重新正規化，畫面顯示「目前綜合評分由 3/4 個系統參與；紫微斗數暫不計分。」
 - 紫微新 Interpretation Engine 完成後，才正式重新校準四術權重。
 
@@ -72,15 +72,15 @@ CalendarEngine 只提供曆法與節氣資料。八字（立春）、奇門年�
 - 第三方命盤（例如文墨天機）加入時建立獨立 `comparisonFixture`；不同時**先出差異報告**，不直接改程式。
 
 ## 八、步驟
-1. ✅ 修改前金樣本、固定 fixtures、測試基礎架構（本次）
-2. RuleProfile／CalculationSettings 結構與版本號（calendarVersion、ziweiChartVersion、starPlacementVersion、brightnessVersion、transformationVersion、luckVersion、interpretationVersion、classicalDataVersion）
-3. 資料 migration（DB v2、備份 v2）與新人物預設
-4. 停用 legacy 紫微計分、ScoreAggregator 狀態、開發者模式
-5. 拆出 ZiWeiCalendarEngine、LifeBodyPalaceEngine、PalaceEngine、FiveElementBureauEngine、MainStarEngine、MinorStarEngine、BrightnessEngine、TransformationEngine（每拆一個都對照金樣本）
-6. Level 1 規則測試與 Level 3 比對格式
-7. 真太陽時畫面（原始／校正時間、跨時辰警告、兩盤比較）
-8. 設定頁「紫微斗數排盤體系」
-9. 之後依序：三方四正 → 空宮借對宮 → 大限流年 → 星曜組合／格局 → Interpretation Engine → Interpretation Trace → Scoring
+1. ✅ 修改前金樣本、固定 fixtures、測試基礎架構
+2. ✅ RuleProfile／CalculationSettings 結構與版本號（calendarVersion、ziweiChartVersion、starPlacementVersion、brightnessVersion、transformationVersion、luckVersion、interpretationVersion、classicalDataVersion）
+3. ✅ 資料 migration（DB v2、備份 v2、舊版 localStorage 匯入）與新人物預設標準時間
+4. ✅ 停用 legacy 紫微計分、ScoreAggregator 狀態、開發者模式
+5. ✅ 拆出 ZiWeiCalendarEngine、LifeBodyPalaceEngine、PalaceEngine、FiveElementBureauEngine、MainStarEngine、MinorStarEngine、BrightnessEngine、TransformationEngine（每拆一個都對照金樣本）
+6. ✅ Level 1 規則測試與 Level 3 比對格式（`comparisonFixture` 欄位已保留，尚無第三方資料）
+7. ✅ 真太陽時畫面（原始／校正時間、跨時辰警告、兩盤比較）
+8. ✅ 設定頁「紫微斗數排盤體系」、命盤頁體系標示與規則來源、開發者模式
+9. 待規則來源：星曜組合／格局 → Interpretation Engine → Interpretation Trace → Scoring（需先確認古籍或可靠書籍來源，不自行發明）
 
 ## 附錄 A：Step 1 紀錄
 - 金樣本產生自 commit `5a19010`（main），產生過程未修改任何 `src/core`、`src/kb`、`src/app`、`src/ui` 檔案。
@@ -97,3 +97,28 @@ CalendarEngine 只提供曆法與節氣資料。八字（立春）、奇門年�
 6. 天府：與紫微對寅申線對稱 → 亥。紫微系逆行：天機辰、太陽寅、武曲丑、天同子、廉貞酉；天府系順行：太陰子、貪狼丑、巨門寅、天相卯、天梁辰、七殺巳、破軍酉。
 7. 丁干四化：太陰祿、天同權、天機科、巨門忌。
 8. 丁為陰干、男命 → 陰男逆行；金四局 → 命宮 4–13，兄弟 14–23 … 父母 114–123（虛歲）。
+
+## 附錄 C：Step 2–8 實作紀錄
+### 架構
+- `src/core/ziwei/`：`profile.ts`（不可變 Profile、自訂／legacy Profile 解析）、`common.ts`（常數、`ZIWEI_VERSIONS`）、`calendar.ts`、`structure.ts`（命身宮、宮干、五行局）、`stars.ts`（主星、19 顆輔煞雜曜規則表）、`brightness.ts`（亮度 Profile `iztro-2.6.1`）、`transformations.ts`（結構化四化，含規則編號）、`luck.ts`（虛歲、大限、流運）、`relations.ts`（三方四正角色、空宮借對宮；飛化停用）、`chart.ts`（組裝＋17 步 Calculation Trace）、`facts.ts`、`index.ts`。
+- 每張紫微命盤記錄 `meta.ruleProfileId／ruleProfileVersion／brightnessProfileId／versions`；計算設定與傳入 Profile 不一致時拒絕排盤。
+- 八字子時換日（`settings.bazi.ziHour`）與紫微日界（Profile `dayBoundaryRule`）完全分離，互不影響。
+- 自訂 Profile：只允許覆寫程式已實作的三項（閏月、紫微日界、庚干四化）；以 `custom_YYYYMMDD_NNN` 建立，僅重用內容相同的自訂 Profile，不重用 legacy Profile；標準 Profile 深度凍結。
+
+### Migration
+- DB schema v1 → v2：`schoolProfiles` 轉為 CalculationSettings（舊值保存於 `migratedFrom`）；與標準不同的舊設定轉為 legacy Profile（`legacy_imported_v1_earlyZi`、`legacy_v1_<field>-<value>`），確保舊人物命盤不變。加密出生資料在解鎖後由 `migrateBirthProfilesV2` 正規化（`schoolProfileId → calculationSettingsId`、`timeBasis`、真太陽時稽核快照），只新增欄位、冪等。
+- 備份 schema v1 → v2：還原時套用同一轉換。舊版 localStorage 匯入：`ziRule=earlyZi` 者對應 legacy Profile。
+- 驗證：`src/tests/migration.test.ts`（fake-indexeddb）與 `e2e/ziwei-profile.e2e.mjs`（真實瀏覽器，原生 IndexedDB 建立 v1 資料後升級）。升級後命盤與金樣本逐宮相同。
+
+### 真太陽時
+- 新人物預設 `useTrueSolarTime=false`；既有人物保留原值。`solarTimeAudit` 只作稽核，排盤一律由原始資料重算；快照與重算不同時列出差異。
+- 跨時辰／跨日時在人物編輯、人物頁、命盤頁顯示警告，並可切換「標準時間命盤／真太陽時命盤」比較。
+
+### 計分
+- 正式分數不含紫微證據；畫面顯示「目前綜合評分由 3/4 個系統參與；紫微斗數判讀引擎重建中，暫不計分。」各系統權重與重構前相同（`W_SYSTEM` 有測試鎖定）；B／K 常數依新組成重新校準，只做正規化。
+- 時辰不詳時紫微同樣為「暫不計分」，確定度不因紫微缺席再降級。
+- 開發者模式可在領域詳情頁比較加入 legacy 紫微計分後的分數（標記 legacy，非正式）。
+
+### 驗證結果
+- 金樣本 651 組（51 標準＋600 固定種子）全數一致；iztro 相容設定 400 組 oracle 全數一致；Fuzz（每次隨機種子，預設 500 組）0 差異。
+- 客觀命盤未改變：標準 Profile 規則值與重構前排盤結果完全相同。

@@ -194,7 +194,8 @@ export function profileForOverrides(baseId: string, overrides: ProfileOverride[]
     return o.value !== (base.rules.fourTransformationsTable.value.庚[2] === "太陰" ? "陽武陰同" : "陽武同陰");
   });
   if (!effective.length) return { id: baseId, created: null };
-  const hit = customs.find(c => c.baseProfileId === baseId && sameOverrides(c.overrides, effective));
+  // 只重用內容相同的自訂 Profile；legacy Profile 專供舊資料升級，不作為使用者新建的體系
+  const hit = customs.find(c => c.kind === "custom" && c.baseProfileId === baseId && sameOverrides(c.overrides, effective));
   if (hit) return { id: hit.id, created: null };
   const day = now.toISOString().slice(0, 10).replaceAll("-", "");
   const n = customs.filter(c => c.id.startsWith(`custom_${day}_`)).length + 1;

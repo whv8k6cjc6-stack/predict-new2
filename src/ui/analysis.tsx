@@ -44,6 +44,7 @@ export function DomainLine({ r, href }: { r: DomainResult; href: string }) {
 }
 
 const verdictColor = (v: string) => v === "偏正面" ? "var(--sig-pos)" : v === "偏負面" ? "var(--sig-neg)" : "var(--ink-3)";
+const verdictText = (s: SystemSignal) => s.verdict === "暫不計分" ? "判讀重建中・暫不計分" : s.verdict;
 const arrow = (d: number, n: number) => n === 0 ? "—" : d >= 0.2 ? "↑" : d <= -0.2 ? "↓" : "→";
 
 /** 交叉判讀：各系統看法 */
@@ -55,10 +56,10 @@ export function SystemVerdicts({ signals }: { signals: SystemSignal[] }) {
         {signals.map(s => (
           <tr key={s.system}>
             <td className="py-2">{s.label}</td>
-            <td style={{ color: verdictColor(s.verdict) }}>{s.verdict}</td>
+            <td style={{ color: verdictColor(s.verdict) }} title={s.reason}>{verdictText(s)}</td>
             <td className="text-center text-[var(--ink-2)]" aria-label="長期命勢方向">{s.available ? arrow(s.long.direction, s.long.count) : ""}</td>
             <td className="text-center text-[var(--ink-2)]" aria-label="短期時機方向">{s.available ? arrow(s.short.direction, s.short.count) : ""}</td>
-            <td className="num text-right text-[var(--ink-3)]">{s.available ? `${s.count} 條` : "—"}</td>
+            <td className="num text-right text-[var(--ink-3)]">{s.available && s.verdict !== "暫不計分" ? `${s.count} 條` : "—"}</td>
           </tr>
         ))}
       </tbody>
