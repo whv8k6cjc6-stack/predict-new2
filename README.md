@@ -16,7 +16,7 @@
 | 1 | App 骨架：PWA、本機多人資料庫、離線、人物切換、App 鎖（PIN／Face ID）、加密備份、Design System | ✅ |
 | 2 | 曆法核心（精確節氣、農曆、時區夏令、真太陽時） | ✅ |
 | 3 | 八字＋《滴天髓》要旨規則 | ✅（原文待匯入） |
-| 4 | 紫微斗數 | ✅ |
+| 4 | 紫微斗數（通行排盤・iztro 相容；判讀引擎重建中，暫不計分） | ✅ |
 | 5 | 奇門遁甲（時家轉盤拆補法） | ✅ |
 | 6 | 易經（《周易》原文＋勘誤、梅花易數） | ✅ |
 | 7–8 | 交叉判讀、正式運勢分數 | ✅ |
@@ -31,7 +31,11 @@ npm run build        # 靜態輸出至 out/
 npx vitest run       # 單元測試
 npm run import:zhouyi   # 重新匯入《周易》（含勘誤檢查）
 npx vitest run --config scripts/vitest.calibrate.config.ts   # 重新校準分數常數
+npx vitest run --config scripts/fuzz/vitest.config.ts        # 紫微 Fuzz 測試（不作為回歸依據）
+# E2E：npm run build 後以 out/ 起靜態伺服器（port 3200），再執行 node e2e/*.e2e.mjs
 ```
+
+紫微斗數排盤規則與重構紀錄見 `docs/ZIWEI_REFACTOR_PLAN.md`。
 
 ## 部署與安裝
 - 靜態輸出，可直接部署到 Vercel（沿用現有專案，合併到 main 即自動更新）。

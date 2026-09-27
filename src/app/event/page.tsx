@@ -6,6 +6,7 @@ import { EVENT_TYPES, eventTypeOf } from "@/core/events";
 import { Banner, Button, Chip, Field, PageHeader, SectionTitle, Toggle } from "@/ui/primitives";
 import { Busy, DivergenceNote, EvidenceList, ScoreChip, ScoreHeader, SystemVerdicts } from "@/ui/analysis";
 import { PersonSwitcher } from "@/ui/Nav";
+import { ScoringNote } from "@/ui/ZiweiSystem";
 import { NoPersonBanner } from "@/ui/Scales";
 import { dateTitle, deviceTimeZone, todayIn, useComputed, useNatal, weekday } from "@/ui/useAnalysis";
 
@@ -75,6 +76,7 @@ export default function EventPage() {
                 </ScoreHeader>
                 <p className="font-serif mt-3 text-[17px] leading-snug">{e.interp.oneLine}</p>
                 <DivergenceNote d={e.result.divergence} />
+                <div className="mt-3"><ScoringNote s={e.scoring} /></div>
               </section>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <div className="card p-4"><p className="mb-1 text-[13px] text-[var(--sig-pos)]">主要優勢</p><ul className="space-y-1 text-[14px] leading-relaxed">{e.strengths.length ? e.strengths.map((s, i) => <li key={i}>・{s}</li>) : <li className="text-[var(--ink-3)]">沒有明顯的有利因素</li>}</ul></div>

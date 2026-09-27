@@ -3,7 +3,7 @@ import { resolveCivil, resolveBirth } from "@/core/calendar/resolve";
 import { fourPillars } from "@/core/calendar/pillars";
 import { toLunar, fromLunar, leapMonthOf, preciseTermJD } from "@/core/calendar/precise";
 import { utcMsFromJd } from "@/core/calendar/astro";
-import { DEFAULT_SCHOOL_ID, type BirthProfile } from "@/core/person";
+import { DEFAULT_SETTINGS_ID, type BirthProfile } from "@/core/person";
 
 const P = (date: string, time: string, tz = "Etc/GMT-8", zi: "lateZiSameDay" | "earlyZiNextDay" = "lateZiSameDay") => {
   const p = fourPillars(resolveCivil({ date, time, timeZone: tz }), zi);
@@ -74,7 +74,7 @@ describe("農曆", () => {
       personId: "x", localDate: "", localTime: "08:00", timeAccuracy: "exact", inputCalendar: "lunar",
       lunarInput: { year: 2023, month: 2, day: 15, isLeap: true },
       place: { name: "台北", countryCode: "TW", lat: 25.04, lng: 121.56 }, timeZone: "Asia/Taipei", dstOverride: "auto",
-      useTrueSolarTime: false, schoolProfileId: DEFAULT_SCHOOL_ID, createdAt: "", updatedAt: "",
+      useTrueSolarTime: false, timeBasis: "civilStandard", calculationSettingsId: DEFAULT_SETTINGS_ID, createdAt: "", updatedAt: "",
     };
     const r = resolveBirth(b);
     expect(r.civil.date).toBe("2023-04-05");

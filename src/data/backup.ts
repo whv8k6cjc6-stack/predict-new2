@@ -4,6 +4,7 @@ import { APP_VERSION, BACKUP_SCHEMA_VERSION } from "@/core/versioning";
 import { ENGINES } from "@/core/registry";
 import { decryptJSON, encryptJSON, fromB64, keyFromPassword, PBKDF2_ITERATIONS, randomBytes, toB64, type EncBlob } from "./crypto";
 import { dumpPlain, restorePlain, setPrefs, nowISO, type PlainDump } from "./repo";
+import { migrateSettingsListV1, normalizeBirth } from "./migrations";
 
 export interface BackupFile {
   format: "xuanji-backup";
@@ -92,9 +93,17 @@ export async function openBackup(f: BackupFile, password?: string): Promise<Plai
   return migrateBackup(payload, f.schema_version);
 }
 
-/** 逐版遷移：未來 schema_version 2、3… 在此依序加上轉換。 */
+/** 逐版遷移：每一版只做一步轉換，舊備份永遠可逐版升級還原。 */
 const MIGRATIONS: Record<number, (p: unknown) => unknown> = {
-  // 1: p => ({ ...p, newField: [] }),   // v1 → v2 範例
+  /** v1 → v2：流派設定改為 CalculationSettings＋ZiweiRuleProfile；出生資料改名 calculationSettingsId、補 timeBasis。
+   *  既有 useTrueSolarTime 保留原值；與標準 Profile 不同的舊設定轉為 legacy Profile，以維持命盤不變。 */
+  1: p => {
+    const v1 = p as { schoolProfiles?: unknown[]; birthProfiles?: unknown[] } & Record<string, unknown>;
+    const { schoolProfiles, ...rest } = v1;
+    const now = nowISO();
+    const conv = migrateSettingsListV1(schoolProfiles ?? [], now);
+    return { ...rest, birthProfiles: (v1.birthProfiles ?? []).map(b => normalizeBirth(b, conv.remap)), calculationSettings: conv.settings, ziweiRuleProfiles: conv.profiles };
+  },
 };
 
 export function migrateBackup(payload: unknown, from: number): PlainDump {
@@ -106,7 +115,7 @@ export function migrateBackup(payload: unknown, from: number): PlainDump {
   }
   const d = p as PlainDump;
   if (!Array.isArray(d?.persons) || !Array.isArray(d?.birthProfiles)) throw new BackupError("備份內容結構不完整。");
-  return { ...d, tags: d.tags ?? [], personTags: d.personTags ?? [], schoolProfiles: d.schoolProfiles ?? [], history: d.history ?? [], legacy: d.legacy ?? [] };
+  return { ...d, tags: d.tags ?? [], personTags: d.personTags ?? [], calculationSettings: d.calculationSettings ?? [], ziweiRuleProfiles: d.ziweiRuleProfiles ?? [], history: d.history ?? [], legacy: d.legacy ?? [] };
 }
 
 export const restoreBackup = (dump: PlainDump, mode: "merge" | "replace") => restorePlain(dump, mode);

@@ -4,20 +4,25 @@ import { useEffect, useRef, useState } from "react";
 import { useApp } from "../providers";
 import { APP_VERSION, BACKUP_SCHEMA_VERSION, SCHEMA_VERSION } from "@/core/versioning";
 import { ENGINES, STATUS_LABEL } from "@/core/registry";
-import type { SchoolProfile } from "@/core/person";
-import { reencryptAll, saveSchool, storageStatus, wipeAll } from "@/data/repo";
+import type { CalculationSettings } from "@/core/person";
+import { BUILTIN_ZIWEI_PROFILES, profileForOverrides, resolveZiweiProfile, type ProfileOverride } from "@/core/ziwei/profile";
+import { legacyZiweiScoring } from "@/kb/rules/ziwei";
+import { SCORED_SYSTEMS, SYSTEM_SCORING } from "@/kb/weights";
+import { SYSTEM_LABEL } from "@/core/analysis/score";
+import { ProfileBadge, ZiweiProfileTable, ZiweiVersionList } from "@/ui/ZiweiSystem";
+import { addZiweiProfile, reencryptAll, saveSettings, storageStatus, wipeAll } from "@/data/repo";
 import {
   changePin, disableLock, enableLock, lock, passkeyAvailable, registerPasskey, removePasskey, setAutoLockMinutes,
 } from "@/data/vault";
 import { BackupError, openBackup, parseBackup, restoreBackup, type BackupFile } from "@/data/backup";
 import type { PlainDump } from "@/data/repo";
-import { Banner, Button, Confirm, Field, Icon, PageHeader, SectionTitle, Sheet } from "@/ui/primitives";
+import { Banner, Button, Confirm, Field, Icon, PageHeader, SectionTitle, Sheet, Toggle } from "@/ui/primitives";
 import { ModeToggle } from "@/ui/interpret";
 import { ExportSheet } from "@/ui/ExportSheet";
 import { BandLegend } from "@/ui/score";
 
 export default function SettingsPage() {
-  const { security, prefs, persons, schools, refresh } = useApp();
+  const { security, prefs, persons, settingsList, refresh, updatePrefs } = useApp();
   const [exp, setExp] = useState(false);
   const [pinSheet, setPinSheet] = useState<null | "enable" | "change" | "disable" | "passkey">(null);
   const [pk, setPk] = useState(false);
@@ -108,8 +113,9 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      <SectionTitle>流派與排盤規則</SectionTitle>
-      <div className="space-y-2">{schools.map(s => <SchoolEditor key={s.id} s={s} onSaved={refresh} />)}</div>
+      <SectionTitle>計算設定與排盤體系</SectionTitle>
+      <p className="mb-2 px-0.5 text-[12px] leading-relaxed text-[var(--ink-3)]">排盤規則屬於「計算設定」，不屬於人物本身；同一人物可改用不同設定比較。各命理模組的規則彼此獨立。</p>
+      <div className="space-y-2">{settingsList.map(s => <SettingsEditor key={s.id + s.updatedAt} s={s} onSaved={refresh} />)}</div>
 
       <SectionTitle>關於</SectionTitle>
       <div className="card p-4 text-[13px]">
@@ -127,8 +133,14 @@ export default function SettingsPage() {
           ))}
         </ul>
         <Link href="/sources/" className="mt-3 block text-[var(--accent)]">來源、規則與計分權重 →</Link>
+        <div className="mt-3 border-t border-[var(--line)] pt-3">
+          <Toggle checked={!!prefs.developerMode} onChange={v => updatePrefs({ developerMode: v })} label="開發者模式"
+            desc="檢視規則、版本與已停用的舊紫微計分比較。不影響正式結果。" />
+        </div>
         <Link href="/demo/" className="mt-2 inline-block text-[var(--demo)]">DEMO 版面（測試資料）→</Link>
       </div>
+
+      {prefs.developerMode && <DeveloperPanel />}
 
       <SectionTitle>危險操作</SectionTitle>
       <Button variant="danger" block onClick={() => setWipe(true)}><Icon name="trash" size={16} />清除此裝置上的所有資料</Button>
@@ -244,36 +256,129 @@ function ImportBlock({ onDone }: { onDone: (msg: string) => void }) {
   );
 }
 
-function SchoolEditor({ s, onSaved }: { s: SchoolProfile; onSaved: () => void }) {
+type ZiweiChoice = { leap: "splitAt15" | "asCurrent" | "asNext"; day: "00:00" | "23:00"; geng: "陽武陰同" | "陽武同陰" };
+
+function SettingsEditor({ s, onSaved }: { s: CalculationSettings; onSaved: () => void }) {
+  const { ziweiProfiles } = useApp();
   const [x, setX] = useState(s);
-  const dirty = JSON.stringify(x) !== JSON.stringify(s);
+  const profile = (() => { try { return resolveZiweiProfile(x.ziwei.ruleProfileId, ziweiProfiles); } catch { return null; } })();
+  const baseId = profile?.kind === "builtin" ? profile.id : profile?.baseProfileId ?? "iztro_compatible_v1";
+  const current: ZiweiChoice | null = profile ? {
+    leap: profile.rules.leapMonthRule.value, day: profile.rules.dayBoundaryRule.value,
+    geng: profile.rules.fourTransformationsTable.value.庚[2] === "太陰" ? "陽武陰同" : "陽武同陰",
+  } : null;
+  const [choice, setChoice] = useState<ZiweiChoice | null>(current);
+  const [err, setErr] = useState("");
+  const choiceDirty = !!choice && !!current && JSON.stringify(choice) !== JSON.stringify(current);
+  const dirty = JSON.stringify(x) !== JSON.stringify(s) || choiceDirty;
+  // legacy Profile 只服務舊資料升級：僅在此設定原本就使用時列出，不提供給其他設定選用
+  const options = [
+    ...Object.values(BUILTIN_ZIWEI_PROFILES).map(p => ({ id: p.id, name: p.name })),
+    ...ziweiProfiles.filter(p => p.kind === "custom" || p.id === s.ziwei.ruleProfileId).map(p => ({ id: p.id, name: `${p.name}（${p.id}）` })),
+  ];
+
+  const save = async () => {
+    setErr("");
+    try {
+      let next = x;
+      if (choiceDirty && choice) {
+        const overrides: ProfileOverride[] = [
+          { field: "leapMonthRule", value: choice.leap }, { field: "dayBoundaryRule", value: choice.day }, { field: "gengTransformation", value: choice.geng },
+        ];
+        const r = profileForOverrides(baseId, overrides, ziweiProfiles, new Date());
+        if (r.created) await addZiweiProfile(r.created);
+        next = { ...x, ziwei: { ruleProfileId: r.id } };
+      }
+      await saveSettings({ ...next, origin: next.origin === "builtin" ? "builtin" : "user" });
+      onSaved();
+    } catch (e) { setErr((e as Error).message); }
+  };
+
   return (
     <details className="card p-4">
       <summary className="cursor-pointer text-[15px]">{s.name}{s.isDefault && <span className="ml-2 text-[11px] text-[var(--ink-3)]">預設</span>}</summary>
-      <div className="mt-3 space-y-3">
-        <Field label="八字：子時換日" hint="晚子時（23:00–24:00）是否算次日">
-          <select className="input" value={x.bazi.ziHour} onChange={e => setX({ ...x, bazi: { ...x.bazi, ziHour: e.target.value as SchoolProfile["bazi"]["ziHour"] } })}>
+      <div className="mt-3 space-y-4">
+        <Field label="八字：子時換日（只影響八字）" hint="紫微的安星日界改由下方紫微排盤體系決定，兩者互不影響">
+          <select className="input" value={x.bazi.ziHour} onChange={e => setX({ ...x, bazi: { ...x.bazi, ziHour: e.target.value as CalculationSettings["bazi"]["ziHour"] } })}>
             <option value="lateZiSameDay">晚子時不換日（23 點仍算當日）</option><option value="earlyZiNextDay">子初換日（23 點起算次日）</option>
           </select>
         </Field>
-        <Field label="紫微：閏月處理">
-          <select className="input" value={x.ziwei.leapMonth} onChange={e => setX({ ...x, ziwei: { ...x.ziwei, leapMonth: e.target.value as SchoolProfile["ziwei"]["leapMonth"] } })}>
-            <option value="splitAt15">十五日以前算本月、以後算下月</option><option value="asCurrent">一律算本月</option><option value="asNext">一律算下月</option>
-          </select>
-        </Field>
-        <Field label="紫微：庚干四化">
-          <select className="input" value={x.ziwei.gengSihua} onChange={e => setX({ ...x, ziwei: { ...x.ziwei, gengSihua: e.target.value as SchoolProfile["ziwei"]["gengSihua"] } })}>
-            <option value="陽武陰同">太陽祿・武曲權・太陰科・天同忌</option><option value="陽武同陰">太陽祿・武曲權・天同科・太陰忌</option>
-          </select>
-        </Field>
-        <Field label="奇門：定局法">
-          <select className="input" value={x.qimen.method} onChange={e => setX({ ...x, qimen: { ...x.qimen, method: e.target.value as SchoolProfile["qimen"]["method"] } })}>
-            <option value="chaibu">拆補法</option><option value="zhirun">置閏法</option>
-          </select>
-        </Field>
-        <p className="text-[12px] text-[var(--ink-3)]">修改後，下次開啟分析即依新設定重新排盤；每個結果都會標示所用流派。</p>
-        <Button size="sm" variant="primary" disabled={!dirty} onClick={async () => { await saveSchool(x); onSaved(); }}>儲存</Button>
+
+        <div className="space-y-2">
+          <Field label="紫微斗數排盤體系">
+            <select className="input" value={x.ziwei.ruleProfileId} onChange={e => { setX({ ...x, ziwei: { ruleProfileId: e.target.value } }); setChoice(null); }}>
+              {options.map(o => <option key={o.id} value={o.id}>{o.name}</option>)}
+              {!options.some(o => o.id === x.ziwei.ruleProfileId) && <option value={x.ziwei.ruleProfileId}>找不到：{x.ziwei.ruleProfileId}</option>}
+            </select>
+          </Field>
+          {profile && <ProfileBadge p={profile} />}
+          {profile && (
+            <details className="rounded-xl bg-[var(--surface-2)] px-3 py-2">
+              <summary className="cursor-pointer text-[13px] text-[var(--ink-2)]">查看全部規則與來源</summary>
+              <div className="mt-2"><ZiweiProfileTable p={profile} /></div>
+            </details>
+          )}
+          {choice && (
+            <details className="rounded-xl bg-[var(--surface-2)] px-3 py-2">
+              <summary className="cursor-pointer text-[13px] text-[var(--ink-2)]">建立自訂體系（不修改標準體系）</summary>
+              <div className="mt-2 space-y-2">
+                <p className="text-[12px] leading-relaxed text-[var(--ink-3)]">標準體系固定不可修改。變更以下任一項時，會建立「自訂（基於 {baseId}）」並記錄差異；只提供程式已實作的選項。</p>
+                <Field label="閏月">
+                  <select className="input" value={choice.leap} onChange={e => setChoice({ ...choice, leap: e.target.value as ZiweiChoice["leap"] })}>
+                    <option value="splitAt15">十五日（含）以前算本月、以後算下月</option><option value="asCurrent">一律算本月</option><option value="asNext">一律算下月</option>
+                  </select>
+                </Field>
+                <Field label="紫微安星日界" hint="只決定晚子時（23–24 點）出生以哪一天的農曆日安紫微；不是民用日期換日，也不影響八字">
+                  <select className="input" value={choice.day} onChange={e => setChoice({ ...choice, day: e.target.value as ZiweiChoice["day"] })}>
+                    <option value="00:00">00:00（晚子時仍以當日安星）</option><option value="23:00">23:00（晚子時以次日安星）</option>
+                  </select>
+                </Field>
+                <Field label="庚干四化">
+                  <select className="input" value={choice.geng} onChange={e => setChoice({ ...choice, geng: e.target.value as ZiweiChoice["geng"] })}>
+                    <option value="陽武陰同">太陽祿・武曲權・太陰科・天同忌</option><option value="陽武同陰">太陽祿・武曲權・天同科・太陰忌</option>
+                  </select>
+                </Field>
+              </div>
+            </details>
+          )}
+        </div>
+
+        <div className="text-[13px]">
+          <p className="text-[var(--ink-2)]">奇門：時家轉盤・拆補法</p>
+          <p className="text-[12px] text-[var(--ink-3)]">目前唯一實作的定局法（置閏法尚未實作，不提供選項）。</p>
+        </div>
+        <p className="text-[12px] text-[var(--ink-3)]">儲存後，使用此設定的人物會依新規則重新排盤；每張命盤都會標示所用體系與版本。</p>
+        {err && <p className="text-[13px] text-[var(--danger)]" role="alert">{err}</p>}
+        <Button size="sm" variant="primary" disabled={!dirty} onClick={save}>儲存</Button>
       </div>
     </details>
+  );
+}
+
+function DeveloperPanel() {
+  const { settingsList, ziweiProfiles } = useApp();
+  return (
+    <>
+      <SectionTitle>開發者模式</SectionTitle>
+      <div className="card space-y-4 p-4 text-[13px]">
+        <div>
+          <p className="mb-1 font-medium">評分組成（ScoreAggregator）</p>
+          <ul className="space-y-0.5 text-[12px]">
+            {SCORED_SYSTEMS.map(k => <li key={k}>{SYSTEM_LABEL[k]}：<code>{SYSTEM_SCORING[k].status}</code>（{SYSTEM_SCORING[k].detail}）{SYSTEM_SCORING[k].reason && <span className="block text-[var(--ink-3)]">{SYSTEM_SCORING[k].reason}</span>}</li>)}
+          </ul>
+        </div>
+        <div>
+          <p className="mb-1 font-medium">Legacy 紫微計分</p>
+          <p className="text-[12px] text-[var(--ink-3)]">id <code>{legacyZiweiScoring.id}</code>・enabled={String(legacyZiweiScoring.enabled)}・userFacing={String(legacyZiweiScoring.userFacing)}・{legacyZiweiScoring.rules.length} 條（{legacyZiweiScoring.families.join("、")}）</p>
+          <p className="text-[12px] text-[var(--ink-3)]">{legacyZiweiScoring.reason}在領域詳情頁可比較新舊分數。</p>
+        </div>
+        <div><p className="mb-1 font-medium">紫微模組版本</p><ZiweiVersionList /></div>
+        <div>
+          <p className="mb-1 font-medium">計算設定 → 紫微 Profile</p>
+          <ul className="space-y-0.5 text-[12px]">{settingsList.map(s => <li key={s.id}><code>{s.id}</code> → <code>{s.ziwei.ruleProfileId}</code>（{s.origin}）</li>)}</ul>
+          <p className="mt-1 text-[12px] text-[var(--ink-3)]">本機自訂／legacy Profile：{ziweiProfiles.length ? ziweiProfiles.map(p => p.id).join("、") : "無"}</p>
+        </div>
+      </div>
+    </>
   );
 }

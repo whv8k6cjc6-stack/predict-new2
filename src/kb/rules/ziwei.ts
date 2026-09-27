@@ -1,11 +1,16 @@
-/** 紫微斗數規則庫（第三層：程式判斷規則）。依據：紫微斗數全書通行論法（四化、三方四正、宮位象義）。
- *  不以單一星曜下結論：本命層以三方四正吉煞與主星亮度合參；流運層以四化落宮與化忌沖宮合參。 */
+/** Legacy 紫微計分規則（已停用，僅開發者模式比較用；userFacing=false、enabled=false）。
+ *  停用原因（違反已確認之判讀原則）：
+ *   - ziwei.*.hua.*：化祿權科固定加分、化忌固定扣分
+ *   - ziwei.*.jichong.*：同一化忌以「沖對宮」再次扣分（同源重複計分）
+ *   - ziwei.*.focus.*：流運命宮主星廟旺即加分、有煞即扣分
+ *   - ziwei.natal.*：廟旺即加分、三方吉星／煞星只按數量加減
+ *  新的紫微 Interpretation／Scoring Engine 完成前，紫微不參與正式分數。 */
 import type { DomainKey } from "@/core/domains";
 import type { RuleDefinition } from "@/core/sources";
 import { PALACES, type PalaceName, type ZScope } from "@/core/ziwei";
 
 export const ZIWEI_RULE_VERSION = "3.0.0";
-const SCHOOL = "紫微斗數（全書通行論法）";
+const SCHOOL = "Legacy 紫微計分（已停用）";
 type Eff = RuleDefinition["effects"];
 const E = (m: Partial<Record<DomainKey, number>>): Eff =>
   Object.entries(m).filter(([, v]) => v).map(([d, v]) => ({ domain: d as DomainKey, polarity: (v! > 0 ? 1 : -1) as 1 | -1, strength: Math.min(3, Math.abs(v!)) as 1 | 2 | 3 }));
@@ -175,4 +180,13 @@ const natalRules: RuleDefinition[] = NATAL_KEYS.flatMap(({ P, dom, what }) => [
   }),
 ]);
 
-export const ZIWEI_RULES: RuleDefinition[] = [...huaRules, ...jiChongRules, ...focusRules, ...natalRules];
+const LEGACY_ZIWEI_RULES: RuleDefinition[] = [...huaRules, ...jiChongRules, ...focusRules, ...natalRules];
+
+export const legacyZiweiScoring = {
+  id: "legacyZiweiScoring",
+  enabled: false,
+  userFacing: false,
+  reason: "含廟旺固定加減、吉煞計數、化祿化忌固定加減與同源重複計分，已停用；僅供開發者模式比較新舊差異。",
+  families: ["ziwei.*.hua.*", "ziwei.*.jichong.*", "ziwei.*.focus.*", "ziwei.natal.*"],
+  rules: LEGACY_ZIWEI_RULES,
+} as const;

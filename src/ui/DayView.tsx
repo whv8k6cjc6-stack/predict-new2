@@ -7,6 +7,7 @@ import { BandLegend, ConfidenceDots, ScoreRing } from "./score";
 import { AdviceList, Busy, Compass, DivergenceNote, DomainLine, HourTimeline } from "./analysis";
 import { Term } from "./interpret";
 import { useComputed } from "./useAnalysis";
+import { ScoringNote } from "./ZiweiSystem";
 
 export function DayView({ natal, natalKey, date, tz }: { natal: NatalSet; natalKey: string; date: string; tz: string }) {
   const { data: a, busy, error } = useComputed(`day|${natalKey}|${date}|${tz}`, () => analyze(natal, date, tz, "day"));
@@ -29,6 +30,7 @@ export function DayView({ natal, natalKey, date, tz }: { natal: NatalSet; natalK
           </div>
         </div>
         <DivergenceNote d={od.divergence} />
+        <div className="mt-3"><ScoringNote s={a.scoring} /></div>
         <div className="mt-4 flex flex-wrap gap-2">
           <Link href={`/domain/?d=overall&date=${date}`}><Button size="sm">判斷依據</Button></Link>
           <Button size="sm" variant="ghost" onClick={() => setLegend(true)}>分數區間代表什麼</Button>

@@ -7,7 +7,7 @@ import {
 import { changePin, disableLock, enableLock, getSecurityConfig, isLocked, loadSecurity, lock, unlockWithPin } from "@/data/vault";
 import { createBackup, migrateBackup, openBackup, parseBackup, restoreBackup, BackupError } from "@/data/backup";
 import { migrateLegacy } from "@/data/legacy";
-import { DEFAULT_SCHOOL_ID, type PersonBundle } from "@/core/person";
+import { DEFAULT_SETTINGS_ID, type PersonBundle } from "@/core/person";
 import { BACKUP_SCHEMA_VERSION } from "@/core/versioning";
 import { scoringReady } from "@/core/registry";
 import { bandOf, SCORE_BANDS } from "@/core/score";
@@ -25,7 +25,7 @@ function bundle(name: string, tagIds: string[] = []): PersonBundle {
     birth: {
       personId: id, localDate: "1988-01-14", localTime: "01:15", timeAccuracy: "exact", inputCalendar: "solar",
       place: { name: "台南", countryCode: "TW", lat: 23.0, lng: 120.21 }, timeZone: "Asia/Taipei", dstOverride: "auto",
-      useTrueSolarTime: true, schoolProfileId: DEFAULT_SCHOOL_ID, createdAt: t, updatedAt: t,
+      useTrueSolarTime: true, timeBasis: "civilStandard", calculationSettingsId: DEFAULT_SETTINGS_ID, createdAt: t, updatedAt: t,
     },
     tagIds,
   };

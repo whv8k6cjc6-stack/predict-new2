@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useApp } from "../providers";
 import { compareDates } from "@/core/analysis";
+import { scoringComposition } from "@/core/analysis/score";
+import { ScoringNote } from "@/ui/ZiweiSystem";
 import { DOMAINS, type DomainKey } from "@/core/domains";
 import { Button, Chip, Icon, PageHeader, SectionTitle } from "@/ui/primitives";
 import { Busy, ScoreChip } from "@/ui/analysis";
@@ -11,7 +13,7 @@ import { NoPersonBanner } from "@/ui/Scales";
 import { addDays, deviceTimeZone, todayIn, useComputed, useNatal, weekday } from "@/ui/useAnalysis";
 
 const vColor = (v: string) => v === "偏正面" ? "var(--sig-pos)" : v === "偏負面" ? "var(--sig-neg)" : "var(--ink-3)";
-const vMark = (v: string) => v === "偏正面" ? "＋" : v === "偏負面" ? "－" : v === "未納入" ? "×" : "・";
+const vMark = (v: string) => v === "偏正面" ? "＋" : v === "偏負面" ? "－" : v === "未納入" ? "×" : v === "暫不計分" ? "／" : "・";
 
 export default function ComparePage() {
   const { active } = useApp();
@@ -52,7 +54,8 @@ export default function ComparePage() {
           {sorted.length < 2 ? <p className="mt-4 text-[14px] text-[var(--ink-3)]">請至少選兩天。</p> : busy || !data ? <div className="mt-4"><Busy /></div> : (
             <>
               {best && <p className="font-serif mt-5 text-[17px] leading-snug">以「{DOMAINS.find(d => d.key === domain)!.label}」來看，<span className="text-[var(--accent)]">{best.date.slice(5).replace("-", "/")}（{weekday(best.date)}）</span>相對最適合。</p>}
-              <SectionTitle right="＋偏正面　－偏負面　・中性">天 × 系統訊號</SectionTitle>
+              {natal && <div className="mt-3"><ScoringNote s={scoringComposition(natal)} /></div>}
+              <SectionTitle right="＋偏正面　－偏負面　・中性　／暫不計分">天 × 系統訊號</SectionTitle>
               <div className="card overflow-x-auto p-3">
                 <table className="w-full min-w-[360px] text-[13px]">
                   <thead><tr className="text-[11px] text-[var(--ink-3)]"><th className="text-left font-normal">日期</th><th className="font-normal">分數</th>{data[0].signals.map(s => <th key={s.system} className="font-normal">{s.label}</th>)}<th className="font-normal">確定度</th></tr></thead>

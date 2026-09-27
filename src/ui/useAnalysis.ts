@@ -3,7 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useApp } from "@/app/providers";
 import { buildNatal, type NatalSet } from "@/core/analysis";
-import { defaultSchool, type PersonBundle } from "@/core/person";
+import type { PersonBundle } from "@/core/person";
+import { resolveCalculation } from "@/core/calculation";
+
+export { resolveCalculation };
 
 export function deviceTimeZone(): string {
   try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Taipei"; } catch { return "Asia/Taipei"; }
@@ -18,18 +21,20 @@ export const weekday = (date: string) => `週${WEEK[new Date(`${date}T00:00:00Z`
 
 const natalCache = new Map<string, NatalSet>();
 
-export function useNatal(bundle: PersonBundle | null | undefined): { natal: NatalSet | null; key: string | null } {
-  const { schools } = useApp();
-  const school = bundle ? schools.find(s => s.id === bundle.birth.schoolProfileId) ?? schools.find(s => s.isDefault) ?? defaultSchool("") : null;
-  const key = bundle && school ? `${bundle.person.id}|${bundle.person.gender}|${bundle.birth.updatedAt}|${school.id}|${school.updatedAt}` : null;
+/** timeBasisOverride：暫時以標準時間或真太陽時檢視（不修改人物設定） */
+export function useNatal(bundle: PersonBundle | null | undefined, timeBasisOverride?: "standard" | "trueSolar"): { natal: NatalSet | null; key: string | null } {
+  const { settingsList, ziweiProfiles } = useApp();
+  const calc = useMemo(() => bundle ? resolveCalculation(bundle.birth, settingsList, ziweiProfiles) : null, [bundle, settingsList, ziweiProfiles]);
+  const tst = timeBasisOverride ? timeBasisOverride === "trueSolar" : bundle?.birth.useTrueSolarTime;
+  const key = bundle && calc ? `${bundle.person.id}|${bundle.person.gender}|${bundle.birth.updatedAt}|${calc.settings.id}|${calc.settings.updatedAt}|${calc.ziweiProfile?.id ?? "unresolved"}|tst:${tst}` : null;
   const natal = useMemo(() => {
-    if (!bundle || !school || !key) return null;
+    if (!bundle || !calc || !key) return null;
     const hit = natalCache.get(key);
     if (hit) return hit;
-    const n = buildNatal({ person: bundle.person, birth: bundle.birth, school });
+    const n = buildNatal({ person: bundle.person, birth: { ...bundle.birth, useTrueSolarTime: !!tst }, ...calc });
     natalCache.set(key, n);
     return n;
-  }, [bundle, school, key]);
+  }, [bundle, calc, key, tst]);
   return { natal, key };
 }
 

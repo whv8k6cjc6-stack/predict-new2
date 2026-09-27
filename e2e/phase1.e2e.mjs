@@ -129,7 +129,7 @@ const file = `${SP}/${dl.suggestedFilename()}`;
 await dl.saveAs(file);
 const fs = await import("fs");
 const txt = fs.readFileSync(file, "utf8");
-if (txt.includes("陳測試") || !txt.includes('"schema_version": 1')) throw new Error("備份檔內容不符");
+if (txt.includes("陳測試") || !txt.includes('"schema_version": 2')) throw new Error("備份檔內容不符");
 log("加密備份匯出 OK：", dl.suggestedFilename());
 await page.keyboard.press("Escape");
 await page.getByRole("button", { name: "清除此裝置上的所有資料" }).click();

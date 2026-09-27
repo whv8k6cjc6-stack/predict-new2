@@ -8,6 +8,8 @@ import { Chip, PageHeader, SectionTitle } from "@/ui/primitives";
 import { Busy, HeatCell, ScoreChip } from "@/ui/analysis";
 import { PersonSwitcher } from "@/ui/Nav";
 import { NoPersonBanner } from "@/ui/Scales";
+import { ScoringNote } from "@/ui/ZiweiSystem";
+import { scoringComposition } from "@/core/analysis/score";
 import { deviceTimeZone, todayIn, useComputed, useNatal } from "@/ui/useAnalysis";
 
 const PICK: DomainKey[] = ["overall", "career", "wealth", "travel", "social", "love", "health"];
@@ -28,10 +30,11 @@ export default function LifePage() {
       {!active ? <NoPersonBanner /> : (
         <>
           <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4">{PICK.map(d => <Chip key={d} active={dom === d} onClick={() => setDom(d)}>{DOMAINS.find(x => x.key === d)!.label}</Chip>)}</div>
+          {natal && <div className="mt-2"><ScoringNote s={scoringComposition(natal)} /></div>}
           <p className="mt-2 text-[12px] leading-relaxed text-[var(--ink-3)]">這裡只看長期命勢（本命＋大運／大限＋流年），不含每天的短期時機；與每日分數是不同層級，請勿直接相減比較。</p>
           {busy || !data ? <div className="mt-4"><Busy label="排大運與流年中…" /></div> : (
             <>
-              <SectionTitle right="八字大運＋紫微大限">大運</SectionTitle>
+              <SectionTitle right="八字大運（紫微大限暫不計分）">大運</SectionTitle>
               {data.decades.length === 0 ? <p className="text-[13px] text-[var(--ink-3)]">無大運資料。</p> : (
                 <ol className="card divide-y divide-[var(--line)] px-4">
                   {data.decades.map(d => {

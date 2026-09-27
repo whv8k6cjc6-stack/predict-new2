@@ -1,11 +1,12 @@
 /** 舊版（v1／v2，localStorage）資料自動遷移。非破壞性：原始 localStorage 不刪除，另存完整快照於 legacy 表。 */
 import { db } from "./db";
-import { newId, nowISO, saveBundle, getPrefs, setPrefs, saveSchool } from "./repo";
+import { newId, nowISO, saveBundle, getPrefs, setPrefs, saveSettings, addZiweiProfile } from "./repo";
 import { encryptJSON } from "./crypto";
 import { activeKey, isLocked } from "./vault";
-import { DEFAULT_SCHOOL_ID, defaultSchool, type BirthProfile, type Person } from "@/core/person";
+import { DEFAULT_SETTINGS_ID, defaultSettings, type BirthProfile, type Person } from "@/core/person";
+import { legacyProfileFromV1 } from "@/core/ziwei/profile";
 
-const EARLY_ZI_SCHOOL_ID = "school-early-zi";
+const EARLY_ZI_SETTINGS_ID = "school-early-zi";
 
 import { LEGACY_LOCALSTORAGE_KEYS as LEGACY_KEYS } from "./repo";
 
@@ -32,8 +33,12 @@ export async function migrateLegacy(): Promise<number> {
     const profiles = (Array.isArray(snapshot["dd:profiles"]) ? snapshot["dd:profiles"] : []) as LegacyProfile[];
     let order = 0;
     if (profiles.some(p => p.ziRule === "earlyZi")) {
-      const base = defaultSchool(nowISO());
-      await saveSchool({ ...base, id: EARLY_ZI_SCHOOL_ID, name: "早子時換日（由舊版設定匯入）", isDefault: false, bazi: { ...base.bazi, ziHour: "earlyZiNextDay" } });
+      // 舊版「早子時」同時作用於八字與紫微：八字設子初換日，紫微以 legacy Profile（日界 23:00）保留相同結果
+      const t = nowISO();
+      const base = defaultSettings(t);
+      const { id: profileId, record } = legacyProfileFromV1({ baziZiHour: "earlyZiNextDay" }, t);
+      if (record) await addZiweiProfile(record);
+      await saveSettings({ ...base, id: EARLY_ZI_SETTINGS_ID, name: "早子時換日（由舊版設定匯入）", isDefault: false, origin: "migrated-v1", bazi: { ...base.bazi, ziHour: "earlyZiNextDay" }, ziwei: { ruleProfileId: profileId } });
     }
     for (const lp of profiles) {
       if (!lp.birthDate || !/^\d{4}-\d{2}-\d{2}$/.test(lp.birthDate)) continue;
@@ -50,7 +55,8 @@ export async function migrateLegacy(): Promise<number> {
         inputCalendar: "solar",
         place: { name: lp.birthPlace?.city ?? "", countryCode: "TW", lat: lp.birthPlace?.latitude ?? 23.0, lng: lp.birthPlace?.longitude ?? 120.2 },
         timeZone: lp.birthPlace?.timezone || "Asia/Taipei", dstOverride: "auto",
-        useTrueSolarTime: lp.useTrueSolarTime ?? true, schoolProfileId: lp.ziRule === "earlyZi" ? EARLY_ZI_SCHOOL_ID : DEFAULT_SCHOOL_ID,
+        useTrueSolarTime: lp.useTrueSolarTime ?? true, // 舊版人物：保留舊版行為（舊版預設採真太陽時）
+        timeBasis: "civilStandard", calculationSettingsId: lp.ziRule === "earlyZi" ? EARLY_ZI_SETTINGS_ID : DEFAULT_SETTINGS_ID,
         createdAt: t, updatedAt: t,
       };
       await saveBundle({ person, birth, tagIds: [] });

@@ -11,6 +11,8 @@ import { BackButton } from "@/ui/PageBack";
 import { ModeToggle, Term } from "@/ui/interpret";
 import { NoPersonBanner } from "@/ui/Scales";
 import { dateTitle, deviceTimeZone, todayIn, useComputed, useNatal } from "@/ui/useAnalysis";
+import { ScoringNote } from "@/ui/ZiweiSystem";
+import { legacyZiweiScoring } from "@/kb/rules/ziwei";
 
 export default function DomainPage() { return <Suspense><DomainDetail /></Suspense>; }
 
@@ -26,6 +28,8 @@ function DomainDetail() {
   const level = (params.get("level") ?? "day") as Level;
   const date = params.get("date") ?? (tz ? todayIn(tz) : null);
   const { data: a, busy } = useComputed(natal && key && tz && date ? `${level === "day" ? "day" : `lvl-${level}`}|${key}|${date}|${tz}` : null, () => analyze(natal!, date!, tz!, level));
+  // 開發者模式：另算一份含 legacy 紫微計分的結果，只作比較，不作為正式分數
+  const legacy = useComputed(prefs.developerMode && natal && key && tz && date ? `legacy|${level}|${key}|${date}|${tz}` : null, () => analyze(natal!, date!, tz!, level, { hours: false, legacyZiwei: true }));
   const def = domainOf(d);
   const r = a?.domains[d];
   const [tab, setTab] = useState<"all" | "pos" | "neg">("all");
@@ -73,7 +77,26 @@ function DomainDetail() {
             )}
 
             <SectionTitle right={<Term term="確定度" />}>交叉判讀</SectionTitle>
-            <div className="card p-4"><SystemVerdicts signals={r.signals} /></div>
+            <div className="card space-y-3 p-4"><SystemVerdicts signals={r.signals} /><ScoringNote s={a.scoring} /></div>
+
+            {prefs.developerMode && (
+              <>
+                <SectionTitle right="開發者模式・非正式結果">Legacy 紫微計分比較</SectionTitle>
+                <div className="card space-y-2 border-dashed p-4 text-[13px]">
+                  {legacy.busy || !legacy.data ? <p className="text-[var(--ink-3)]">計算中…</p> : (() => {
+                    const L = legacy.data.domains[d];
+                    const zw = L.evidence.filter(e => e.legacy);
+                    return (
+                      <>
+                        <p className="num">正式分數 <b>{r.score}</b>　｜　加入 legacy 紫微計分後 <b>{L.score}</b>（差 {L.score - r.score >= 0 ? "+" : ""}{L.score - r.score}）</p>
+                        <p className="text-[12px] text-[var(--ink-3)]">legacy 紫微證據 {zw.length} 條、raw 合計 {Math.round(zw.reduce((x, e) => x + e.contribution, 0) * 100) / 100}。已停用原因：{legacyZiweiScoring.reason}</p>
+                        <EvidenceList evidence={zw} facts={legacy.data.facts} limit={5} />
+                      </>
+                    );
+                  })()}
+                </div>
+              </>
+            )}
 
             <SectionTitle right={`${r.evidence.length} 條`}>判斷依據（證據鏈）</SectionTitle>
             <div className="card p-4">

@@ -1,10 +1,11 @@
 "use client";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { db } from "@/data/db";
-import { ensureSeed, getPrefs, listBundles, listSchools, listTags, setPrefs, touchPerson } from "@/data/repo";
+import { ensureSeed, getPrefs, listBundles, listSettings, listTags, listZiweiProfiles, migrateBirthProfilesV2, setPrefs, touchPerson } from "@/data/repo";
 import { migrateLegacy } from "@/data/legacy";
 import { getSecurityConfig, installAutoLock, isLocked, loadSecurity, subscribeVault, type SecurityConfig } from "@/data/vault";
-import { DEFAULT_PREFS, type PersonBundle, type Preferences, type SchoolProfile, type Tag } from "@/core/person";
+import { DEFAULT_PREFS, type CalculationSettings, type PersonBundle, type Preferences, type Tag } from "@/core/person";
+import type { CustomZiweiProfileRecord } from "@/core/ziwei/profile";
 import { LockScreen } from "@/ui/LockScreen";
 
 type Status = "loading" | "locked" | "ready" | "error";
@@ -14,7 +15,8 @@ interface AppCtx {
   error: string | null;
   persons: PersonBundle[];
   tags: Tag[];
-  schools: SchoolProfile[];
+  settingsList: CalculationSettings[];
+  ziweiProfiles: CustomZiweiProfileRecord[];
   prefs: Preferences;
   security: SecurityConfig;
   active: PersonBundle | null;
@@ -35,17 +37,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [persons, setPersons] = useState<PersonBundle[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
-  const [schools, setSchools] = useState<SchoolProfile[]>([]);
+  const [settingsList, setSettingsList] = useState<CalculationSettings[]>([]);
+  const [ziweiProfiles, setZiweiProfiles] = useState<CustomZiweiProfileRecord[]>([]);
   const [prefs, setPrefsState] = useState<Preferences>(DEFAULT_PREFS);
   const [security, setSecurity] = useState<SecurityConfig>(getSecurityConfig());
 
   const refresh = useCallback(async () => {
-    const [p, t, s, pr] = await Promise.all([listBundles(), listTags(), listSchools(), getPrefs()]);
-    setPersons(p); setTags(t); setSchools(s); setPrefsState(pr);
+    const [p, t, s, z, pr] = await Promise.all([listBundles(), listTags(), listSettings(), listZiweiProfiles(), getPrefs()]);
+    setPersons(p); setTags(t); setSettingsList(s); setZiweiProfiles(z); setPrefsState(pr);
   }, []);
 
   const afterUnlock = useCallback(async () => {
     await migrateLegacy();
+    await migrateBirthProfilesV2();
     await refresh();
     setStatus("ready");
   }, [refresh]);
@@ -94,7 +98,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ?? persons[0];
   }, [persons, prefs.activePersonId]);
 
-  const value: AppCtx = { status, error, persons, tags, schools, prefs, security, active, refresh, setActive, updatePrefs };
+  const value: AppCtx = { status, error, persons, tags, settingsList, ziweiProfiles, prefs, security, active, refresh, setActive, updatePrefs };
 
   return (
     <Ctx.Provider value={value}>

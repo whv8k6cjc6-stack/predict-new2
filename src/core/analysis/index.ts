@@ -7,7 +7,7 @@ import { hourTimeOf, SHI_CHEN, SHI_RANGE, evalYongshen, type EventKind } from ".
 import type { IchingReading } from "../iching";
 import { eventTypeOf, type EventType } from "../events";
 import { buildNatal, collect, collectHour, hourLabel, type Collected, type NatalSet, type Subject } from "./collect";
-import { scoreDomain, scoreOverall, signalsFor, confidenceOf, divergenceOf, toEvidence, toScore, SYSTEM_LABEL, type DomainResult, type Evidence } from "./score";
+import { scoreDomain, scoreOverall, signalsFor, confidenceOf, divergenceOf, toEvidence, activeUnavailable, scoringComposition, type ScoringComposition, toScore, SYSTEM_LABEL, type DomainResult, type Evidence } from "./score";
 import { K, W_SYSTEM, W_TIMESCALE, OVERALL_MIX, WEIGHTS_VERSION, type Level, type ScoredSystem } from "@/kb/weights";
 
 export { buildNatal, SYSTEM_LABEL };
@@ -62,6 +62,7 @@ export interface DayAnalysis {
   facts: Fact[];
   unavailable: NatalSet["unavailable"]; warnings: string[];
   versions: { weights: string; stamps: NatalSet["stamps"] };
+  scoring: ScoringComposition;   // 本次綜合評分由哪些系統組成
 }
 
 const HOUR_GOOD = 1.2, HOUR_BAD = -1.2;
@@ -106,12 +107,13 @@ function advice(ev: Evidence[], sign: 1 | -1, n: number): AdviceItem[] {
     .map(e => ({ text: e.text.actions[0], why: e.text.conclusion, domain: e.domain, system: e.system, evidenceId: e.id }));
 }
 
-export interface AnalyzeOptions { hours?: boolean }
+/** legacyZiwei：開發者模式比較用，加入已停用的舊紫微計分（結果不得作為正式分數顯示） */
+export interface AnalyzeOptions { hours?: boolean; legacyZiwei?: boolean }
 
 /** 每日（或流月／流年／大運層級）分析 */
 export function analyze(n: NatalSet, date: string, timeZone: string, level: Level = "day", opts: AnalyzeOptions = {}): DayAnalysis {
   const at: Moment = { civilDate: date, civilTime: "12:00", timeZone };
-  const c = collect(n, at, level);
+  const c = collect(n, at, level, { legacyZiwei: opts.legacyZiwei });
   const ev = toEvidence(c.fired);
   const hours = level === "day" && opts.hours !== false ? computeHours(n, c) : null;
   const domains = {} as Record<DomainKey, DomainView>;
@@ -122,7 +124,7 @@ export function analyze(n: NatalSet, date: string, timeZone: string, level: Leve
   }
   const ov = scoreOverall(domains);
   const allSignals = signalsFor(ev, n);
-  const conf = confidenceOf(allSignals, n.unavailable.length > 0);
+  const conf = confidenceOf(allSignals, activeUnavailable(n));
   const band = bandOf(ov.score);
   const o = domains.overall;
   const oDiv = divergenceOf(ev, allSignals, o.bestHours.join("或") || null);
@@ -149,6 +151,7 @@ export function analyze(n: NatalSet, date: string, timeZone: string, level: Leve
     },
     facts: c.facts, unavailable: n.unavailable, warnings: [...new Set([...n.warnings, ...c.warnings])],
     versions: { weights: WEIGHTS_VERSION, stamps: n.stamps },
+    scoring: scoringComposition(n, !!opts.legacyZiwei),
   };
 }
 
@@ -162,6 +165,7 @@ export interface EventAnalysis {
   slots: EventSlot[];               // 當日各時辰
   reading: IchingReading | null;
   facts: Fact[];
+  scoring: ScoringComposition;
 }
 
 function eventAt(n: NatalSet, base: Evidence[], type: EventType, date: string, time: string, tz: string) {
@@ -192,6 +196,7 @@ export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: s
     bestHours, avoidHours,
     slots: slots.map(s => ({ date, time: s.t, hour: hourLabel(s.i), score: s.r.score, band: s.r.band, top: s.r.evidence[0]?.text.conclusion ?? "" })),
     reading: h.reading, facts: [...c.facts, ...h.facts],
+    scoring: scoringComposition(n),
   };
 }
 

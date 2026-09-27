@@ -55,7 +55,7 @@ const SEASON_OF = (b: number): BaziNatal["season"]["name"] => [2, 3, 4].includes
 
 export function computeBaziNatal(input: ChartInput): BaziNatal {
   const resolved = resolveBirth(input.birth);
-  const zi = input.school.bazi.ziHour;
+  const zi = input.settings.bazi.ziHour;
   const pillars = fourPillars(resolved, zi);
   const warnings = [...pillars.notes];
   if (!resolved.timeKnown) warnings.push("出生時間不詳：時柱與時柱相關判斷全部停用。");

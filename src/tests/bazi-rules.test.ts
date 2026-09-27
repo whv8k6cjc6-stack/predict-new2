@@ -2,12 +2,12 @@ import { describe, it, expect } from "vitest";
 import { BAZI_RULES, BAZI_GLOBAL_SLOTS } from "@/kb/rules/bazi";
 import { lintRule, runRules } from "@/core/rules/engine";
 import { BaziEngine } from "@/core/bazi";
-import { defaultSchool, DEFAULT_SCHOOL_ID } from "@/core/person";
+import { defaultSettings, DEFAULT_SETTINGS_ID } from "@/core/person";
 import type { ChartInput } from "@/core/engine";
 
 const input = (date: string, time: string | null, gender: "male" | "female" = "male"): ChartInput => ({
-  personId: "t", gender, school: defaultSchool(""),
-  birth: { personId: "t", localDate: date, localTime: time, timeAccuracy: time ? "exact" : "unknown", inputCalendar: "solar", place: { name: "台南", countryCode: "TW", lat: 22.99, lng: 120.21 }, timeZone: "Asia/Taipei", dstOverride: "auto", useTrueSolarTime: true, schoolProfileId: DEFAULT_SCHOOL_ID, createdAt: "", updatedAt: "" },
+  personId: "t", gender, settings: defaultSettings(""),
+  birth: { personId: "t", localDate: date, localTime: time, timeAccuracy: time ? "exact" : "unknown", inputCalendar: "solar", place: { name: "台南", countryCode: "TW", lat: 22.99, lng: 120.21 }, timeZone: "Asia/Taipei", dstOverride: "auto", useTrueSolarTime: true, timeBasis: "civilStandard", calculationSettingsId: DEFAULT_SETTINGS_ID, createdAt: "", updatedAt: "" },
 });
 
 describe("八字規則庫品質", () => {

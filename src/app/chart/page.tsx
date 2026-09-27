@@ -9,12 +9,15 @@ import { computeQimenChart, PALACE_DIR, PALACE_GUA, hourTimeOf, SHI_CHEN, SHI_RA
 import { castDaily, TRIGRAMS, type IchingReading } from "@/core/iching";
 import type { ZhouyiHex } from "@/kb/sources";
 import { getSourceText } from "@/kb/sources";
-import { Banner, Chip, Field, PageHeader, SectionTitle } from "@/ui/primitives";
+import { Banner, Chip, Field, PageHeader, SectionTitle, Sheet } from "@/ui/primitives";
+import { BRIGHTNESS_PROFILES, computeZiweiTransit, sanFangSiZheng, TRANSFORMATION_TAG, type SanFangRole, type Transformation } from "@/core/ziwei";
+import { ProfileBadge } from "@/ui/ZiweiSystem";
 import { Busy } from "@/ui/analysis";
 import { Term } from "@/ui/interpret";
 import { PersonSwitcher } from "@/ui/Nav";
 import { NoPersonBanner } from "@/ui/Scales";
 import { deviceTimeZone, todayIn, useNatal } from "@/ui/useAnalysis";
+import { solarTimeView } from "@/core/calendar/solarTime";
 
 type Tab = "bazi" | "ziwei" | "qimen" | "iching";
 const TABS: { key: Tab; label: string }[] = [{ key: "bazi", label: "八字" }, { key: "ziwei", label: "紫微" }, { key: "qimen", label: "奇門" }, { key: "iching", label: "易經" }];
@@ -28,16 +31,35 @@ function Chart() {
   const [tab, setTab] = useState<Tab>((params.get("tab") as Tab) ?? "bazi");
   const [tz, setTz] = useState<string | null>(null);
   useEffect(() => setTz(deviceTimeZone()), []);
-  const { natal } = useNatal(active);
+  const [basis, setBasis] = useState<"saved" | "standard" | "trueSolar">("saved");
+  const { natal } = useNatal(active, basis === "saved" ? undefined : basis);
+  const stv = useMemo(() => { try { return active ? solarTimeView(active.birth) : null; } catch { return null; } }, [active]);
   const date = params.get("date") ?? (tz ? todayIn(tz) : null);
   return (
     <main className="safe-top mx-auto max-w-lg px-4">
       <PageHeader title="命盤" subtitle="專業排盤：每一格都可對照規則與辭典" right={<PersonSwitcher />} />
       <div role="tablist" className="flex gap-2">{TABS.map(t => <Chip key={t.key} active={tab === t.key} onClick={() => setTab(t.key)}>{t.label}</Chip>)}</div>
+      {active && stv && (stv.crossesHourBoundary || active.birth.useTrueSolarTime) && (
+        <div className="mt-3 space-y-2">
+          {stv.crossesHourBoundary ? (
+            <p role="alert" className="rounded-xl border border-[var(--danger)]/50 bg-[var(--danger)]/10 px-3 py-2 text-[13px] leading-relaxed text-[var(--danger)]">
+              真太陽時校正後跨越時辰界線，因此命盤與標準時間排盤不同。此人物設定為「{active.birth.useTrueSolarTime ? "真太陽時" : "標準時間"}」。
+            </p>
+          ) : <p className="text-[12px] text-[var(--ink-3)]">此人物已開啟真太陽時校正（未跨時辰，兩種時間命盤相同）。</p>}
+          {stv.crossesHourBoundary && (
+            <div className="flex flex-wrap items-center gap-2 text-[12px]">
+              <span className="text-[var(--ink-3)]">暫時檢視（不修改人物設定）：</span>
+              <Chip active={basis === "saved"} onClick={() => setBasis("saved")}>依人物設定</Chip>
+              <Chip active={basis === "standard"} onClick={() => setBasis("standard")}>標準時間命盤</Chip>
+              <Chip active={basis === "trueSolar"} onClick={() => setBasis("trueSolar")}>真太陽時命盤</Chip>
+            </div>
+          )}
+        </div>
+      )}
       <div className="mt-4">
         {!active ? <NoPersonBanner /> : !natal || !tz || !date ? <Busy /> :
           tab === "bazi" ? <BaziChart n={natal} /> :
-          tab === "ziwei" ? <ZiweiChart n={natal} /> :
+          tab === "ziwei" ? <ZiweiChart n={natal} date={date} tz={tz} /> :
           tab === "qimen" ? <QimenPanel n={natal} date={date} tz={tz} /> :
           <IchingPanel n={natal} date={date} />}
       </div>
@@ -129,15 +151,48 @@ function BaziChart({ n }: { n: NatalSet }) {
 
 const GRID: (number | null)[] = [5, 6, 7, 8, 4, null, null, 9, 3, null, null, 10, 2, 1, 0, 11];
 const HUA_COLOR: Record<string, string> = { 祿: "var(--sig-pos)", 權: "var(--accent)", 科: "var(--el-water)", 忌: "var(--sig-neg)" };
+type Layer = "natal" | "decade" | "annual";
+const ROLE_TAG: Record<SanFangRole, string> = { self: "本", opposite: "對", trine1: "合", trine2: "合" };
 
-function ZiweiChart({ n }: { n: NatalSet }) {
+/** 星曜旁的四化標記：顯示來源（生＝生年、限＝大限、年＝流年），不同來源不共用同一個字 */
+function HuaTag({ h, tag }: { h: string; tag: string }) {
+  return <span className="ml-0.5 whitespace-nowrap rounded px-0.5 text-[9px]" style={{ color: HUA_COLOR[h], border: `1px solid ${HUA_COLOR[h]}` }}>{h}{tag}</span>;
+}
+
+function ZiweiChart({ n, date, tz }: { n: NatalSet; date: string; tz: string }) {
   const z = n.ziwei;
   const [sel, setSel] = useState<number | null>(null);
+  const [layer, setLayer] = useState<Layer>("natal");
+  const [huaSheet, setHuaSheet] = useState(false);
+  const transit = useMemo(() => z ? computeZiweiTransit(z, { civilDate: date, civilTime: "12:00", timeZone: tz }) : null, [z, date, tz]);
   if (!z) return <Unavailable n={n} sys="ziwei" />;
-  const sf = sel === null ? [] : [sel, (sel + 6) % 12, (sel + 4) % 12, (sel + 8) % 12];
+  const P = z.profile;
+  const roles = sel === null ? [] : sanFangSiZheng(sel, P);
+  const roleAt = (b: number) => roles.find(r => r.branch === b)?.role;
+  const overlays: Transformation[] = [
+    ...(layer !== "natal" && transit?.scopes.decade ? transit.scopes.decade.transformations : []),
+    ...(layer === "annual" && transit ? transit.scopes.year!.transformations : []),
+  ];
+  const tagsOf = (star: string) => [
+    ...z.birthTransformations.filter(t => t.star === star),
+    ...overlays.filter(t => t.star === star),
+  ].map(t => <HuaTag key={t.type + t.transformation} h={t.transformation} tag={TRANSFORMATION_TAG[t.type]} />);
+  const decadeB = transit?.scopes.decade?.lifeBranch, annualB = transit?.scopes.year?.lifeBranch;
+  const bp = BRIGHTNESS_PROFILES[z.meta.brightnessProfileId];
+  const birthStem = z.yearGz.text[0];
   return (
     <>
-      <p className="mb-2 text-[12px] text-[var(--ink-3)]">點任一宮可高亮<Term term="三方四正" />。</p>
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+        <ProfileBadge p={P} />
+        <Link href="/settings/" className="text-[12px] text-[var(--accent)]">排盤體系設定</Link>
+      </div>
+      <div role="tablist" aria-label="命盤層級" className="mb-2 flex flex-wrap gap-2">
+        {([["natal", "本命"], ["decade", "本命＋大限"], ["annual", "本命＋大限＋流年"]] as const).map(([k, l]) => <Chip key={k} active={layer === k} onClick={() => setLayer(k)}>{l}</Chip>)}
+      </div>
+      <p className="mb-2 text-[12px] leading-relaxed text-[var(--ink-3)]">
+        點任一宮可標示<Term term="三方四正" />（本＝本宮、對＝對宮、合＝三合宮）。四化標記：生＝生年、限＝大限、年＝流年。
+        {layer !== "natal" && transit && <> 今天（{date}）虛歲 {transit.nominalAge}，大限在{transit.scopes.decade ? transit.scopes.decade.lifeOnNatal : "—"}{layer === "annual" ? `，流年命宮在${transit.scopes.year!.lifeOnNatal}` : ""}。大限歲數採虛歲。</>}
+      </p>
       <div className="grid grid-cols-4 gap-1">
         {GRID.map((br, i) => {
           if (br === null) {
@@ -146,20 +201,38 @@ function ZiweiChart({ n }: { n: NatalSet }) {
               <div key="c" className="card col-span-2 row-span-2 flex flex-col justify-center p-2 text-center text-[11px] leading-relaxed">
                 <p className="font-serif text-[15px]">{z.juName}</p>
                 <p className="text-[var(--ink-3)]">農曆 {z.lunar.year} 年{z.lunar.isLeap ? "閏" : ""}{z.lunar.month} 月 {z.lunar.day} 日・{BRANCHES[z.hourBranch]}時</p>
-                <p>命宮在{BRANCHES[z.lifeBranch]}・身宮在{z.bodyPalace}</p>
-                <p className="text-[var(--ink-3)]">生年四化：{(["祿", "權", "科", "忌"] as const).map(h => `${z.birthHua[h].star}化${h}`).join("、")}</p>
+                <p>命宮在{BRANCHES[z.lifeBranch]}・身宮在{BRANCHES[z.bodyBranch]}（{z.bodyPalace}）</p>
+                <button onClick={() => setHuaSheet(true)} className="mt-1 text-[var(--ink-2)] underline decoration-dotted underline-offset-4">
+                  生年四化：{z.birthTransformations.map(t => `${t.star}化${t.transformation}`).join("、")}
+                </button>
+                <p className="mt-1 text-[10px] text-[var(--ink-3)]">{z.forward ? "大限順行" : "大限逆行"}・虛歲</p>
               </div>
             );
           }
           const p = z.palaces[br];
-          const on = sf.includes(br);
+          const role = roleAt(br);
           return (
-            <button key={br} onClick={() => setSel(sel === br ? null : br)} className={`card min-h-[118px] p-1.5 text-left text-[10px] leading-tight ${on ? "ring-1 ring-[var(--accent)]" : ""} ${br === z.lifeBranch ? "bg-[var(--surface-2)]" : ""}`}>
-              <div className="flex justify-between"><span className="font-serif text-[12px] text-[var(--accent)]">{p.name}</span><span className="text-[var(--ink-3)]">{p.gz}</span></div>
+            <button key={br} onClick={() => setSel(sel === br ? null : br)} aria-label={`${p.name}${role ? `（${ROLE_TAG[role]}）` : ""}`}
+              className={`card relative min-h-[118px] p-1.5 text-left text-[10px] leading-tight ${role ? "ring-1 ring-[var(--accent)]" : ""} ${br === z.lifeBranch ? "bg-[var(--surface-2)]" : ""}`}>
+              <div className="flex justify-between gap-1">
+                <span className="font-serif text-[12px] text-[var(--accent)]">{p.name}{p.isBodyPalace && <span className="ml-0.5 text-[9px] text-[var(--ink-2)]">身</span>}</span>
+                <span className="text-[var(--ink-3)]">{p.gz}</span>
+              </div>
+              {(role || (layer !== "natal" && br === decadeB) || (layer === "annual" && br === annualB)) && (
+                <div className="mt-0.5 flex flex-wrap gap-0.5 text-[9px]">
+                  {role && <span className="rounded bg-[var(--accent)]/20 px-0.5 text-[var(--accent)]">{ROLE_TAG[role]}</span>}
+                  {layer !== "natal" && br === decadeB && <span className="rounded bg-[var(--surface-3)] px-0.5">大限命</span>}
+                  {layer === "annual" && br === annualB && <span className="rounded bg-[var(--surface-3)] px-0.5">流年命</span>}
+                </div>
+              )}
               <div className="mt-1 space-y-0.5">
-                {p.major.map(s => <p key={s.name} className="text-[12px]">{s.name}<span className="text-[9px] text-[var(--ink-3)]">{s.brightness}</span>{s.hua && <span className="ml-0.5 rounded px-0.5 text-[9px]" style={{ color: HUA_COLOR[s.hua], border: `1px solid ${HUA_COLOR[s.hua]}` }}>{s.hua}</span>}</p>)}
-                {p.major.length === 0 && <p className="text-[var(--ink-3)]">無主星</p>}
-                <p className="text-[var(--ink-2)]">{p.minor.map(s => s.name + (s.hua ? `(${s.hua})` : "")).join(" ")}</p>
+                {p.major.map(s => <p key={s.name} className="text-[12px]">{s.name}<span className="text-[9px] text-[var(--ink-3)]">{s.brightness}</span>{tagsOf(s.name)}</p>)}
+                {p.major.length === 0 && (
+                  <p className="text-[var(--ink-3)]">本宮無主星
+                    {p.empty.borrowedStars.length > 0 && <span className="block italic">借對宮參考：{p.empty.borrowedStars.map(s => s.name).join("、")}</span>}
+                  </p>
+                )}
+                <p className="text-[var(--ink-2)]">{p.minor.map(s => <span key={s.name} className="mr-0.5 inline-block">{s.name}{tagsOf(s.name)}</span>)}</p>
                 {p.misc.length > 0 && <p className="text-[var(--ink-3)]">{p.misc.join(" ")}</p>}
               </div>
               <p className="num mt-1 text-[9px] text-[var(--ink-3)]">{p.decade[0]}–{p.decade[1]}</p>
@@ -168,7 +241,35 @@ function ZiweiChart({ n }: { n: NatalSet }) {
         })}
       </div>
       {z.notes.length > 0 && <p className="mt-2 text-[12px] text-[var(--ink-3)]">{z.notes.join(" ")}</p>}
-      <p className="mt-2 text-[11px] text-[var(--ink-3)]">亮度表來源：iztro 2.6.1（MIT）；四化以{n.input.school.ziwei.gengSihua}。</p>
+      <p className="mt-2 text-[11px] leading-relaxed text-[var(--ink-3)]">
+        亮度表：{bp.name}（{bp.softwareDataSource}；古籍來源：{bp.classicalSource ?? "無"}）。廟旺利陷只是判讀因素之一，不直接等於吉凶。
+        無主星宮的「借對宮參考」不是本宮坐守主星；借星權重尚無可靠來源，暫不量化。
+      </p>
+      <details className="card mt-3 p-3">
+        <summary className="cursor-pointer text-[13px] text-[var(--ink-2)]">排盤計算過程（{z.trace.length} 步）</summary>
+        <ol className="mt-2 space-y-2 text-[12px] leading-relaxed">
+          {z.trace.map((t, i) => (
+            <li key={t.id} className="inset p-2">
+              <p className="font-medium">{i + 1}. {t.title}<span className="ml-1 text-[10px] text-[var(--ink-3)]">{t.module}</span></p>
+              {t.rule && <p className="text-[var(--ink-3)]">規則：{t.rule.label}</p>}
+              <p className="text-[var(--ink-3)]">輸入：{Object.entries(t.inputs).map(([k, v]) => `${k} ${String(v)}`).join("、")}</p>
+              {t.formula && <p className="break-words text-[var(--ink-2)]">{t.formula}</p>}
+              <p>→ {t.result}</p>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-2 text-[11px] text-[var(--ink-3)]">體系 {z.meta.ruleProfileId} v{z.meta.versions.ziweiProfileVersion}・排盤引擎 {z.meta.versions.ziweiChartEngineVersion}・安星 {z.meta.versions.starPlacementVersion}・四化 {z.meta.versions.transformationVersion}・運限 {z.meta.versions.luckVersion}・曆法 {z.meta.versions.calendarVersion}・亮度 {z.meta.versions.brightnessVersion}・判讀 {z.meta.versions.interpretationVersion}</p>
+      </details>
+      <Sheet open={huaSheet} onClose={() => setHuaSheet(false)} title="生年四化來源">
+        <div className="space-y-2 text-[14px] leading-relaxed">
+          <p>出生年干：<b>{birthStem}</b>（{z.yearGz.text}年，{P.rules.ziweiYearBoundary.label}）</p>
+          <p>{birthStem}干四化：{z.birthTransformations.map(t => `${t.star}${t.transformation}`).join("、")}</p>
+          <p className="text-[13px] text-[var(--ink-2)]">使用四化表：{P.name}（{P.id}）— {P.rules.fourTransformationsTable.label}</p>
+          <p className="text-[12px] text-[var(--ink-3)]">來源：{P.rules.fourTransformationsTable.softwareDataset ?? "無"}；古籍來源：{P.rules.fourTransformationsTable.classicalSource ?? "未確認（不引用）"}。</p>
+          <p className="text-[12px] text-[var(--ink-3)]">流派差異：庚干另有「陽武同陰」（天同科、太陰忌）之說；戊干、壬干之化科亦有異說。本體系固定採用上表，不混用其他表。</p>
+          <p className="text-[12px] text-[var(--ink-3)]">規則編號：{z.birthTransformations.map(t => t.ruleId).join("、")}</p>
+        </div>
+      </Sheet>
     </>
   );
 }

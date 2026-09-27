@@ -3,7 +3,7 @@ import { Suspense, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useApp } from "../../providers";
 import {
-  DEFAULT_SCHOOL_ID, RELATIONS, TIME_ACCURACY,
+  RELATIONS, TIME_ACCURACY, newBirthDefaults,
   type BirthProfile, type Gender, type Person, type PersonBundle, type Relation, type TimeAccuracy,
 } from "@/core/person";
 import { PLACES, TIME_ZONES } from "@/kb/places";
@@ -11,6 +11,7 @@ import { localOffset, formatOffset, isValidTimeZone } from "@/core/calendar/tz";
 import { fromLunar, leapMonthOf, toLunar } from "@/core/calendar/precise";
 import { deletePerson, newId, nextSortOrder, nowISO, saveBundle, saveTag, setPrefs } from "@/data/repo";
 import { Button, Chip, Confirm, Field, Icon, PageHeader, Toggle } from "@/ui/primitives";
+import { SolarTimePanel } from "@/ui/SolarTime";
 
 export default function EditPage() {
   return <Suspense><EditForm /></Suspense>;
@@ -20,11 +21,7 @@ function blank(): PersonBundle {
   const id = newId(), t = nowISO();
   return {
     person: { id, displayName: "", gender: "male", relation: "family", isFavorite: false, sortOrder: 0, createdAt: "", updatedAt: t },
-    birth: {
-      personId: id, localDate: "", localTime: "", timeAccuracy: "exact", inputCalendar: "solar",
-      place: { name: "台南", countryCode: "TW", lat: 22.99, lng: 120.21 }, timeZone: "Asia/Taipei", dstOverride: "auto",
-      useTrueSolarTime: true, schoolProfileId: DEFAULT_SCHOOL_ID, createdAt: "", updatedAt: t,
-    },
+    birth: newBirthDefaults(id, t), // 新人物：出生時間為民用標準時間，真太陽時校正預設關閉
     tagIds: [],
   };
 }
@@ -32,7 +29,7 @@ function blank(): PersonBundle {
 function EditForm() {
   const params = useSearchParams();
   const router = useRouter();
-  const { persons, tags, schools, refresh } = useApp();
+  const { persons, tags, settingsList, refresh } = useApp();
   const editing = persons.find(b => b.person.id === params.get("id"));
   const [b, setB] = useState<PersonBundle>(() => editing ? structuredClone(editing) : blank());
   const [custom, setCustom] = useState(() => !!editing && !PLACES.some(p => p.name === editing.birth.place.name));
@@ -155,7 +152,7 @@ function EditForm() {
           <Field label="時間準確度">
             <select className="input" value={b.birth.localTime ? b.birth.timeAccuracy : "unknown"} disabled={!b.birth.localTime}
               onChange={e => B({ timeAccuracy: e.target.value as TimeAccuracy })}>
-              {TIME_ACCURACY.map(a => <option key={a.key} value={a.key}>{a.label}</option>)}
+              {TIME_ACCURACY.map(a => <option key={a.key} value={a.key} disabled={a.key === "unknown" && !!b.birth.localTime}>{a.key === "unknown" ? "不知道（請把時間留空）" : a.label}</option>)}
             </select>
           </Field>
         </div>
@@ -187,15 +184,18 @@ function EditForm() {
             {offset.isDST && <span className="text-[var(--accent)]">（夏令時間，比標準時間快 {(offset.offsetMinutes - offset.standardMinutes) / 60} 小時）</span>}
           </p>
         )}
-        <Toggle checked={b.birth.useTrueSolarTime} onChange={v => B({ useTrueSolarTime: v })} label="採用真太陽時"
-          desc={`依出生地經度（${b.birth.place.lng}°）與均時差校正出生時間`} />
+        <Toggle checked={b.birth.useTrueSolarTime} onChange={v => B({ useTrueSolarTime: v })} label="真太陽時校正"
+          desc="開啟後會依出生地經度及時間制度校正。若校正後跨越時辰邊界，命盤可能改變。出生時間請填出生證明／戶籍記載的時間（標準時間）。" />
+        {b.birth.localTime && /^\d{4}-\d{2}-\d{2}$/.test(b.birth.localDate) && tzOk && (
+          <SolarTimePanel birth={{ ...b.birth, localTime: b.birth.localTime }} previousUseTrueSolarTime={editing?.birth.useTrueSolarTime} />
+        )}
 
         <details className="rounded-xl bg-[var(--surface-2)] px-3 py-2">
           <summary className="cursor-pointer text-[14px] text-[var(--ink-2)]">進階：流派與夏令時間</summary>
           <div className="mt-3 space-y-3 pb-1">
-            <Field label="排盤流派設定" hint="可在「設定 → 流派與排盤規則」調整">
-              <select className="input" value={b.birth.schoolProfileId} onChange={e => B({ schoolProfileId: e.target.value })}>
-                {schools.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+            <Field label="計算設定（排盤規則）" hint="規則屬於計算設定，不屬於人物本身；可在「設定 → 計算設定與排盤體系」調整">
+              <select className="input" value={b.birth.calculationSettingsId} onChange={e => B({ calculationSettingsId: e.target.value })}>
+                {settingsList.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
               </select>
             </Field>
             <Field label="夏令時間" hint="若出生證明記載與時區資料不符，可手動指定">
