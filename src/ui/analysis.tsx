@@ -44,7 +44,7 @@ export function DomainLine({ r, href }: { r: DomainResult; href: string }) {
 }
 
 const verdictColor = (v: string) => v === "偏正面" ? "var(--sig-pos)" : v === "偏負面" ? "var(--sig-neg)" : "var(--ink-3)";
-const verdictText = (s: SystemSignal) => s.verdict === "暫不計分" ? "判讀重建中・暫不計分" : s.verdict;
+const verdictText = (s: SystemSignal) => s.verdict === "暫不計分" ? "判讀已啟用・不計分" : s.verdict;
 const arrow = (d: number, n: number) => n === 0 ? "—" : d >= 0.2 ? "↑" : d <= -0.2 ? "↓" : "→";
 
 /** 交叉判讀：各系統看法 */

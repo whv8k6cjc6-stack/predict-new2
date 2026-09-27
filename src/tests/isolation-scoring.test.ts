@@ -101,7 +101,7 @@ describe("評分組成：紫微暫不計分", () => {
       expect(d.signals.find(s => s.system === "ziwei")!.verdict).toBe("暫不計分");
     }
     expect(a.scoring).toMatchObject({ activeScoringSystems: ["bazi", "qimen", "iching"], pendingSystems: ["ziwei"], activeSystemCount: 3, totalSystemCount: 4, missingSystems: ["ziwei"], legacyIncluded: false });
-    expect(a.scoring.note).toBe("目前綜合評分由 3/4 個系統參與；紫微斗數判讀引擎重建中，暫不計分。");
+    expect(a.scoring.note).toBe("目前綜合評分由 3/4 個系統參與；紫微判讀已啟用，只用於建議，不參與分數。");
     expect(a.scoring).toMatchObject({ normalizationApplied: true, scaleReference: "fourSystemReference", compensatesMissingSystems: false });
     const e = analyzeEvent(n, "work", "2026-09-28", "10:00", "Asia/Taipei");
     expect(e.result.evidence.some(x => x.system === "ziwei")).toBe(false);
