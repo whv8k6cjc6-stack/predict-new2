@@ -1,7 +1,7 @@
 /** 由 scripts/calibrate.test.ts 產生，勿手改。樣本：12 組合成命例；day 以 2026 全年逐日、month 以 2025–2027 逐月、year 以 2000–2039 逐年、decade 以 1990–2060 每十年。 */
 import type { DomainKey } from "@/core/domains";
 import type { Level, Profile } from "./weights";
-type KTable = Record<DomainKey | "mix", number>;
+type KTable = Record<DomainKey, number>;
 /** 尺度常數 K：score = round(50 + 50 × tanh((raw − B) / K))；依校準組別（full／noZiwei）分開 */
 export const K: Record<Profile, Record<Level, KTable>> = {
   "full": {
@@ -14,8 +14,7 @@ export const K: Record<Profile, Record<Level, KTable>> = {
       "love": 7,
       "travel": 5.1,
       "health": 7.9,
-      "decision": 8,
-      "mix": 0.74
+      "decision": 8
     },
     "month": {
       "overall": 5.8,
@@ -26,8 +25,7 @@ export const K: Record<Profile, Record<Level, KTable>> = {
       "love": 6,
       "travel": 2.6,
       "health": 5.5,
-      "decision": 4.1,
-      "mix": 0.63
+      "decision": 4.1
     },
     "year": {
       "overall": 2.8,
@@ -38,8 +36,7 @@ export const K: Record<Profile, Record<Level, KTable>> = {
       "love": 3.9,
       "travel": 2,
       "health": 3.8,
-      "decision": 3.2,
-      "mix": 0.7
+      "decision": 3.2
     },
     "decade": {
       "overall": 2.2,
@@ -50,8 +47,7 @@ export const K: Record<Profile, Record<Level, KTable>> = {
       "love": 2.8,
       "travel": 1.2,
       "health": 2.2,
-      "decision": 2.1,
-      "mix": 0.61
+      "decision": 2.1
     }
   },
   "noZiwei": {
@@ -64,8 +60,7 @@ export const K: Record<Profile, Record<Level, KTable>> = {
       "love": 4.9,
       "travel": 3.4,
       "health": 6.4,
-      "decision": 7.6,
-      "mix": 0.89
+      "decision": 7.6
     },
     "month": {
       "overall": 4.6,
@@ -76,8 +71,7 @@ export const K: Record<Profile, Record<Level, KTable>> = {
       "love": 3.2,
       "travel": 2.3,
       "health": 4.9,
-      "decision": 4,
-      "mix": 0.66
+      "decision": 4
     },
     "year": {
       "overall": 2.6,
@@ -88,8 +82,7 @@ export const K: Record<Profile, Record<Level, KTable>> = {
       "love": 1.8,
       "travel": 2.1,
       "health": 2.6,
-      "decision": 3.3,
-      "mix": 0.74
+      "decision": 3.3
     },
     "decade": {
       "overall": 1.2,
@@ -100,8 +93,7 @@ export const K: Record<Profile, Record<Level, KTable>> = {
       "love": 2.1,
       "travel": 1,
       "health": 2.3,
-      "decision": 2.1,
-      "mix": 0.76
+      "decision": 2.1
     }
   }
 };
@@ -117,8 +109,7 @@ export const B: Record<Profile, Record<Level, KTable>> = {
       "love": 2,
       "travel": 2.54,
       "health": 0.63,
-      "decision": 1.44,
-      "mix": 0.009
+      "decision": 1.44
     },
     "month": {
       "overall": -0.05,
@@ -129,8 +120,7 @@ export const B: Record<Profile, Record<Level, KTable>> = {
       "love": 1.49,
       "travel": 0.65,
       "health": -0.26,
-      "decision": 0.73,
-      "mix": 0
+      "decision": 0.73
     },
     "year": {
       "overall": -0.17,
@@ -141,8 +131,7 @@ export const B: Record<Profile, Record<Level, KTable>> = {
       "love": 0.67,
       "travel": 0.41,
       "health": 0,
-      "decision": 0,
-      "mix": -0.022
+      "decision": 0
     },
     "decade": {
       "overall": 0,
@@ -153,8 +142,7 @@ export const B: Record<Profile, Record<Level, KTable>> = {
       "love": 0.54,
       "travel": 0.32,
       "health": 0.49,
-      "decision": 0,
-      "mix": -0.051
+      "decision": 0
     }
   },
   "noZiwei": {
@@ -167,8 +155,7 @@ export const B: Record<Profile, Record<Level, KTable>> = {
       "love": 2.1,
       "travel": 2.34,
       "health": 0.73,
-      "decision": 1.16,
-      "mix": 0.004
+      "decision": 1.16
     },
     "month": {
       "overall": -0.56,
@@ -179,8 +166,7 @@ export const B: Record<Profile, Record<Level, KTable>> = {
       "love": 0.98,
       "travel": 0,
       "health": -0.24,
-      "decision": 0.42,
-      "mix": 0.051
+      "decision": 0.42
     },
     "year": {
       "overall": -0.17,
@@ -191,8 +177,7 @@ export const B: Record<Profile, Record<Level, KTable>> = {
       "love": 0.67,
       "travel": 0,
       "health": -0.17,
-      "decision": -0.14,
-      "mix": -0.075
+      "decision": -0.14
     },
     "decade": {
       "overall": 0,
@@ -203,8 +188,7 @@ export const B: Record<Profile, Record<Level, KTable>> = {
       "love": 0,
       "travel": 0,
       "health": 0,
-      "decision": 0,
-      "mix": -0.016
+      "decision": 0
     }
   }
 };

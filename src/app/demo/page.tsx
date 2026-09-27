@@ -67,7 +67,7 @@ export default function DemoPage() {
       <SectionTitle>可點術語</SectionTitle>
       <p className="card p-4 text-[14px] leading-loose">
         點看看：<Term term="偏財" />、<Term term="七殺" />、<Term term="化忌" />、<Term term="生門" />、<Term term="伏吟" />。
-        面板會分成「專業定義／白話／在我命盤代表什麼／今天為什麼出現」四部分；後兩部分在排盤引擎完成後才會依個人命盤顯示。
+        面板會分成「專業定義／白話／在我命盤代表什麼／今天為什麼出現」四部分；後兩部分在正式分析頁（領域詳情的證據鏈）會依個人命盤與當天盤面顯示。
       </p>
 
       <SectionTitle>分數區間定義（正式制度）</SectionTitle>

@@ -74,7 +74,7 @@ export function EvidenceChain({ items }: { items: EvidenceLink[] }) {
 export function Term({ term, inMyChart, whyToday }: { term: string; inMyChart?: string; whyToday?: string }) {
   const [open, setOpen] = useState(false);
   const e = lookupTerm(term);
-  const pending = "排盤引擎完成後，這裡會顯示依你命盤計算的說明。";
+  const pending = "從領域詳情頁的證據鏈點開術語時，這裡會顯示依你命盤與當天盤面的說明。";
   return (
     <>
       <button type="button" onClick={ev => { ev.stopPropagation(); setOpen(true); }}

@@ -50,11 +50,11 @@ export const W_SYSTEM: Record<DomainKey, Record<ScoredSystem, number>> = {
   decision:   { bazi: 0.9, ziwei: 0.8, qimen: 1.0, iching: 0.8 },
 };
 
-/** 整體指數：各領域加權，另加「整體」專屬規則（權重 OVERALL_OWN_WEIGHT） */
+/** 綜合指數＝(1 − OVERALL_OWN_WEIGHT) × 各領域分數加權平均 ＋ OVERALL_OWN_WEIGHT ×「整體」專屬規則分數 */
 export const OVERALL_MIX: Partial<Record<DomainKey, number>> = {
   career: 0.2, wealth: 0.12, investment: 0.1, social: 0.12, love: 0.1, health: 0.14, travel: 0.07, decision: 0.15,
 };
-export const OVERALL_OWN_WEIGHT = 0.4;
+export const OVERALL_OWN_WEIGHT = 0.25;
 
 /** 交叉判讀：direction = tanh(Σ / DIRECTION_DIVISOR)，|direction| < NEUTRAL_BAND 視為中性 */
 export const DIRECTION_DIVISOR = 4;

@@ -152,12 +152,16 @@ export function scoreDomain(domain: DomainKey, ev: Evidence[], natal: NatalSet, 
   };
 }
 
-/** 整體指數：各領域 (raw−B)/K 加權 ＋「整體」專屬規則 (raw−B)/K，減去 B.mix 後以 K.mix 映射 */
-export function scoreOverall(results: Record<DomainKey, DomainResult>, level: Level, natal: NatalSet): { score: number; mixRaw: number; parts: { domain: DomainKey; weight: number; z: number }[] } {
-  const zOf = (r: DomainResult) => Math.round(((r.raw - r.baseline) / r.k) * 1000) / 1000;
-  const parts = (Object.keys(OVERALL_MIX) as DomainKey[]).map(d => ({ domain: d, weight: OVERALL_MIX[d]!, z: zOf(results[d]) }));
-  const own = zOf(results.overall);
-  const mixRaw = parts.reduce((s, p) => s + p.weight * p.z, 0) + OVERALL_OWN_WEIGHT * own;
-  const pf = profileOf(natal.unavailable);
-  return { score: toScore(mixRaw - B[pf][level].mix, K[pf][level].mix), mixRaw: Math.round(mixRaw * 1000) / 1000, parts: [...parts, { domain: "overall", weight: OVERALL_OWN_WEIGHT, z: own }] };
+/** 綜合指數＝ (1 − w) × 八個領域分數的加權平均 ＋ w ×「整體」專屬規則分數（w = OVERALL_OWN_WEIGHT）。
+ *  直接在 0–100 尺度上平均，綜合分數必落在各領域分數範圍附近，不會因再放大而比每個領域都極端。 */
+export function scoreOverall(results: Record<DomainKey, DomainResult>): { score: number; domainAvg: number; parts: { domain: DomainKey; weight: number; z: number }[] } {
+  const ds = Object.keys(OVERALL_MIX) as DomainKey[];
+  const wsum = ds.reduce((s, d) => s + OVERALL_MIX[d]!, 0);
+  const avg = ds.reduce((s, d) => s + OVERALL_MIX[d]! * results[d].score, 0) / wsum;
+  const own = results.overall.score;
+  const score = Math.round((1 - OVERALL_OWN_WEIGHT) * avg + OVERALL_OWN_WEIGHT * own);
+  return {
+    score, domainAvg: Math.round(avg * 10) / 10,
+    parts: [...ds.map(d => ({ domain: d, weight: Math.round((1 - OVERALL_OWN_WEIGHT) * OVERALL_MIX[d]! / wsum * 1000) / 1000, z: results[d].score })), { domain: "overall" as DomainKey, weight: OVERALL_OWN_WEIGHT, z: own }],
+  };
 }

@@ -2,24 +2,17 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useApp } from "./providers";
-import { DOMAINS } from "@/core/domains";
-import { ENGINES, STATUS_LABEL, getDomainScore } from "@/core/registry";
-import { relationLabel } from "@/core/person";
-import { localOffset, formatOffset } from "@/core/calendar/tz";
-import { Button, EmptyState, Icon, SectionTitle, Sheet } from "@/ui/primitives";
-import { BandLegend, DomainRow, ScoreRing } from "@/ui/score";
+import { Button, Chip, EmptyState, Icon, SectionTitle } from "@/ui/primitives";
 import { ModeToggle } from "@/ui/interpret";
+import { Busy } from "@/ui/analysis";
+import { DayView } from "@/ui/DayView";
+import { MonthView, WeekView, YearView } from "@/ui/Scales";
+import { addDays, dateTitle, deviceTimeZone, todayIn, useNatal } from "@/ui/useAnalysis";
 import { PersonSwitcher } from "@/ui/Nav";
 import { BackupReminder, useOnline } from "@/ui/status";
 
-const todayTitle = (d: Date) => `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
-
 export default function Home() {
-  const { active, persons } = useApp();
-  const online = useOnline();
-  const [now, setNow] = useState<Date | null>(null);
-  const [legend, setLegend] = useState(false);
-  useEffect(() => setNow(new Date()), []);
+  const { persons } = useApp();
 
   if (!persons.length) {
     return (
@@ -33,15 +26,36 @@ export default function Home() {
         </div>
         <SectionTitle>這套 App 的原則</SectionTitle>
         <ul className="card divide-y divide-[var(--line)] px-4 text-[14px] leading-relaxed">
-          {["排盤依傳統命理公式與明確規則計算，不使用任何生成式 AI。", "每個結論都能反查到命盤因素與規則來源。", "引擎通過驗證前，不顯示任何個人分數。", "完全離線可用；人物資料預設只存在本機。"].map(t => <li key={t} className="py-3">{t}</li>)}
+          {["排盤依傳統命理公式與明確規則計算，不使用任何生成式 AI。", "每個結論都能反查到命盤因素與規則來源。", "分數與四層解讀全部由本機規則引擎計算，可重現、不上傳。", "完全離線可用；人物資料預設只存在本機。"].map(t => <li key={t} className="py-3">{t}</li>)}
         </ul>
       </main>
     );
   }
 
-  const b = active!;
-  const overall = getDomainScore("overall");
-  const off = b.birth.localTime ? localOffset(b.birth.localDate, b.birth.localTime, b.birth.timeZone) : null;
+  return <Dashboard />;
+}
+
+type Scale = "today" | "tomorrow" | "week" | "month" | "year";
+const SCALES: { key: Scale; label: string }[] = [
+  { key: "today", label: "今天" }, { key: "tomorrow", label: "明天" }, { key: "week", label: "本週" }, { key: "month", label: "本月" }, { key: "year", label: "今年" },
+];
+const TOOLS = [
+  { href: "/event/", label: "擇時・事件", glyph: "擇" },
+  { href: "/compare/", label: "日期比較", glyph: "比" },
+  { href: "/chart/", label: "命盤", glyph: "盤" },
+  { href: "/life/", label: "人生時間軸", glyph: "運" },
+];
+
+function Dashboard() {
+  const { active } = useApp();
+  const online = useOnline();
+  const [tz, setTz] = useState<string | null>(null);
+  const [scale, setScale] = useState<Scale>("today");
+  useEffect(() => setTz(deviceTimeZone()), []);
+  const { natal, key } = useNatal(active);
+  const today = tz ? todayIn(tz) : null;
+  const date = today && scale === "tomorrow" ? addDays(today, 1) : today;
+  const title = !date ? "" : scale === "week" ? "本週運勢" : scale === "month" ? `${Number(date.slice(5, 7))} 月運勢` : scale === "year" ? `${date.slice(0, 4)} 年運勢` : `${dateTitle(date)}｜${scale === "today" ? "今日" : "明日"}命理分析`;
 
   return (
     <main className="safe-top mx-auto max-w-lg px-4">
@@ -49,64 +63,26 @@ export default function Home() {
         <PersonSwitcher />
         <ModeToggle />
       </div>
-
-      <div className="mt-5 flex items-end justify-between">
-        <h1 className="font-serif text-[22px] font-semibold leading-tight">{now ? todayTitle(now) : ""}<span className="text-[var(--ink-3)]">｜</span>今日命理分析</h1>
-      </div>
+      <h1 className="font-serif mt-5 text-[21px] font-semibold leading-tight">{title}</h1>
       {!online && <p className="mt-1 inline-flex items-center gap-1 text-[12px] text-[var(--ink-3)]"><Icon name="wifiOff" size={14} />離線中・所有功能照常運作</p>}
-
-      <div className="mt-4"><BackupReminder /></div>
-
-      <section className="card mt-4 p-5">
-        <div className="flex items-center gap-5">
-          <ScoreRing value={overall.status === "unavailable" ? null : overall.value} caption="今日綜合指數" />
-          <div className="min-w-0">
-            <p className="text-[13px] text-[var(--ink-3)]">今日綜合指數</p>
-            <p className="mt-1 text-[15px] leading-relaxed">排盤與規則引擎完成驗證前，不產生任何個人分數。</p>
-            <p className="mt-2 text-[12px] leading-relaxed text-[var(--ink-3)]">正式分數預定第 8 階段開放，每個分數都能反查到規則與命盤因素。</p>
-          </div>
-        </div>
-        <div className="mt-4 flex gap-2">
-          <Button size="sm" onClick={() => setLegend(true)}>分數區間代表什麼</Button>
-          <Link href="/demo/"><Button size="sm" variant="ghost">看 DEMO 版面</Button></Link>
-        </div>
-      </section>
-
-      <SectionTitle right="星等由分數區間換算">九大領域</SectionTitle>
-      <div className="card divide-y divide-[var(--line)] px-4">
-        {DOMAINS.map(d => <DomainRow key={d.key} s={getDomainScore(d.key)} />)}
+      <div role="tablist" aria-label="時間尺度" className="no-scrollbar -mx-4 mt-3 flex gap-2 overflow-x-auto px-4">
+        {SCALES.map(s => <Chip key={s.key} active={scale === s.key} onClick={() => setScale(s.key)}>{s.label}</Chip>)}
       </div>
-
-      <SectionTitle>{b.person.displayName}的出生資料</SectionTitle>
-      <Link href={`/persons/view/?id=${b.person.id}`} className="card block p-4">
-        <dl className="grid grid-cols-[5rem_1fr] gap-y-1.5 text-[14px]">
-          <dt className="text-[var(--ink-3)]">關係</dt><dd>{b.person.relationNote || relationLabel(b.person.relation)}</dd>
-          <dt className="text-[var(--ink-3)]">出生</dt><dd className="num">{b.birth.localDate.replaceAll("-", "/")} {b.birth.localTime ?? "（時間不詳）"}</dd>
-          <dt className="text-[var(--ink-3)]">地點</dt><dd>{b.birth.place.name || "—"}（{b.birth.timeZone}）</dd>
-          {off && <><dt className="text-[var(--ink-3)]">當地時差</dt><dd className="num">{formatOffset(off.offsetMinutes)}{off.isDST ? <span className="ml-1 text-[var(--accent)]">夏令時間</span> : null}</dd></>}
-          <dt className="text-[var(--ink-3)]">真太陽時</dt><dd>{b.birth.useTrueSolarTime ? "採用" : "不採用"}</dd>
-        </dl>
-        <p className="mt-3 flex items-center gap-1 text-[13px] text-[var(--ink-2)]">人物詳細頁 <Icon name="chevron" size={14} /></p>
-      </Link>
-
-      <SectionTitle right="docs/V3_DESIGN.md">命理引擎開發進度</SectionTitle>
-      <ol className="card divide-y divide-[var(--line)] px-4">
-        {ENGINES.map(e => (
-          <li key={e.id} className="flex items-start gap-3 py-3">
-            <span className="num mt-0.5 w-6 shrink-0 text-[12px] text-[var(--ink-3)]">P{e.phase}</span>
-            <div className="min-w-0 flex-1">
-              <p className="text-[14px]">{e.name}</p>
-              <p className="text-[12px] leading-snug text-[var(--ink-3)]">{e.summary}</p>
-            </div>
-            <span className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] ${e.status === "verified" ? "bg-[var(--sig-pos)]/20 text-[var(--sig-pos)]" : e.status === "in_development" ? "bg-[var(--accent)]/15 text-[var(--accent)]" : "bg-[var(--surface-2)] text-[var(--ink-3)]"}`}>{STATUS_LABEL[e.status]}</span>
-          </li>
+      <nav aria-label="工具" className="mt-3 grid grid-cols-4 gap-2">
+        {TOOLS.map(t => (
+          <Link key={t.href} href={t.href} className="card flex flex-col items-center gap-1 py-2.5 text-[12px] text-[var(--ink-2)]">
+            <span className="font-serif text-[18px] text-[var(--accent)]">{t.glyph}</span>{t.label}
+          </Link>
         ))}
-      </ol>
-
-      <Sheet open={legend} onClose={() => setLegend(false)} title="分數區間定義">
-        <p className="mb-3 text-[13px] leading-relaxed text-[var(--ink-2)]">分數代表「命理因素的淨方向與強度」，不是成功機率，畫面上不會出現百分比。</p>
-        <BandLegend />
-      </Sheet>
+      </nav>
+      <div className="mt-4"><BackupReminder /></div>
+      <div className="mt-4">
+        {!natal || !key || !tz || !date ? <Busy /> :
+          scale === "week" ? <WeekView natal={natal} natalKey={key} from={today!} tz={tz} /> :
+          scale === "month" ? <MonthView natal={natal} natalKey={key} date={today!} tz={tz} /> :
+          scale === "year" ? <YearView natal={natal} natalKey={key} year={Number(today!.slice(0, 4))} tz={tz} /> :
+          <DayView natal={natal} natalKey={key} date={date} tz={tz} />}
+      </div>
     </main>
   );
 }

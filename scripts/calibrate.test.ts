@@ -8,7 +8,7 @@ import { buildNatal } from "@/core/analysis/collect";
 import { collect } from "@/core/analysis/collect";
 import { toEvidence, domainRaw } from "@/core/analysis/score";
 import { DOMAINS, type DomainKey } from "@/core/domains";
-import { OVERALL_MIX, OVERALL_OWN_WEIGHT, type Level } from "@/kb/weights";
+import type { Level } from "@/kb/weights";
 
 const DK = DOMAINS.map(d => d.key);
 const q = (xs: number[], p: number) => { const s = [...xs].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(p * s.length))]; };
@@ -48,18 +48,13 @@ it("calibrate", () => {
       K[level][d] = k; B[level][d] = b;
       report.push(`${profile}.${level}.${d}: p10=${q(r, 0.1).toFixed(2)} p50=${b} p90=${q(r, 0.9).toFixed(2)} K=${k}`);
     }
-    const z = (d: DomainKey, i: number) => (raws[d][i] - B[level][d]) / K[level][d];
-    const mix = raws.career.map((_, i) => DK.filter(d => d !== "overall").reduce((s, d) => s + (OVERALL_MIX[d] ?? 0) * z(d, i), 0) + OVERALL_OWN_WEIGHT * z("overall", i));
-    B[level].mix = Math.round(q(mix, 0.5) * 1000) / 1000;
-    K[level].mix = Math.max(0.3, Math.round((q(mix, 0.9) - B[level].mix) / TARGET * 100) / 100);
-    report.push(`${profile}.${level}.mix: p10=${q(mix, 0.1).toFixed(2)} p50=${B[level].mix} p90=${q(mix, 0.9).toFixed(2)} K=${K[level].mix}`);
   }
   }
   console.log(report.join("\n"));
   const file = `/** 由 scripts/calibrate.test.ts 產生，勿手改。樣本：${SAMPLES.length} 組合成命例；day 以 2026 全年逐日、month 以 2025–2027 逐月、year 以 2000–2039 逐年、decade 以 1990–2060 每十年。 */
 import type { DomainKey } from "@/core/domains";
 import type { Level, Profile } from "./weights";
-type KTable = Record<DomainKey | "mix", number>;
+type KTable = Record<DomainKey, number>;
 /** 尺度常數 K：score = round(50 + 50 × tanh((raw − B) / K))；依校準組別（full／noZiwei）分開 */
 export const K: Record<Profile, Record<Level, KTable>> = ${JSON.stringify(Kp, null, 2)};
 /** 基準校正 B：樣本逐日 raw 的中位數（規則庫正負條數不對稱的校正，使一般日子落在 50 附近） */

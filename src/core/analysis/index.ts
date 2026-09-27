@@ -30,7 +30,7 @@ export function interpret(r: DomainResult, bestHours: string[] = [], net = r.raw
   const other = net >= 0 ? r.negatives : r.positives;
   const top = main[0] ?? r.evidence[0];
   const ev = uniqBy(r.evidence, e => e.ruleId);
-  const oneLine = `${r.band.label}｜${top.text.conclusion}${r.divergence ? ` ${r.divergence.advice}` : ""}`;
+  const oneLine = `${r.band.label}｜${top.text.conclusion}`;
   const plain = uniqBy([...main.slice(0, 2), ...other.slice(0, 1)], e => e.ruleId).map(e => `【${SYSTEM_LABEL[e.system]}】${e.text.plain}`);
   const pro = ev.slice(0, 6).map(e => `【${SYSTEM_LABEL[e.system]}・${scaleName[e.timescale]}】${e.text.pro}`);
   const actions = uniqBy([
@@ -52,7 +52,7 @@ export interface AdviceItem { text: string; why: string; domain: DomainKey; syst
 
 export interface DayAnalysis {
   kind: "day"; date: string; timeZone: string; level: Level;
-  overall: { score: number; band: ScoreBand; confidence: ConfidenceLevel; confidenceLabel: string; oneLine: string; mixRaw: number; parts: { domain: DomainKey; weight: number; z: number }[] };
+  overall: { score: number; band: ScoreBand; confidence: ConfidenceLevel; confidenceLabel: string; oneLine: string; domainAvg: number; parts: { domain: DomainKey; weight: number; z: number }[] };
   domains: Record<DomainKey, DomainView>;
   yi: AdviceItem[]; ji: AdviceItem[];
   hours: HourSlot[] | null;
@@ -120,7 +120,7 @@ export function analyze(n: NatalSet, date: string, timeZone: string, level: Leve
     const r = scoreDomain(d, ev, n, level, best.join("或") || null);
     domains[d] = { ...r, interp: interpret(r, best), bestHours: best, avoidHours: avoid };
   }
-  const ov = scoreOverall(domains, level, n);
+  const ov = scoreOverall(domains);
   const allSignals = signalsFor(ev, n);
   const conf = confidenceOf(allSignals, n.unavailable.length > 0);
   const band = bandOf(ov.score);
@@ -130,13 +130,13 @@ export function analyze(n: NatalSet, date: string, timeZone: string, level: Leve
   domains.overall.interp = interpret(domains.overall, o.bestHours, ov.score - 50);
   const best = [...SCORED_DOMAINS].sort((a, b) => domains[b].score - domains[a].score);
   const lead = domains[best[0]], weak = domains[best[best.length - 1]];
-  const oneLine = `${band.label}｜${lead.score >= 55 ? `${lead.label}相對最有利` : "各領域支持力道都不強"}${weak.score < 55 ? `，${weak.label}需要多留意` : ""}。${domains.overall.divergence?.advice ?? ""}`;
+  const oneLine = `${band.label}｜${lead.score >= 55 ? `${lead.label}相對最有利` : "各領域支持力道都不強"}${weak.score < 55 ? `，${weak.label}需要多留意` : ""}。`;
   const reminders = uniqBy(ev.filter(e => e.strength === 3 && e.polarity !== 0 && ["month", "day"].includes(e.timescale)), e => e.ruleId).slice(0, 3)
     .map(e => ({ kind: (e.polarity < 0 ? "risk" : "chance") as "risk" | "chance", text: e.text.actions[0], why: e.text.conclusion, domain: e.domain, system: e.system, evidenceId: e.id }));
   const qf = (k: string) => c.facts.find(f => f.key === k)?.value;
   return {
     kind: "day", date, timeZone, level,
-    overall: { score: ov.score, band, confidence: conf, confidenceLabel: domains.overall.confidenceLabel, oneLine, mixRaw: ov.mixRaw, parts: ov.parts },
+    overall: { score: ov.score, band, confidence: conf, confidenceLabel: domains.overall.confidenceLabel, oneLine, domainAvg: ov.domainAvg, parts: ov.parts },
     domains,
     yi: advice(ev, 1, 4), ji: advice(ev, -1, 4),
     hours,

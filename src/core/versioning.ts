@@ -1,6 +1,6 @@
 /** 所有計算結果都必須帶上版本戳記，確保「同樣輸入 → 同樣輸出」可重現、可追溯。 */
 
-export const APP_VERSION = "3.0.0-phase1";
+export const APP_VERSION = "3.0.0";
 
 /** 本機資料庫結構版本（每次改動資料表結構 +1，並在 src/data/db.ts 加 migration）。 */
 export const SCHEMA_VERSION = 1;

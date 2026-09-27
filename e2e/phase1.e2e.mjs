@@ -34,8 +34,12 @@ await page.evaluate(() => localStorage.setItem("dd:profiles", JSON.stringify([
 await page.goto(B + "/");
 await expectText("今日命理分析");
 await expectText("阿山");
+await page.goto(B + "/persons/");
+await page.getByText("阿山").first().click();
 await expectText("夏令時間");
 log("舊資料遷移 OK（1975-07 顯示夏令時間）");
+await page.goto(B + "/");
+await expectText("今日命理分析");
 await shot("01-home");
 
 // 2. 新增人物
