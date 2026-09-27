@@ -8,6 +8,7 @@ import {
 } from "@/core/person";
 import { PLACES, TIME_ZONES } from "@/kb/places";
 import { localOffset, formatOffset, isValidTimeZone } from "@/core/calendar/tz";
+import { fromLunar, leapMonthOf, toLunar } from "@/core/calendar/precise";
 import { deletePerson, newId, nextSortOrder, nowISO, saveBundle, saveTag, setPrefs } from "@/data/repo";
 import { Button, Chip, Confirm, Field, Icon, PageHeader, Toggle } from "@/ui/primitives";
 
@@ -53,7 +54,7 @@ function EditForm() {
     const e: Record<string, string> = {};
     if (!b.person.displayName.trim()) e.name = "請輸入姓名或暱稱";
     const m = b.birth.localDate.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    if (!m) e.date = "請選擇出生日期";
+    if (!m) e.date = b.birth.inputCalendar === "lunar" ? "此農曆日期不存在，請重新選擇" : "請選擇出生日期";
     else if (+m[1] < 1900 || +m[1] > 2100) e.date = "目前支援 1900–2100 年";
     if (b.birth.localTime && !/^\d{2}:\d{2}$/.test(b.birth.localTime)) e.time = "時間格式應為 時:分";
     if (!tzOk) e.tz = "時區名稱無效（例：Asia/Taipei）";
@@ -131,9 +132,22 @@ function EditForm() {
 
       <h2 className="font-serif mb-2 mt-6 px-0.5 text-[17px] font-semibold">出生資料</h2>
       <section className="card space-y-4 p-4">
-        <Field label="出生日期（西元・國曆）*" error={errors.date} hint="農曆輸入將於第二階段（曆法引擎）開放">
-          <input type="date" className="input" min="1900-01-01" max="2100-12-31" value={b.birth.localDate} onChange={e => B({ localDate: e.target.value })} />
-        </Field>
+        <div role="radiogroup" aria-label="輸入曆法" className="inline-flex rounded-full bg-[var(--surface-2)] p-0.5 text-[13px]">
+          {(["solar", "lunar"] as const).map(c => (
+            <button key={c} type="button" role="radio" aria-checked={b.birth.inputCalendar === c}
+              onClick={() => B(c === "lunar" ? { inputCalendar: "lunar", lunarInput: b.birth.lunarInput ?? lunarOfSolar(b.birth.localDate) } : { inputCalendar: "solar" })}
+              className={`rounded-full px-4 py-1.5 ${b.birth.inputCalendar === c ? "bg-[var(--ink-1)] text-[var(--bg)]" : "text-[var(--ink-2)]"}`}>
+              {c === "solar" ? "國曆" : "農曆"}
+            </button>
+          ))}
+        </div>
+        {b.birth.inputCalendar === "solar" ? (
+          <Field label="出生日期（西元・國曆）*" error={errors.date}>
+            <input type="date" className="input" min="1900-01-01" max="2100-12-31" value={b.birth.localDate} onChange={e => B({ localDate: e.target.value })} />
+          </Field>
+        ) : (
+          <LunarInput value={b.birth.lunarInput!} error={errors.date} onChange={(li, solar) => B({ lunarInput: li, localDate: solar ?? "" })} />
+        )}
         <div className="grid grid-cols-2 gap-3">
           <Field label="出生時間（到分鐘）" error={errors.time} hint="不知道可留空">
             <input type="time" className="input" value={b.birth.localTime ?? ""} onChange={e => B({ localTime: e.target.value })} />
@@ -220,5 +234,51 @@ function EditForm() {
         message={<>將從這台裝置永久刪除此人物的基本資料、出生資料、標籤關聯、命盤快取與分析紀錄。刪除後無法復原（除非你有備份檔）。</>}
         onConfirm={async () => { await deletePerson(b.person.id); await refresh(); router.replace("/persons/"); }} />
     </main>
+  );
+}
+
+const pad2 = (n: number) => String(n).padStart(2, "0");
+function lunarOfSolar(date: string) {
+  const m = date.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return { year: 1980, month: 1, day: 1, isLeap: false };
+  const l = toLunar(+m[1], +m[2], +m[3]);
+  return { year: l.year, month: l.month, day: l.day, isLeap: l.isLeap };
+}
+const CN_MONTH = ["正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "冬", "臘"];
+const CN_DAY = (d: number) => d === 10 ? "初十" : d === 20 ? "二十" : d === 30 ? "三十" : ["初", "十", "廿", "三"][Math.floor(d / 10)] + ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"][d % 10];
+
+function LunarInput({ value, onChange, error }: { value: { year: number; month: number; day: number; isLeap: boolean }; error?: string; onChange: (v: { year: number; month: number; day: number; isLeap: boolean }, solar: string | null) => void }) {
+  const leap = leapMonthOf(value.year);
+  let solar: string | null = null;
+  try { const s = fromLunar(value.year, value.month, value.day, value.isLeap); solar = `${s.y}-${pad2(s.m)}-${pad2(s.d)}`; } catch { solar = null; }
+  const set = (patch: Partial<typeof value>) => {
+    const v = { ...value, ...patch };
+    if (v.isLeap && leapMonthOf(v.year) !== v.month) v.isLeap = false;
+    let s: string | null = null;
+    try { const r = fromLunar(v.year, v.month, v.day, v.isLeap); s = `${r.y}-${pad2(r.m)}-${pad2(r.d)}`; } catch { s = null; }
+    onChange(v, s);
+  };
+  return (
+    <div className="space-y-2">
+      <div className="grid grid-cols-3 gap-2">
+        <Field label="農曆年"><input className="input num" inputMode="numeric" value={value.year} onChange={e => set({ year: Number(e.target.value) || value.year })} /></Field>
+        <Field label="月">
+          <select className="input" value={`${value.isLeap ? "L" : ""}${value.month}`} onChange={e => set({ month: Number(e.target.value.replace("L", "")), isLeap: e.target.value.startsWith("L") })}>
+            {Array.from({ length: 12 }, (_, i) => i + 1).flatMap(m => [
+              <option key={m} value={`${m}`}>{CN_MONTH[m - 1]}月</option>,
+              ...(leap === m ? [<option key={`L${m}`} value={`L${m}`}>閏{CN_MONTH[m - 1]}月</option>] : []),
+            ])}
+          </select>
+        </Field>
+        <Field label="日">
+          <select className="input" value={value.day} onChange={e => set({ day: Number(e.target.value) })}>
+            {Array.from({ length: 30 }, (_, i) => i + 1).map(d => <option key={d} value={d}>{CN_DAY(d)}</option>)}
+          </select>
+        </Field>
+      </div>
+      <p className={`text-[13px] ${solar ? "text-[var(--ink-2)]" : "text-[var(--danger)]"}`} role={solar ? undefined : "alert"}>
+        {solar ? `對應國曆 ${solar.replaceAll("-", "/")}` : error ?? "此農曆日期不存在（該月可能只有 29 天）"}
+      </p>
+    </div>
   );
 }

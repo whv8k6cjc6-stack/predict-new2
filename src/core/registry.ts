@@ -7,7 +7,7 @@ import type { DomainScore } from "./score";
 const stamp = (school: string) => ({ school, engine_version: "0", rule_version: "0", source_version: "0" });
 
 export const ENGINES: EngineMeta[] = [
-  { id: "calendar", name: "曆法引擎", phase: 2, status: "in_development", stamp: stamp("天文算法（Meeus）"), summary: "國曆／農曆、節氣、干支、時區與夏令時間、經緯度、真太陽時、換日規則" },
+  { id: "calendar", name: "曆法引擎", phase: 2, status: "verified", stamp: { school: "壽星天文曆＋本系統干支規則", engine_version: "3.0.0", rule_version: "—", source_version: "lunar-javascript 1.7.7" }, summary: "國曆／農曆、節氣、干支、時區與夏令時間、經緯度、真太陽時、換日規則（與獨立函式庫交叉驗證 10,000 個時刻）" },
   { id: "bazi", name: "八字＋滴天髓", phase: 3, status: "not_implemented", stamp: stamp("子平・滴天髓闡微"), summary: "本命、大運、流年、流月、流日、流時與規則證據鏈" },
   { id: "ziwei", name: "紫微斗數", phase: 4, status: "not_implemented", stamp: stamp("中州派"), summary: "十二宮、主輔煞雜曜、四化、三方四正、大限流年流月流日" },
   { id: "qimen", name: "奇門遁甲", phase: 5, status: "not_implemented", stamp: stamp("時家轉盤"), summary: "九宮八門九星八神、值符值使、空亡、驛馬、事件用神與吉時方位" },
