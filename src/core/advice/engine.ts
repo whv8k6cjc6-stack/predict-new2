@@ -33,8 +33,11 @@ export interface AdviceContext {
 const strengthIn = (f: InterpretationFinding, domains: DomainKey[]) =>
   Math.max(0, ...f.effects.filter(e => domains.includes(e.domain)).map(e => e.strength));
 
-function relevant(results: InterpretationResult[], layers: string[], domains: DomainKey[]): InterpretationFinding[] {
-  return results.filter(r => r.status === "active").flatMap(r => r.findings)
+/** 只取參與此主題的系統：active 全部主題；partial 只在 coveredTopics（例：紫微只有工作有可靠規則時，投資建議不納入紫微） */
+const participates = (r: InterpretationResult, topic: TopicId) => r.status === "active" || (r.status === "partial" && !!r.coveredTopics?.includes(topic));
+
+function relevant(results: InterpretationResult[], layers: string[], domains: DomainKey[], topic: TopicId): InterpretationFinding[] {
+  return results.filter(r => participates(r, topic)).flatMap(r => r.findings)
     .filter(f => layers.includes(f.timeLayer) && strengthIn(f, domains) > 0);
 }
 
@@ -133,7 +136,7 @@ function confidence(
     level, sourceReliability: rels.size === 1 ? [...rels][0] : rels.size ? "mixed" : "principleOnly",
     topicCoverage: coverage, systemAgreement: agreement,
     dataCompleteness: {
-      activeSystems: results.filter(r => r.status === "active").map(r => r.system),
+      activeSystems: results.filter(r => r.status === "active" || r.status === "partial").map(r => r.system),
       systemsWithSignals: [...new Set(instances.map(i => i.system))],
       pendingSystems: results.filter(r => r.status === "pending").map(r => r.system),
       unavailableSystems: unavailable,
@@ -224,11 +227,11 @@ export function buildStructuredAdvice(ctx: AdviceContext): StructuredAdvice {
   for (const h of horizons) {
     let findings: InterpretationFinding[], ev: Map<FactorId, FactorEvidence>;
     if (h === "next3Days") {
-      const days = [ctx.interpretations, ...(ctx.nextDays ?? [])].map(r => relevant(r, ["day"], T.domains));
+      const days = [ctx.interpretations, ...(ctx.nextDays ?? [])].map(r => relevant(r, ["day"], T.domains, ctx.topic));
       if (days.length < 3) continue;
       findings = days.flat(); ev = persistentEvidence(days, T.domains);
     } else {
-      findings = relevant(ctx.interpretations, HORIZON_LAYERS[h], T.domains); ev = evidenceOf(findings, T.domains);
+      findings = relevant(ctx.interpretations, HORIZON_LAYERS[h], T.domains, ctx.topic); ev = evidenceOf(findings, T.domains);
     }
     const { status, stances } = agreementOf(ev, ctx.topic);
     perH.set(h, { ev, agreement: status, stances, findings });
@@ -274,7 +277,7 @@ export function buildStructuredAdvice(ctx: AdviceContext): StructuredAdvice {
   const usesPending = chosen.some(c => c.factors.some(f => f.instances.some(i => i.reliability === "pendingVerification")));
   const notes = [
     ...(T.safety ? [SAFETY_NOTES[T.safety]] : []),
-    ...ctx.interpretations.filter(r => r.status !== "active" && r.reason).map(r => r.status === "pending" ? r.reason! : `${SYSTEM_NAME[r.system]}未納入：${r.reason}`),
+    ...ctx.interpretations.filter(r => r.status !== "active" && r.reason).map(r => r.status === "pending" || r.status === "partial" ? r.reason! : `${SYSTEM_NAME[r.system]}未納入：${r.reason}`),
     ...(usesPending ? ["部分依據屬「待驗證」規則，只作低信心參考。"] : []),
   ];
 

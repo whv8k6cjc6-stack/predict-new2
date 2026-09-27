@@ -7,10 +7,12 @@ import { BAZI_RULES } from "@/kb/rules/bazi";
 import { QIMEN_RULES, QIMEN_EVENT_RULES } from "@/kb/rules/qimen";
 import { ICHING_RULES } from "@/kb/rules/iching";
 import { adviceTemplatesDoc, lifeFactorMappingDoc } from "@/core/advice/docs";
+import { ziweiRegistryDoc } from "@/core/ziwei/interp/docs";
 
 const docs: [string, string][] = [
   ["docs/LIFE_FACTOR_MAPPING.md", lifeFactorMappingDoc([...BAZI_RULES, ...QIMEN_RULES, ...QIMEN_EVENT_RULES, ...ICHING_RULES])],
   ["docs/ADVICE_TEMPLATES.md", adviceTemplatesDoc()],
+  ["docs/ZIWEI_RULE_REGISTRY.md", ziweiRegistryDoc()],
 ];
 
 it("對照表與建議清單文件是最新的", () => {

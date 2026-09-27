@@ -2,11 +2,13 @@
 import type { SystemFired } from "../analysis/collect";
 import type { NatalSet } from "../analysis/collect";
 import { lifeFactorMappingFor } from "@/kb/advice/lifeFactorMapping";
-import { SCORED_SYSTEMS, SYSTEM_SCORING, type ScoredSystem } from "@/kb/weights";
+import { SCORED_SYSTEMS, type ScoredSystem } from "@/kb/weights";
+import type { ZiweiTransit } from "../ziwei/luck";
+import { ZIWEI_ADVICE_PENDING_REASON, ziweiInterpretationResult } from "../ziwei/interp/engine";
 import { factorDef, type FactorId } from "./factors";
 import type { FactorPolarity, InterpretationFinding, InterpretationResult, LifeFactorInstance, TimeLayer } from "./interpretation";
 
-export const ZIWEI_ADVICE_PENDING = "目前紫微判讀引擎建置中，未納入本次建議。";
+export const ZIWEI_ADVICE_PENDING = ZIWEI_ADVICE_PENDING_REASON;
 
 export function findingFromFired(sf: SystemFired, date: string): InterpretationFinding | null {
   if (sf.legacy) return null;                       // 已停用的 legacy 計分規則不進入建議
@@ -37,10 +39,12 @@ export function findingFromFired(sf: SystemFired, date: string): InterpretationF
   };
 }
 
-/** 四個系統各自的判讀結果。紫微判讀引擎尚未完成：status＝pending，不當成中性、也不影響其他系統。 */
-export function interpretationResults(n: NatalSet, fired: SystemFired[], date: string): InterpretationResult[] {
+/** 四個系統各自的判讀結果。
+ *  紫微改由紫微 Interpretation Engine 產生（原生判讀，不使用已停用的 legacy 計分規則）：
+ *  沒有已校驗的規則時為 pending（不當成中性、也不影響其他系統）；部分主題可用時為 partial，只用在有覆蓋的主題。 */
+export function interpretationResults(n: NatalSet, fired: SystemFired[], date: string, ziweiTransit: ZiweiTransit | null = null): InterpretationResult[] {
   return SCORED_SYSTEMS.map((system: ScoredSystem): InterpretationResult => {
-    if (SYSTEM_SCORING[system].status === "pending") return { system, status: "pending", reason: ZIWEI_ADVICE_PENDING, findings: [] };
+    if (system === "ziwei") return ziweiInterpretationResult(n.ziwei, ziweiTransit, date, n.unavailable.find(u => u.system === "ziwei")?.reason);
     const un = n.unavailable.find(u => u.system === system);
     if (un) return { system, status: "unavailable", reason: un.reason, findings: [] };
     const findings = fired.filter(f => f.system === system).map(f => findingFromFired(f, date)).filter((x): x is InterpretationFinding => !!x);

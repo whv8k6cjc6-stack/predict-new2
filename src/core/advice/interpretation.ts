@@ -4,6 +4,7 @@
 import type { DomainKey } from "../domains";
 import type { ScoredSystem } from "@/kb/weights";
 import type { FactorId } from "./factors";
+import type { TopicId } from "@/kb/advice/topics";
 
 /** 判讀所屬的命理時間層 */
 export type TimeLayer = "natal" | "decade" | "year" | "month" | "day" | "hour";
@@ -50,8 +51,10 @@ export interface InterpretationFinding {
 
 export interface InterpretationResult {
   system: ScoredSystem;
-  /** active：已產生判讀；pending：判讀引擎建置中（不參與建議，也不當成中性）；unavailable：此人資料不足 */
-  status: "active" | "pending" | "unavailable";
+  /** active：已產生判讀；partial：只有部分主題有可靠規則（只用在 coveredTopics）；
+   *  pending：判讀引擎建置中（不參與建議，也不當成中性）；unavailable：此人資料不足 */
+  status: "active" | "partial" | "pending" | "unavailable";
   reason?: string;
+  coveredTopics?: TopicId[];
   findings: InterpretationFinding[];
 }
