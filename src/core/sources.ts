@@ -66,7 +66,9 @@ export interface RuleDefinition {
   condition: Condition;        // 規則邏輯（機器可讀）
   effects: { domain: DomainKey; polarity: -1 | 0 | 1; strength: 1 | 2 | 3 }[];
   templates: { conclusion: string; plain: string; pro: string; actions: string[] };  // 必含 {槽位}
+  slots: Record<string, string>;   // 槽位名稱 → 事實鍵（Fact key）
   terms: string[];
+  priority?: number;
   excludes?: string[];
   verification: VerificationStatus;
   enabled: boolean;
