@@ -113,3 +113,21 @@ export function sanFangContext(ctx: ZiweiInterpretationContexts, n: ZiweiNatal, 
     }),
   };
 }
+
+/** TransformationInterpretationContext：以某層某宮為焦點，列出各層四化落在三方四正的哪個位置（只描述，不下吉凶）。
+ *  timeLayer：birthYear（生年）／decade（大限）／annual（流年）；宮干飛化尚未實作（futureFlying 保留欄位）。 */
+export interface TransformationInterpretationContext {
+  star: string; transformation: Hua; sourceStem: string;
+  palace: PalaceName | null;              // 四化星所在的本命宮
+  relationType: SanFangRole | "outside";  // 相對於焦點宮：本宮／對宮／三合／不在三方四正
+  timeLayer: TransformationRef["type"];
+  ruleId: string;
+}
+export function transformationContext(ctx: ZiweiInterpretationContexts, n: ZiweiNatal, focus: PalaceName, layerName: ContextLayer = "natal"): TransformationInterpretationContext[] {
+  const sf = sanFangContext(ctx, n, focus, layerName);
+  const all = [...ctx.transformations.birthYear, ...ctx.transformations.decade, ...ctx.transformations.annual];
+  return all.map(t => {
+    const m = sf?.members.find(x => x.branch === t.branch);
+    return { star: t.star, transformation: t.transformation, sourceStem: t.sourceStem, palace: t.natalPalace, relationType: m ? m.relationType : "outside", timeLayer: t.type, ruleId: t.ruleId };
+  });
+}

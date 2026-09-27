@@ -1,0 +1,44 @@
+這是「紫微來源包 v4 - 校訂與結構化」。
+
+目的：修正 v3 導航錯誤，並提供可直接併入 PR #5 的 source-side 結構資料。
+
+請以：
+source/紫微斗數全書-廣益版.pdf
+為 primary Source of Truth。
+
+請先做以下無命理爭議的資料修正：
+1. 命宮 chapter locator 改為 PDF p26 / 版心24 的「一命宮」，不再 locatorPending。
+2. p36 卷末改為「卷之二終」。
+3. p37 記為「紫微斗數全書 卷之三」，並定位「二兄弟」「三妻妾」。
+4. 以 data/palace_locator_status.csv 更新十二宮來源頁區間。
+5. 將舊 v3 導航錯誤寫入 navigationDiscrepancy / source correction log。
+
+可直接作 source-layer citation 的項目：
+- data/confirmed_citations_v4.json 中的 structureMarker。
+- p45「論人命入格」、p47「論行限分南北斗」、p47「論流年太歲逢吉凶星殺」已在 v4 進行第二次目視複核；但 humanReviewed 仍為 false，UI 應稱「影像雙重校讀」，不要稱學術人工校勘完成。
+
+十四主星：
+- locator 已確認，見 data/main_star_locator_status.csv。
+- 舊人工轉錄仍只作草稿，必須逐星回原頁做第二次獨立視覺校讀後，才能把完整 originalText 升為 visualDoubleChecked。
+- 七殺段目前仍有疑字，不得直接 verified。
+
+p17-p20：
+- 屬格局／得失／古典判斷候選區。
+- 請按條件拆 PatternCandidate / ClassicalPrinciple，不做固定分數。
+
+p21-p25：
+- 多數屬 calculation/reference；不要因 Interpretation 重構去改客觀排盤。
+
+p48-p55：
+- 影像可讀，但條件高度密集，必須逐欄拆 rule。
+- OCR 只作搜索，不得 bulk import。
+- 若某欄有疑字，該 rule 保持 pending；不要為了完成度猜字。
+
+集文版：
+- 只做 secondary locator；解析度不足的地方不要強行 textualVariants。
+
+安全：
+- 不直接輸出壽夭、死亡、疾病診斷、貧賤、性別道德等宿命斷語。
+- LifeFactor 必須來自 InterpretationRule；Advice 仍走 ActionAdviceEngine。
+- 紫微 Scoring 維持 pending / disabled。
+- Golden / iztro 客觀排盤不得改變。

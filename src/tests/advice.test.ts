@@ -278,7 +278,7 @@ describe("驗收標準（6 組命例 × 6 天 × 17 主題）", () => {
     expect(c.fired.some(f => f.system === "ziwei")).toBe(true); // 開發者模式的 legacy 紫微規則有命中
     const r = interpretationResults(n, c.fired, "2026-10-21")!.find(x => x.system === "ziwei")!;
     expect(r.status).toBe("partial");
-    expect(r.findings.every(f => f.ruleId.startsWith("ZW_") && f.factors.every(q => q.mappingType === "nativeInterpretation"))).toBe(true);
+    expect(r.findings.every(f => /^(ZW|GY)_/.test(f.ruleId) && f.factors.every(q => q.mappingType === "nativeInterpretation"))).toBe(true);
   });
   it("舊規則附帶的 legacyAdviceText 不會進入正式建議", () => {
     const legacy = new Set<string>();

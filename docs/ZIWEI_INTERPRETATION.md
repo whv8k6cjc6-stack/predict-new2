@@ -3,6 +3,32 @@
 > 目標：紫微判讀有來源、可追溯、可測試，最後交給 ActionAdviceEngine 產生具體建議。原則是「沒有足夠來源 → 暫不判」，不為了畫面完整補規則。
 > 逐條登錄（自動產生）：`docs/ZIWEI_RULE_REGISTRY.md`
 
+## 〇、目前狀態（第四階段：來源包 v4－校訂與結構化）
+
+> 數字以 `docs/ZIWEI_RULE_REGISTRY.md` 開頭的「紫微判讀完成度」為準（自動產生），App 的「來源與規則狀態」頁也即時顯示同一份數字。
+
+- **優先順序**：原始 PDF 掃描影像 ＞ 來源包 v4 校訂資料 ＞ 其他人工初稿／導航／OCR。不再依 v2、v3 的導航建立引用。
+- **雙重核讀頁面**（`src/data/classics/ziwei/quanshu-guangyi/pages.json`）：PDF p17–p20、p26–p55 全部重新轉錄——
+  1. 每個半頁切成欄組，兩位獨立轉錄員（A、B，彼此不可見）各自依影像轉錄；
+  2. 書縫區、被切邊的直行另做補轉錄（同樣 A、B 兩輪）；
+  3. 程式逐字比對兩輪差異與存疑字，交給仲裁員回影像決議；
+  4. 決議不了的字保留〔疑字〕，該片段不能作為規則依據。
+  驗證狀態分級：machineLocated／visualTranscribed／**visualDoubleChecked（原始掃描影像雙重核讀，啟用規則的最低門檻）**／humanReviewed／secondSourceVerified。本專案的核讀者是 AI，**UI 一律寫「原始掃描影像雙重核讀」，不稱「學術人工校勘完成」**；humanReviewed、secondSourceVerified 都是否。
+- **舊 35 段**：v3 的單次目視轉錄逐段與雙重核讀頁面比對（`SPAN_RECHECKS`）：逐字相同者升為雙重核讀；天梁總論「化蔭／化陰」兩輪讀法不一，該引用與 `ZW_STAR_TIANLIANG_NATURE` 不啟用。
+- **來源修正紀錄**（`corrections.json`）：命宮章首 p26（版心24）、p36「卷之二終」、p37 卷之三接二兄弟／三妻妾；v4 校訂稿「論人命入格」「流年太歲」共四字與影像不符（聚／上次之／平等／行者）。
+- **逐句規則**（`src/kb/ziwei/v2/specs/`）：每條 = 原文片段（必須在頁面逐字找到）＋盤面條件＋古典結果詞；結果詞經 `OUTCOMES` 對照表轉成現代中性語義與生活因素（不是分數）。
+  - 卷二各星：「X宮Y地・某某生人・某格」逐宮逐干、入男命訣（加男命條件）、入限訣（大限；「二限」中的小限不排）。
+  - 卷三十二宮：財帛、遷移、交友（古稱奴僕）、官祿、田宅、福德逐星逐句；夫妻只取和／欠和；兄弟人數、子女人數、疾病、父母刑剋只保留原文。
+  - 卷一格局：論某某格、定人諸論、十二宮得地合格訣、定富局／定貴局／定貧賤局／定雜局 → PatternRule；只有格名、「見前註解」或需要空亡／三台八座的 → PatternCandidate（不啟用）。
+  - 總則與運限：譚星要論、論人命入格、論格星數高下、論男女命異同、論人生時安命、論大限十年禍福、南北斗、流年太歲、人生某命忌某歲限、十二年太歲所值吉凶星；太歲併小限各段需要小限 → requiresChartExtension。
+  - 諸星同位垣（p50–55）：各星短句與各星廟旺表。
+- **待處理原因**（沒有「尚未處理」）：unclearGlyph、insufficientConditions、ocrOnly、secondaryLowResolution、requiresOtherEdition、locatorOnly，另加 historicalOnly（壽夭、疾病、刑剋、貧賤、性別道德等只保留原文）、requiresChartExtension（小限、斗君、空亡、流年羊陀、出生方位等，客觀排盤沒有，不擅自新增）、notInterpretive（排盤起例）。
+- **古典廟旺**：`ClassicalBrightnessRule`（卷二「X宮Y地」為主、諸星同位垣廟旺表補充）與 `SoftwareBrightnessProfile`（iztro 2.6.1）分開；不同處建立 `BrightnessConflict`。判讀條件的亮度優先用古典值、古籍沒寫才用軟體值；**客觀排盤仍顯示 iztro 亮度，不改動**。
+- **新條件**：gender（入男命）、birthStem、birthBranch、hourBranch、layerBranch（大限命宮行至某支、流年太歲宮）、flank（夾）、soleMajor、雜曜（天刑等）。
+- **健康**：只用 fatigueRisk／stressLoad／recoveryNeed／energySupport；一條古文同時含其他結果時，健康部分另拆一條（`_H`）。
+- **覆蓋**：none／generalOnly／partial／dedicated，由可用且產生生活因素的規則自動計算；只有 partial、dedicated 參與建議。
+- **紫微計分**：仍停用（pending）。
+
 ## 一、目前狀態（第三階段：來源包 v3）
 
 - **主來源**：《紫微斗數全書》廣益版掃描 PDF（86 頁、無文字層，SHA-256 `cec2c444…1186`）。**PDF 影像為 Source of Truth**；PDF 不放入 git，以雜湊鎖定版本（`scripts/ziwei-scan-sha.mjs` 可重算並核對兩本 PDF）。

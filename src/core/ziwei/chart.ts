@@ -38,6 +38,8 @@ export interface ZiweiNatal {
   birthHua: Record<Hua, { star: string; palace: PalaceName | null }>;
   birthTransformations: Transformation[];
   forward: boolean;
+  /** 輸入的性別（只傳遞輸入資料，供判讀層「入男命／入女命」條件使用；不影響任何排盤位置） */
+  gender: ChartInput["gender"];
   starBranch: Record<string, number>;
   notes: string[];
   profile: ZiweiRuleProfile;
@@ -106,7 +108,7 @@ export function computeZiweiNatal(input: ChartInput): ZiweiNatal {
     resolved: cal.resolved,
     lunar: { ...cal.lunar, effectiveMonth: cal.effectiveMonth },
     yearGz: cal.yearGz, hourBranch: cal.hourBranch, lifeBranch: life, bodyBranch: body, bodyPalace: palaceAt(body),
-    ju: bureau.ju, juName: bureau.juName, palaces, birthHua, birthTransformations, forward: dir.forward, starBranch: stars, notes: cal.notes,
+    ju: bureau.ju, juName: bureau.juName, palaces, birthHua, birthTransformations, forward: dir.forward, gender: input.gender, starBranch: stars, notes: cal.notes,
     profile: P,
     meta: {
       ruleProfileId: P.id, ruleProfileName: P.name, ruleProfileVersion: P.version, ruleProfileKind: P.kind, versions: chartVersions(P.version),

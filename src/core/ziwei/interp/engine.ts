@@ -3,17 +3,24 @@
  *  → 共用 InterpretationResult（交給 CrossSystemAdviceEngine／ActionAdviceEngine）。
  *  規則只有在「啟用＋已校驗＋每條引用都能在匯入原文中逐字找到」時才會使用；其餘一律不觸發。 */
 import { ADVICE_TOPICS, TOPIC_IDS, type TopicId } from "@/kb/advice/topics";
+import { BR } from "../common";
 import { factorDef } from "@/core/advice/factors";
 import type { FactorPolarity, InterpretationFinding, InterpretationResult, LifeFactorInstance, TimeLayer } from "@/core/advice/interpretation";
 import { ZIWEI_INTERPRETATION_RULES } from "@/kb/ziwei/interpretationRules";
 import { ZIWEI_CITATIONS, ZIWEI_SOURCES } from "@/kb/ziwei/sources";
 import { IMPORTED_ZIWEI_TEXTS } from "@/kb/ziwei/texts/imported";
+import { gyClassicalLevel } from "@/kb/ziwei/v2";
 import type { ZiweiNatal } from "../chart";
 import type { ZiweiTransit } from "../luck";
-import { citationCheck, type ClassicalCitation, type ClassicalSource, type ImportedClassicalText } from "./citation";
+import { citationCheck, citationUsableForRules, type ClassicalCitation, type ClassicalSource, type ImportedClassicalText } from "./citation";
 import { buildContexts, sanFangContext, type ContextLayer, type ZiweiInterpretationContexts } from "./contexts";
 import type { ModifierRole, ZiweiCondition, ZiweiInterpretationRule } from "./rules";
 
+export const PENDING_REASON_LABEL: Record<string, string> = {
+  unclearGlyph: "原文有疑字（兩輪核讀與決議仍無法確定）", insufficientConditions: "古文沒有足夠成立條件", requiresOtherEdition: "需要其他版本確認",
+  ocrOnly: "只有 OCR 定位", historicalOnly: "宿命或不宜直接顯示的古代斷語，只保留原文", requiresChartExtension: "需要客觀排盤沒有的資料（例：小限、斗君、空亡）",
+  notInterpretive: "排盤起例等非判讀內容", secondaryLowResolution: "第二來源解析度不足", locatorOnly: "只有定位",
+};
 export const ZIWEI_ADVICE_PENDING_REASON = "目前紫微判讀引擎建置中，未納入本次建議。";
 
 export interface InterpretationKB {
@@ -21,13 +28,15 @@ export interface InterpretationKB {
   citations: readonly ClassicalCitation[];
   sources: readonly ClassicalSource[];
   texts: readonly ImportedClassicalText[];
+  /** 古典廟旺（ClassicalBrightnessRule，已雙重核讀）；判讀條件中的亮度優先用古典值，古籍沒寫的才用軟體亮度（iztro）。不改客觀排盤。 */
+  classicalBrightness?: (star: string, branch: string) => string | null;
 }
-export const DEFAULT_KB: InterpretationKB = { rules: ZIWEI_INTERPRETATION_RULES, citations: ZIWEI_CITATIONS, sources: ZIWEI_SOURCES, texts: IMPORTED_ZIWEI_TEXTS };
+export const DEFAULT_KB: InterpretationKB = { rules: ZIWEI_INTERPRETATION_RULES, citations: ZIWEI_CITATIONS, sources: ZIWEI_SOURCES, texts: IMPORTED_ZIWEI_TEXTS, classicalBrightness: gyClassicalLevel };
 
 // ───────── 規則是否可用（閘門） ─────────
 export function ruleUsability(rule: ZiweiInterpretationRule, kb: InterpretationKB = DEFAULT_KB): { usable: boolean; reason: string } {
   if (rule.kind === "principle") return { usable: false, reason: "判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發" };
-  if (!rule.enabled) return { usable: false, reason: rule.verificationStatus === "pendingVerification" ? "待古籍原文校驗，尚未啟用" : "未啟用" };
+  if (!rule.enabled) return { usable: false, reason: rule.pendingReason ? `未啟用：${PENDING_REASON_LABEL[rule.pendingReason] ?? rule.pendingReason}` : rule.verificationStatus === "pendingVerification" ? "待古籍原文校驗，尚未啟用" : "未啟用" };
   if (rule.verificationStatus !== "verified" && rule.verificationStatus !== "partiallyVerified") return { usable: false, reason: `驗證狀態為 ${rule.verificationStatus}` };
   if (!rule.condition) return { usable: false, reason: "成立條件待原文確認" };
   if (!rule.citations.length) return { usable: false, reason: "沒有古籍引用" };
@@ -37,6 +46,8 @@ export function ruleUsability(rule: ZiweiInterpretationRule, kb: InterpretationK
     const src = kb.sources.find(s => s.sourceId === c.sourceId);
     if (!src || src.tier > 3) return { usable: false, reason: `引用 ${id} 的來源不可作為判讀依據（Tier ${src?.tier ?? "?"}）` };
     if (c.verificationStatus !== "verified" && c.verificationStatus !== "partiallyVerified") return { usable: false, reason: `引用 ${id} 狀態為 ${c.verificationStatus}` };
+    const gate = citationUsableForRules(c);
+    if (!gate.ok) return { usable: false, reason: `引用 ${id}：${gate.reason}` };
     const chk = citationCheck(c, kb.texts);
     if (!chk.ok) return { usable: false, reason: `引用 ${id}：${chk.reason}` };
   }
@@ -44,8 +55,8 @@ export function ruleUsability(rule: ZiweiInterpretationRule, kb: InterpretationK
 }
 
 // ───────── 條件判斷 ─────────
-const LAYER_NAME = { decade: "大限", annual: "流年" } as const;
-function evalCond(c: ZiweiCondition, ctx: ZiweiInterpretationContexts, n: ZiweiNatal): { ok: boolean; evidence: string[] } {
+const LAYER_NAME = { natal: "本命", decade: "大限", annual: "流年" } as const;
+function evalCond(c: ZiweiCondition, ctx: ZiweiInterpretationContexts, n: ZiweiNatal, kb: InterpretationKB = DEFAULT_KB): { ok: boolean; evidence: string[] } {
   const rel = (want: string | undefined, role: string) =>
     !want || want === role || (want === "trine" && (role === "trine1" || role === "trine2")) || want === "sanfang";
   switch (c.kind) {
@@ -55,8 +66,16 @@ function evalCond(c: ZiweiCondition, ctx: ZiweiInterpretationContexts, n: ZiweiN
       const want = c.relation ?? "self";
       for (const m of sf.members) {
         if (!rel(want, m.relationType)) continue;
-        const s = [...m.residentMajor, ...m.residentMinor].find(x => x.name === c.star && (!c.brightness || c.brightness.includes(x.brightness)));
-        if (s) return { ok: true, evidence: [`${c.star}（${s.brightness || "—"}）在${c.layer && c.layer !== "natal" ? `${LAYER_NAME[c.layer]}${m.palaceName}（本命${m.natalName}）` : m.palaceName}（${m.relationType === "self" ? "本宮坐守" : "三方照會"}）`] };
+        if (c.branches && !c.branches.includes(BR[m.branch])) continue;
+        // 雜曜（天刑、天姚等）沒有亮度，只在沒有亮度條件時比對
+        const miscHit = !c.brightness && ctx.palaces[m.branch].misc.includes(c.star) ? { name: c.star, brightness: "" } : undefined;
+        const s = [...m.residentMajor, ...m.residentMinor].find(x => x.name === c.star) ?? miscHit;
+        if (!s) continue;
+        const classical = kb.classicalBrightness?.(c.star, BR[m.branch]) ?? null;
+        const level = classical ?? s.brightness;
+        if (c.brightness && !c.brightness.includes(level)) continue;
+        const bl = classical ? `古典${classical}${s.brightness && s.brightness !== classical ? `／軟體${s.brightness}` : ""}` : s.brightness || "—";
+        { return { ok: true, evidence: [`${c.star}（${bl}）在${c.layer && c.layer !== "natal" ? `${LAYER_NAME[c.layer]}${m.palaceName}（本命${m.natalName}）` : m.palaceName}（${m.relationType === "self" ? "本宮坐守" : "三方照會"}）`] }; }
       }
       return { ok: false, evidence: [] };
     }
@@ -82,46 +101,80 @@ function evalCond(c: ZiweiCondition, ctx: ZiweiInterpretationContexts, n: ZiweiN
       const p = ctx.palaces.find(x => (layer === "natal" ? x.natalName : layer === "decade" ? x.decadeName : x.annualName) === c.palace);
       return p?.isEmpty ? { ok: true, evidence: [`${c.palace}無主星`] } : { ok: false, evidence: [] };
     }
+    case "flank": {
+      const layer = c.layer ?? "natal";
+      const p = ctx.palaces.find(x => (layer === "natal" ? x.natalName : layer === "decade" ? x.decadeName : x.annualName) === c.palace);
+      if (!p) return { ok: false, evidence: [] };
+      const has = (b: number, star: string) => { const q = ctx.palaces[(b + 12) % 12]; return [...q.residentMajor, ...q.residentMinor].some(x => x.name === star) || q.misc.includes(star); };
+      const [a, b] = c.stars;
+      const ok = (has(p.branch - 1, a) && has(p.branch + 1, b)) || (has(p.branch - 1, b) && has(p.branch + 1, a));
+      return ok ? { ok: true, evidence: [`${a}、${b}夾${c.palace}（${p.natalName}）`] } : { ok: false, evidence: [] };
+    }
+    case "soleMajor": {
+      const layer = c.layer ?? "natal";
+      const p = ctx.palaces.find(x => (layer === "natal" ? x.natalName : layer === "decade" ? x.decadeName : x.annualName) === c.palace);
+      return p && p.residentMajor.length === 1 && p.residentMajor[0].name === c.star ? { ok: true, evidence: [`${c.star}獨守${c.palace}`] } : { ok: false, evidence: [] };
+    }
+    case "gender":
+      return n.gender === c.gender ? { ok: true, evidence: [c.gender === "male" ? "男命" : "女命"] } : { ok: false, evidence: [] };
+    case "birthBranch": {
+      const br = n.yearGz.text[1];
+      return c.branches.includes(br) ? { ok: true, evidence: [`${br}年生`] } : { ok: false, evidence: [] };
+    }
+    case "birthStem": {
+      const stem = n.yearGz.text[0];
+      return c.stems.includes(stem) ? { ok: true, evidence: [`${stem}年生`] } : { ok: false, evidence: [] };
+    }
+    case "layerBranch": {
+      const l = ctx[c.layer];
+      return l && c.branches.includes(BR[l.lifeBranch]) ? { ok: true, evidence: [`${c.layer === "natal" ? "命宮" : `${LAYER_NAME[c.layer]}命宮`}在${BR[l.lifeBranch]}`] } : { ok: false, evidence: [] };
+    }
+    case "hourBranch":
+      return c.branches.includes(BR[n.hourBranch]) ? { ok: true, evidence: [`${BR[n.hourBranch]}時生`] } : { ok: false, evidence: [] };
     case "periodLifeAt": {
       const l = ctx[c.layer];
       return l && l.lifeOnNatal === c.natalPalace ? { ok: true, evidence: [`${LAYER_NAME[c.layer]}命宮在本命${c.natalPalace}`] } : { ok: false, evidence: [] };
     }
-    case "all": { const r = c.of.map(x => evalCond(x, ctx, n)); return { ok: r.every(x => x.ok), evidence: r.flatMap(x => x.evidence) }; }
-    case "any": { const r = c.of.map(x => evalCond(x, ctx, n)).filter(x => x.ok); return { ok: r.length > 0, evidence: r.flatMap(x => x.evidence) }; }
-    case "not": { const r = evalCond(c.of, ctx, n); return { ok: !r.ok, evidence: r.ok ? [] : ["（否定條件成立）"] }; }
+    case "all": { const r = c.of.map(x => evalCond(x, ctx, n, kb)); return { ok: r.every(x => x.ok), evidence: r.flatMap(x => x.evidence) }; }
+    case "any": { const r = c.of.map(x => evalCond(x, ctx, n, kb)).filter(x => x.ok); return { ok: r.length > 0, evidence: r.flatMap(x => x.evidence) }; }
+    case "not": { const r = evalCond(c.of, ctx, n, kb); return { ok: !r.ok, evidence: r.ok ? [] : ["（否定條件成立）"] }; }
   }
 }
 
 // ───────── 覆蓋矩陣 ─────────
-export type ZiweiCoverageLevel = "none" | "partial" | "dedicated";
+/** none：沒有可用規則；generalOnly：此主題沒有專屬規則，只有「綜合」層的紫微判讀（不參與此主題建議）；
+ *  partial：有會產生生活因素的專屬可用規則；dedicated：專屬因素規則達 DEDICATED_MIN 條且同時涵蓋本命與運限 */
+export type ZiweiCoverageLevel = "none" | "generalOnly" | "partial" | "dedicated";
 export interface ZiweiTopicCoverageRow {
   topic: TopicId; level: ZiweiCoverageLevel;
   ruleCount: number; verifiedRuleCount: number; factorRuleCount: number; pendingRuleCount: number;
   layers: ContextLayer[];                    // 已可用規則涵蓋的時間層
   sourceCoverage: string[];                  // 已可用規則引用的來源
 }
-/** dedicated：會產生生活因素的可用規則至少 DEDICATED_MIN 條，且本命與運限（大限或流年）兩層都有；其餘有可用規則者為 partial */
 export const DEDICATED_MIN = 10;
 
 export function ziweiCoverage(kb: InterpretationKB = DEFAULT_KB): ZiweiTopicCoverageRow[] {
+  const usableOf = (topic: TopicId) => kb.rules.filter(r => r.topics.includes(topic) && ruleUsability(r, kb).usable);
+  const generalFactor = usableOf("general").some(r => r.lifeFactors.length);
   return TOPIC_IDS.map(topic => {
     const rules = kb.rules.filter(r => r.topics.includes(topic));
-    const usable = rules.filter(r => ruleUsability(r, kb).usable);
+    const usable = usableOf(topic);
     const layers = [...new Set(usable.map(r => r.timeLayer))];
-    // 「專屬」只看會產生生活因素的規則（只列出判讀、不產生因素的規則不能支撐建議）
+    // 只計會產生生活因素的規則（只列出判讀、不產生因素的規則不能支撐建議）
     const withFactors = usable.filter(r => r.lifeFactors.length);
     const fLayers = new Set(withFactors.map(r => r.timeLayer));
-    const level: ZiweiCoverageLevel = !usable.length ? "none"
-      : withFactors.length >= DEDICATED_MIN && fLayers.has("natal") && (fLayers.has("decade") || fLayers.has("annual")) ? "dedicated" : "partial";
+    const level: ZiweiCoverageLevel = withFactors.length >= DEDICATED_MIN && fLayers.has("natal") && (fLayers.has("decade") || fLayers.has("annual")) ? "dedicated"
+      : withFactors.length ? "partial"
+      : topic !== "general" && generalFactor ? "generalOnly" : "none";
     const sourceCoverage = [...new Set(usable.flatMap(r => r.citations.map(id => kb.citations.find(c => c.citationId === id)?.sourceId ?? "")).filter(Boolean))];
-    return { topic, level, ruleCount: rules.length, verifiedRuleCount: usable.length, factorRuleCount: withFactors.length, pendingRuleCount: rules.filter(r => r.verificationStatus === "pendingVerification").length, layers, sourceCoverage };
+    return { topic, level, ruleCount: rules.length, verifiedRuleCount: usable.length, factorRuleCount: withFactors.length, pendingRuleCount: rules.filter(r => r.verificationStatus === "pendingVerification" || !r.enabled && r.kind !== "principle").length, layers, sourceCoverage };
   });
 }
 
 /** 紫微判讀在建議引擎中的狀態：pending（沒有可用規則）→ partial（部分主題）→ active（所有主題皆 dedicated） */
 export function ziweiInterpretationStatus(kb: InterpretationKB = DEFAULT_KB): { status: "pending" | "partial" | "active"; coveredTopics: TopicId[] } {
   const cov = ziweiCoverage(kb);
-  const coveredTopics = cov.filter(c => c.level !== "none").map(c => c.topic);
+  const coveredTopics = cov.filter(c => c.level === "partial" || c.level === "dedicated").map(c => c.topic);
   return { status: !coveredTopics.length ? "pending" : cov.every(c => c.level === "dedicated") ? "active" : "partial", coveredTopics };
 }
 
@@ -160,7 +213,7 @@ export function interpretZiwei(n: ZiweiNatal, t: ZiweiTransit | null, kb: Interp
     if ((rule.timeLayer === "decade" && !contexts.decade) || (rule.timeLayer === "annual" && !contexts.annual)) {
       evaluations.push({ ruleId: rule.ruleId, usable: true, matched: false, reason: "此時點沒有對應的運限資料", evidence: [] }); continue;
     }
-    const r = evalCond(rule.condition!, contexts, n);
+    const r = evalCond(rule.condition!, contexts, n, kb);
     evaluations.push({ ruleId: rule.ruleId, usable: true, matched: r.ok, reason: r.ok ? "條件成立" : "條件不成立", evidence: r.evidence });
     if (!r.ok) continue;
     findings.push({

@@ -10,6 +10,9 @@
 import type { ClassicalCitation, ClassicalSource } from "@/core/ziwei/interp/citation";
 import { MAJOR, PALACES } from "@/core/ziwei/common";
 import { GUANGYI_SOURCE, GUANGYI_TRANSCRIPTION, scanSpan } from "./texts/imported";
+import { findExcerpt } from "./texts/pages";
+import { GY_BUILT } from "./v2";
+import V4_CONFIRMED from "@/data/classics/ziwei/package-v4/data/confirmed_citations_v4.json";
 import JIWEN_SOURCE from "@/data/classics/ziwei/quanji-jiwen/source.json";
 
 export { JIWEN_SOURCE };
@@ -79,21 +82,46 @@ const PALACE_CODE: Record<string, string> = {
 };
 export const palaceCode = (p: string) => PALACE_CODE[p];
 
-/** 由已核對的轉錄段落建立引用；originalText 必須是該段文字的連續子字串（測試檢查） */
+/** 舊版單次目視轉錄段落（transcription.json）與 v4 雙重核讀頁面（pages.json）的逐段複核結果 */
+export interface SpanRecheck {
+  spanId: string; leaf: string; pdfPage: number; firstPass: string; secondPass: string | null;
+  result: "identical" | "identicalAfterResolution" | "differs" | "notFound";
+  uncertainGlyphs: string[]; note: string;
+}
+export const SPAN_RECHECKS: SpanRecheck[] = [];
+const unmark = (t: string) => t.replace(/〔疑字：(.)〕/g, "$1").replace(/〔缺字〕/g, "□");
+
+/** 由舊轉錄段落建立引用：originalText 取舊段落文字，但一律以 v4 雙重核讀頁面重新定位與驗證——
+ *  兩者逐字相同且頁面該處無疑字，才算「原始掃描影像雙重核讀」；否則引用維持待校驗並記錄差異。 */
 function scanCitation(citationId: string, spanId: string, o: { originalText?: string; modernTranslation: string; notes?: string }): ClassicalCitation {
   const sp = scanSpan(spanId);
   if (!sp) throw new Error(`找不到轉錄段落 ${spanId}`);
-  const originalText = o.originalText ?? sp.text;
-  const ok = sp.visualVerified === true && sp.transcriptionStatus === "verified";
+  const first = unmark(o.originalText ?? sp.text);
+  const leaf = `${sp.pdfPage}${(sp.clip?.[0] ?? 1) >= 0.5 ? "R" : "L"}`;
+  const hit = findExcerpt(leaf, first) ?? findExcerpt(`${sp.pdfPage}${leaf.endsWith("R") ? "L" : "R"}`, first);
+  const firstHadMarks = /〔/.test(o.originalText ?? sp.text);
+  // 章首等結構標記：頁面欄組沒有收（位於切邊），改以來源包 v4 的 structureMarker（另一次獨立目視複核，visualDoubleChecked）作第二次核讀
+  const v4 = !hit ? V4_CONFIRMED.items.find(i => i.type === "structureMarker" && i.pdfPage === sp.pdfPage && i.originalText === first && i.verification.visualDoubleChecked) : undefined;
+  const result: SpanRecheck["result"] = v4 ? "identical" : !hit ? "notFound" : hit.clean ? (firstHadMarks ? "identicalAfterResolution" : "identical") : "differs";
+  if (!SPAN_RECHECKS.some(r => r.spanId === spanId && r.firstPass === first)) SPAN_RECHECKS.push({
+    spanId, leaf: hit?.leaf ?? leaf, pdfPage: sp.pdfPage, firstPass: first, secondPass: hit ? hit.raw : null, result, uncertainGlyphs: hit?.uncertainGlyphs ?? [],
+    note: v4 ? `頁面欄組未收此章首；與來源包 v4 structureMarker ${v4.citationId}（另一次獨立目視複核）逐字相同。`
+      : !hit ? "第二次（雙重核讀）頁面文字中找不到與第一次轉錄逐字相同的片段：以頁面文字為準，此引用不啟用。"
+      : !hit.clean ? "逐字位置相同，但頁面該處仍有疑字：不啟用。"
+      : firstHadMarks ? "第一次轉錄的疑字已由兩輪獨立核讀與差異決議確認。" : "兩次轉錄逐字相同。",
+  });
+  const ok = (!!hit && hit.clean) || !!v4;
   return {
     citationId, sourceId: GUANGYI_SOURCE.sourceId, edition: GUANGYI_SOURCE.editionLabel, volume: sp.volume, section: sp.section, entry: sp.entry,
-    locationStatus: "verifiedAgainstText", originalText, normalizedText: originalText, classicalCommentary: null,
+    locationStatus: "verifiedAgainstText", originalText: first, normalizedText: first, classicalCommentary: null,
     modernTranslation: o.modernTranslation, verificationStatus: ok ? "verified" : "pendingVerification",
     textualVariants: [],
-    notes: [o.notes, sp.notes].filter(Boolean).join(" "),
-    locator: { pdfPage: sp.pdfPage, printedPage: sp.printedPage, spanId },
+    notes: [o.notes, sp.notes, ok ? "" : `v4 複核：${SPAN_RECHECKS.find(r => r.spanId === spanId)?.note ?? ""}`].filter(Boolean).join(" "),
+    locator: hit ? { pdfPage: hit.pdfPage, printedPage: hit.printedPage, spanId: `${hit.leaf}:s${hit.strips.join(",")}`, boundingRegion: hit.region } : { pdfPage: sp.pdfPage, printedPage: sp.printedPage, spanId },
     transcriptionStatus: ok ? "verified" : "transcriptionUnverified",
-    verifiedBy: GUANGYI_TRANSCRIPTION.verification.verifiedBy, verifiedAt: GUANGYI_TRANSCRIPTION.verification.verifiedAt,
+    verification: { machineLocated: false, visualTranscribed: true, visualDoubleChecked: ok, humanReviewed: false, secondSourceVerified: false },
+    uncertainGlyphs: hit?.uncertainGlyphs ?? [], sourceType: "scanVisual",
+    verifiedBy: "第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘）", verifiedAt: "2026-09-27",
   };
 }
 
@@ -154,4 +182,6 @@ export const ZIWEI_CITATIONS: ClassicalCitation[] = [
   scanCitation("CIT_QS_ANNUAL_TAISUI", "GY-P47-TAISUI", { modernTranslation: "凡看太歲（流年），要看三方與對宮星辰的吉凶，以定禍福。太歲到命宮的那一年，禍福尤其明顯；例如命宮在子，太歲到子，又逢癸年生人，遇吉則吉、遇凶則凶。" }),
 ];
 
+/** v4 逐句規則的引用（CIT_GY_＊） */
+ZIWEI_CITATIONS.push(...GY_BUILT.citations);
 export const citationOf = (id: string) => ZIWEI_CITATIONS.find(c => c.citationId === id);

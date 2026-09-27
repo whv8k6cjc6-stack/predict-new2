@@ -49,12 +49,46 @@ export interface ClassicalCitation {
   verificationStatus: CitationStatus;
   textualVariants: TextualVariant[];
   notes: string;
-  /** 掃描來源的頁面定位（PDF 頁碼、版心頁碼、轉錄段落）；以 PDF 影像為 Source of Truth */
-  locator?: { pdfPage: number; printedPage: number | null; spanId: string };
-  /** 轉錄狀態：verified＝已依 PDF 影像逐字核對；transcriptionUnverified＝只有初稿 */
+  /** 掃描來源的頁面定位（PDF 頁碼、版心頁碼、轉錄段落、影像範圍）；以 PDF 影像為 Source of Truth */
+  locator?: { pdfPage: number; printedPage: number | null; spanId: string; boundingRegion?: BoundingRegion };
+  /** 轉錄狀態：verified＝原始掃描影像雙重核讀通過且無疑字；transcriptionUnverified＝其餘 */
   transcriptionStatus?: "verified" | "transcriptionUnverified";
+  /** 分級驗證狀態（不是只有 verified／pending 兩種） */
+  verification?: VerificationState;
+  /** 仍存疑的字（有任何一個就不得用於啟用中的規則） */
+  uncertainGlyphs?: string[];
+  sourceType?: SourceTextType;
   verifiedBy?: string;
   verifiedAt?: string;
+}
+
+/** 分級驗證：machineLocated（OCR／程式定位）→ visualTranscribed（依影像轉錄一次）→ visualDoubleChecked（兩次獨立轉錄、比對差異並回影像決議、無疑字）
+ *  → humanReviewed（保留給日後另外的人工校勘，本專案不宣稱）→ secondSourceVerified（第二版本逐字核對） */
+export interface VerificationState {
+  machineLocated: boolean;
+  visualTranscribed: boolean;
+  visualDoubleChecked: boolean;
+  humanReviewed: boolean;
+  secondSourceVerified: boolean;
+}
+/** scanVisual＝依掃描影像目視轉錄；ocrOnly＝只有機器 OCR（只能搜尋，永遠不能啟用規則）；humanDraft＝來源包人工初稿 */
+export type SourceTextType = "scanVisual" | "ocrOnly" | "humanDraft";
+/** 影像範圍（頁寬、頁高比例；x 由左到右、y 由上到下） */
+export interface BoundingRegion { x0: number; y0: number; x1: number; y1: number }
+
+/** 規則可用的最低門檻：原始掃描影像雙重核讀、無疑字、不是 OCR */
+export function citationUsableForRules(c: ClassicalCitation): { ok: boolean; reason: string } {
+  if (c.sourceType === "ocrOnly") return { ok: false, reason: "只有 OCR，不能作為規則依據" };
+  if (c.sourceType === "humanDraft") return { ok: false, reason: "只有人工初稿，尚未依影像核讀" };
+  if (c.uncertainGlyphs?.length) return { ok: false, reason: `有疑字：${c.uncertainGlyphs.join("、")}` };
+  if (c.locator && !c.verification?.visualDoubleChecked) return { ok: false, reason: "尚未完成原始掃描影像雙重核讀" };
+  return { ok: true, reason: "原始掃描影像雙重核讀" };
+}
+
+/** 來源修正紀錄 */
+export interface SourceCorrection {
+  correctionId: string; previousSource: string; previousClaim: string; correctedClaim: string;
+  sourcePage: number; printedPage: number | null; confirmedBy: string[]; reason: string; verificationState: string; appliedIn: string;
 }
 
 export interface SourceConflict {
@@ -95,10 +129,12 @@ export function normalizeClassical(s: string): string {
 /** 引用是否能在匯入原文中逐字找到（正規化後比對；有指定篇名時只在該篇比對） */
 export function citationCheck(c: ClassicalCitation, texts: readonly ImportedClassicalText[]): { ok: boolean; reason: string; sectionId?: string } {
   if (!c.originalText) return { ok: false, reason: "原文尚未填入（未匯入原文前不憑記憶填寫）" };
-  const t = texts.find(x => x.sourceId === c.sourceId && (!c.edition || x.edition === c.edition));
-  if (!t) return { ok: false, reason: `來源 ${c.sourceId} 的原文尚未匯入` };
+  const ts = texts.filter(x => x.sourceId === c.sourceId && (!c.edition || x.edition === c.edition));
+  if (!ts.length) return { ok: false, reason: `來源 ${c.sourceId} 的原文尚未匯入` };
+  const t = { sections: ts.flatMap(x => x.sections) };
   const needle = normalizeClassical(c.originalText);
-  const pool = c.section ? t.sections.filter(s => s.title.includes(c.section!)) : t.sections;
+  // 有頁面定位時以頁碼比對（篇名只是描述）；沒有定位時才依篇名縮小範圍
+  const pool = c.locator ? t.sections : c.section ? t.sections.filter(s => s.title.includes(c.section!)) : t.sections;
   if (!pool.length) return { ok: false, reason: `匯入原文中找不到篇名「${c.section}」` };
   // 掃描來源：只比對已依影像逐字核對的段落；有頁面定位時只在該頁比對
   const verified = pool.filter(s => s.transcriptionStatus !== "transcriptionUnverified" && (!c.locator || s.pdfPage === undefined || s.pdfPage === c.locator.pdfPage));

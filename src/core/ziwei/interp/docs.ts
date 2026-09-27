@@ -3,9 +3,12 @@ import { ADVICE_TOPICS } from "@/kb/advice/topics";
 import { ZIWEI_CITATIONS, ZIWEI_SOURCES } from "@/kb/ziwei/sources";
 import { PALACE_SEMANTICS, STAR_SEMANTICS } from "@/kb/ziwei/semantics";
 import { factorDef } from "@/core/advice/factors";
-import { ZIWEI_PENDING } from "@/kb/ziwei/pending";
 import { JIWEN_SOURCE } from "@/kb/ziwei/sources";
-import { ZIWEI_INTERPRETATION_RULES, ZIWEI_INTERP_RULES_VERSION, ZIWEI_PATTERN_RULES, ZIWEI_SOURCE_CONFLICTS } from "@/kb/ziwei/interpretationRules";
+import { ZIWEI_INTERPRETATION_RULES, ZIWEI_INTERP_RULES_VERSION, ZIWEI_PATTERN_CANDIDATES, ZIWEI_PATTERN_RULES, ZIWEI_SOURCE_CONFLICTS } from "@/kb/ziwei/interpretationRules";
+import { completion, pendingItems, PENDING_CATEGORY_LABEL } from "@/kb/ziwei/v2/completion";
+import { GY_BRIGHTNESS_CONFLICTS } from "@/kb/ziwei/v2";
+import { SPAN_RECHECKS } from "@/kb/ziwei/sources";
+import corrections from "@/data/classics/ziwei/quanshu-guangyi/corrections.json";
 import { IMPORTED_ZIWEI_TEXTS } from "@/kb/ziwei/texts/imported";
 import { ruleUsability, ziweiCoverage } from "./engine";
 
@@ -13,10 +16,22 @@ const esc = (s: string) => s.replaceAll("|", "／").replaceAll("\n", " ");
 
 export function ziweiRegistryDoc(): string {
   const cov = ziweiCoverage();
+  const k = completion();
+  const pend = pendingItems();
   return [
     "# 紫微斗數判讀：來源與規則登錄",
     "",
     `> 自動產生，請勿手改（判讀規則版本 ${ZIWEI_INTERP_RULES_VERSION}）。更新：ADVICE_DOCS_WRITE=1 npx vitest run src/tests/advice-docs.test.ts`,
+    "",
+    "## 紫微判讀完成度",
+    "",
+    `- 原文：《紫微斗數全書》廣益版 PDF ${k.source.pdfPages} 頁（${k.source.leaves} 個半頁、${k.source.strips} 欄組，含書縫與切邊補轉錄 ${k.source.supplementStrips}），原始掃描影像雙重核讀的欄組 ${k.source.doubleCheckedStrips}；仍存疑 ${k.source.uncertainGlyphs} 處。驗證方式：兩輪獨立 AI 目視轉錄＋差異回影像決議（非學術人工校勘；humanReviewed＝否）。`,
+    `- 引用：${k.citations.total} 筆，可作規則依據 ${k.citations.usable}，含疑字 ${k.citations.withUncertain}。`,
+    `- 判讀規則：${k.rules.total} 條，可用 ${k.rules.usable}（本命 ${k.rules.natal}、大限 ${k.rules.decade}、流年 ${k.rules.annual}），產生生活因素 ${k.rules.withFactors}；判讀原則 ${k.rules.principles}。`,
+    `- 格局：PatternRule ${k.patterns.rules}（啟用 ${k.patterns.enabled}）、PatternCandidate ${k.patterns.candidates}。`,
+    `- 古典廟旺：${k.brightness.entries} 條；與 iztro 軟體亮度不同 ${k.brightness.conflicts} 處（不改客觀排盤）。`,
+    `- 舊 35 段第二次核讀：逐字相同 ${k.spanRecheck.identical}、疑字已決議 ${k.spanRecheck.identicalAfterResolution}、仍有疑字 ${k.spanRecheck.differs}、找不到 ${k.spanRecheck.notFound}。`,
+    `- 紫微計分：${k.scoring}（停用）。`,
     "",
     "## 來源",
     "",
@@ -56,7 +71,31 @@ export function ziweiRegistryDoc(): string {
     "|---|---|---|---|---|---|",
     ...PALACE_SEMANTICS.map(p => `| ${p.name}${p.classicalName !== p.name ? `（${p.classicalName}）` : ""} | ${p.modernMeaning.text} | ${p.relatedTopics.join("、")} | ${p.combineWith.opposite} | ${p.combineWith.trines.join("、")} | ${p.classicalMeaning.text ?? "待校驗"} |`),
     "",
-    `## 格局規則：${ZIWEI_PATTERN_RULES.length} 條（格局篇章尚未逐字核對；候選見待校驗清單）`,
+    `## 格局規則：${ZIWEI_PATTERN_RULES.length} 條；候選 ${ZIWEI_PATTERN_CANDIDATES.length} 條`,
+    "",
+    "| 格局 | 類別 | 必要星曜 | 破格條件數 | 生活因素 | 啟用 |",
+    "|---|---|---|---|---|---|",
+    ...ZIWEI_PATTERN_RULES.map(p => `| ${p.name}（\`${p.patternId}\`） | ${p.group} | ${p.requiredStars.join("、") || "—"} | ${p.breakingConditions.length} | ${p.lifeFactors.map(l => l.factorId).join("、") || "—"} | ${p.enabled ? "是" : "否"} |`),
+    "",
+    "| 候選 | 類別 | 原因 | 說明 |",
+    "|---|---|---|---|",
+    ...ZIWEI_PATTERN_CANDIDATES.map(p => `| ${p.name} | ${p.group} | ${p.pendingReason} | ${esc(p.note)} |`),
+    "",
+    "## 古典廟旺與軟體亮度差異（BrightnessConflict）",
+    "",
+    "| 星 | 地支 | 《全書》 | iztro | 古典出處 |",
+    "|---|---|---|---|---|",
+    ...GY_BRIGHTNESS_CONFLICTS.map(c => `| ${c.star} | ${c.palaceBranch} | ${c.classicalValue} | ${c.softwareValue} | ${esc(c.classicalCitation)} |`),
+    "",
+    "## 舊版單次轉錄 35 段的第二次核讀",
+    "",
+    "| 段落 | 頁 | 結果 | 說明 |",
+    "|---|---|---|---|",
+    ...SPAN_RECHECKS.map(r => `| ${r.spanId} | p${r.pdfPage} | ${r.result} | ${esc(r.note)} |`),
+    "",
+    "## 來源修正紀錄",
+    "",
+    ...corrections.corrections.map(c => `- ${c.correctionId}：${esc(c.previousSource)}「${esc(c.previousClaim)}」→「${esc(c.correctedClaim)}」（PDF p${c.sourcePage}；${c.confirmedBy.join("、")}）`),
     "",
     "## 第二來源：《紫微斗數全集》集文版",
     "",
@@ -64,11 +103,13 @@ export function ziweiRegistryDoc(): string {
     "",
     ...JIWEN_SOURCE.parallelSections.map(p => `- ${p.topic}：${p.status}${p.jiwenPages.length ? `（集文版 PDF p${p.jiwenPages[0]}–${p.jiwenPages[p.jiwenPages.length - 1]}）` : ""}`),
     "",
-    `## 待校驗（${ZIWEI_PENDING.length} 項）`,
+    `## 待處理（${pend.length} 項，依原因分類）`,
     "",
-    "| 項目 | 類型 | 來源 | PDF 頁 | 原因 |",
+    ...Object.entries(k.pending.byCategory).map(([c, n]) => `- ${PENDING_CATEGORY_LABEL[c as keyof typeof PENDING_CATEGORY_LABEL] ?? c}：${n}`),
+    "",
+    "| 項目 | 原因 | 篇 | PDF 頁 | 說明 |",
     "|---|---|---|---|---|",
-    ...ZIWEI_PENDING.map(e => `| ${esc(e.section)} | ${e.kind} | ${e.sourceId} | ${e.pdfPage ?? "—"} | ${esc(e.reason)} |`),
+    ...pend.map(e => `| \`${e.id}\` | ${e.category} | ${esc(e.section)} | ${e.pdfPage ?? "—"} | ${esc(e.detail)} |`),
     "",
     `## 來源衝突：${ZIWEI_SOURCE_CONFLICTS.length ? ZIWEI_SOURCE_CONFLICTS.map(c => c.conflictId).join("、") : "0 筆（集文版平行段落掃描不足以逐字比對，未建立異文或衝突）"}`,
     "",

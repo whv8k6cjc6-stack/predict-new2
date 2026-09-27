@@ -11,12 +11,26 @@ import type { ContextLayer } from "./contexts";
 
 /** 條件只描述盤面客觀關係；relation：self＝本宮坐守、opposite／trine＝三方照會（不等於坐守）、sanfang＝四者任一 */
 export type ZiweiCondition =
-  | { kind: "starInPalace"; star: string; palace: PalaceName; layer?: ContextLayer; relation?: SanFangRole | "trine" | "sanfang"; brightness?: string[] }
+  | { kind: "starInPalace"; star: string; palace: PalaceName; layer?: ContextLayer; relation?: SanFangRole | "trine" | "sanfang"; brightness?: string[]; branches?: string[] }
+  /** 某星在某宮坐守且為該宮唯一主星（古籍「獨守」「單居」） */
+  | { kind: "soleMajor"; star: string; palace: PalaceName; layer?: ContextLayer }
+  /** 命主性別（古籍「入男命」「入女命」訣；女命訣多含性別道德斷語，只保留在原文層） */
+  | { kind: "gender"; gender: "male" | "female" }
+  /** 出生年天干（古籍「甲生人」「丁己生人」） */
+  | { kind: "birthStem"; stems: string[] }
+  /** 出生年地支（古籍「寅午戌人」「辰戌丑未生人」） */
+  | { kind: "birthBranch"; branches: string[] }
   | { kind: "transformation"; transformation: Hua; source: "birthYear" | "decade" | "annual"; star?: string; palace: PalaceName; layer?: ContextLayer; relation?: SanFangRole | "trine" | "sanfang" }
   | { kind: "starsTogether"; stars: string[]; palace?: PalaceName; layer?: ContextLayer }
   | { kind: "emptyPalace"; palace: PalaceName; layer?: ContextLayer }
+  /** 夾：某宮左右相鄰兩宮分別有指定的兩顆星（古籍「日月夾命」「財蔭夾印」） */
+  | { kind: "flank"; stars: [string, string]; palace: PalaceName; layer?: ContextLayer }
   /** 運限命宮落在本命某宮（例：流年命宮＝本命命宮，即「太歲在命宮」） */
   | { kind: "periodLifeAt"; layer: "decade" | "annual"; natalPalace: PalaceName }
+  /** 某層命宮所在地支（本命命宮、大限命宮「行至寅申巳亥」、流年太歲宮） */
+  | { kind: "layerBranch"; layer: ContextLayer; branches: string[] }
+  /** 出生時辰地支（古籍「生在寅午戌申子辰六陽時」） */
+  | { kind: "hourBranch"; branches: string[] }
   | { kind: "all"; of: ZiweiCondition[] }
   | { kind: "any"; of: ZiweiCondition[] }
   | { kind: "not"; of: ZiweiCondition };
@@ -47,6 +61,8 @@ export interface ZiweiInterpretationRule {
   confidence: "high" | "medium" | "low";
   school: string;
   enabled: boolean;
+  /** 未啟用的具體原因（PendingReason） */
+  pendingReason?: string;
   /** 採用的異文版本（有 textualVariants 時必填） */
   adoptedVariant?: string;
 }

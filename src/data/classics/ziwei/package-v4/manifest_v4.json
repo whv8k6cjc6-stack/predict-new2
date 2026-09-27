@@ -1,0 +1,169 @@
+{
+  "packageVersion": "4.0-source-correction-and-structure",
+  "primarySource": {
+    "file": "source/紫微斗數全書-廣益版.pdf",
+    "sha256": "cec2c444290ac70020a5ae4e20a50c07a0064783e53ff3162f90a299d7831186"
+  },
+  "secondarySource": {
+    "file": "source/紫微斗數全集-集文版.pdf",
+    "sha256": "6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6"
+  },
+  "sourceOfTruth": "primary PDF page image",
+  "files": [
+    {
+      "path": "README_FIRST.md",
+      "bytes": 1858,
+      "sha256": "dfd9182dbc0c0a6d5cbbd6f8210f382d2b04e50b52afaf2bb8e53e520d3671a9"
+    },
+    {
+      "path": "instructions/給開發代理人_v4.txt",
+      "bytes": 2130,
+      "sha256": "b3bbbf3a73b1c32d907f527b4009ca4bae204bbfc6c6d1585eb6253d27532096"
+    },
+    {
+      "path": "index/來源差異與修正.md",
+      "bytes": 1011,
+      "sha256": "f7042cb57b725997dbcdbf2f76dac978d91a3ece2cf82aa31a1fce3558ef0d6d"
+    },
+    {
+      "path": "index/可立即整合項目.md",
+      "bytes": 1051,
+      "sha256": "943160bd5c809d869f9a923735407abd2dc984723aad34075104a673de0b415e"
+    },
+    {
+      "path": "index/廣益版_校訂導航.md",
+      "bytes": 4551,
+      "sha256": "d2df618cc690e13177e2867f06920e05210c0ac8580f135ed4b04c1f3cd693db"
+    },
+    {
+      "path": "index/待處理分類矩陣.md",
+      "bytes": 1669,
+      "sha256": "57b47594e30e1a83aae10feec4f7c3952c89379957bd017709e4168f6f330cfa"
+    },
+    {
+      "path": "transcripts/十四主星_舊版人工初稿_僅供比對.txt",
+      "bytes": 8012,
+      "sha256": "8275e5ba56deb8e30010f5d1b0c41fa9c490a7a9c41a6b2b905bfde633a1e3d8"
+    },
+    {
+      "path": "transcripts/格局與運限_舊版人工初稿_僅供比對.md",
+      "bytes": 7067,
+      "sha256": "7275d7ea2d5765f8bf262205394eddcdd308ffe01838b2b518261c3c17f8416e"
+    },
+    {
+      "path": "critical_crops/p17.png",
+      "bytes": 769450,
+      "sha256": "c5927d24379cf09d1562c05b700f793505c9c77da8b5330885c48b75c33bc2a2"
+    },
+    {
+      "path": "critical_crops/p18.png",
+      "bytes": 722242,
+      "sha256": "362073ea5fbce1e2aece24f1dd2f5fbdb46e353b792ed923c4716b27af1ec02b"
+    },
+    {
+      "path": "critical_crops/p19.png",
+      "bytes": 835553,
+      "sha256": "c91d4461daa01fc6677c6499cf6b7aa03481d121e13854a5c76980e2b6322ebe"
+    },
+    {
+      "path": "critical_crops/p26.png",
+      "bytes": 673066,
+      "sha256": "4387df96107cef16f31988b1fe9c7955d02a7faa3b1a435318fe4dc69bd336e4"
+    },
+    {
+      "path": "critical_crops/p36.png",
+      "bytes": 788861,
+      "sha256": "9cb6041f41ce8cc9a2df4abb97036b16344a476e07ffd32b1e7973a0970d8176"
+    },
+    {
+      "path": "critical_crops/p37.png",
+      "bytes": 718603,
+      "sha256": "bc9019b384b7f721cf001221b6fc4f949b2c4f027374e54aa113893fcfd250d1"
+    },
+    {
+      "path": "critical_crops/p45.png",
+      "bytes": 824646,
+      "sha256": "5f59c2cba5542b3c4a7bed2c5d3f3966a9a66d7d6936b8733a44f4cfdf02ba9c"
+    },
+    {
+      "path": "critical_crops/p46.png",
+      "bytes": 735049,
+      "sha256": "db6e6ecedeb494546e1ec15b0bb93c58ceaa3877d91718e787da76fd66689b4a"
+    },
+    {
+      "path": "critical_crops/p47.png",
+      "bytes": 629103,
+      "sha256": "9180136393f6df1ecb6cf1a2985e1fca86a2897ead59dd07afcc74b058c0d8cf"
+    },
+    {
+      "path": "critical_crops/p48.png",
+      "bytes": 615249,
+      "sha256": "d9fbc4fabd91beeab1cec28d99096c51e7a63413f2630ec3fa4eaa895b3182c8"
+    },
+    {
+      "path": "critical_crops/p49.png",
+      "bytes": 641482,
+      "sha256": "1be51b5b959ddb95de6ef89a50fba2fd72b56b4df37e91e677f00e2141f94583"
+    },
+    {
+      "path": "critical_crops/p50.png",
+      "bytes": 691827,
+      "sha256": "7fcd8570db665bb7b56a750e317c4933bbb2076c820cc34f1326a9ded889b836"
+    },
+    {
+      "path": "critical_crops/p51.png",
+      "bytes": 657236,
+      "sha256": "f6f12e275173a1e28a5d5970f0ee6661ac242fd150764212a2b12e7fec48871e"
+    },
+    {
+      "path": "critical_crops/p52.png",
+      "bytes": 663763,
+      "sha256": "b7522dc8aa9c69c5f7db4e8cb820da31c3ddd5b77013907b63d21ce8127545c2"
+    },
+    {
+      "path": "critical_crops/p53.png",
+      "bytes": 644395,
+      "sha256": "9453b37deccfc65c82829379e3226fc79beba067648ef6c21ab7fab6175e3bfe"
+    },
+    {
+      "path": "critical_crops/p54.png",
+      "bytes": 628375,
+      "sha256": "f745edbef1bc4697b93fa10202f4dc7125422510734ac72fe44dab360dbb8452"
+    },
+    {
+      "path": "critical_crops/p55.png",
+      "bytes": 256386,
+      "sha256": "1fcd76ed2934fc91aea20ad20f53ef7db4ff0ed76086297a8c7209c1d88c0eae"
+    },
+    {
+      "path": "source/紫微斗數全書-廣益版.pdf",
+      "bytes": 8466814,
+      "sha256": "cec2c444290ac70020a5ae4e20a50c07a0064783e53ff3162f90a299d7831186"
+    },
+    {
+      "path": "source/紫微斗數全集-集文版.pdf",
+      "bytes": 7321338,
+      "sha256": "6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6"
+    },
+    {
+      "path": "data/confirmed_citations_v4.json",
+      "bytes": 4986,
+      "sha256": "ee2936a4e8f31bfe93f7ebefd7254d360e77649456951e151fa189db10ff534c"
+    },
+    {
+      "path": "data/main_star_locator_status.csv",
+      "bytes": 793,
+      "sha256": "bff5ec328be061054136a1017323152212139e0a9c421cdc088a584306edd8fa"
+    },
+    {
+      "path": "data/page_map_p17_p55.json",
+      "bytes": 5742,
+      "sha256": "86dc04607429b63d9b00346f2c9f0251850de952d695334123b0b014ffbac277"
+    },
+    {
+      "path": "data/palace_locator_status.csv",
+      "bytes": 665,
+      "sha256": "93175e3a3153ca8a224fb3e4a66d4e3f7bae56a5675cd79a75320c5e91f5e7fa"
+    }
+  ]
+}

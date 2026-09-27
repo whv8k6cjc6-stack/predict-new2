@@ -12,13 +12,17 @@
  *  - 格局：格局篇章尚未逐字核對，0 條可執行規則（候選見 pending.ts）。
  *  本階段仍不產生任何紫微分數。 */
 import type { SourceConflict } from "@/core/ziwei/interp/citation";
+import type { ZiweiCondition } from "@/core/ziwei/interp/rules";
+import type { PalaceName } from "@/core/ziwei/common";
+import { GY_BUILT } from "./v2";
+import { PATTERN_CLAUSES } from "./v2/specs/patterns";
 import type { ZiweiInterpretationRule, ZiweiPatternRule } from "@/core/ziwei/interp/rules";
 import type { TopicId } from "@/kb/advice/topics";
 import type { FactorId } from "@/core/advice/factors";
-import { MAJOR, SHA6 } from "@/core/ziwei/common";
+import { MAJOR } from "@/core/ziwei/common";
 import { starCode } from "./sources";
 
-export const ZIWEI_INTERP_RULES_VERSION = "1.1.0";
+export const ZIWEI_INTERP_RULES_VERSION = "2.0.0";
 
 const SCHOOL = "《紫微斗數全書》廣益版";
 const NOT_VERDICT = "這是古籍對長期傾向的描述，不是定論；實際表現要看亮度、三方四正、四化與運限。";
@@ -128,76 +132,67 @@ const starRule = (star: string): ZiweiInterpretationRule => {
   };
 };
 
+/** 舊版（v3）的大限、流年與原則規則已由 v4 逐句規則取代：
+ *  ZW_DECADE_SHA_IN_LIMIT → GY_R_DAXIAN_SHA；ZW_ANNUAL_TAISUI_AT_MING → GY_R_TAISUI_MING；ZW_PRINCIPLE_RUGE／GEXING／NANBEI → GY_R_RUGE／GEXING／NANBEI。 */
+export const SUPERSEDED_RULES: Record<string, string> = {
+  ZW_DECADE_SHA_IN_LIMIT: "GY_R_DAXIAN_SHA", ZW_ANNUAL_TAISUI_AT_MING: "GY_R_TAISUI_MING", ZW_PRINCIPLE_RUGE: "GY_R_RUGE", ZW_PRINCIPLE_GEXING: "GY_R_GEXING",
+  ZW_PRINCIPLE_NANBEI: "GY_R_NANBEI", ZW_PERIOD_DAXIAN_PRINCIPLE: "GY_R_ERXIAN", ZW_PERIOD_ANNUAL_PRINCIPLE: "GY_R_ERXIAN",
+};
+
+/** 全部判讀規則：十四主星坐命基本性質（舊段落經 v4 複核）＋ v4 逐句規則（卷一格局、卷二各星、卷三十二宮、運限、諸星同位垣） */
 export const ZIWEI_INTERPRETATION_RULES: ZiweiInterpretationRule[] = [
   ...MAJOR.map(starRule),
-  {
-    ruleId: "ZW_DECADE_SHA_IN_LIMIT", kind: "period", title: "大限命宮有擎羊、陀羅、火星、鈴星、地空或地劫", topics: ["general"],
-    timeLayer: "decade", role: "periodModifier",
-    condition: { kind: "any", of: SHA6.map(star => ({ kind: "starInPalace" as const, star, palace: "命宮" as const, layer: "decade" as const, relation: "self" as const })) },
-    citations: ["CIT_QS_PERIOD_DAXIAN_TEXT"],
-    classicalPrinciple: "大限之內有擎羊、陀羅、火星、鈴星、地空、地劫或忌星相伴，這十年成敗不一。",
-    modernSemantic: "這十年的大環境起伏較大，成果容易有進有退。",
-    appImplementation: "條件取「目前大限命宮（本宮坐守）有擎羊、陀羅、火星、鈴星、地空或地劫任一」；原文的「忌星」未說明是生年、大限或流年化忌，暫不納入條件。只作大限層的修正（periodModifier），不推翻本命；原文同篇後段的強烈凶斷不採用。",
-    interpretation: "目前這個大限的命宮有擎羊、陀羅、火星、鈴星、地空或地劫：古籍說這十年「成敗不一」，也就是起伏較大、有進有退。這是十年大環境的提醒，不是定論。",
-    lifeFactors: [{ factorId: "instability", strength: 1 }],
-    verificationStatus: "verified", confidence: "low", school: SCHOOL, enabled: true,
-  },
-  {
-    ruleId: "ZW_ANNUAL_TAISUI_AT_MING", kind: "period", title: "太歲在命宮：流年命宮與本命命宮重疊", topics: ["general"],
-    timeLayer: "annual", role: "annualModifier",
-    condition: { kind: "periodLifeAt", layer: "annual", natalPalace: "命宮" },
-    citations: ["CIT_QS_ANNUAL_TAISUI"],
-    classicalPrinciple: "太歲在命宮的年份，禍福尤其明顯；看太歲要看三方對照星辰的吉凶。",
-    modernSemantic: "這一年各種訊號的影響可能比較明顯，方向仍要看三方四正與其他判讀。",
-    appImplementation: "條件取「流年命宮落在本命命宮」。原文只說影響程度（尤緊），沒有說方向，因此不產生生活因素、不加減任何分數，只在判讀中提醒。",
-    interpretation: "今年的流年命宮與本命命宮重疊：古籍說「太歲在命宮」的年份禍福尤其明顯，今年各種訊號的影響可能比較強；好壞方向仍要看其他判讀。",
-    lifeFactors: [],
-    verificationStatus: "verified", confidence: "low", school: SCHOOL, enabled: true,
-  },
-  {
-    ruleId: "ZW_PRINCIPLE_RUGE", kind: "principle", title: "論人命入格：入格不等於吉，仍看廟陷、吉化與煞忌", topics: ["general"],
-    timeLayer: "natal", role: "baseNatalMeaning", condition: null, citations: ["CIT_QS_RUGE"],
-    classicalPrinciple: "入格又廟旺、有吉化守照為上；不入廟、不加吉則平常；落陷又加煞忌，不以入格論；入格而化凶，只以本命吉凶多寡判斷。",
-    modernSemantic: "格局名稱成立，不代表結果一定好；要同時看亮度、吉星、四化與煞星。",
-    appImplementation: "規範之後的格局規則：任何 ZiweiPatternRule 都必須同時檢查亮度、吉化與煞忌（breakingConditions／rescueConditions），不可只依格局名稱給吉凶；不設「入格加分」。",
-    interpretation: null, lifeFactors: [], verificationStatus: "verified", confidence: "medium", school: SCHOOL, enabled: false,
-  },
-  {
-    ruleId: "ZW_PRINCIPLE_GEXING", kind: "principle", title: "論格星數高下：看三方四正的吉凶星勢", topics: ["general"],
-    timeLayer: "natal", role: "baseNatalMeaning", condition: null, citations: ["CIT_QS_GEXING"],
-    classicalPrinciple: "三方四正皆吉星為上格，吉凶相半守照為中格。",
-    modernSemantic: "判斷一宮時要把本宮、對宮與三合宮一起看，而且要看吉凶星的比例。",
-    appImplementation: "支持引擎把三方四正（本宮坐守、對宮、三合宮 A／B）分開保存並一起判讀；「數」的定義與第一至第九位的分等尚未核對，不做分等或計分。",
-    interpretation: null, lifeFactors: [], verificationStatus: "verified", confidence: "medium", school: SCHOOL, enabled: false,
-  },
-  {
-    ruleId: "ZW_PRINCIPLE_NANBEI", kind: "principle", title: "論行限分南北斗：北斗應前五年、南斗應後五年", topics: ["general"],
-    timeLayer: "decade", role: "periodModifier", condition: null, citations: ["CIT_QS_NANBEI"],
-    classicalPrinciple: "北斗諸星的吉凶，大限應在前五年、小限應在前半年；南斗諸星的吉凶，大限應在後五年、小限應在後半年。",
-    modernSemantic: "同一個十年裡，不同星曜的影響可能集中在前段或後段。",
-    appImplementation: "只登錄為判讀原則：首句「陽男陰女南〔疑字：斗〕為福」一字不清，且時間切分是否與本 App 的運限邏輯同屬一套尚未確認；不改動客觀排盤，也不拆分大限時間。",
-    interpretation: null, lifeFactors: [], verificationStatus: "verified", confidence: "low", school: SCHOOL, enabled: false,
-  },
-  {
-    ruleId: "ZW_PERIOD_DAXIAN_PRINCIPLE", kind: "principle", title: "大限：十年一限，作為本命的修正層", topics: ["general"],
-    timeLayer: "decade", role: "periodModifier", condition: null, citations: ["CIT_QS_PERIOD_DAXIAN", "CIT_QS_PERIOD_DAXIAN_CALM", "CIT_QS_PERIOD_TAISUI"],
-    classicalPrinciple: "大限以十年論禍福；須分別看大限、小限、太歲各自所守，再看彼此相逢。",
-    modernSemantic: "十年的大環境只修正本命的基調，不取代本命。",
-    appImplementation: "引擎把大限判讀放在 periodModifier，與本命（baseNatalMeaning）分開輸出；「宮分星纏全吉」的「吉」未定義，安靜一段不轉成規則。可執行的大限規則目前只有 ZW_DECADE_SHA_IN_LIMIT。",
-    interpretation: null, lifeFactors: [], verificationStatus: "verified", confidence: "medium", school: SCHOOL, enabled: false,
-  },
-  {
-    ruleId: "ZW_PERIOD_ANNUAL_PRINCIPLE", kind: "principle", title: "太歲（流年）：與大限、小限合看，不單獨定吉凶", topics: ["general"],
-    timeLayer: "annual", role: "annualModifier", condition: null, citations: ["CIT_QS_PERIOD_TAISUI", "CIT_QS_PERIOD_TAISUI_CLASH", "CIT_QS_ANNUAL_TAISUI"],
-    classicalPrinciple: "太歲與限都凶才論凶；又要看太歲是否沖大限、小限與羊陀七殺，然後才可斷吉凶。",
-    modernSemantic: "單一年份的訊號要和十年大環境一起看，不能單獨推翻本命或大限。",
-    appImplementation: "引擎把流年判讀放在 annualModifier，只作修正；單一流年四化不推翻整張本命盤。可執行的流年規則目前只有 ZW_ANNUAL_TAISUI_AT_MING（不產生生活因素）；太歲沖限等條件尚未核對。",
-    interpretation: null, lifeFactors: [], verificationStatus: "verified", confidence: "medium", school: SCHOOL, enabled: false,
-  },
+  ...GY_BUILT.rules,
 ];
 
-/** 格局規則：格局篇章（定富局、定貴局等）尚未逐字核對，0 條（不依網路常見名稱實作）。 */
-export const ZIWEI_PATTERN_RULES: ZiweiPatternRule[] = [];
+/** 格局規則（PatternRule）與候選（PatternCandidate）：由 specs/patterns.ts 建構 */
+const PSPEC = new Map(PATTERN_CLAUSES.map(p => [p.id, p]));
+const starsIn = (c: ZiweiCondition | null, out: Set<string> = new Set()): Set<string> => {
+  if (!c) return out;
+  if (c.kind === "starInPalace" || c.kind === "soleMajor") out.add(c.star);
+  else if (c.kind === "flank") c.stars.forEach(x => out.add(x));
+  else if (c.kind === "transformation" && c.star) out.add(c.star);
+  else if (c.kind === "all" || c.kind === "any") c.of.forEach(x => starsIn(x, out));
+  return out;
+};
+const palacesIn = (c: ZiweiCondition | null, out: Set<PalaceName> = new Set()): Set<PalaceName> => {
+  if (!c) return out;
+  if ("palace" in c && c.palace) out.add(c.palace);
+  if (c.kind === "all" || c.kind === "any") c.of.forEach(x => palacesIn(x, out));
+  return out;
+};
+const brightIn = (c: ZiweiCondition | null, out: { star: string; brightness: string[] }[] = []) => {
+  if (!c) return out;
+  if (c.kind === "starInPalace" && c.brightness) out.push({ star: c.star, brightness: c.brightness });
+  if (c.kind === "all" || c.kind === "any") c.of.forEach(x => brightIn(x, out));
+  return out;
+};
+const huaIn = (c: ZiweiCondition | null, out: ZiweiPatternRule["transformationRequirements"] = []) => {
+  if (!c) return out;
+  if (c.kind === "transformation") out.push({ star: c.star ?? "（任一星）", transformation: c.transformation, source: c.source });
+  if (c.kind === "all" || c.kind === "any") c.of.forEach(x => huaIn(x, out));
+  return out;
+};
+const negatives = (c: ZiweiCondition | null): ZiweiCondition[] => !c ? [] : c.kind === "not" ? [c.of] : c.kind === "all" ? c.of.flatMap(negatives) : [];
 
-/** 來源衝突：集文版已取得，但與《全書》平行的段落（十四主星問答）掃描不足以逐字比對，其餘篇章屬十八飛星體系、非同一文本；目前 0 筆（不代表沒有異文）。 */
+export interface ZiweiPatternCandidate { patternId: string; name: string; group: string; citationId: string; originalText: string; pendingReason: string; note: string }
+const builtPatterns = GY_BUILT.rules.filter(r => PSPEC.has(r.ruleId));
+export const ZIWEI_PATTERN_RULES: (ZiweiPatternRule & { enabled: boolean; group: string })[] = builtPatterns.filter(r => r.condition).map(r => {
+  const sp = PSPEC.get(r.ruleId)!;
+  const cit = GY_BUILT.citations.find(c => c.citationId === r.citations[0])!;
+  return {
+    patternId: r.ruleId, name: sp.pattern.name, group: sp.pattern.group, requiredStars: [...starsIn(r.condition)], requiredPalaces: [...palacesIn(r.condition)],
+    relationRequirements: r.condition ? [r.condition] : [], brightnessRequirements: brightIn(r.condition), transformationRequirements: huaIn(r.condition),
+    supportingStars: sp.pattern.supportingStars ?? [], breakingConditions: [...negatives(r.condition), ...(sp.pattern.breaking ?? [])], rescueConditions: sp.pattern.rescue ?? [],
+    timeLayer: r.timeLayer, source: r.citations, originalText: cit.originalText, interpretation: r.interpretation, lifeFactors: r.lifeFactors,
+    confidence: r.confidence, verificationStatus: r.verificationStatus, enabled: r.enabled,
+  };
+});
+export const ZIWEI_PATTERN_CANDIDATES: ZiweiPatternCandidate[] = builtPatterns.filter(r => !r.condition).map(r => {
+  const sp = PSPEC.get(r.ruleId)!;
+  const cit = GY_BUILT.citations.find(c => c.citationId === r.citations[0])!;
+  return { patternId: r.ruleId, name: sp.pattern.name, group: sp.pattern.group, citationId: cit.citationId, originalText: cit.originalText ?? "", pendingReason: r.pendingReason ?? "insufficientConditions", note: sp.translation };
+});
+
+/** 來源衝突：集文版只作 secondary locator（掃描解析度不足以逐字比對），不建立異文或衝突；0 筆不代表兩版文字相同。 */
 export const ZIWEI_SOURCE_CONFLICTS: SourceConflict[] = [];
