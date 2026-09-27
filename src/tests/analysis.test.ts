@@ -42,12 +42,13 @@ describe("正式分數：可重現與可追溯", () => {
     }
   });
 
-  it("輸出文字不含百分比與禁用語，四層解讀齊全", () => {
-    const text = JSON.stringify([a.overall.oneLine, ...DOMAIN_KEYS.map(d => a.domains[d].interp), a.yi, a.ji, a.reminders]);
+  it("輸出文字不含百分比與禁用語，命理解讀齊全", () => {
+    const text = JSON.stringify([a.overall.oneLine, ...DOMAIN_KEYS.map(d => a.domains[d].interp)]);
     for (const b of BANNED_PHRASES.filter(b => b !== "一定")) expect(text).not.toContain(b);
     for (const d of DOMAIN_KEYS) {
       const i = a.domains[d].interp;
-      expect(i.oneLine).toBeTruthy(); expect(i.plain.length).toBeGreaterThan(0); expect(i.pro.length).toBeGreaterThan(0); expect(i.actions.length).toBeGreaterThan(0);
+      expect(i.oneLine).toBeTruthy(); expect(i.plain.length).toBeGreaterThan(0); expect(i.pro.length).toBeGreaterThan(0);
+      expect(i).not.toHaveProperty("actions"); // 行動建議改由 ActionAdviceEngine 產生
     }
   });
 
@@ -95,7 +96,8 @@ describe("事件模式、找時間、日期比較、時間尺度", () => {
       expect(e.chosenBy).toBe("best");
       expect(e.slots).toHaveLength(8);
       expect(Math.max(...e.slots.map(s => s.score))).toBe(e.result.score);
-      expect(e.interp.actions.length).toBeGreaterThan(0);
+      expect(e.advice.primaryAdvice).toBeTruthy();
+      expect(e.advice.timeHorizon).toBe("atTime");
     }
     const fixed = analyzeEvent(n, "contract", "2026-10-05", "15:00", TZ);
     expect(fixed.time).toBe("15:00");

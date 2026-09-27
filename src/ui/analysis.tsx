@@ -6,7 +6,7 @@ import { domainOf, type DomainKey } from "@/core/domains";
 import type { Fact } from "@/core/engine";
 import type { DomainResult, Evidence } from "@/core/analysis";
 import type { SystemSignal, Divergence } from "@/core/analysis/score";
-import type { HourSlot, AdviceItem } from "@/core/analysis";
+import type { HourSlot } from "@/core/analysis";
 import { getSourceText } from "@/kb/sources";
 import { TIMESCALE_LABEL, W_SYSTEM } from "@/kb/weights";
 import { Icon, Sheet } from "./primitives";
@@ -138,36 +138,6 @@ export function Compass({ good, bad }: { good: string[]; bad: string[] }) {
   );
 }
 
-/** 宜／忌清單，每條可看依據 */
-export function AdviceList({ items, tone }: { items: AdviceItem[]; tone: "yi" | "ji" }) {
-  const [pick, setPick] = useState<AdviceItem | null>(null);
-  if (!items.length) return <p className="text-[13px] text-[var(--ink-3)]">{tone === "yi" ? "今天沒有特別突出的有利事項。" : "今天沒有特別需要避開的事項。"}</p>;
-  return (
-    <>
-      <ul className="space-y-1.5">
-        {items.map(it => (
-          <li key={it.evidenceId}>
-            <button onClick={() => setPick(it)} className="flex w-full items-start gap-2 text-left text-[14px] leading-relaxed">
-              <span style={{ color: tone === "yi" ? "var(--sig-pos)" : "var(--sig-neg)" }}>{tone === "yi" ? "宜" : "忌"}</span>
-              <span className="flex-1">{it.text}</span>
-              <Icon name="info" size={14} className="mt-1 shrink-0 text-[var(--ink-3)]" />
-            </button>
-          </li>
-        ))}
-      </ul>
-      <Sheet open={!!pick} onClose={() => setPick(null)} title="這一條的依據">
-        {pick && (
-          <div className="space-y-2 text-[14px] leading-relaxed">
-            <p className="font-serif text-[16px]">{pick.why}</p>
-            <p className="text-[13px] text-[var(--ink-3)]">來源：{SYS[pick.system]}・影響領域：{domainOf(pick.domain).label}</p>
-            <p className="text-[12px] text-[var(--ink-3)]">規則編號 <code>{pick.evidenceId.split("#")[0]}</code>，完整證據鏈見該領域詳情頁。</p>
-          </div>
-        )}
-      </Sheet>
-    </>
-  );
-}
-
 /** 單條證據（分數 → 加權 → 規則 → 命盤因素 → 原文） */
 function EvidenceItem({ e, facts }: { e: Evidence; facts: Fact[] }) {
   const [open, setOpen] = useState(false);
@@ -204,6 +174,9 @@ function EvidenceItem({ e, facts }: { e: Evidence; facts: Fact[] }) {
             </>}
             {e.textIds.length === 0 && <><dt className="text-[var(--ink-3)]">古籍原文</dt><dd className="text-[var(--ink-3)]">此規則依通行論法，未引用古籍原文（不臆造出處）。</dd></>}
           </dl>
+          {prefs.displayMode === "pro" && e.text.legacyAdviceText.length > 0 && (
+            <p className="text-[12px] text-[var(--ink-3)]">舊版規則附帶的建議（僅供參考，不列入正式建議）：{e.text.legacyAdviceText.join("；")}</p>
+          )}
           {e.terms.length > 0 && <p className="text-[12px] text-[var(--ink-3)]">術語：{e.terms.map(t => <Term key={t} term={t} whyToday={e.text.conclusion} inMyChart={e.match.matched.map(m => `${factLabel(m.fact)}：${fmt(m.value)}`).join("；")} />)}</p>}
         </div>
       )}

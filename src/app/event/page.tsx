@@ -7,11 +7,12 @@ import { Banner, Button, Chip, Field, PageHeader, SectionTitle, Toggle } from "@
 import { Busy, DivergenceNote, EvidenceList, ScoreChip, ScoreHeader, SystemVerdicts } from "@/ui/analysis";
 import { PersonSwitcher } from "@/ui/Nav";
 import { ScoringNote } from "@/ui/ZiweiSystem";
+import { AdviceDetail, TodayFocus } from "@/ui/Advice";
 import { NoPersonBanner } from "@/ui/Scales";
 import { dateTitle, deviceTimeZone, todayIn, useComputed, useNatal, weekday } from "@/ui/useAnalysis";
 
 export default function EventPage() {
-  const { active } = useApp();
+  const { active, prefs } = useApp();
   const [tz, setTz] = useState<string | null>(null);
   const [type, setType] = useState("work");
   const [date, setDate] = useState("");
@@ -70,6 +71,8 @@ export default function EventPage() {
           {req && (ev.busy || !e ? <div className="mt-4"><Busy /></div> : (
             <>
               <SectionTitle>{dateTitle(e.date)} {e.type.label}</SectionTitle>
+              <TodayFocus a={e.advice} detailHref="#event-advice" />
+              <SectionTitle right="分數代表命理因素的方向與強度">事件指數</SectionTitle>
               <section className="card p-5">
                 <ScoreHeader score={e.result.score} confidence={e.result.confidence}>
                   <p className="mt-2 text-[13px] text-[var(--ink-3)]">時間：{e.time}{e.chosenBy === "best" ? "（系統挑選的當日最佳時辰）" : ""}</p>
@@ -78,10 +81,13 @@ export default function EventPage() {
                 <DivergenceNote d={e.result.divergence} />
                 <div className="mt-3"><ScoringNote s={e.scoring} /></div>
               </section>
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <details className="mt-3" open={prefs.displayMode === "pro"}>
+              <summary className="cursor-pointer text-[13px] text-[var(--accent)]">命理判讀摘要（主要優勢與風險）</summary>
+              <div className="mt-2 grid gap-3 sm:grid-cols-2">
                 <div className="card p-4"><p className="mb-1 text-[13px] text-[var(--sig-pos)]">主要優勢</p><ul className="space-y-1 text-[14px] leading-relaxed">{e.strengths.length ? e.strengths.map((s, i) => <li key={i}>・{s}</li>) : <li className="text-[var(--ink-3)]">沒有明顯的有利因素</li>}</ul></div>
                 <div className="card p-4"><p className="mb-1 text-[13px] text-[var(--sig-neg)]">主要風險</p><ul className="space-y-1 text-[14px] leading-relaxed">{e.risks.length ? e.risks.map((s, i) => <li key={i}>・{s}</li>) : <li className="text-[var(--ink-3)]">沒有明顯的不利因素</li>}</ul></div>
               </div>
+              </details>
               <SectionTitle>時段</SectionTitle>
               <div className="card p-4 text-[14px] leading-relaxed">
                 <p><span className="text-[var(--sig-pos)]">較佳時段</span>　{e.bestHours.join("、") || "當日各時辰差異不大"}</p>
@@ -94,8 +100,8 @@ export default function EventPage() {
                   ))}
                 </div>
               </div>
-              <SectionTitle>具體建議</SectionTitle>
-              <ul className="card space-y-1.5 p-4 text-[15px] leading-relaxed">{e.interp.actions.map((a, i) => <li key={i} className="flex gap-2"><span className="text-[var(--accent)]">・</span>{a}</li>)}</ul>
+              <SectionTitle>具體建議與判斷依據</SectionTitle>
+              <div id="event-advice"><AdviceDetail a={e.advice} /></div>
               {e.reading && (
                 <>
                   <SectionTitle right="梅花易數・以事件時刻起卦">事件卦</SectionTitle>

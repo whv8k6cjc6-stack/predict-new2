@@ -2,6 +2,7 @@
 import { describe, it, expect } from "vitest";
 import { buildNatal, analyze, analyzeEvent, heatmap, findEventTimes, yearMonths } from "@/core/analysis";
 import { collect, ZIWEI_TIME_UNKNOWN_MESSAGE } from "@/core/analysis/collect";
+import { adviseDay } from "@/core/advice";
 import { ZiweiEngine } from "@/core/ziwei";
 import { scoringComposition, confidenceOf, type SystemSignal } from "@/core/analysis/score";
 import { computeZiweiNatal, IZTRO_COMPATIBLE_V1, resolveZiweiProfile } from "@/core/ziwei";
@@ -135,9 +136,9 @@ describe("Final Audit：紫微完全退出正式計分、不補償、pending 不
     overall: [a.overall.score, a.overall.band.label, a.overall.confidence, a.overall.domainAvg],
     domains: Object.values(a.domains).map(d => [d.domain, d.score, d.raw, d.baseline, d.k, d.band.label, d.confidence, d.divergence?.kind ?? null, d.evidence.map(e => e.id)]),
     ranking: Object.values(a.domains).filter(d => d.domain !== "overall").sort((x, y) => y.score - x.score).map(d => d.domain),
-    hours: a.hours?.map(h => [h.value, h.level]), yi: a.yi.map(x => x.evidenceId), ji: a.ji.map(x => x.evidenceId),
+    hours: a.hours?.map(h => [h.value, h.level]),
   });
-  it("移除紫微命盤、或換成另一張完全不同的紫微盤，所有正式結果（分數、raw、確定度、吉凶等級、排序、吉時、宜忌）完全相同", () => {
+  it("移除紫微命盤、或換成另一張完全不同的紫微盤，所有正式結果（分數、raw、確定度、吉凶等級、排序、吉時、行動建議）完全相同", () => {
     expect(n.ziwei && other.ziwei && n.ziwei.lifeBranch !== other.ziwei.lifeBranch).toBe(true);
     const noZw = { ...n, ziwei: null }, swapped = { ...n, ziwei: other.ziwei };
     for (const [date, level] of [["2026-09-27", "day"], ["2026-03-15", "month"], ["2030-07-01", "year"], ["2040-07-01", "decade"]] as const) {
@@ -151,6 +152,15 @@ describe("Final Audit：紫微完全退出正式計分、不補償、pending 不
     expect(findEventTimes(swapped, "work", "2026-09-28", 3, "Asia/Taipei")).toEqual(findEventTimes(n, "work", "2026-09-28", 3, "Asia/Taipei"));
     expect(heatmap(swapped, "2026-09-20", 7, "Asia/Taipei")).toEqual(heatmap(n, "2026-09-20", 7, "Asia/Taipei"));
     expect(yearMonths(swapped, 2026, "Asia/Taipei").map(m => [m.overall, m.scores])).toEqual(yearMonths(n, 2026, "Asia/Taipei").map(m => [m.overall, m.scores]));
+    // 行動建議同樣不受紫微影響（紫微 pending 不偷偷參與建議）
+    const adv = (x: typeof n) => Object.values(adviseDay(x, "2026-09-27", "Asia/Taipei").byTopic).map(v => [
+      v!.topic, v!.headline, v!.primaryAdvice?.id, v!.doNow.map(i => i.id), v!.avoidNow.map(i => i.id),
+      v!.otherHorizons.map(h => [h.horizon, h.doNow.map(i => i.id), h.avoidNow.map(i => i.id)]), v!.confidence.level, v!.systemAgreement.status, v!.sourceRuleIds,
+    ]);
+    const base = adv(n);
+    expect(adv(noZw)).toEqual(base);
+    expect(adv(swapped)).toEqual(base);
+    expect(base.flatMap(x => x[8] as string[]).some(id => id.startsWith("ziwei"))).toBe(false);
   });
   it("尺度 K 不分組、固定為四術參考；時辰已知／不詳與 legacy 比較模式都用同一個 K（不縮小 K 來放大三術）", () => {
     expect(Object.keys(K)).toEqual(["day", "month", "year", "decade"]);

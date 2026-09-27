@@ -65,7 +65,9 @@ export interface RuleDefinition {
   applies_when: string;        // 適用條件（人類可讀）
   condition: Condition;        // 規則邏輯（機器可讀）
   effects: { domain: DomainKey; polarity: -1 | 0 | 1; strength: 1 | 2 | 3 }[];
-  templates: { conclusion: string; plain: string; pro: string; actions: string[] };  // 必含 {槽位}
+  /** legacyAdviceText：舊版規則直接附帶的建議文字。只供專業模式參考、migration 與人工比對；
+   *  不得進入首頁、宜忌或 ActionAdviceEngine（正式建議一律經 生活因素 → 主題判讀 → 建議規則 產生）。 */
+  templates: { conclusion: string; plain: string; pro: string; legacyAdviceText: string[] };  // 必含 {槽位}
   slots: Record<string, string>;   // 槽位名稱 → 事實鍵（Fact key）
   terms: string[];
   priority?: number;
@@ -85,7 +87,7 @@ export interface RuleMatch {
 /** ⑤ 執行期：白話結論 */
 export interface Conclusion {
   rule_id: string;
-  conclusion: string; plain: string; pro: string; actions: string[];
+  conclusion: string; plain: string; pro: string; legacyAdviceText: string[];
 }
 
 /** 第一階段已登記、待匯入的文獻版本（尚未匯入任何原文，故 origin_url 等為 null）。 */

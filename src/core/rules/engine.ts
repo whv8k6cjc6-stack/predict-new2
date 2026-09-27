@@ -52,7 +52,7 @@ export function renderTemplate(tpl: string, slots: Record<string, string>, idx: 
 export interface FiredRule {
   rule: RuleDefinition;
   match: RuleMatch;
-  text: { conclusion: string; plain: string; pro: string; actions: string[] };
+  text: { conclusion: string; plain: string; pro: string; legacyAdviceText: string[] };
   /** 靜態 based_on.text_ids 加上依盤面決定的原文 id */
   textIds: string[];
 }
@@ -71,7 +71,7 @@ export function runRules(rules: RuleDefinition[], facts: Fact[], globalSlots: Re
         conclusion: renderTemplate(rule.templates.conclusion, slots, idx),
         plain: renderTemplate(rule.templates.plain, slots, idx),
         pro: renderTemplate(rule.templates.pro, slots, idx),
-        actions: rule.templates.actions.map(a => renderTemplate(a, slots, idx)),
+        legacyAdviceText: rule.templates.legacyAdviceText.map(a => renderTemplate(a, slots, idx)),
       };
       const uniq = [...new Map(used.map(u => [u.key, u])).values()];
       const dyn = (rule.dynamic_text_slots ?? []).map(k => idx.get(k)?.value).filter((v): v is string => typeof v === "string");
@@ -99,8 +99,8 @@ export function lintRule(r: RuleDefinition): string[] {
   if (!hasSlot(r.templates.conclusion)) errs.push("conclusion 缺少命盤槽位");
   if (!hasSlot(r.templates.plain)) errs.push("plain 缺少命盤槽位");
   if (!hasSlot(r.templates.pro)) errs.push("pro 缺少命盤槽位");
-  if (!r.templates.actions.length) errs.push("缺少實際建議");
-  const all = [r.templates.conclusion, r.templates.plain, r.templates.pro, ...r.templates.actions].join("");
+  if (!r.templates.legacyAdviceText.length) errs.push("缺少舊版建議文字（legacyAdviceText，僅供專業模式參考）");
+  const all = [r.templates.conclusion, r.templates.plain, r.templates.pro, ...r.templates.legacyAdviceText].join("");
   for (const b of BANNED_PHRASES) if (all.includes(b)) errs.push(`含禁用語「${b}」`);
   if ((all.includes("貴人") || all.includes("小人")) && !r.terms.some(t => ["天乙貴人", "值符", "玄武", "白虎", "螣蛇", "化科", "六合", "太陰"].includes(t)))
     errs.push("「貴人／小人」只能用於綁定神煞或八神的規則");
