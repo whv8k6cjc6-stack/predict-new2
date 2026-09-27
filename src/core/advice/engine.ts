@@ -290,7 +290,7 @@ export function buildStructuredAdvice(ctx: AdviceContext): StructuredAdvice {
 
   return {
     topic: ctx.topic, topicLabel: T.label, date: ctx.date, timeHorizon: main, dayWord: ctx.mode === "event" ? "這個時段" : ctx.dayWord ?? "今天",
-    headline, primaryAdvice, summary: `${headline}${m.findings.length ? AGREEMENT_NOTE[m.agreement] : ""}`,
+    headline, primaryAdvice, summary: `${headline}${!m.findings.length ? "" : m.agreement === "conflict" && headline.includes("不一致") ? "因此不適合做非常激進的判斷。" : AGREEMENT_NOTE[m.agreement]}`,
     doNow: today.doNow.map(c => c.item), avoidNow: today.avoidNow.map(c => c.item), otherHorizons,
     timing: ctx.timing && (ctx.timing.best.length || ctx.timing.avoid.length) ? { best: ctx.timing.best, avoid: ctx.timing.avoid, note: ctx.timing.basis } : null,
     positiveFactors: factorsBy("support"), riskFactors: factorsBy("risk"),

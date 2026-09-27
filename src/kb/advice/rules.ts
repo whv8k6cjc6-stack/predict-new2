@@ -133,7 +133,7 @@ export const ADVICE_RULES: AdviceRule[] = [
   R("INV_MID_001", ["investment"], MID, { any: [...IMPULSE, ...RES_DOWN, ...CHANGE, "decisionUncertainty"] }, 62, { action: "INV_MID_REVIEW" }, "這段時間適合檢視風險", "mid-review"),
 
   // ───────── 感情 ─────────
-  R("LOVE_TALK_001", ["relationship"], SHORT, { any: ["relationshipWarmth", "communicationSupport"], none: COMM_RISK }, 66, { action: "LOVE_TALK_OPEN" }, "互動較溫暖、溝通較順", "talk-open", { conflictPolicy: "suppressOnConflict" }),
+  R("LOVE_TALK_001", ["relationship"], SHORT, { any: ["relationshipWarmth", "communicationSupport"], none: [...COMM_RISK, ...SETBACK] }, 66, { action: "LOVE_TALK_OPEN" }, "互動較溫暖、溝通較順", "talk-open", { conflictPolicy: "suppressOnConflict" }),
   R("LOVE_TIME_001", ["relationship"], SHORT, { any: ["relationshipWarmth", "socialActivity"] }, 58, { action: "LOVE_QUALITY_TIME" }, "互動較有溫度", "quality-time"),
   R("LOVE_COMM_001", ["relationship"], SHORT, { any: COMM_RISK }, 74, { action: "LOVE_ASK_FIRST", avoid: "LOVE_AVOID_HEAT" }, "溝通較容易起誤會或摩擦", "ask-first"),
   R("LOVE_TIRED_001", ["relationship"], SHORT, { any: [...FATIGUE, "lowSocialEnergy"] }, 56, { action: "LOVE_SAY_TIRED" }, "體力或心情較疲", "say-tired"),
@@ -165,8 +165,8 @@ export const ADVICE_RULES: AdviceRule[] = [
   R("HEALTH_MID_001", ["health"], MID, { any: ["fatigueRisk", "stressLoad", "recoveryNeed", "energySupport"] }, 56, { action: "HEALTH_MID" }, "長期作息的提醒", "mid-health"),
 
   // ───────── 出行 ─────────
-  R("TRAVEL_BUFFER_001", ["travel"], SHORT, { any: [...EXEC_RISK, "timingSensitive", ...CHANGE] }, 74, { action: "TRAVEL_BUFFER", avoid: "TRAVEL_AVOID_TIGHT" }, "行程較容易受阻或變動", "buffer"),
-  R("TRAVEL_GO_001", ["travel"], SHORT, { any: ["movementIncrease", "progressOpportunity", "travelSupport"], none: [...EXEC_RISK, "timingSensitive"] }, 60, { action: "TRAVEL_GO" }, "出行與移動較順", "go", { conflictPolicy: "suppressOnConflict" }),
+  R("TRAVEL_BUFFER_001", ["travel"], SHORT, { any: [...EXEC_RISK, "timingSensitive", ...CHANGE, ...SETBACK] }, 74, { action: "TRAVEL_BUFFER", avoid: "TRAVEL_AVOID_TIGHT" }, "行程較容易受阻或變動", "buffer"),
+  R("TRAVEL_GO_001", ["travel"], SHORT, { any: ["movementIncrease", "progressOpportunity", "travelSupport"], none: [...EXEC_RISK, "timingSensitive", ...SETBACK] }, 60, { action: "TRAVEL_GO" }, "出行與移動較順", "go", { conflictPolicy: "suppressOnConflict" }),
   R("TRAVEL_TIMING_001", ["travel"], NOW, { any: ["favorableTiming"] }, 56, { action: "TRAVEL_BEST_HOURS" }, "有明顯較佳的時段", "best-hours"),
   R("TRAVEL_REST_001", ["travel"], SHORT, { any: FATIGUE }, 58, { action: "TRAVEL_REST" }, "體力較容易透支", "rest"),
   R("TRAVEL_SPEED_001", ["travel"], SHORT, { any: ["impulsivityRisk", "instability"] }, 62, { avoid: "TRAVEL_AVOID_SPEED" }, "較容易急躁或狀態不穩", "rush"),

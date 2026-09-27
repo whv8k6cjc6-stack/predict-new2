@@ -45,22 +45,24 @@ const Line = ({ it }: { it: AdviceItem }) => (
 /** 首頁：今天最重要的一件事／適合做／最好避免／為什麼 */
 export function TodayFocus({ a, detailHref }: { a: StructuredAdvice; detailHref: string }) {
   const p = a.primaryAdvice;
+  // 最重要的一件事已放在最上面，下方清單不再重複
+  const doNow = a.doNow.filter(it => it.id !== p?.id), avoidNow = a.avoidNow.filter(it => it.id !== p?.id);
   return (
     <section className="card p-5" aria-label="今天的重點">
       <p className="text-[12px] tracking-wide text-[var(--ink-3)]">{a.dayWord}最重要的一件事</p>
       <p className="font-serif mt-1 text-[19px] leading-snug">{p ? (p.kind === "avoid" ? `避免${p.short}` : p.short) : "照原本計畫進行"}</p>
       {p && p.text !== p.short && <p className="mt-1.5 text-[14px] leading-relaxed text-[var(--ink-2)]">{p.kind === "avoid" ? `避免：${p.text}` : p.text}</p>}
 
-      {a.doNow.length > 0 && (
+      {doNow.length > 0 && (
         <div className="mt-4">
           <p className="mb-1 text-[12px] text-[var(--ink-3)]">{a.dayWord}適合做</p>
-          <ul className="space-y-1">{a.doNow.map(it => <Line key={it.id} it={it} />)}</ul>
+          <ul className="space-y-1">{doNow.map(it => <Line key={it.id} it={it} />)}</ul>
         </div>
       )}
-      {a.avoidNow.length > 0 && (
+      {avoidNow.length > 0 && (
         <div className="mt-3">
           <p className="mb-1 text-[12px] text-[var(--ink-3)]">{a.dayWord}最好避免</p>
-          <ul className="space-y-1">{a.avoidNow.map(it => <Line key={it.id} it={it} />)}</ul>
+          <ul className="space-y-1">{avoidNow.map(it => <Line key={it.id} it={it} />)}</ul>
         </div>
       )}
 
@@ -177,6 +179,7 @@ export function AdviceTraceView({ a, defaultOpen }: { a: StructuredAdvice; defau
               </button>
               {isOpen && (
                 <div className="mt-2 space-y-2 border-t border-[var(--line)] pt-2">
+                  {t.adviceRuleId.startsWith("CONFLICT") && <p className="text-[12px] leading-relaxed text-[var(--ink-2)]">這是各系統訊號不一致時的共用決策方法（先小規模、可回頭地做；不可逆的決定先補資訊），不來自單一命理判讀。各系統的看法見上方「判斷依據與信心」。</p>}
                   <p className="text-[12px] text-[var(--ink-3)]">生活因素</p>
                   <ul className="space-y-0.5">{t.factors.map(f => <li key={f.factorId}>・{factorDef(f.factorId).label} <code className="text-[11px] text-[var(--ink-3)]">{f.factorId}</code><span className="text-[11px] text-[var(--ink-3)]">（強度 {f.score}；{f.systems.map(s => SYS[s]).join("、")}）</span></li>)}</ul>
                   <p className="text-[12px] text-[var(--ink-3)]">來源判讀</p>
