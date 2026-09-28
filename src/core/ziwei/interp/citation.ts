@@ -126,6 +126,10 @@ export function normalizeClassical(s: string): string {
   return [...s.replace(/[\s　，。、；：！？「」『』（）()《》〈〉·．.,;:!?"'【】\-—…]/g, "")].map(c => VARIANT_MAP[c] ?? c).join("");
 }
 
+/** 正規化結果快取（同一段原文只正規化一次） */
+const NORM_CACHE = new Map<string, string>();
+const normalizedOf = (t: string) => { let v = NORM_CACHE.get(t); if (v === undefined) { v = normalizeClassical(t); NORM_CACHE.set(t, v); } return v; };
+
 /** 引用是否能在匯入原文中逐字找到（正規化後比對；有指定篇名時只在該篇比對） */
 export function citationCheck(c: ClassicalCitation, texts: readonly ImportedClassicalText[]): { ok: boolean; reason: string; sectionId?: string } {
   if (!c.originalText) return { ok: false, reason: "原文尚未填入（未匯入原文前不憑記憶填寫）" };
@@ -139,6 +143,6 @@ export function citationCheck(c: ClassicalCitation, texts: readonly ImportedClas
   // 掃描來源：只比對已依影像逐字核對的段落；有頁面定位時只在該頁比對
   const verified = pool.filter(s => s.transcriptionStatus !== "transcriptionUnverified" && (!c.locator || s.pdfPage === undefined || s.pdfPage === c.locator.pdfPage));
   if (!verified.length) return { ok: false, reason: c.locator ? `PDF 第 ${c.locator.pdfPage} 頁沒有已校驗的轉錄` : "只有未校驗的轉錄初稿" };
-  const hit = verified.find(s => normalizeClassical(s.text).includes(needle));
+  const hit = verified.find(s => normalizedOf(s.text).includes(needle));
   return hit ? { ok: true, reason: "原文逐字相符", sectionId: hit.sectionId } : { ok: false, reason: "原文與匯入版本不相符" };
 }

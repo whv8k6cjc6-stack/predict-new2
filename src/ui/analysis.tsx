@@ -48,7 +48,9 @@ const verdictText = (s: SystemSignal) => s.verdict === "暫不計分" ? "判讀�
 const arrow = (d: number, n: number) => n === 0 ? "—" : d >= 0.2 ? "↑" : d <= -0.2 ? "↓" : "→";
 
 /** 交叉判讀：各系統看法 */
-export function SystemVerdicts({ signals }: { signals: SystemSignal[] }) {
+export function SystemVerdicts({ signals: all }: { signals: SystemSignal[] }) {
+  // 不參與分數的系統（紫微）不列在評分表，避免佔版面；紫微判讀另在建議與命盤頁呈現
+  const signals = all.filter(s => s.verdict !== "暫不計分");
   return (
     <table className="w-full text-[13px]">
       <thead><tr className="text-left text-[11px] text-[var(--ink-3)]"><th className="py-1 font-normal">系統</th><th className="font-normal">看法</th><th className="font-normal text-center">長期</th><th className="font-normal text-center">短期</th><th className="font-normal text-right">依據</th></tr></thead>

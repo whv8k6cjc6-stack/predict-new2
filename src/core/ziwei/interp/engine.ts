@@ -34,7 +34,16 @@ export interface InterpretationKB {
 export const DEFAULT_KB: InterpretationKB = { rules: ZIWEI_INTERPRETATION_RULES, citations: ZIWEI_CITATIONS, sources: ZIWEI_SOURCES, texts: IMPORTED_ZIWEI_TEXTS, classicalBrightness: gyClassicalLevel };
 
 // ───────── 規則是否可用（閘門） ─────────
+// 規則與知識庫都是不可變資料：同一組 (kb, rule) 的可用性、覆蓋矩陣只算一次
+const USABILITY = new WeakMap<InterpretationKB, WeakMap<ZiweiInterpretationRule, { usable: boolean; reason: string }>>();
 export function ruleUsability(rule: ZiweiInterpretationRule, kb: InterpretationKB = DEFAULT_KB): { usable: boolean; reason: string } {
+  let m = USABILITY.get(kb);
+  if (!m) { m = new WeakMap(); USABILITY.set(kb, m); }
+  let v = m.get(rule);
+  if (!v) { v = ruleUsabilityUncached(rule, kb); m.set(rule, v); }
+  return v;
+}
+function ruleUsabilityUncached(rule: ZiweiInterpretationRule, kb: InterpretationKB): { usable: boolean; reason: string } {
   if (rule.kind === "principle") return { usable: false, reason: "判讀原則：規範本命 → 大限 → 流年的分層，不單獨觸發" };
   if (!rule.enabled) return { usable: false, reason: rule.pendingReason ? `未啟用：${PENDING_REASON_LABEL[rule.pendingReason] ?? rule.pendingReason}` : rule.verificationStatus === "pendingVerification" ? "待古籍原文校驗，尚未啟用" : "未啟用" };
   if (rule.verificationStatus !== "verified" && rule.verificationStatus !== "partiallyVerified") return { usable: false, reason: `驗證狀態為 ${rule.verificationStatus}` };
@@ -153,7 +162,13 @@ export interface ZiweiTopicCoverageRow {
 }
 export const DEDICATED_MIN = 10;
 
+const COVERAGE = new WeakMap<InterpretationKB, ZiweiTopicCoverageRow[]>();
 export function ziweiCoverage(kb: InterpretationKB = DEFAULT_KB): ZiweiTopicCoverageRow[] {
+  let v = COVERAGE.get(kb);
+  if (!v) { v = ziweiCoverageUncached(kb); COVERAGE.set(kb, v); }
+  return v;
+}
+function ziweiCoverageUncached(kb: InterpretationKB): ZiweiTopicCoverageRow[] {
   const usableOf = (topic: TopicId) => kb.rules.filter(r => r.topics.includes(topic) && ruleUsability(r, kb).usable);
   const generalFactor = usableOf("general").some(r => r.lifeFactors.length);
   return TOPIC_IDS.map(topic => {

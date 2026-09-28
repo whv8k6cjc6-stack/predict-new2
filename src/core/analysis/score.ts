@@ -208,8 +208,8 @@ export function scoringComposition(natal: NatalSet, legacyIncluded = false): Sco
   const activeScoringSystems = SCORED_SYSTEMS.filter(s => isScoringActive(s) && !un.has(s));
   const missingSystems = SCORED_SYSTEMS.filter(s => !activeScoringSystems.includes(s));
   const parts = [
-    `目前綜合評分由 ${activeScoringSystems.length}/${SCORED_SYSTEMS.length} 個系統參與`,
-    ...pendingSystems.map(s => s === "ziwei" ? "紫微判讀已啟用，只用於建議，不參與分數" : `${SYSTEM_LABEL[s]}暫不計分`),
+    `綜合評分依據：${activeScoringSystems.map(s => SYSTEM_LABEL[s]).join("、")}`,
+    ...pendingSystems.filter(s => s !== "ziwei").map(s => `${SYSTEM_LABEL[s]}暫不計分`),
     ...unavailableSystems.map(s => `${SYSTEM_LABEL[s]}因資料不足未納入`),
   ];
   return {

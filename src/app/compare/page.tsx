@@ -55,16 +55,16 @@ export default function ComparePage() {
             <>
               {best && <p className="font-serif mt-5 text-[17px] leading-snug">以「{DOMAINS.find(d => d.key === domain)!.label}」來看，<span className="text-[var(--accent)]">{best.date.slice(5).replace("-", "/")}（{weekday(best.date)}）</span>相對最適合。</p>}
               {natal && <div className="mt-3"><ScoringNote s={scoringComposition(natal)} /></div>}
-              <SectionTitle right="＋偏正面　－偏負面　・中性　／暫不計分">天 × 系統訊號</SectionTitle>
+              <SectionTitle right="＋偏正面　－偏負面　・中性">天 × 系統訊號</SectionTitle>
               <div className="card overflow-x-auto p-3">
                 <table className="w-full min-w-[360px] text-[13px]">
-                  <thead><tr className="text-[11px] text-[var(--ink-3)]"><th className="text-left font-normal">日期</th><th className="font-normal">分數</th>{data[0].signals.map(s => <th key={s.system} className="font-normal">{s.label}</th>)}<th className="font-normal">確定度</th></tr></thead>
+                  <thead><tr className="text-[11px] text-[var(--ink-3)]"><th className="text-left font-normal">日期</th><th className="font-normal">分數</th>{data[0].signals.filter(s => s.verdict !== "暫不計分").map(s => <th key={s.system} className="font-normal">{s.label}</th>)}<th className="font-normal">確定度</th></tr></thead>
                   <tbody className="divide-y divide-[var(--line)]">
                     {data.map(r => (
                       <tr key={r.date}>
                         <td className="py-2"><Link className="num underline decoration-dotted underline-offset-4" href={`/domain/?d=${domain}&date=${r.date}`}>{r.date.slice(5).replace("-", "/")} {weekday(r.date)}</Link></td>
                         <td className="text-center"><ScoreChip score={r.score} size="sm" /></td>
-                        {r.signals.map(s => <td key={s.system} className="text-center text-[15px]" style={{ color: vColor(s.verdict) }} aria-label={`${s.label}${s.verdict}`}>{vMark(s.verdict)}</td>)}
+                        {r.signals.filter(s => s.verdict !== "暫不計分").map(s => <td key={s.system} className="text-center text-[15px]" style={{ color: vColor(s.verdict) }} aria-label={`${s.label}${s.verdict}`}>{vMark(s.verdict)}</td>)}
                         <td className="text-center text-[11px] text-[var(--ink-3)]">{r.confidenceLabel}</td>
                       </tr>
                     ))}
