@@ -21,6 +21,12 @@ export interface ExcerptHit {
 /** 補轉錄欄組（strip ≥ SUPPLEMENT_BASE）：書縫區與被切邊直行的獨立補轉錄，各自成一段連續文字，不與主文串接 */
 export const SUPPLEMENT_BASE = 90;
 type Ch = { c: string; strip: number };
+const STREAMS = new Map<string, { chars: Ch[]; plain: string[] }[]>();
+function streamsCached(L: PageLeaf) {
+  let v = STREAMS.get(L.leaf);
+  if (!v) { v = streamsOf(L).map(chars => ({ chars, plain: plainOf(chars) })); STREAMS.set(L.leaf, v); }
+  return v;
+}
 function streamsOf(L: PageLeaf): Ch[][] {
   const main: Ch[] = [], sup: Ch[][] = [];
   for (const s of L.strips) {
@@ -55,8 +61,7 @@ export function findExcerpt(leaf: string, quote: string, anchor?: string): Excer
   const needle = [...normalizeClassical(quote)];
   // 主文與各補轉錄欄組都找；同一段文字若在補轉錄中已雙重核讀無疑字，優先採用無疑字的那一處
   let firstUnclean: ExcerptHit | null = null;
-  for (const chars of streamsOf(L)) {
-    const plain = plainOf(chars);
+  for (const { chars, plain } of streamsCached(L)) {
     let from = 0, to = plain.length;
     if (anchor) {
       const a = [...normalizeClassical(anchor)];
