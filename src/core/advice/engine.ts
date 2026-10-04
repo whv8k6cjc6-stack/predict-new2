@@ -3,6 +3,9 @@
 import { ADVICE_TOPICS, SAFETY_NOTES, type TopicCoverage, type TopicId } from "@/kb/advice/topics";
 import { ADVICE_TEMPLATES, type TemplateId } from "@/kb/advice/templates";
 import { rulesForTopic } from "@/kb/advice/rules";
+import { INVEST_VARIANTS, TEMPLATE_STEPS } from "@/kb/advice/steps";
+import type { InvestorProfile } from "./investor";
+import { investRhythmOf } from "./investRhythm";
 import { SCORED_SYSTEMS, type ScoredSystem } from "@/kb/weights";
 import type { DomainKey } from "../domains";
 import { factorDef, type FactorId, type FactorNature } from "./factors";
@@ -27,6 +30,8 @@ export interface AdviceContext {
   timing: { best: string[]; avoid: string[]; basis: string } | null;
   /** 「今天」的說法：看明天或其他日期時改成「明天」「10月5日」 */
   dayWord?: string;
+  /** 使用者的投資設定：只調整投資建議的用語、步驟與檢查清單，不影響判讀與觸發條件 */
+  investor?: InvestorProfile;
 }
 
 // ───────── 主題判讀：取出與主題相關的判讀，換算因素強度 ─────────
@@ -148,13 +153,16 @@ function confidence(
 }
 
 // ───────── 模板 ─────────
-function render(id: TemplateId, h: Horizon, timing: AdviceContext["timing"], dayWord = "今天"): { text: string; short: string } | null {
-  const t = ADVICE_TEMPLATES[id];
+function render(id: TemplateId, h: Horizon, timing: AdviceContext["timing"], dayWord = "今天", investor?: InvestorProfile): { text: string; short: string; steps: string[] } | null {
+  const base = ADVICE_TEMPLATES[id];
+  const v = investor?.style ? INVEST_VARIANTS[id]?.[investor.style] : undefined;
+  const t = { text: v?.text ?? base.text, short: v?.short ?? base.short, steps: v?.steps ?? TEMPLATE_STEPS[id] ?? [] };
   const need = (s: string) => t.text.includes(s) || t.short.includes(s);
   if (need("{較佳時段}") && !timing?.best.length) return null;
   if (need("{避開時段}") && !timing?.avoid.length) return null;
   const fill = (s: string) => s.replaceAll("{時段}", h === "today" ? dayWord : HORIZON_PHRASE[h]).replaceAll("{較佳時段}", timing?.best.join("、") ?? "").replaceAll("{避開時段}", timing?.avoid.join("、") ?? "");
-  return { text: fill(t.text), short: fill(t.short) };
+  const steps = t.steps.filter(x => !(x.includes("{較佳時段}") && !timing?.best.length) && !(x.includes("{避開時段}") && !timing?.avoid.length)).map(fill);
+  return { text: fill(t.text), short: fill(t.short), steps };
 }
 
 // ───────── 候選建議 ─────────
@@ -171,16 +179,16 @@ function candidatesFor(topic: TopicId, h: Horizon, ev: Map<FactorId, FactorEvide
     if (!all.every(present) || (any.length && !any.some(present)) || none.some(present)) continue;
     const matched = [...new Set([...all, ...any])].filter(present).map(id => ev.get(id)!);
     const strength = Math.min(6, matched.reduce((s, e) => s + e.score, 0));
-    const score = rule.priority + 4 * strength + (rule.conflictPolicy === "conflictOnly" ? 20 : 0);
+    const score = rule.priority + 4 * strength + (rule.conflictPolicy === "conflictOnly" ? 8 : 0);
     const instances = matched.flatMap(m => m.instances);
     const conf = confidence(topic, ADVICE_TOPICS[topic].coverage, agreement, instances, results, rule.baseConfidence).level;
     for (const [kind, tid] of [["do", rule.action], ["avoid", rule.avoid]] as const) {
       if (!tid) continue;
-      const r = render(tid, h, ctx.timing, ctx.dayWord);
+      const r = render(tid, h, ctx.timing, ctx.dayWord, ctx.topic === "investment" ? ctx.investor : undefined);
       if (!r) continue;
       out.push({
         item: {
-          id: `${rule.adviceRuleId}:${kind}:${h}`, adviceRuleId: rule.adviceRuleId, templateId: tid, kind, text: r.text, short: r.short,
+          id: `${rule.adviceRuleId}:${kind}:${h}`, adviceRuleId: rule.adviceRuleId, templateId: tid, kind, text: r.text, short: r.short, steps: r.steps,
           horizon: h, score, semanticKey: rule.semanticKey, reason: rule.reason, factors: matched.map(m => m.factorId), confidence: conf,
         },
         rule, factors: matched,
@@ -261,7 +269,7 @@ export function buildStructuredAdvice(ctx: AdviceContext): StructuredAdvice {
     // 沒有訊號 → 照原計畫；有訊號但沒有需要調整的做法 → 也照原計畫，但不說成「沒有訊號」
     const tid: TemplateId = m.findings.length ? "NO_ACTION_NEEDED" : "NO_SIGNAL";
     const r = render(tid, main, ctx.timing, ctx.dayWord)!;
-    return { id: `${tid}:${main}`, adviceRuleId: tid, templateId: tid, kind: "do", text: r.text, short: r.short, horizon: main, score: 0, semanticKey: "no-signal", reason: m.findings.length ? "目前的訊號不需要特別調整做法" : "沒有足夠突出的訊號", factors: [], confidence: "low" };
+    return { id: `${tid}:${main}`, adviceRuleId: tid, templateId: tid, kind: "do", text: r.text, short: r.short, steps: r.steps, horizon: main, score: 0, semanticKey: "no-signal", reason: m.findings.length ? "目前的訊號不需要特別調整做法" : "沒有足夠突出的訊號", factors: [], confidence: "low" };
   })();
 
   const factorsBy = (n: FactorNature) => [...m.ev.values()]
@@ -306,6 +314,8 @@ export function buildStructuredAdvice(ctx: AdviceContext): StructuredAdvice {
     systemAgreement: { status: m.agreement, note: m.findings.length ? AGREEMENT_NOTE[m.agreement] : "本次沒有相關訊號。", systems },
     coverage: { level: coverageLevel, basisLabel: T.basisLabel, note: T.coverageNote ?? (coverageLevel === "insufficient" ? "本次沒有足夠的相關訊號，不產生肯定結論。" : null) },
     notes, noSignal,
+    ...(ctx.topic === "investment" ? { investRhythm: investRhythmOf({ ev: m.ev, agreement: m.agreement, findings: m.findings.length, timing: ctx.timing, investor: ctx.investor, dayWord: ctx.mode === "event" ? "這個時段" : ctx.dayWord ?? "今天",
+      month: otherHorizons.find(x => x.horizon === "thisMonth"), nature: id => topicNature(ctx.topic, id) }) } : {}),
     sourceRuleIds: [...new Set(trace.flatMap(t => t.findings.map(f => f.ruleId)))].sort(),
     trace,
   };

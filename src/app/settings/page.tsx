@@ -20,6 +20,7 @@ import { Banner, Button, Confirm, Field, Icon, PageHeader, SectionTitle, Sheet, 
 import { ModeToggle } from "@/ui/interpret";
 import { ExportSheet } from "@/ui/ExportSheet";
 import { BandLegend } from "@/ui/score";
+import { InvestorSettings } from "@/ui/InvestorSettings";
 
 export default function SettingsPage() {
   const { security, prefs, persons, settingsList, refresh, updatePrefs } = useApp();
@@ -48,6 +49,9 @@ export default function SettingsPage() {
       <button onClick={() => setLegend(true)} className="card mt-2 flex w-full items-center justify-between p-4 text-left">
         <span className="text-[15px]">分數區間定義</span><Icon name="chevron" size={16} className="text-[var(--ink-3)]" />
       </button>
+
+      <SectionTitle>投資設定</SectionTitle>
+      <InvestorSettings />
 
       <SectionTitle>安全與隱私</SectionTitle>
       <div className="card divide-y divide-[var(--line)]">

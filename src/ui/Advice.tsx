@@ -2,7 +2,7 @@
 /** 具體行動建議（ActionAdviceEngine）的畫面元件。一般模式只顯示白話；命理術語、規則編號與原文放在「為什麼」與專業模式。 */
 import Link from "next/link";
 import { useState } from "react";
-import type { AdviceItem, ConfidenceLevel, StructuredAdvice, SystemAgreementStatus } from "@/core/advice";
+import type { AdviceItem, ConfidenceLevel, InvestRhythm, StructuredAdvice, SystemAgreementStatus } from "@/core/advice";
 import { HORIZON_LABEL, factorDef } from "@/core/advice";
 import { ADVICE_TOPICS, type TopicId } from "@/kb/advice/topics";
 import { getSourceText } from "@/kb/sources";
@@ -42,6 +42,55 @@ const Line = ({ it }: { it: AdviceItem }) => (
   </li>
 );
 
+/** 具體步驟（照著做的 2～4 個動作） */
+export function Steps({ steps, className = "" }: { steps?: string[]; className?: string }) {
+  if (!steps?.length) return null;
+  return (
+    <ol className={`mt-1.5 space-y-1 text-[13px] leading-relaxed text-[var(--ink-2)] ${className}`} aria-label="具體步驟">
+      {steps.map((s, i) => <li key={s} className="flex gap-2"><span aria-hidden className="num w-4 shrink-0 text-right text-[var(--ink-3)]">{i + 1}.</span><span>{s}</span></li>)}
+    </ol>
+  );
+}
+
+const RHYTHM_TONE: Record<InvestRhythm["level"], string> = { steady: "var(--sig-pos)", small: "var(--accent)", pause: "var(--sig-neg)", quiet: "var(--ink-3)" };
+
+function WindowLine({ label, w }: { label: string; w: { best: string[]; avoid: string[] } }) {
+  if (!w.best.length && !w.avoid.length) return null;
+  return (
+    <p><span className="text-[var(--ink-2)]">{label}：</span>
+      {w.best.length > 0 && <span className="mr-2"><span className="text-[var(--sig-pos)]">較適合</span> {w.best.join("、")}</span>}
+      {w.avoid.length > 0 && <span><span className="text-[var(--sig-neg)]">盡量避開</span> {w.avoid.join("、")}</span>}
+    </p>
+  );
+}
+
+/** 今日投資節奏：節奏、下單時段、檢查清單、本月重點 */
+export function InvestRhythmCard({ r, dayWord, settingsHref = "/settings" }: { r: InvestRhythm; dayWord: string; settingsHref?: string }) {
+  const { prefs } = useApp();
+  return (
+    <section className="card p-5" aria-label="投資節奏" data-testid="invest-rhythm">
+      <p className="text-[12px] tracking-wide text-[var(--ink-3)]">{dayWord}的投資節奏</p>
+      <p className="font-serif mt-1 text-[19px] leading-snug" style={{ color: RHYTHM_TONE[r.level] }}>{r.label}</p>
+      <p className="mt-1.5 text-[14px] leading-relaxed text-[var(--ink-2)]">{r.summary}</p>
+      {r.orderWindow && (
+        <div className="mt-3 space-y-1 text-[13px] leading-relaxed">
+          <p className="text-[12px] text-[var(--ink-3)]">需要下單時的時段</p>
+          <WindowLine label="台股盤中（9–13 點）" w={r.orderWindow.market} />
+          <WindowLine label="其他時段（基金申購、盤後委託、海外市場）" w={r.orderWindow.other} />
+          {r.orderWindow.note && <p className="text-[12px] text-[var(--ink-3)]">{r.orderWindow.note}</p>}
+        </div>
+      )}
+      <div className="mt-3 border-t border-[var(--line)] pt-3">
+        <p className="mb-1 text-[12px] text-[var(--ink-3)]">{dayWord}檢查清單</p>
+        <ul className="space-y-1 text-[14px] leading-relaxed">{r.checklist.map(c => <li key={c} className="flex gap-2"><span aria-hidden className="text-[var(--ink-3)]">☐</span><span>{c}</span></li>)}</ul>
+      </div>
+      {r.monthFocus && <p className="mt-3 text-[13px]"><span className="text-[var(--ink-3)]">本月重點：</span>{r.monthFocus}</p>}
+      {!prefs.investor?.style && <Link href={settingsHref} className="mt-3 inline-flex items-center gap-1 text-[13px] text-[var(--accent)]">在設定填寫你的投資方式，建議會更貼近你的做法<Icon name="chevron" size={13} /></Link>}
+      <p className="mt-2 text-[11px] leading-relaxed text-[var(--ink-3)]">{r.basis}</p>
+    </section>
+  );
+}
+
 /** 首頁：今天最重要的一件事／適合做／最好避免／為什麼 */
 export function TodayFocus({ a, detailHref }: { a: StructuredAdvice; detailHref: string }) {
   const p = a.primaryAdvice;
@@ -52,6 +101,7 @@ export function TodayFocus({ a, detailHref }: { a: StructuredAdvice; detailHref:
       <p className="text-[12px] tracking-wide text-[var(--ink-3)]">{a.dayWord}最重要的一件事</p>
       <p className="font-serif mt-1 text-[19px] leading-snug">{p ? (p.kind === "avoid" ? `避免${p.short}` : p.short) : "照原本計畫進行"}</p>
       {p && p.text !== p.short && <p className="mt-1.5 text-[14px] leading-relaxed text-[var(--ink-2)]">{p.kind === "avoid" ? `避免：${p.text}` : p.text}</p>}
+      {p && <Steps steps={p.steps} />}
 
       {doNow.length > 0 && (
         <div className="mt-4">
@@ -87,7 +137,7 @@ function Items({ title, items, empty }: { title: string; items: AdviceItem[]; em
           {items.map(it => (
             <li key={it.id} className="flex gap-2 text-[15px] leading-relaxed">
               <span aria-hidden className="shrink-0 font-medium" style={{ color: it.kind === "do" ? "var(--sig-pos)" : "var(--sig-neg)" }}>{it.kind === "do" ? "✓" : "✕"}</span>
-              <span>{it.kind === "avoid" ? `避免${it.text}` : it.text}<span className="mt-0.5 block text-[12px] text-[var(--ink-3)]">原因：{it.reason}・{CONF_LABEL[it.confidence]}</span></span>
+              <span>{it.kind === "avoid" ? `避免${it.text}` : it.text}<Steps steps={it.steps} /><span className="mt-0.5 block text-[12px] text-[var(--ink-3)]">原因：{it.reason}・{CONF_LABEL[it.confidence]}</span></span>
             </li>
           ))}
         </ul>
@@ -109,6 +159,7 @@ export function AdviceDetail({ a }: { a: StructuredAdvice }) {
         {a.coverage.note && <p className="mt-2 rounded-xl bg-[var(--surface-2)] px-3 py-2 text-[12px] leading-relaxed text-[var(--ink-2)]">{a.coverage.note}</p>}
         <div className="mt-2"><Basis a={a} /></div>
       </section>
+      {a.investRhythm && <InvestRhythmCard r={a.investRhythm} dayWord={a.dayWord} />}
 
       <Items title="具體怎麼做" items={a.doNow} empty={a.noSignal ? "沒有需要特別調整的做法。" : undefined} />
       <Items title="不建議怎麼做" items={a.avoidNow} />

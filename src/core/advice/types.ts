@@ -42,6 +42,19 @@ export interface FactorEvidence {
 }
 
 export type ConfidenceLevel = "high" | "medium" | "low";
+
+/** 投資節奏：steady＝照計畫執行；small＝只做計畫內的小步；pause＝不開新部位，只檢查與整理；quiet＝沒有突出訊號，照原本紀律 */
+export type InvestRhythmLevel = "steady" | "small" | "pause" | "quiet";
+export interface InvestRhythm {
+  level: InvestRhythmLevel;
+  label: string;
+  summary: string;
+  /** 下單時段：market＝台股盤中（9–13 點）；other＝其他時段（基金申購、盤後委託、海外市場）；note＝盤中沒有特別較佳時段時的說明 */
+  orderWindow: { market: { best: string[]; avoid: string[] }; other: { best: string[]; avoid: string[] }; note: string | null } | null;
+  checklist: string[];
+  monthFocus: string | null;
+  basis: string;
+}
 export interface AdviceConfidence {
   level: ConfidenceLevel;
   sourceReliability: SourceReliability | "mixed";
@@ -64,6 +77,8 @@ export interface AdviceItem {
   reason: string;
   factors: FactorId[];
   confidence: ConfidenceLevel;
+  /** 具體步驟（2～4 個照著做的動作）；沒有時為空陣列 */
+  steps?: string[];
 }
 
 export interface AdviceTrace {
@@ -107,6 +122,8 @@ export interface StructuredAdvice {
   coverage: { level: TopicCoverage; basisLabel: string; note: string | null };
   notes: string[];                 // 安全說明、紫微建置中等
   noSignal: boolean;
+  /** 投資主題才有：今日投資節奏、下單時段與檢查清單 */
+  investRhythm?: InvestRhythm;
   sourceRuleIds: string[];
   trace: AdviceTrace[];
 }

@@ -8,7 +8,7 @@ import { Busy, Compass, DivergenceNote, DomainLine, HourTimeline } from "./analy
 import { Term } from "./interpret";
 import { todayIn, useComputed } from "./useAnalysis";
 import { ScoringNote } from "./ZiweiSystem";
-import { TodayFocus, TopicChips } from "./Advice";
+import { TodayFocus, InvestRhythmCard, TopicChips } from "./Advice";
 import { adviseDay, dayWordOf } from "@/core/advice";
 import type { TopicId } from "@/kb/advice/topics";
 import { useApp } from "@/app/providers";
@@ -22,7 +22,8 @@ export function DayView({ natal, natalKey, date, tz }: { natal: NatalSet; natalK
   const [legend, setLegend] = useState(false);
   const [topic, setTopic] = useState<TopicId>("general");
   const { prefs } = useApp();
-  const adv = useComputed(`advice|${natalKey}|${date}|${tz}|${dayWord}`, () => adviseDay(natal, date, tz, HOME_TOPICS, dayWord));
+  const inv = prefs.investor;
+  const adv = useComputed(`advice|${natalKey}|${date}|${tz}|${dayWord}|${JSON.stringify(inv ?? {})}`, () => adviseDay(natal, date, tz, HOME_TOPICS, dayWord, inv));
   if (error) return <Banner tone="danger" title="計算失敗">{error}</Banner>;
   if (busy || !a) return <Busy label="排盤與規則計算中…" />;
   const ov = a.overall;
@@ -34,7 +35,10 @@ export function DayView({ natal, natalKey, date, tz }: { natal: NatalSet; natalK
       )}
       <div className="mb-3"><TopicChips value={topic} topics={HOME_TOPICS} onChange={setTopic} /></div>
       {adv.error ? <Banner tone="danger" title="建議產生失敗">{adv.error}</Banner> : !adv.data?.byTopic[topic] ? <Busy label="整理今天的建議…" /> : (
-        <TodayFocus a={adv.data.byTopic[topic]!} detailHref={`/advice/?topic=${topic}&date=${date}`} />
+        <>
+          <TodayFocus a={adv.data.byTopic[topic]!} detailHref={`/advice/?topic=${topic}&date=${date}`} />
+          {adv.data.byTopic[topic]!.investRhythm && <div className="mt-3"><InvestRhythmCard r={adv.data.byTopic[topic]!.investRhythm!} dayWord={dayWord} /></div>}
+        </>
       )}
 
       <SectionTitle right="分數代表命理因素的方向與強度">今日指數</SectionTitle>

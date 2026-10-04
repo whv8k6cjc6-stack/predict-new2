@@ -7,12 +7,14 @@ import { buildStructuredAdvice } from "./engine";
 import { interpretationResults } from "./fromRules";
 import type { InterpretationResult } from "./interpretation";
 import type { StructuredAdvice } from "./types";
+import type { InvestorProfile } from "./investor";
 
 export * from "./types";
 export * from "./factors";
 export type { InterpretationResult, InterpretationFinding, LifeFactorInstance } from "./interpretation";
 export { interpretationResults, ZIWEI_ADVICE_PENDING } from "./fromRules";
 export { lintAdviceText } from "./lint";
+export * from "./investor";
 
 const addDays = (date: string, k: number) => { const d = new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + k); return d.toISOString().slice(0, 10); };
 /** 日期的白話說法：今天、明天，其餘為「10月5日」 */
@@ -27,7 +29,7 @@ export interface DayAdvice {
 }
 
 /** 每日建議：當日（含各時間層）＋之後兩天的流日層（近 3 天彙整用）。 */
-export function adviseDay(n: NatalSet, date: string, timeZone: string, topics: TopicId[] = TOPIC_IDS, dayWord = "今天"): DayAdvice {
+export function adviseDay(n: NatalSet, date: string, timeZone: string, topics: TopicId[] = TOPIC_IDS, dayWord = "今天", investor?: InvestorProfile): DayAdvice {
   const dates = [date, addDays(date, 1), addDays(date, 2)];
   const days = dates.map(d => collect(n, { civilDate: d, civilTime: "12:00", timeZone }, "day"));
   const interps = days.map((c, i) => interpretationResults(n, c.fired, dates[i], c.ziwei));
@@ -36,7 +38,7 @@ export function adviseDay(n: NatalSet, date: string, timeZone: string, topics: T
     const kind = ADVICE_TOPICS[topic].timingKind as EventKind;
     const q = days[0].qimen?.byKind[kind];
     byTopic[topic] = buildStructuredAdvice({
-      topic, date, mode: "day", interpretations: interps[0], nextDays: interps.slice(1), dayWord,
+      topic, date, mode: "day", interpretations: interps[0], nextDays: interps.slice(1), dayWord, investor,
       timing: q ? { best: q.best.map(plainHour), avoid: q.avoid.map(plainHour), basis: "依奇門白天各時段的判讀" } : null,
     });
   }
@@ -44,13 +46,13 @@ export function adviseDay(n: NatalSet, date: string, timeZone: string, topics: T
 }
 
 /** 擇時事件：指定時刻（時辰層＋當日流日層）的建議；較佳／避開時段由呼叫端依各時辰事件分數提供。 */
-export function adviseEvent(n: NatalSet, typeKey: string, date: string, time: string, timeZone: string, timing: { best: string[]; avoid: string[] } | null): StructuredAdvice {
+export function adviseEvent(n: NatalSet, typeKey: string, date: string, time: string, timeZone: string, timing: { best: string[]; avoid: string[] } | null, investor?: InvestorProfile): StructuredAdvice {
   const type = eventTypeOf(typeKey);
   const c = collect(n, { civilDate: date, civilTime: "12:00", timeZone }, "day");
   const h = collectHour(n, date, time, timeZone, type.qimen);
   const fired = [...c.fired.filter(f => f.system !== "iching"), ...h.fired]; // 事件改用提問時刻起卦，不重複計入每日卦
   return buildStructuredAdvice({
-    topic: EVENT_TOPIC[type.key] ?? "general", date, mode: "event", interpretations: interpretationResults(n, fired, date, c.ziwei),
+    topic: EVENT_TOPIC[type.key] ?? "general", date, mode: "event", interpretations: interpretationResults(n, fired, date, c.ziwei), investor,
     timing: timing ? { ...timing, basis: "依此事件在當天各時辰的綜合判讀" } : null,
   });
 }
