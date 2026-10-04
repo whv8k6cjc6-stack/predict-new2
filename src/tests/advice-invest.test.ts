@@ -103,3 +103,33 @@ it("模板與步驟的槽位只用 {時段}／{較佳時段}／{避開時段}", 
   const all = [...Object.values(ADVICE_TEMPLATES).flatMap(t => [t.text, t.short]), ...Object.values(TEMPLATE_STEPS).flat()];
   for (const s of all) for (const m of s!.match(/\{[^}]+\}/g) ?? []) expect(["{時段}", "{較佳時段}", "{避開時段}"], s!).toContain(m);
 });
+
+describe("今日總結與每日一句", () => {
+  it("每一句原文都是已匯入《周易》該段的連續片段；白話通過文字品質檢查；每種狀態都至少有兩句可選", async () => {
+    const { DAILY_QUOTES } = await import("@/kb/advice/quotes");
+    const { getSourceText } = await import("@/kb/sources");
+    for (const q of DAILY_QUOTES) {
+      const t = getSourceText(q.textId);
+      expect(t, q.id).toBeTruthy();
+      expect(t!.text, q.id).toContain(q.excerpt);
+      expect(lintAdviceText(q.plain), q.id).toEqual([]);
+    }
+    for (const m of ["push", "steady", "care", "rest", "people"] as const) expect(DAILY_QUOTES.filter(q => q.moods.includes(m)).length, m).toBeGreaterThanOrEqual(2);
+  });
+  it("總結只重組既有建議；同一天固定同一句、不同日期會輪替；所有文字通過安全檢查", async () => {
+    const { summarizeDay } = await import("@/core/advice");
+    const n = buildNatal(SAMPLES[2]);
+    const seen = new Set<string>();
+    for (const d of ["2026-01-09", "2026-04-14", "2026-07-21", "2026-10-04", "2026-12-12"]) {
+      const adv = adviseDay(n, d, "Asia/Taipei", ["general", "career", "wealth", "investment", "relationship", "health"]);
+      const s = summarizeDay(d, adv.byTopic), again = summarizeDay(d, adv.byTopic);
+      expect(again.quote).toEqual(s.quote);
+      seen.add(s.quote.textId);
+      expect(s.lines.length).toBeLessThanOrEqual(7);
+      const shorts = Object.values(adv.byTopic).flatMap(a => [a!.primaryAdvice, ...a!.doNow, ...a!.avoidNow]).filter(Boolean).map(i => i!.short);
+      for (const l of s.lines) if (l.kind !== "info") expect(shorts.some(x => l.text.endsWith(x)), l.text).toBe(true);
+      for (const t of [s.overview, ...s.lines.map(l => l.text), s.quote.plain]) expect(lintAdviceText(t), t).toEqual([]);
+    }
+    expect(seen.size).toBeGreaterThan(1);
+  });
+});

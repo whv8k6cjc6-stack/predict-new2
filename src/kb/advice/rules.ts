@@ -227,7 +227,8 @@ export const ADVICE_RULES: AdviceRule[] = [
   R("CONFLICT_PEOPLE_001", ["relationship", "marriage", "social"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_PEOPLE", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
   R("CONFLICT_TRAVEL_001", ["travel"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_TRAVEL", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
   R("CONFLICT_COOP_001", ["cooperation"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_COOP", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
-  R("CONFLICT_DECISION_001", ["general", "health", "lawsuit", "exam", "decision"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_REVERSIBLE", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  R("CONFLICT_HEALTH_001", ["health"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_HEALTH", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  R("CONFLICT_DECISION_001", ["general", "lawsuit", "exam", "decision"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_REVERSIBLE", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
 ];
 
 /** 共用規則（topics 為空）適用所有主題 */

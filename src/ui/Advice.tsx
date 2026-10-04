@@ -2,7 +2,7 @@
 /** 具體行動建議（ActionAdviceEngine）的畫面元件。一般模式只顯示白話；命理術語、規則編號與原文放在「為什麼」與專業模式。 */
 import Link from "next/link";
 import { useState } from "react";
-import type { AdviceItem, ConfidenceLevel, InvestRhythm, StructuredAdvice, SystemAgreementStatus } from "@/core/advice";
+import type { AdviceItem, ConfidenceLevel, DaySummary, InvestRhythm, StructuredAdvice, SystemAgreementStatus } from "@/core/advice";
 import { HORIZON_LABEL, factorDef } from "@/core/advice";
 import { ADVICE_TOPICS, type TopicId } from "@/kb/advice/topics";
 import { getSourceText } from "@/kb/sources";
@@ -41,6 +41,33 @@ const Line = ({ it }: { it: AdviceItem }) => (
     <span>{it.short}</span>
   </li>
 );
+
+/** 今日總結：各主題一行重點＋一句《周易》原句與打氣話 */
+export function DaySummaryCard({ s, dayWord, onTopic }: { s: DaySummary; dayWord: string; onTopic?: (t: TopicId) => void }) {
+  const mark = (k: "do" | "avoid" | "info") => k === "do" ? { c: "var(--sig-pos)", t: "✓" } : k === "avoid" ? { c: "var(--sig-neg)", t: "✕" } : { c: "var(--accent)", t: "・" };
+  return (
+    <section className="card p-5" aria-label={`${dayWord}總結`} data-testid="day-summary">
+      <p className="text-[12px] tracking-wide text-[var(--ink-3)]">{dayWord}總結</p>
+      <p className="mt-1 text-[15px] leading-relaxed">{s.overview}</p>
+      {s.lines.length > 0 && (
+        <ul className="mt-3 space-y-1.5">
+          {s.lines.map(l => (
+            <li key={`${l.label}${l.text}`} className="flex gap-2 text-[14px] leading-relaxed">
+              <span aria-hidden className="shrink-0 font-medium" style={{ color: mark(l.kind).c }}>{mark(l.kind).t}</span>
+              <span className="w-16 shrink-0 text-[var(--ink-3)]">{l.label}</span>
+              {l.topic && onTopic ? <button className="text-left" onClick={() => onTopic(l.topic!)}>{l.text}</button> : <span>{l.text}</span>}
+            </li>
+          ))}
+        </ul>
+      )}
+      <figure className="mt-4 rounded-xl bg-[var(--surface-2)] px-4 py-3">
+        <blockquote className="font-serif text-[16px] leading-relaxed text-[var(--accent)]">「{s.quote.excerpt}」</blockquote>
+        <figcaption className="mt-0.5 text-[11px] text-[var(--ink-3)]">{s.quote.source}</figcaption>
+        <p className="mt-2 text-[14px] leading-relaxed">{s.quote.plain}</p>
+      </figure>
+    </section>
+  );
+}
 
 /** 具體步驟（照著做的 2～4 個動作） */
 export function Steps({ steps, className = "" }: { steps?: string[]; className?: string }) {

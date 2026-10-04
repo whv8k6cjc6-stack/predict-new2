@@ -15,6 +15,7 @@ export type { InterpretationResult, InterpretationFinding, LifeFactorInstance } 
 export { interpretationResults, ZIWEI_ADVICE_PENDING } from "./fromRules";
 export { lintAdviceText } from "./lint";
 export * from "./investor";
+export { summarizeDay, type DaySummary } from "./daySummary";
 
 const addDays = (date: string, k: number) => { const d = new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + k); return d.toISOString().slice(0, 10); };
 /** 日期的白話說法：今天、明天，其餘為「10月5日」 */

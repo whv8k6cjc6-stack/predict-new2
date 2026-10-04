@@ -8,8 +8,8 @@ import { Busy, Compass, DivergenceNote, DomainLine, HourTimeline } from "./analy
 import { Term } from "./interpret";
 import { todayIn, useComputed } from "./useAnalysis";
 import { ScoringNote } from "./ZiweiSystem";
-import { TodayFocus, InvestRhythmCard, TopicChips } from "./Advice";
-import { adviseDay, dayWordOf } from "@/core/advice";
+import { TodayFocus, InvestRhythmCard, TopicChips, DaySummaryCard } from "./Advice";
+import { adviseDay, dayWordOf, summarizeDay } from "@/core/advice";
 import type { TopicId } from "@/kb/advice/topics";
 import { useApp } from "@/app/providers";
 
@@ -33,6 +33,7 @@ export function DayView({ natal, natalKey, date, tz }: { natal: NatalSet; natalK
       {a.unavailable.length > 0 && (
         <div className="mb-3"><Banner tone="warn" title="部分系統未納入">{a.unavailable.map(u => u.reason).join(" ")} 確定度會相應降低。</Banner></div>
       )}
+      {adv.data && <div className="mb-3"><DaySummaryCard s={summarizeDay(date, adv.data.byTopic)} dayWord={dayWord} onTopic={setTopic} /></div>}
       <div className="mb-3"><TopicChips value={topic} topics={HOME_TOPICS} onChange={setTopic} /></div>
       {adv.error ? <Banner tone="danger" title="建議產生失敗">{adv.error}</Banner> : !adv.data?.byTopic[topic] ? <Busy label="整理今天的建議…" /> : (
         <>
