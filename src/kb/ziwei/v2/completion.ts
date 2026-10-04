@@ -52,11 +52,11 @@ export function completion() {
   return {
     source: {
       pdfPages: ps.pages, leaves: ps.leaves, strips: ps.strips, supplementStrips: supp.length, doubleCheckedStrips: ps.doubleCheckedStrips,
-      chars: ps.chars, uncertainGlyphs: ps.uncertainGlyphs,
+      chars: ps.chars, uncertainGlyphs: ps.uncertainGlyphs, secondSourceStrips: ps.secondSourceStrips, secondSourceGlyphs: ps.secondSourceGlyphs,
     },
     citations: {
       total: gyCits.length, doubleChecked: gyCits.filter(c => c.verification?.visualDoubleChecked).length, usable: gyCits.filter(c => citationUsableForRules(c).ok).length,
-      withUncertain: gyCits.filter(c => c.uncertainGlyphs?.length).length, humanReviewed: 0, secondSourceVerified: 0,
+      withUncertain: gyCits.filter(c => c.uncertainGlyphs?.length).length, humanReviewed: 0, secondSourceVerified: gyCits.filter(c => c.verification?.secondSourceVerified).length,
     },
     rules: {
       total: rules.length, usable: usable.length, withFactors: usable.filter(r => r.lifeFactors.length).length,

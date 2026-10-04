@@ -1,6 +1,8 @@
 /** 《紫微斗數全書》廣益版逐頁文字（兩輪獨立目視轉錄＋差異回影像決議；src/data/classics/ziwei/quanshu-guangyi/pages.json）。
  *  每葉由右到左分成若干欄組（strip），每個欄組保存影像範圍（頁寬高比例）、各直行文字與驗證狀態。
- *  仍無法確定的字以〔疑字：X〕保留在文字中；任何含疑字的片段都不能作為規則依據。 */
+ *  仍無法確定的字以〔疑字：X〕保留在文字中；任何含疑字的片段都不能作為規則依據。
+ *  〔校：X〕：兩輪讀法不一或存疑、未能回影像決議，但其中一輪的讀法 X 與第二來源（電子全文）在前後文對準的位置逐字相同而採用
+ *  （passes/second_source.json 逐處記錄）；不是疑字，但該處只算「第二來源佐證」，不算雙重核讀。 */
 import { normalizeClassical, type BoundingRegion, type VerificationState } from "@/core/ziwei/interp/citation";
 import pages from "@/data/classics/ziwei/quanshu-guangyi/pages.json";
 
@@ -16,7 +18,10 @@ export interface ExcerptHit {
   strips: number[]; region: BoundingRegion;
   /** 片段在頁面文字中的原樣（含疑字標記時 clean＝false） */
   raw: string; clean: boolean; uncertainGlyphs: string[];
+  /** 片段中以第二來源佐證採用的字（〔校：X〕） */
+  secondSourceGlyphs: string[];
 }
+const isSecond = (c: string) => c.startsWith("〔校：");
 
 /** 補轉錄欄組（strip ≥ SUPPLEMENT_BASE）：書縫區與被切邊直行的獨立補轉錄，各自成一段連續文字，不與主文串接 */
 export const SUPPLEMENT_BASE = 90;
@@ -43,7 +48,7 @@ function streamsOf(L: PageLeaf): Ch[][] {
   }
   return [main, ...sup];
 }
-const plainOf = (chars: Ch[]) => chars.map(x => x.c.startsWith("〔") ? (x.c.startsWith("〔疑字：") ? x.c.slice(4, -1) : "□") : normalizeClassical(x.c));
+const plainOf = (chars: Ch[]) => chars.map(x => x.c.startsWith("〔") ? (x.c.startsWith("〔疑字：") ? x.c.slice(4, -1) : isSecond(x.c) ? normalizeClassical(x.c.slice(3, -1)) : "□") : normalizeClassical(x.c));
 function indexOfSeq(hay: string[], needle: string[], from = 0, to = hay.length): number {
   outer: for (let i = from; i + needle.length <= to; i++) {
     for (let k = 0; k < needle.length; k++) if (hay[i + k] !== needle[k]) continue outer;
@@ -75,8 +80,9 @@ export function findExcerpt(leaf: string, quote: string, anchor?: string): Excer
     const stripIds = [...new Set(seg.map(x => x.strip))];
     const regs = L.strips.filter(s => stripIds.includes(s.strip)).map(s => s.region);
     const region = { x0: Math.min(...regs.map(r => r.x0)), y0: Math.min(...regs.map(r => r.y0)), x1: Math.max(...regs.map(r => r.x1)), y1: Math.max(...regs.map(r => r.y1)) };
-    const unc = seg.filter(x => x.c.startsWith("〔")).map(x => x.c);
-    const hit = { leaf, pdfPage: L.pdfPage, printedPage: L.printedPage, volume: L.volume, strips: stripIds, region, raw: seg.map(x => x.c).join(""), clean: unc.length === 0, uncertainGlyphs: unc };
+    const unc = seg.filter(x => x.c.startsWith("〔") && !isSecond(x.c)).map(x => x.c);
+    const hit = { leaf, pdfPage: L.pdfPage, printedPage: L.printedPage, volume: L.volume, strips: stripIds, region, raw: seg.map(x => x.c).join(""), clean: unc.length === 0, uncertainGlyphs: unc,
+      secondSourceGlyphs: seg.filter(x => isSecond(x.c)).map(x => x.c.slice(3, -1)) };
     if (hit.clean) return hit;
     firstUnclean ??= hit;
   }
@@ -91,7 +97,9 @@ export function pageStats() {
     pages: new Set(GUANGYI_PAGES.leaves.map(l => l.pdfPage)).size,
     strips: strips.length,
     doubleCheckedStrips: strips.filter(s => s.verification.visualDoubleChecked).length,
+    secondSourceStrips: strips.filter(s => s.verification.secondSourceVerified).length,
+    secondSourceGlyphs: strips.reduce((n, s) => n + (s.columns.join("").match(/〔校：/g)?.length ?? 0), 0),
     uncertainGlyphs: strips.reduce((n, s) => n + s.uncertainGlyphs.length, 0),
-    chars: strips.reduce((n, s) => n + s.columns.join("").replace(MARK, "□").length, 0),
+    chars: strips.reduce((n, s) => n + s.columns.join("").replace(/〔校：(.)〕/g, "$1").replace(MARK, "□").length, 0),
   };
 }

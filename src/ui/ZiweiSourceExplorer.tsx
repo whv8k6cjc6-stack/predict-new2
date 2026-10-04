@@ -19,6 +19,7 @@ import { factorDef } from "@/core/advice/factors";
 export const VERIFY_LABEL = "原始掃描影像雙重核讀";
 const verifyText = (c: ClassicalCitation) =>
   c.verification?.visualDoubleChecked ? `${VERIFY_LABEL}（兩輪獨立目視轉錄＋差異回影像決議；非學術人工校勘）`
+    : c.verification?.secondSourceVerified && !c.uncertainGlyphs?.length ? "原始掃描影像目視轉錄＋第二來源逐字佐證（兩輪讀法不一處，採與電子全文相同的一輪；非學術人工校勘）"
     : c.uncertainGlyphs?.length ? `含疑字 ${c.uncertainGlyphs.join("")}：不啟用` : "尚未完成雙重核讀：不啟用";
 
 /** 頁面示意圖：半頁（葉）上標出引用所在的欄組範圍 */
@@ -63,8 +64,8 @@ export function CompletionDashboard() {
       <p className="mb-2 font-medium">紫微判讀完成度</p>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         <Cell k="已轉錄 PDF 頁" v={s.source.pdfPages} note={`${s.source.leaves} 個半頁、${s.source.strips} 欄組（含補轉錄 ${s.source.supplementStrips}）`} />
-        <Cell k={`欄組${VERIFY_LABEL}`} v={`${s.source.doubleCheckedStrips}/${s.source.strips}`} note={`仍存疑 ${s.source.uncertainGlyphs} 處`} />
-        <Cell k="引用（可作規則依據）" v={`${s.citations.usable}/${s.citations.total}`} note={`含疑字 ${s.citations.withUncertain}・人工校勘 0・第二來源 0`} />
+        <Cell k={`欄組${VERIFY_LABEL}`} v={`${s.source.doubleCheckedStrips}/${s.source.strips}`} note={`仍存疑 ${s.source.uncertainGlyphs} 處・第二來源佐證 ${s.source.secondSourceGlyphs} 字`} />
+        <Cell k="引用（可作規則依據）" v={`${s.citations.usable}/${s.citations.total}`} note={`含疑字 ${s.citations.withUncertain}・人工校勘 0・第二來源佐證 ${s.citations.secondSourceVerified}`} />
         <Cell k="判讀規則（可用）" v={`${s.rules.usable}/${s.rules.total}`} note={`產生生活因素 ${s.rules.withFactors}`} />
         <Cell k="本命／大限／流年" v={`${s.rules.natal}／${s.rules.decade}／${s.rules.annual}`} note={`判讀原則 ${s.rules.principles}（不單獨觸發）`} />
         <Cell k="格局" v={`${s.patterns.enabled}/${s.patterns.rules}`} note={`候選（不啟用）${s.patterns.candidates}`} />

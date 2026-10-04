@@ -158,12 +158,14 @@ export function buildClauses(specs: ClauseSpec[]): { rules: BuiltRule[]; citatio
     citations.push({
       citationId: cid, sourceId: GY_SOURCE_ID, edition: "廣益版", volume: hit.volume, section: s.section.split("・")[0], entry: s.section.split("・")[1] ?? null,
       locationStatus: "verifiedAgainstText", originalText: s.quote, normalizedText: s.quote, classicalCommentary: null, modernTranslation: s.translation,
-      verificationStatus: hit.clean ? "verified" : "pendingVerification", textualVariants: [], notes: hit.clean ? "" : `片段內有疑字：${hit.uncertainGlyphs.join("、")}`,
+      verificationStatus: hit.clean ? "verified" : "pendingVerification", textualVariants: [],
+      notes: [hit.clean ? "" : `片段內有疑字：${hit.uncertainGlyphs.join("、")}`, hit.secondSourceGlyphs.length ? `「${hit.secondSourceGlyphs.join("、")}」兩輪讀法不一，採與第二來源（電子全文）逐字相同的一輪讀法。` : ""].filter(Boolean).join(" "),
       locator: { pdfPage: hit.pdfPage, printedPage: hit.printedPage, spanId: `${s.leaf}:s${hit.strips.join(",")}`, boundingRegion: hit.region },
       transcriptionStatus: hit.clean ? "verified" : "transcriptionUnverified",
-      verification: { machineLocated: false, visualTranscribed: true, visualDoubleChecked: hit.clean, humanReviewed: false, secondSourceVerified: false },
+      verification: { machineLocated: false, visualTranscribed: true, visualDoubleChecked: hit.clean && !hit.secondSourceGlyphs.length, humanReviewed: false, secondSourceVerified: hit.clean && hit.secondSourceGlyphs.length > 0 },
       uncertainGlyphs: hit.uncertainGlyphs, sourceType: "scanVisual",
-      verifiedBy: "兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘）", verifiedAt: "2026-09-27",
+      verifiedBy: hit.secondSourceGlyphs.length ? "兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘）" : "兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘）",
+      verifiedAt: hit.secondSourceGlyphs.length ? "2026-10-04" : "2026-09-27",
     });
     const outs = (s.outcomes ?? []).map(k => OUTCOMES[k]);
     const factors = s.custom ? s.custom.factors : outs.flatMap(o => o.factors);

@@ -76,13 +76,14 @@ export type SourceTextType = "scanVisual" | "ocrOnly" | "humanDraft";
 /** 影像範圍（頁寬、頁高比例；x 由左到右、y 由上到下） */
 export interface BoundingRegion { x0: number; y0: number; x1: number; y1: number }
 
-/** 規則可用的最低門檻：原始掃描影像雙重核讀、無疑字、不是 OCR */
+/** 規則可用的最低門檻：無疑字、不是 OCR，且（原始掃描影像雙重核讀，或兩輪讀法之一經第二來源逐字佐證） */
 export function citationUsableForRules(c: ClassicalCitation): { ok: boolean; reason: string } {
   if (c.sourceType === "ocrOnly") return { ok: false, reason: "只有 OCR，不能作為規則依據" };
   if (c.sourceType === "humanDraft") return { ok: false, reason: "只有人工初稿，尚未依影像核讀" };
   if (c.uncertainGlyphs?.length) return { ok: false, reason: `有疑字：${c.uncertainGlyphs.join("、")}` };
-  if (c.locator && !c.verification?.visualDoubleChecked) return { ok: false, reason: "尚未完成原始掃描影像雙重核讀" };
-  return { ok: true, reason: "原始掃描影像雙重核讀" };
+  if (c.locator && !c.verification?.visualDoubleChecked && !(c.verification?.visualTranscribed && c.verification?.secondSourceVerified))
+    return { ok: false, reason: "尚未完成原始掃描影像雙重核讀" };
+  return { ok: true, reason: c.verification?.visualDoubleChecked === false && c.verification?.secondSourceVerified ? "原始掃描影像目視轉錄＋第二來源逐字佐證" : "原始掃描影像雙重核讀" };
 }
 
 /** 來源修正紀錄 */
