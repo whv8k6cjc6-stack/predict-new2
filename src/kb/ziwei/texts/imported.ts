@@ -38,7 +38,7 @@ export const IMPORTED_ZIWEI_TEXTS: ImportedClassicalText[] = [
     sections: GUANGYI_PAGES.leaves.map(l => ({
       sectionId: `PAGE-${l.leaf}`, volume: l.volume, title: `${l.volume} PDF p${l.pdfPage}${l.half === "right" ? "右" : "左"}頁`,
       text: [l.strips.filter(s => s.strip < 90).flatMap(s => s.columns).join(""), ...l.strips.filter(s => s.strip >= 90).map(s => s.columns.join(""))]
-        .map(t => t.replace(/〔疑字：(.)〕/g, "$1").replace(/〔缺字〕/g, "□")).join("｜"),
+        .map(t => t.replace(/〔(?:疑字|校)：(.)〕/g, "$1").replace(/〔缺字〕/g, "□")).join("｜"),
       pdfPage: l.pdfPage, printedPage: l.printedPage, entry: l.leaf, transcriptionStatus: "verified" as const,
       notes: "v4 兩輪獨立目視轉錄＋差異回影像決議",
     })),

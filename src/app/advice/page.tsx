@@ -17,7 +17,7 @@ export default function AdvicePage() { return <Suspense><AdviceView /></Suspense
 /** 具體行動建議（ActionAdviceEngine）：依主題顯示一句話結論、怎麼做、不建議、時機、各時間尺度、判斷依據與完整追溯。 */
 function AdviceView() {
   const params = useSearchParams();
-  const { active } = useApp();
+  const { active, prefs } = useApp();
   const [tz, setTz] = useState<string | null>(null);
   useEffect(() => setTz(deviceTimeZone()), []);
   const { natal, key } = useNatal(active);
@@ -25,7 +25,7 @@ function AdviceView() {
   const topic: TopicId = q && q in ADVICE_TOPICS ? q : "general";
   const date = params.get("date") ?? (tz ? todayIn(tz) : null);
   const dayWord = date && tz ? dayWordOf(date, todayIn(tz)) : "今天";
-  const adv = useComputed(natal && key && tz && date ? `advice|${key}|${date}|${tz}|${topic}|${dayWord}` : null, () => adviseDay(natal!, date!, tz!, [topic], dayWord).byTopic[topic]!);
+  const adv = useComputed(natal && key && tz && date ? `advice|${key}|${date}|${tz}|${topic}|${dayWord}|${JSON.stringify(prefs.investor ?? {})}` : null, () => adviseDay(natal!, date!, tz!, [topic], dayWord, prefs.investor).byTopic[topic]!);
   const T = ADVICE_TOPICS[topic];
 
   return (

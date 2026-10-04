@@ -14,6 +14,7 @@ import { findExcerpt } from "./texts/pages";
 import { GY_BUILT } from "./v2";
 import V4_CONFIRMED from "@/data/classics/ziwei/package-v4/data/confirmed_citations_v4.json";
 import JIWEN_SOURCE from "@/data/classics/ziwei/quanji-jiwen/source.json";
+import SECOND_SOURCE from "@/data/classics/ziwei/quanshu-guangyi/passes/second_source.json";
 
 export { JIWEN_SOURCE };
 
@@ -29,12 +30,12 @@ export const ZIWEI_SOURCES: ClassicalSource[] = [
     notes: `PDF SHA-256 ${GUANGYI_SOURCE.sha256}。目前已逐字核對 ${GUANGYI_TRANSCRIPTION.spans.length} 段（卷二「一命宮」十四主星條目起首、卷三十二宮各篇起首、論人命入格、論格星數高下、大限、行限南北斗、流年太歲）；其餘篇章尚未核對，不作判讀依據。`,
   },
   {
-    sourceId: "ziwei.quanshu", title: "紫微斗數全書", edition: "維基文庫電子文本", tier: 1, role: "primaryClassical",
-    usage: ["與廣益版掃描比對文字"],
-    notFor: ["在未匯入前作為判讀依據"],
-    availability: "公有領域電子文本；本環境的網路政策拒絕連線 zh.wikisource.org、ctext.org，未匯入。",
+    sourceId: "ziwei.quanshu", title: "紫微斗數全書", edition: "維基文庫系電子全文（繁體）", tier: 1, role: "primaryClassical",
+    usage: ["與廣益版掃描比對文字", "第二來源佐證：兩輪目視讀法不一、未能回影像決議處，採與電子全文逐字相同的一輪讀法"],
+    notFor: ["直接提供答案（兩輪都讀不出的字不採電子本）", "覆蓋廣益版已雙重核讀的文字", "單獨作為判讀規則的依據"],
+    availability: `zh.wikisource.org 本環境無法連線；改用 GitHub 上的同系電子全文 MutekiShura/illucius-classics「Ziwei/紫微斗数全书.txt」（未鎖定 commit，以檔案 SHA-256 ${SECOND_SOURCE.sha256.slice(0, 12)}… 鎖定）。授權未標明，原文不放入 git。`,
     copyrightStatus: "publicDomain", contentStatus: "notInRepository",
-    notes: "保留 scripts/fetch-ziwei-wikisource.mjs；網路政策允許時可匯入作為另一版本比對（不繞過網路政策）。",
+    notes: `佐證 ${SECOND_SOURCE.records.length} 處（passes/second_source.json 逐處記錄兩輪讀法、採用的一輪與電子本該段文字）。條件：差異處左右各 2 字已與電子本逐字對上，且電子本該段與其中一輪讀法逐字相同、採用的讀法有字。這類字標為〔校〕，驗證狀態為 secondSourceVerified，不算雙重核讀。`,
   },
   {
     sourceId: "ziwei.jielan", title: "紫微斗數捷覽", edition: null, tier: 2, role: "secondaryClassical",
@@ -89,7 +90,7 @@ export interface SpanRecheck {
   uncertainGlyphs: string[]; note: string;
 }
 export const SPAN_RECHECKS: SpanRecheck[] = [];
-const unmark = (t: string) => t.replace(/〔疑字：(.)〕/g, "$1").replace(/〔缺字〕/g, "□");
+const unmark = (t: string) => t.replace(/〔(?:疑字|校)：(.)〕/g, "$1").replace(/〔缺字〕/g, "□");
 
 /** 由舊轉錄段落建立引用：originalText 取舊段落文字，但一律以 v4 雙重核讀頁面重新定位與驗證——
  *  兩者逐字相同且頁面該處無疑字，才算「原始掃描影像雙重核讀」；否則引用維持待校驗並記錄差異。 */
@@ -119,7 +120,7 @@ function scanCitation(citationId: string, spanId: string, o: { originalText?: st
     notes: [o.notes, sp.notes, ok ? "" : `v4 複核：${SPAN_RECHECKS.find(r => r.spanId === spanId)?.note ?? ""}`].filter(Boolean).join(" "),
     locator: hit ? { pdfPage: hit.pdfPage, printedPage: hit.printedPage, spanId: `${hit.leaf}:s${hit.strips.join(",")}`, boundingRegion: hit.region } : { pdfPage: sp.pdfPage, printedPage: sp.printedPage, spanId },
     transcriptionStatus: ok ? "verified" : "transcriptionUnverified",
-    verification: { machineLocated: false, visualTranscribed: true, visualDoubleChecked: ok, humanReviewed: false, secondSourceVerified: false },
+    verification: { machineLocated: false, visualTranscribed: true, visualDoubleChecked: ok && !(hit?.secondSourceGlyphs.length && !v4), humanReviewed: false, secondSourceVerified: ok && !v4 && !!hit?.secondSourceGlyphs.length },
     uncertainGlyphs: hit?.uncertainGlyphs ?? [], sourceType: "scanVisual",
     verifiedBy: "第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘）", verifiedAt: "2026-09-27",
   };

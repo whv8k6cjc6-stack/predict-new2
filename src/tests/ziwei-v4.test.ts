@@ -17,6 +17,7 @@ import { completion, pendingItems } from "@/kb/ziwei/v2/completion";
 import { softwareBrightness } from "@/kb/ziwei/v2/brightness";
 import { SYSTEM_SCORING } from "@/kb/weights";
 import corrections from "@/data/classics/ziwei/quanshu-guangyi/corrections.json";
+import SECOND_SOURCE from "@/data/classics/ziwei/quanshu-guangyi/passes/second_source.json";
 import { toBirth } from "./golden/snapshot";
 
 const x = { gender: "male" as const, localDate: "1988-01-14", localTime: "01:15", timeZone: "Asia/Taipei", place: { name: "台南", lat: 22.99, lng: 120.21 }, useTrueSolarTime: false };
@@ -29,15 +30,33 @@ const HEALTH_OK = new Set(["fatigueRisk", "stressLoad", "recoveryNeed", "energyS
 const walk = (c: ZiweiCondition | null, f: (c: ZiweiCondition) => void) => { if (!c) return; f(c); if (c.kind === "all" || c.kind === "any") c.of.forEach(y => walk(y, f)); if (c.kind === "not") walk(c.of, f); };
 
 describe("v4 頁面：兩輪獨立目視轉錄＋差異回影像決議", () => {
-  it("涵蓋 PDF p17–20、p26–55；每個欄組保存影像範圍與分級驗證狀態，沒有人工校勘或第二來源的宣稱", () => {
+  it("涵蓋 PDF p17–20、p26–55；每個欄組保存影像範圍與分級驗證狀態，沒有人工校勘的宣稱；第二來源只在有〔校〕字的欄組", () => {
     const pages = new Set(GUANGYI_PAGES.leaves.map(l => l.pdfPage));
     for (const p of [17, 18, 19, 20, ...Array.from({ length: 30 }, (_, i) => 26 + i)]) expect(pages.has(p), `p${p}`).toBe(true);
     for (const s of GUANGYI_PAGES.leaves.flatMap(l => l.strips)) {
       expect(s.region.x0).toBeLessThan(s.region.x1);
-      expect(s.verification).toMatchObject({ visualTranscribed: true, humanReviewed: false, secondSourceVerified: false, machineLocated: false });
+      expect(s.verification).toMatchObject({ visualTranscribed: true, humanReviewed: false, machineLocated: false });
+      expect(s.verification.secondSourceVerified).toBe(s.columns.join("").includes("〔校："));
       expect(s.verification.visualDoubleChecked).toBe(s.uncertainGlyphs.length === 0 && !s.columns.join("").includes("〔"));
     }
     expect(pageStats().doubleCheckedStrips).toBeGreaterThan(300);
+  });
+  it("第二來源佐證：每個〔校〕字都有紀錄，採用的讀法必是兩輪之一，且與電子全文該段逐字相同", () => {
+    const recs = SECOND_SOURCE.records;
+    const marks = GUANGYI_PAGES.leaves.flatMap(l => l.strips).reduce((n, s) => n + (s.columns.join("").match(/〔校：/g)?.length ?? 0), 0);
+    expect(recs.length).toBeGreaterThan(50);
+    expect(marks).toBe(recs.reduce((n, r) => n + [...r.adopted].filter(c => /[\u4e00-\u9fff]/.test(c)).length, 0));
+    expect(SECOND_SOURCE.sha256).toMatch(/^[0-9a-f]{64}$/);
+    for (const r of recs) {
+      expect([r.passA, r.passB]).toContain(r.adopted);
+      expect(r.adopted).not.toMatch(/□/);
+      expect(r.secondSourceText.length).toBeGreaterThan(0);
+    }
+    // 第二來源只佐證、不當答案：可用的引用若含〔校〕字，驗證狀態必為 secondSourceVerified 而非雙重核讀
+    for (const c of ZIWEI_CITATIONS.filter(c => c.verification?.secondSourceVerified)) {
+      expect(c.verification!.visualDoubleChecked, c.citationId).toBe(false);
+      expect(citationUsableForRules(c).reason).toContain("第二來源");
+    }
   });
   it("findExcerpt：優先採用無疑字的一處；疑字片段標為 unclean", () => {
     const h = findExcerpt("27R", "子午宮旺地天府同丁己生人財官格")!;
@@ -55,7 +74,7 @@ describe("來源修正與舊段落複核", () => {
     expect(SPAN_RECHECKS).toHaveLength(35);
     for (const r of SPAN_RECHECKS) {
       const c = ZIWEI_CITATIONS.find(c => c.citationId.startsWith("CIT_QS_") && c.originalText === r.firstPass)!;
-      expect(c.verification?.visualDoubleChecked, r.spanId).toBe(r.result === "identical" || r.result === "identicalAfterResolution");
+      expect(!!(c.verification?.visualDoubleChecked || c.verification?.secondSourceVerified), r.spanId).toBe(r.result === "identical" || r.result === "identicalAfterResolution");
       expect(r.note.length).toBeGreaterThan(5);
     }
   });
@@ -73,10 +92,10 @@ describe("規則品質稽核", () => {
       }
     }
   });
-  it("2. 啟用規則的引用全部是原始掃描影像雙重核讀、無疑字、非 OCR、非人工初稿", () => {
+  it("2. 啟用規則的引用全部是原始掃描影像雙重核讀（或兩輪讀法之一經第二來源逐字佐證）、無疑字、非 OCR、非人工初稿", () => {
     for (const r of usable) for (const id of r.citations) {
       const c = citOf(id);
-      expect(c.verification?.visualDoubleChecked, id).toBe(true);
+      expect(c.verification?.visualDoubleChecked || (c.verification?.visualTranscribed && c.verification?.secondSourceVerified), id).toBe(true);
       expect(c.uncertainGlyphs ?? [], id).toEqual([]);
       expect(c.sourceType, id).toBe("scanVisual");
       expect(c.verification?.humanReviewed).toBe(false);

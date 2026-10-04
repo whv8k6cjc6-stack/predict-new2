@@ -139,11 +139,12 @@ describe("CrossSystemAdviceEngine：比較生活因素，不只看分數正負",
     expect(a.doNow.map(i => i.adviceRuleId)).toContain("CAREER_PUSH_001");
     expect(a.summary).toContain("不要一次做得太滿");
   });
-  it("八字有利、奇門不利、梅花中性、紫微 pending → conflict：給可逆／不可逆的決策方法，不硬判吉凶", () => {
+  it("八字有利、奇門不利、梅花中性、紫微 pending → conflict：給該主題的可逆／不可逆做法，不硬判吉凶", () => {
     const a = run("career", [F("bazi", "progressOpportunity", ["career"]), F("qimen", "executionResistance", ["career"]), F("iching", "approachSensitivity", ["career"], 1)]);
     expect(a.systemAgreement.status).toBe("conflict");
-    expect(a.primaryAdvice!.adviceRuleId).toBe("CONFLICT_DECISION_001");
-    expect(a.doNow.map(i => i.templateId)).toContain("CONFLICT_REVERSIBLE");
+    expect(a.primaryAdvice!.adviceRuleId).toBe("CONFLICT_WORK_001");
+    expect(a.doNow.map(i => i.templateId)).toContain("CONFLICT_WORK");
+    expect(a.primaryAdvice!.steps!.length).toBeGreaterThanOrEqual(2);
     expect(a.avoidNow.map(i => i.templateId)).toContain("CONFLICT_IRREVERSIBLE");
     expect(a.doNow.map(i => i.adviceRuleId)).not.toContain("CAREER_PUSH_001"); // suppressOnConflict
     expect(a.headline).toContain("不一致");

@@ -35,7 +35,7 @@ function DomainDetail() {
   const legacy = useComputed(prefs.developerMode && natal && key && tz && date ? `legacy|${level}|${key}|${date}|${tz}` : null, () => analyze(natal!, date!, tz!, level, { hours: false, legacyZiwei: true }));
   const topic = DOMAIN_TOPIC[d];
   const dayWord = date && tz ? dayWordOf(date, todayIn(tz)) : "今天";
-  const adv = useComputed(natal && key && tz && date ? `advice|${key}|${date}|${tz}|${topic}|${dayWord}` : null, () => adviseDay(natal!, date!, tz!, [topic], dayWord).byTopic[topic]!);
+  const adv = useComputed(natal && key && tz && date ? `advice|${key}|${date}|${tz}|${topic}|${dayWord}|${JSON.stringify(prefs.investor ?? {})}` : null, () => adviseDay(natal!, date!, tz!, [topic], dayWord, prefs.investor).byTopic[topic]!);
   const LEVEL_HORIZON: Record<Level, Horizon> = { day: "today", month: "thisMonth", year: "thisYear", decade: "longTerm" };
   const def = domainOf(d);
   const r = a?.domains[d];

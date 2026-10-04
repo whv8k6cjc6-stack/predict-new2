@@ -110,12 +110,13 @@ describe("廣益版掃描：PDF 影像為 Source of Truth，雜湊可重現", ()
 });
 
 describe("ClassicalCitation：每條原文都能回到 PDF 頁面與轉錄段落", () => {
-  it("舊版 35 段（14 主星、12 宮、大限／流年原則）：以 v4 雙重核讀頁面重新定位與驗證；只有天梁總論一字（蔭／陰）兩輪讀法不一而不啟用", () => {
+  it("舊版 35 段（14 主星、12 宮、大限／流年原則）：以 v4 雙重核讀頁面重新定位與驗證；天梁總論「蔭／陰」兩輪不一，由第二來源佐證採「蔭」", () => {
     const old = ZIWEI_CITATIONS.filter(c => c.citationId.startsWith("CIT_QS_"));
     expect(old).toHaveLength(14 + 12 + 3 + 6);
-    expect(old.filter(c => c.verificationStatus !== "verified").map(c => c.citationId)).toEqual(["CIT_QS_STAR_TIANLIANG"]);
+    expect(old.filter(c => c.verificationStatus !== "verified").map(c => c.citationId)).toEqual([]);
+    expect(old.find(c => c.citationId === "CIT_QS_STAR_TIANLIANG")!.verification).toMatchObject({ visualDoubleChecked: false, secondSourceVerified: true });
     for (const c of old.filter(c => c.verificationStatus === "verified")) {
-      expect([c.transcriptionStatus, c.locationStatus, c.verification?.visualDoubleChecked, c.verification?.humanReviewed]).toEqual(["verified", "verifiedAgainstText", true, false]);
+      expect([c.transcriptionStatus, c.locationStatus, c.verification?.visualDoubleChecked || c.verification?.secondSourceVerified, c.verification?.humanReviewed]).toEqual(["verified", "verifiedAgainstText", true, false]);
       expect(c.verifiedBy && c.verifiedAt && c.modernTranslation).toBeTruthy();
       expect(sourceOf(c.sourceId)!.tier).toBe(1);
       expect(citationCheck(c, IMPORTED_ZIWEI_TEXTS).ok, c.citationId).toBe(true);
@@ -215,7 +216,7 @@ describe("正式規則庫：第一批已校驗規則", () => {
     expect(stars).toHaveLength(14);
     for (const r of stars) {
       expect(r.condition).toMatchObject({ kind: "starInPalace", palace: "命宮", relation: "self", layer: "natal" });
-      expect(ruleUsability(r).usable, r.ruleId).toBe(r.ruleId !== "ZW_STAR_TIANLIANG_NATURE");
+      expect(ruleUsability(r).usable, r.ruleId).toBe(true);
     }
     for (const id of ["ZW_DECADE_SHA_IN_LIMIT", "ZW_ANNUAL_TAISUI_AT_MING", "ZW_PRINCIPLE_RUGE"]) expect(ZIWEI_INTERPRETATION_RULES.some(r => r.ruleId === id)).toBe(false);
     const principles = ZIWEI_INTERPRETATION_RULES.filter(r => r.kind === "principle");
@@ -224,9 +225,9 @@ describe("正式規則庫：第一批已校驗規則", () => {
     expect(new Set(ZIWEI_INTERPRETATION_RULES.map(r => r.ruleId)).size).toBe(ZIWEI_INTERPRETATION_RULES.length);
     expect(ZIWEI_SOURCE_CONFLICTS).toEqual([]);
   });
-  it("每條可用規則都追溯到雙重核讀原文；判讀層不寫外貌、不寫宿命式結論", () => {
+  it("每條可用規則都追溯到雙重核讀（或第二來源佐證）原文；判讀層不寫外貌、不寫宿命式結論", () => {
     for (const r of ZIWEI_INTERPRETATION_RULES.filter(r => ruleUsability(r).usable)) {
-      for (const id of r.citations) expect(ZIWEI_CITATIONS.find(x => x.citationId === id)!.verification?.visualDoubleChecked).toBe(true);
+      for (const id of r.citations) { const v = ZIWEI_CITATIONS.find(x => x.citationId === id)!.verification; expect(v?.visualDoubleChecked || v?.secondSourceVerified).toBe(true); }
       for (const t of [r.interpretation, r.modernSemantic]) if (t) { expect(t, r.ruleId).not.toMatch(FATAL); if (r.ruleId.startsWith("ZW_STAR_")) expect(t, r.ruleId).not.toMatch(LOOKS); }
     }
   });

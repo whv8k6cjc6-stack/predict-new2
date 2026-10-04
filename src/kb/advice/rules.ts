@@ -133,6 +133,18 @@ export const ADVICE_RULES: AdviceRule[] = [
   R("INV_EXPOSURE_001", ["investment"], SHORT, { any: ["cashFlowPressure", "resourceLossRisk", "financialVolatility"] }, 66, { action: "INV_CHECK_EXPOSURE" }, "財務壓力或波動偏大", "check-exposure"),
   R("INV_TIRED_001", ["investment"], SHORT, { any: ["stressLoad", "fatigueRisk", "decisionUncertainty"] }, 60, { avoid: "INV_AVOID_TIRED_TRADES" }, "身心狀態或判斷不穩", "tired-trades"),
   R("INV_MID_001", ["investment"], MID, { any: [...IMPULSE, ...RES_DOWN, ...CHANGE, "decisionUncertainty"] }, 62, { action: "INV_MID_REVIEW" }, "這段時間適合檢視風險", "mid-review"),
+  R("INV_SOURCE_001", ["investment"], SHORT, { any: ["trustRisk", ...COMM_RISK, "externalInterference"] }, 72, { action: "INV_VERIFY_SOURCE", avoid: "INV_AVOID_TIPS" }, "資訊較容易失真或受外界干擾", "verify-source"),
+  R("INV_ORDER_001", ["investment"], SHORT, { any: ERRORS }, 68, { action: "INV_ORDER_CHECK" }, "較容易出現操作上的小差錯", "order-check"),
+  R("INV_HOURS_001", ["investment"], NOW, { any: ["favorableTiming", "timingSensitive"] }, 58, { action: "INV_BEST_HOURS" }, "時段的影響比較明顯", "best-hours"),
+  R("INV_HOURS_002", ["investment"], NOW, { any: ["timingSensitive"] }, 56, { avoid: "INV_AVOID_HOURS" }, "時段的影響比較明顯", "avoid-hours"),
+  R("INV_RESEARCH_001", ["investment"], SHORT, { any: ["learningOpportunity", "focusSupport", "decisionClarity"], none: IMPULSE }, 60, { action: "INV_RESEARCH" }, "適合專注研究、判斷相對清楚", "research"),
+  R("INV_LEVERAGE_001", ["investment"], [...SHORT, ...MID], { any: ["cashFlowPressure", "unexpectedExpenseRisk", "resourceLossRisk"] }, 70, { avoid: "INV_AVOID_LEVERAGE" }, "資金壓力或意外支出的可能偏高", "no-leverage"),
+  R("INV_REVIEWER_001", ["investment"], SHORT, { any: ["supportAvailable", "hierarchySupport", "cooperationSupport"], none: IMPULSE }, 54, { action: "INV_ASK_REVIEW" }, "有人可以幫你檢查", "ask-review"),
+  R("INV_PAUSE_001", ["investment"], SHORT, { all: [], any: [...SETBACK, "weakeningTrend"], none: ["decisionClarity", "resourceIncrease"] }, 66, { action: "INV_PAUSE_NEW" }, "照原做法主動出擊的效益偏低", "pause-new"),
+  R("INV_MID_REBAL_001", ["investment"], MID, { any: [...CHANGE, "changeOpportunity", "financialVolatility"] }, 60, { action: "INV_MID_REBALANCE" }, "這段時間變動較多，適合固定節奏檢視", "mid-rebalance"),
+  R("INV_MID_CONTRIB_001", ["investment"], MID, { any: RES_UP, none: ["cashFlowPressure"] }, 58, { action: "INV_MID_CONTRIB" }, "這段時間收入面相對穩", "mid-contrib"),
+  R("INV_MID_JOURNAL_001", ["investment"], MID, { any: [...IMPULSE, "decisionUncertainty", "recurringIssues"] }, 59, { action: "INV_MID_JOURNAL" }, "這段時間判斷較容易反覆", "mid-journal"),
+  R("INV_MID_CASH_001", ["investment"], MID, { any: ["cashFlowPressure", "unexpectedExpenseRisk"] }, 63, { action: "INV_MID_CASH" }, "這段時間財務壓力偏重", "mid-cash"),
 
   // ───────── 感情 ─────────
   R("LOVE_TALK_001", ["relationship"], SHORT, { any: ["relationshipWarmth", "communicationSupport"], none: [...COMM_RISK, ...SETBACK] }, 66, { action: "LOVE_TALK_OPEN" }, "互動較溫暖、溝通較順", "talk-open", { conflictPolicy: "suppressOnConflict" }),
@@ -208,7 +220,15 @@ export const ADVICE_RULES: AdviceRule[] = [
   R("DEC_METHOD_001", ["decision"], SHORT, { any: ["approachSensitivity", "timingSensitive"] }, 60, { action: "DEC_METHOD" }, "做法與時機影響較大", "method"),
 
   // ───────── 系統訊號矛盾時（各主題共用） ─────────
-  R("CONFLICT_DECISION_001", [], [...SHORT, ...MID], {}, 90, { action: "CONFLICT_REVERSIBLE", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  // 依主題給具體做法；沒有專屬版本的主題用共用版本
+  R("CONFLICT_INVEST_001", ["investment"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_INVEST", avoid: "CONFLICT_INVEST_AVOID" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  R("CONFLICT_WORK_001", WORK, [...SHORT, ...MID], {}, 74, { action: "CONFLICT_WORK", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  R("CONFLICT_MONEY_001", ["wealth", "property"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_MONEY", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  R("CONFLICT_PEOPLE_001", ["relationship", "marriage", "social"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_PEOPLE", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  R("CONFLICT_TRAVEL_001", ["travel"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_TRAVEL", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  R("CONFLICT_COOP_001", ["cooperation"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_COOP", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  R("CONFLICT_HEALTH_001", ["health"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_HEALTH", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+  R("CONFLICT_DECISION_001", ["general", "lawsuit", "exam", "decision"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_REVERSIBLE", avoid: "CONFLICT_IRREVERSIBLE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
 ];
 
 /** 共用規則（topics 為空）適用所有主題 */

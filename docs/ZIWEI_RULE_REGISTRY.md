@@ -4,12 +4,12 @@
 
 ## 紫微判讀完成度
 
-- 原文：《紫微斗數全書》廣益版 PDF 34 頁（67 個半頁、565 欄組，含書縫與切邊補轉錄 130），原始掃描影像雙重核讀的欄組 362；仍存疑 472 處。驗證方式：兩輪獨立 AI 目視轉錄＋差異回影像決議（非學術人工校勘；humanReviewed＝否）。
-- 引用：1210 筆，可作規則依據 1163，含疑字 47。
-- 判讀規則：1194 條，可用 780（本命 672、大限 75、流年 33），產生生活因素 721；判讀原則 8。
+- 原文：《紫微斗數全書》廣益版 PDF 34 頁（67 個半頁、565 欄組，含書縫與切邊補轉錄 130），原始掃描影像雙重核讀的欄組 362；仍存疑 381 處。驗證方式：兩輪獨立 AI 目視轉錄＋差異回影像決議（非學術人工校勘；humanReviewed＝否）。
+- 引用：1210 筆，可作規則依據 1184，含疑字 26。
+- 判讀規則：1194 條，可用 789（本命 680、大限 76、流年 33），產生生活因素 728；判讀原則 8。
 - 格局：PatternRule 53（啟用 53）、PatternCandidate 47。
 - 古典廟旺：349 條；與 iztro 軟體亮度不同 44 處（不改客觀排盤）。
-- 舊 35 段第二次核讀：逐字相同 34、疑字已決議 0、仍有疑字 1、找不到 0。
+- 舊 35 段第二次核讀：逐字相同 35、疑字已決議 0、仍有疑字 0、找不到 0。
 - 紫微計分：pending（停用）。
 
 ## 來源
@@ -17,7 +17,7 @@
 | Tier | 來源 | 角色 | 內容狀態 | 用途 | 不可作為 |
 |---|---|---|---|---|---|
 | 1 | 《紫微斗數全書》（廣益版（上海廣益書局印行，掃描影像）） | primaryClassical | imported | 十四主星基本性質、十二宮判讀、大限、小限、太歲（流年）判讀原則、星曜得地／失陷（待逐段核對）、古典格局（待逐段核對） | 直接轉成現代吉凶分數、未經影像逐字核對的段落（OCR 或初稿） |
-| 1 | 《紫微斗數全書》（維基文庫電子文本） | primaryClassical | notInRepository | 與廣益版掃描比對文字 | 在未匯入前作為判讀依據 |
+| 1 | 《紫微斗數全書》（維基文庫系電子全文（繁體）） | primaryClassical | notInRepository | 與廣益版掃描比對文字、第二來源佐證：兩輪目視讀法不一、未能回影像決議處，採與電子全文逐字相同的一輪讀法 | 直接提供答案（兩輪都讀不出的字不採電子本）、覆蓋廣益版已雙重核讀的文字、單獨作為判讀規則的依據 |
 | 2 | 《紫微斗數捷覽》 | secondaryClassical | unavailable | 版本校勘、異文比較、補充古典規則 | 在沒有合法文本時作為判讀依據 |
 | 2 | 《紫微斗數全集》（集文版（掃描影像）） | secondaryClassical | notInRepository | 段落定位與大意對照（十四主星問答與《全書》〈諸星問答論〉平行） | 逐字引用（掃描約 150 dpi、二值化，多數字無法確認）、建立異文或規則、靜默覆寫廣益版文字 |
 | 4 | 《iztro》（2.6.1） | softwareDataset | imported | 排盤位置驗證、星曜位置驗證、亮度表來源、四化與安星的軟體相容性比對 | 古籍來源、紫微判讀權威、格局原文來源、吉凶權重來源 |
@@ -29,21 +29,21 @@
 
 | 主題 | 覆蓋 | 規則 | 可用 | 產生生活因素 | 待校驗 | 時間層 | 來源 |
 |---|---|---|---|---|---|---|---|
-| 綜合（general） | dedicated | 953 | 540 | 482 | 404 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
-| 工作（career） | dedicated | 455 | 440 | 440 | 15 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
-| 升遷（promotion） | dedicated | 193 | 185 | 185 | 8 | natal、decade | ziwei-doushu-quanshu-guangyi-scan |
+| 綜合（general） | dedicated | 953 | 548 | 488 | 397 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
+| 工作（career） | dedicated | 455 | 446 | 446 | 9 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
+| 升遷（promotion） | dedicated | 193 | 190 | 190 | 3 | natal、decade | ziwei-doushu-quanshu-guangyi-scan |
 | 求職（jobSearch） | generalOnly | 0 | 0 | 0 | 0 | — | — |
 | 轉職（jobChange） | partial | 20 | 18 | 18 | 2 | natal | ziwei-doushu-quanshu-guangyi-scan |
-| 財運（wealth） | dedicated | 334 | 329 | 329 | 5 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
+| 財運（wealth） | dedicated | 334 | 330 | 330 | 4 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
 | 投資（investment） | partial | 28 | 28 | 28 | 0 | natal | ziwei-doushu-quanshu-guangyi-scan |
 | 感情（relationship） | dedicated | 26 | 26 | 25 | 0 | decade、natal、annual | ziwei-doushu-quanshu-guangyi-scan |
 | 婚姻（marriage） | dedicated | 26 | 26 | 25 | 0 | decade、natal、annual | ziwei-doushu-quanshu-guangyi-scan |
 | 人際（social） | dedicated | 66 | 65 | 65 | 1 | decade、natal、annual | ziwei-doushu-quanshu-guangyi-scan |
 | 健康（health） | dedicated | 39 | 39 | 39 | 0 | natal、decade | ziwei-doushu-quanshu-guangyi-scan |
-| 出行（travel） | partial | 49 | 48 | 48 | 1 | natal | ziwei-doushu-quanshu-guangyi-scan |
+| 出行（travel） | partial | 49 | 49 | 49 | 0 | natal | ziwei-doushu-quanshu-guangyi-scan |
 | 合作（cooperation） | partial | 30 | 30 | 30 | 0 | natal | ziwei-doushu-quanshu-guangyi-scan |
 | 訴訟（lawsuit） | partial | 22 | 21 | 21 | 1 | decade、annual | ziwei-doushu-quanshu-guangyi-scan |
-| 考試（exam） | dedicated | 35 | 31 | 31 | 4 | natal、annual、decade | ziwei-doushu-quanshu-guangyi-scan |
+| 考試（exam） | dedicated | 35 | 33 | 33 | 2 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
 | 不動產（property） | partial | 30 | 30 | 30 | 0 | natal | ziwei-doushu-quanshu-guangyi-scan |
 | 決策（decision） | dedicated | 49 | 49 | 49 | 0 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
 
@@ -62,7 +62,7 @@
 | `ZW_STAR_TANLANG_NATURE` | star | natal | general | verified | 可用 | CIT_QS_STAR_TANLANG | 貪狼化氣為桃花殺；入廟長聳肥胖，陷宮形小；性格不常、心多計較、作事急速不耐靜。 | 與慾望、人際吸引力相關；做事節奏快。 | — |
 | `ZW_STAR_JUMEN_NATURE` | star | natal | general | verified | 可用 | CIT_QS_STAR_JUMEN | 巨門化氣為暗，主是非；不入廟時作事進退疑惑、多學少精、與人寡合、多是多非。 | 與口舌、溝通和猶豫相關。 | — |
 | `ZW_STAR_TIANXIANG_NATURE` | star | natal | general、career | verified | 可用 | CIT_QS_STAR_TIANXIANG | 天相化氣為印，是官祿之主；相貌敦厚、持重清白，衣祿豐足。 | 與受託負責、印信職務相關；為人持重。 | aptitudeResponsibility（適合承擔責任）×2 |
-| `ZW_STAR_TIANLIANG_NATURE` | star | natal | general | verified | 引用 CIT_QS_STAR_TIANLIANG 狀態為 pendingVerification | CIT_QS_STAR_TIANLIANG | 天梁化氣為蔭，主壽；厚重清秀、聰明耿直、心無私曲、好施濟。 | 與庇蔭、照顧他人相關。 | — |
+| `ZW_STAR_TIANLIANG_NATURE` | star | natal | general | verified | 可用 | CIT_QS_STAR_TIANLIANG | 天梁化氣為蔭，主壽；厚重清秀、聰明耿直、心無私曲、好施濟。 | 與庇蔭、照顧他人相關。 | — |
 | `ZW_STAR_QISHA_NATURE` | star | natal | general | verified | 可用 | CIT_QS_STAR_QISHA | 七殺為將星，遇紫微為權，其餘皆以殺論；性急不常。 | 屬性剛烈；與紫微同見時性質轉為權。 | — |
 | `ZW_STAR_POJUN_NATURE` | star | natal | general | verified | 可用 | CIT_QS_STAR_POJUN | 破軍化氣為耗星，主妻子奴僕；性剛寡合、爭強。 | 與耗損、變動和人際摩擦相關。 | — |
 | `GY_ZIWEI_ZI_1` | starInPalace | natal | general、career、promotion | verified | 可用 | CIT_GY_ZIWEI_ZI_1 | 紫微坐命在子宮，丁、己、庚年生人：古籍評為「貴格」。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
@@ -161,7 +161,7 @@
 | `GY_LIANZHEN_L1` | period | decade | general、wealth、career、promotion | verified | 可用 | CIT_GY_LIANZHEN_L1 | 大限廉貞在旺宮又逢吉星：財物蓄積、職位上升。 | 這段時間資源與收入較容易增加；這段時間較有機會承擔更多職責、被看見 | resourceIncrease（有實際收穫）×1、responsibilityOpportunity（承擔任務的機會）×1、recognitionOpportunity（表現被看見）×1 |
 | `GY_LIANZHEN_L2` | star | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_LIANZHEN_L2 | 大限廉貞逢天刑、化忌：古籍斷為血光、死亡（只保留原文）。 |  | — |
 | `GY_TIANFU_N1` | starInPalace | natal | general、career、promotion、exam | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_TIANFU_N1 | 天府廟旺，喜紫微、昌曲、左右、祿存、魁鉞、化權祿：必中高第。 | 長期而言較有機會承擔職位、被看見；長期而言學習與思考較有發揮 | aptitudeResponsibility（適合承擔責任）×2、aptitudeStudy（重思考學習）×1 |
-| `GY_TIANFU_N2` | starInPalace | natal | general、career、promotion | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_TIANFU_N2 | 天府坐命寅午戌、亥卯未宮，己年生人：權貴。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
+| `GY_TIANFU_N2` | starInPalace | natal | general、career、promotion | verified | 可用 | CIT_GY_TIANFU_N2 | 天府坐命寅午戌、亥卯未宮，己年生人：權貴。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_TIANFU_N3` | starInPalace | natal | general、career、wealth | verified | 可用 | CIT_GY_TIANFU_N3 | 天府坐命巳酉丑宮，乙丙戊辛年生人：文武財官格。 | 長期而言在經營資源與承擔職務上較有發揮空間 | aptitudeResources（擅長經營資源）×1、aptitudeResponsibility（適合承擔責任）×1 |
 | `GY_TIANFU_N4` | starInPalace | natal | general、career、wealth、decision | verified | 可用 | CIT_GY_TIANFU_N4 | 天府在亥卯未辰酉安命，甲庚年生人：先大後小、有始無終。 | 成果不容易持久，需要定期檢視、及早鞏固 | weakeningTrend（後段吃力）×1 |
 | `GY_TIANFU_ZIWU` | starInPalace | natal | general、career、wealth | verified | 可用 | CIT_GY_TIANFU_ZIWU | 天府坐命在子、午宮，丁、己、癸年生人：古籍評為「為福財官格」。 | 長期而言在經營資源與承擔職務上較有發揮空間 | aptitudeResources（擅長經營資源）×1、aptitudeResponsibility（適合承擔責任）×1 |
@@ -236,7 +236,7 @@
 | `GY_JUMEN_L1` | period | decade | general、career | verified | 可用 | CIT_GY_JUMEN_L1 | 大限巨門化權：利於求謀大事；即使有口舌也能轉為安寧。 | 這段時間事情較容易推進 | progressOpportunity（推進機會）×1 |
 | `GY_JUMEN_L2` | period | decade | general | verified | 未啟用：需要客觀排盤沒有的資料（例：小限、斗君、空亡） | CIT_GY_JUMEN_L2 | 大限巨門遇喪門：多煩憂（喪門屬歲前諸星，本 App 客觀排盤沒有此星）。 |  | — |
 | `GY_JUMEN_L3` | period | decade | general、career、social、lawsuit、wealth | verified | 可用 | CIT_GY_JUMEN_L3 | 大限巨門落陷：容易無端惹上是非（原文另有哭泣喪事之說，不採用）。 | 這段時間溝通較容易起摩擦；這段時間花費或損失的可能較高 | communicationConflictRisk（容易起口角）×1、resourceLossRisk（容易花費或被分走）×1 |
-| `GY_TIANXIANG_N1` | starInPalace | natal | general、career、wealth、promotion | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_TIANXIANG_N1 | 天相與紫微、天府、文昌、文曲、太陽、太陰相會：財官雙美。 | 長期而言在經營資源與承擔職務上較有發揮空間；長期而言較有機會承擔職位、被看見 | aptitudeResources（擅長經營資源）×1、aptitudeResponsibility（適合承擔責任）×3 |
+| `GY_TIANXIANG_N1` | starInPalace | natal | general、career、wealth、promotion | verified | 可用 | CIT_GY_TIANXIANG_N1 | 天相與紫微、天府、文昌、文曲、太陽、太陰相會：財官雙美。 | 長期而言在經營資源與承擔職務上較有發揮空間；長期而言較有機會承擔職位、被看見 | aptitudeResources（擅長經營資源）×1、aptitudeResponsibility（適合承擔責任）×3 |
 | `GY_TIANXIANG_N2` | starInPalace | natal | general、career、jobChange | verified | 可用 | CIT_GY_TIANXIANG_N2 | 天相與武曲、破軍、擎羊、陀羅同行：適合巧藝技術。 | 長期而言適合以專業技能、手藝發揮 | aptitudeStudy（重思考學習）×1 |
 | `GY_TIANXIANG_N3` | star | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_TIANXIANG_N3 | 天相再加火鈴巨機：古籍斷為傷刑、不善終（只保留原文）。 |  | — |
 | `GY_TIANXIANG_ZIWU` | starInPalace | natal | general、career、wealth | verified | 可用 | CIT_GY_TIANXIANG_ZIWU | 天相坐命在子、午宮，丁、己、癸、甲年生人：古籍評為「財官格」。 | 長期而言在經營資源與承擔職務上較有發揮空間 | aptitudeResources（擅長經營資源）×1、aptitudeResponsibility（適合承擔責任）×1 |
@@ -265,7 +265,7 @@
 | `GY_TIANLIANG_CHOUWEI_1` | starInPalace | natal | general、career、wealth | verified | 可用 | CIT_GY_TIANLIANG_CHOUWEI_1 | 天梁坐命在丑、未宮，壬、乙年生人：古籍評為「財官格」。 | 長期而言在經營資源與承擔職務上較有發揮空間 | aptitudeResources（擅長經營資源）×1、aptitudeResponsibility（適合承擔責任）×1 |
 | `GY_TIANLIANG_CHOUWEI_2` | starInPalace | natal | general、career、promotion | verified | 可用 | CIT_GY_TIANLIANG_CHOUWEI_2 | 天梁坐命在丑、未宮，戊年生人：古籍評為「大貴」。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_TIANLIANG_M1` | starInPalace | natal | general、wealth、career、promotion | verified | 可用 | CIT_GY_TIANLIANG_M1 | 天梁坐命穩重溫良，左右、昌曲會合：富貴。 | 長期而言在累積與管理資源上較有發揮；長期而言較有機會承擔職位、被看見 | aptitudeResources（擅長經營資源）×2、aptitudeResponsibility（適合承擔責任）×2 |
-| `GY_TIANLIANG_M2` | starInPalace | natal | general、career、promotion | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_TIANLIANG_M2 | 天梁在子午寅申入廟，與天機、太陽、文昌、左右同會：官資清顯。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
+| `GY_TIANLIANG_M2` | starInPalace | natal | general、career、promotion | verified | 可用 | CIT_GY_TIANLIANG_M2 | 天梁在子午寅申入廟，與天機、太陽、文昌、左右同會：官資清顯。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_TIANLIANG_M3` | starInPalace | natal | general、career | verified | 可用 | CIT_GY_TIANLIANG_M3 | 天梁落閑宮遇火星、陀羅等煞：更凶（原文另有孤刑帶疾之說，不採用）。 | 推進時較容易卡住、需要更多準備 | executionResistance（推進有阻力）×1 |
 | `GY_TIANLIANG_M4` | starInPalace | natal | general | verified | 可用 | CIT_GY_TIANLIANG_M4 | 天梁、天機在辰戌同宮：助益不小。 | 古籍評為相宜；本 App 只列出，不轉成生活因素 | — |
 | `GY_TIANLIANG_M5` | star | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_TIANLIANG_M5 | 破軍卯酉之訣（刑剋斷語，只保留原文）。 |  | — |
@@ -318,12 +318,12 @@
 | `GY_WENCHANG_M2` | star | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_WENCHANG_M2 | 文昌守命之訣（夭折斷語，只保留原文）。 |  | — |
 | `GY_WENCHANG_F1` | star | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_WENCHANG_F1 | 女命文昌之訣（只保留原文）。 |  | — |
 | `GY_WENCHANG_F2` | star | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_WENCHANG_F2 | 女命文昌之訣（性別道德、壽夭斷語，只保留原文）。 |  | — |
-| `GY_WENCHANG_L1` | period | decade | general、exam、career | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_WENCHANG_L1 | 大限（或流年）逢文昌：利考試、功名。 | 這段時間較利於考試、進修與被肯定 | learningOpportunity（適合學習）×1、recognitionOpportunity（表現被看見）×1 |
+| `GY_WENCHANG_L1` | period | decade | general、exam、career | verified | 可用 | CIT_GY_WENCHANG_L1 | 大限（或流年）逢文昌：利考試、功名。 | 這段時間較利於考試、進修與被肯定 | learningOpportunity（適合學習）×1、recognitionOpportunity（表現被看見）×1 |
 | `GY_WENCHANG_A1` | period | annual | general、exam、career | verified | 可用 | CIT_GY_WENCHANG_A1 | 流年命宮逢文昌：利考試、功名。 | 這段時間較利於考試、進修與被肯定 | learningOpportunity（適合學習）×1、recognitionOpportunity（表現被看見）×1 |
 | `GY_WENCHANG_L2` | period | decade | general、career、social、lawsuit、wealth | verified | 可用 | CIT_GY_WENCHANG_L2 | 大限文昌不得地又逢羊陀火鈴或化忌：口舌是非、破財（原文另有刑傷之說，不採用）。 | 這段時間溝通較容易起摩擦；這段時間花費或損失的可能較高 | communicationConflictRisk（容易起口角）×1、resourceLossRisk（容易花費或被分走）×1 |
 | `GY_WENQU_N1` | starInPalace | natal | general、exam | verified | 可用 | CIT_GY_WENQU_N1 | 文曲與文昌相逢（有吉星）：利科第。 | 長期而言學習與思考較有發揮 | aptitudeStudy（重思考學習）×1 |
 | `GY_WENQU_N2` | star | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_WENQU_N2 | 文曲單居逢惡殺：古籍斷為便佞之人（品格斷語，只保留原文）。 |  | — |
-| `GY_WENQU_N3` | starInPalace | natal | general、career、promotion | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_WENQU_N3 | 文曲在巳酉丑宮，甲年生人：貴。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
+| `GY_WENQU_N3` | starInPalace | natal | general、career、promotion | verified | 可用 | CIT_GY_WENQU_N3 | 文曲在巳酉丑宮，甲年生人：貴。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_WENQU_N4` | starInPalace | natal | general、career、promotion | verified | 可用 | CIT_GY_WENQU_N4 | 文曲與貪狼、火星同宮或三合：將相之命。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_WENQU_N5` | star | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_WENQU_N5 | 文曲陷地逢武貞羊破殺狼：古籍斷為夭折（只保留原文）。 |  | — |
 | `GY_WENQU_N6` | starInPalace | natal | general、exam | verified | 可用 | CIT_GY_WENQU_N6 | 文曲在旺宮與天同、天梁、武曲會合：聰明果決。 | 長期而言學習與思考較有發揮 | aptitudeStudy（重思考學習）×1 |
@@ -683,11 +683,11 @@
 | `GY_P_FUQI_FUBI` | palace | natal | relationship、marriage | verified | 可用 | CIT_GY_P_FUQI_FUBI | 左輔、右弼在夫妻：偕老。 | 伴侶互動較溫和 | relationshipWarmth（互動有溫度）×1 |
 | `GY_P_FUQI_KUIYUE` | palace | natal | relationship、marriage | verified | 可用 | CIT_GY_P_FUQI_KUIYUE | 天魁天鉞在夫妻：夫婦美好。 | 伴侶互動較溫和 | relationshipWarmth（互動有溫度）×1 |
 | `GY_P_FUQI_DOUJUN` | palace | natal | general | verified | 未啟用：需要客觀排盤沒有的資料（例：小限、斗君、空亡） | CIT_GY_P_FUQI_DOUJUN | 斗君過度夫妻宮（本 App 沒有斗君）。 |  | — |
-| `GY_P_XIONGDI_H1` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H1 | 二兄弟宮紫微條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
+| `GY_P_XIONGDI_H1` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H1 | 二兄弟宮紫微條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H2` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H2 | 二兄弟宮天機條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H3` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H3 | 二兄弟宮太陽條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H4` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H4 | 二兄弟宮武曲條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
-| `GY_P_XIONGDI_H5` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H5 | 二兄弟宮天同條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
+| `GY_P_XIONGDI_H5` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H5 | 二兄弟宮天同條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H6` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H6 | 二兄弟宮廉貞條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H7` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H7 | 二兄弟宮天府條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H8` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H8 | 二兄弟宮太陰條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
@@ -695,7 +695,7 @@
 | `GY_P_XIONGDI_H10` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H10 | 二兄弟宮巨門條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H11` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H11 | 二兄弟宮天相條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H12` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H12 | 二兄弟宮天梁條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
-| `GY_P_XIONGDI_H13` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H13 | 二兄弟宮七殺條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
+| `GY_P_XIONGDI_H13` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H13 | 二兄弟宮七殺條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H14` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H14 | 二兄弟宮紫微條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H15` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H15 | 二兄弟宮左輔條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_XIONGDI_H16` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_XIONGDI_H16 | 二兄弟宮右弼條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
@@ -725,7 +725,7 @@
 | `GY_P_FUQI_H19` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUQI_H19 | 三妻妾宮天魁條：婚配年齡、刑剋、生離與幾度婚姻之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUQI_H20` | palace | natal | general | pendingVerification | 未啟用：需要客觀排盤沒有的資料（例：小限、斗君、空亡） | CIT_GY_P_FUQI_H20 | 斗君（流月）過此宮之吉凶；本 App 客觀排盤沒有斗君。 |  | — |
 | `GY_P_ZINV_H1` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H1 | 四子女宮天機條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
-| `GY_P_ZINV_H2` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H2 | 四子女宮太陽條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
+| `GY_P_ZINV_H2` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H2 | 四子女宮太陽條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_ZINV_H3` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H3 | 四子女宮廉貞條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_ZINV_H4` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H4 | 四子女宮天府條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_ZINV_H5` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H5 | 四子女宮太陰條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
@@ -744,7 +744,7 @@
 | `GY_P_ZINV_H18` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H18 | 四子女宮羊陀條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_ZINV_H19` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H19 | 四子女宮火星條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_ZINV_H20` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H20 | 四子女宮鈴星條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
-| `GY_P_ZINV_H21` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H21 | 四子女宮魁鉞條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
+| `GY_P_ZINV_H21` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_ZINV_H21 | 四子女宮魁鉞條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_ZINV_H22` | palace | natal | general | verified | 未啟用：需要客觀排盤沒有的資料（例：小限、斗君、空亡） | CIT_GY_P_ZINV_H22 | 斗君（流月）過此宮之吉凶；本 App 客觀排盤沒有斗君。 |  | — |
 | `GY_P_JIE_H1` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H1 | 六疾厄宮紫微條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_JIE_H2` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H2 | 六疾厄宮天機條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
@@ -757,7 +757,7 @@
 | `GY_P_JIE_H9` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H9 | 六疾厄宮巨門條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_JIE_H10` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H10 | 六疾厄宮天相條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_JIE_H11` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H11 | 六疾厄宮七殺條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
-| `GY_P_JIE_H12` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H12 | 六疾厄宮文昌條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
+| `GY_P_JIE_H12` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H12 | 六疾厄宮文昌條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_JIE_H13` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H13 | 六疾厄宮文曲條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_JIE_H14` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H14 | 六疾厄宮左輔條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_JIE_H15` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_JIE_H15 | 六疾厄宮右弼條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 |  | — |
@@ -769,7 +769,7 @@
 | `GY_P_FUMU_H1` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H1 | 十二父母宮太陽條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H2` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H2 | 十二父母宮武曲條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H3` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H3 | 十二父母宮天同條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
-| `GY_P_FUMU_H4` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H4 | 十二父母宮廉貞條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
+| `GY_P_FUMU_H4` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H4 | 十二父母宮廉貞條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H5` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H5 | 十二父母宮天府條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H6` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H6 | 十二父母宮太陰條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H7` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H7 | 十二父母宮貪狼條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
@@ -784,7 +784,7 @@
 | `GY_P_FUMU_H16` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H16 | 十二父母宮右弼條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H17` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H17 | 十二父母宮祿存條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H18` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H18 | 十二父母宮擎羊條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
-| `GY_P_FUMU_H19` | palace | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H19 | 十二父母宮陀羅條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
+| `GY_P_FUMU_H19` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H19 | 十二父母宮陀羅條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H20` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H20 | 十二父母宮火星條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H21` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H21 | 十二父母宮鈴星條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
 | `GY_P_FUMU_H22` | palace | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_P_FUMU_H22 | 十二父母宮魁鉞條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 |  | — |
@@ -1032,7 +1032,7 @@
 | `GY_A_TIANJI_05` | combination | natal | career | verified | 可用 | CIT_GY_A_TIANJI_05 | 命在寅申，天機、太陰、天同、天梁在三方：宜作吏職。 | 適合在組織中擔任行政、事務型職務 | aptitudeResponsibility（適合承擔責任）×1 |
 | `GY_A_TIANJI_06` | combination | natal | wealth、career | verified | 可用 | CIT_GY_A_TIANJI_06 | 天機、天梁、貪狼、太陰會命：經商奔波、日夜勞碌。 | 較有經商謀生的傾向，但奔波勞碌 | aptitudeResources（擅長經營資源）×1、workloadIncrease（負荷增加）×1 |
 | `GY_A_TIANJI_07` | combination | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_TIANJI_07 | 天機加惡煞：古籍斷為盜竊（品格斷語，只保留原文）。 |  | — |
-| `GY_A_TIANJI_08` | combination | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_TIANJI_08 | 天機巳酉之訣（品格斷語，只保留原文）。 |  | — |
+| `GY_A_TIANJI_08` | combination | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_TIANJI_08 | 天機巳酉之訣（品格斷語，只保留原文）。 |  | — |
 | `GY_A_TIANJI_09` | combination | natal | general | verified | 可用 | CIT_GY_A_TIANJI_09 | 巨門落陷又會天機：破格。 | 古籍評為格局較低；本 App 不把等第轉成生活因素 | — |
 | `GY_A_TAIYANG_01` | starInPalace | natal | general、wealth、career、promotion | verified | 可用 | CIT_GY_A_TAIYANG_01 | 太陽在卯辰宮坐命，白天出生（本 App 取卯至申時）：富貴聲揚。 | 長期而言在累積與管理資源上較有發揮；長期而言較有機會承擔職位、被看見 | aptitudeResources（擅長經營資源）×2、aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_A_TAIYANG_02` | starInPalace | natal | general、wealth、career、promotion | verified | 可用 | CIT_GY_A_TAIYANG_02 | 太陽在午宮坐命，庚、辛、丁、己年生人：富貴雙全（原文「巳」讀為天干「己」）。 | 長期而言在累積與管理資源上較有發揮；長期而言較有機會承擔職位、被看見 | aptitudeResources（擅長經營資源）×2、aptitudeResponsibility（適合承擔責任）×2 |
@@ -1113,10 +1113,10 @@
 | `GY_A_TANLANG_18` | combination | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_TANLANG_18 | 女命貪狼之訣（女命訣，只保留原文）。 |  | — |
 | `GY_A_LIANZHEN_01` | combination | natal | general、career、jobChange | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_A_LIANZHEN_01 | 廉貞在卯酉宮坐命加煞：公門或技藝之人（本段多疑字）。 | 長期而言適合以專業技能、手藝發揮 | aptitudeStudy（重思考學習）×1 |
 | `GY_A_LIANZHEN_02` | combination | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_LIANZHEN_02 | 廉貞暗巨：古籍斷為吏而貪婪（品格斷語，只保留原文）。 |  | — |
-| `GY_A_LIANZHEN_03` | combination | natal | general | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_A_LIANZHEN_03 | 廉貞坐命，會貪狼、七殺、破軍，武曲在遷移（結果詞有疑字，待確認）。 |  | — |
+| `GY_A_LIANZHEN_03` | combination | natal | general | verified | 可用 | CIT_GY_A_LIANZHEN_03 | 廉貞坐命，會貪狼、七殺、破軍，武曲在遷移（結果詞「作具戎」語意待確認）。 |  | — |
 | `GY_A_LIANZHEN_04` | combination | natal | wealth | verified | 可用 | CIT_GY_A_LIANZHEN_04 | 廉貞、七殺同坐命宮而居廟旺：反為積富之人。 | 長期而言資源與收入較能累積 | aptitudeResources（擅長經營資源）×1 |
-| `GY_A_LIANZHEN_05` | combination | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_LIANZHEN_05 | 廉貞破軍火星居陷：古籍死亡斷語（只保留原文）。 |  | — |
-| `GY_A_LIANZHEN_06` | combination | natal | travel | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_A_LIANZHEN_06 | 廉貞或七殺在巳亥坐命、兩星會照：流蕩在外。 | 外出與移動較多、較勞碌 | movementIncrease（移動變多）×1、stressLoad（身心壓力）×1 |
+| `GY_A_LIANZHEN_05` | combination | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_LIANZHEN_05 | 廉貞破軍火星居陷：古籍死亡斷語（只保留原文）。 |  | — |
+| `GY_A_LIANZHEN_06` | combination | natal | travel | verified | 可用 | CIT_GY_A_LIANZHEN_06 | 廉貞或七殺在巳亥坐命、兩星會照：流蕩在外。 | 外出與移動較多、較勞碌 | movementIncrease（移動變多）×1、stressLoad（身心壓力）×1 |
 | `GY_A_LIANZHEN_07` | combination | natal | general | verified | 未啟用：需要客觀排盤沒有的資料（例：小限、斗君、空亡） | CIT_GY_A_LIANZHEN_07 | 廉貞入廟會將軍：威猛。「將軍」屬博士十二神，客觀排盤沒有。 |  | — |
 | `GY_A_LIANZHEN_08` | combination | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_LIANZHEN_08 | 廉貞四煞：刑戮斷語（只保留原文）。 |  | — |
 | `GY_A_LIANZHEN_09` | combination | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_LIANZHEN_09 | 廉貞白虎：刑杖斷語（只保留原文）。 |  | — |
@@ -1159,11 +1159,11 @@
 | `GY_A_POJUN_02` | combination | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_POJUN_02 | 破軍貪狼逢祿馬（品格、性別道德斷語，只保留原文）。 |  | — |
 | `GY_A_POJUN_03` | combination | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_POJUN_03 | 破軍巨門：死亡斷語（只保留原文）。 |  | — |
 | `GY_A_POJUN_04` | combination | natal | travel | verified | 可用 | CIT_GY_A_POJUN_04 | 破軍坐命會火星、鈴星：奔波勞碌。 | 外出與移動較多、較勞碌 | movementIncrease（移動變多）×1、stressLoad（身心壓力）×1 |
-| `GY_A_POJUN_05` | combination | natal | general | pendingVerification | 未啟用：古文沒有足夠成立條件 | CIT_GY_A_POJUN_05 | 破軍一曜性難明（小注：男女命論）。沒有盤面條件。 |  | — |
+| `GY_A_POJUN_05` | combination | natal | general | verified | 未啟用：古文沒有足夠成立條件 | CIT_GY_A_POJUN_05 | 破軍一曜性難明（小注：男女命論）。沒有盤面條件。 |  | — |
 | `GY_A_POJUN_06` | combination | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_POJUN_06 | 破軍羊鈴在官祿：貧賤斷語（只保留原文）。 |  | — |
 | `GY_A_QINGYANG_01` | combination | natal | general、wealth、career、promotion | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_A_QINGYANG_01 | 擎羊入廟坐命，又加吉星：富貴聲揚。 | 長期而言在累積與管理資源上較有發揮；長期而言較有機會承擔職位、被看見 | aptitudeResources（擅長經營資源）×2、aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_A_QINGYANG_02` | combination | natal | general、career、promotion | verified | 可用 | CIT_GY_A_QINGYANG_02 | 擎羊、火星同坐命宮：威權壓眾（小注：辰戌佳、丑未次之）。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
-| `GY_A_QINGYANG_03` | combination | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_QINGYANG_03 | （火星）守身命：傷殘斷語（只保留原文）。 |  | — |
+| `GY_A_QINGYANG_03` | combination | natal | general | verified | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_QINGYANG_03 | （火星）守身命：傷殘斷語（只保留原文）。 |  | — |
 | `GY_A_QINGYANG_04` | combination | natal | general | pendingVerification | 未啟用：宿命或不宜直接顯示的古代斷語，只保留原文 | CIT_GY_A_QINGYANG_04 | 擎羊子午卯酉：夭折刑傷斷語（只保留原文）。 |  | — |
 | `GY_A_QINGYANG_05` | combination | natal | general | verified | 未啟用：需要客觀排盤沒有的資料（例：小限、斗君、空亡） | CIT_GY_A_QINGYANG_05 | 擎羊逢力士：難得封賞。「力士」屬博士十二神，客觀排盤沒有。 |  | — |
 | `GY_A_QINGYANG_06` | combination | natal | wealth | verified | 可用 | CIT_GY_A_QINGYANG_06 | 擎羊、陀羅、火星或鈴星坐命，逢吉星：發財（逢凶則忌）。 | 長期而言資源與收入較能累積 | aptitudeResources（擅長經營資源）×1 |
@@ -1207,7 +1207,7 @@
 | `GY_A_KEQUANLU_01` | combination | natal | general、wealth、career、promotion | verified | 可用 | CIT_GY_A_KEQUANLU_01 | 化科、化權、化祿在命宮三方會合：富貴雙全。 | 長期而言在累積與管理資源上較有發揮；長期而言較有機會承擔職位、被看見 | aptitudeResources（擅長經營資源）×2、aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_A_KEQUANLU_02` | combination | natal | general、career、promotion | verified | 可用 | CIT_GY_A_KEQUANLU_02 | 化祿、化權在命宮又會吉星：威權壓眾。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_A_KEQUANLU_03` | combination | natal | general、career、wealth | verified | 可用 | CIT_GY_A_KEQUANLU_03 | 化權、化祿在命宮三方重逢（無煞）：財官雙美（小注：凶聚也不美）。 | 長期而言在經營資源與承擔職務上較有發揮空間 | aptitudeResources（擅長經營資源）×1、aptitudeResponsibility（適合承擔責任）×1 |
-| `GY_A_KEQUANLU_04` | combination | natal | general、exam、career、promotion | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_A_KEQUANLU_04 | 化科在命、化權在三方朝命：登科。 | 長期而言學習與思考較有發揮；長期而言較有機會承擔職位、被看見 | aptitudeStudy（重思考學習）×1、aptitudeResponsibility（適合承擔責任）×2 |
+| `GY_A_KEQUANLU_04` | combination | natal | general、exam、career、promotion | verified | 可用 | CIT_GY_A_KEQUANLU_04 | 化科在命、化權在三方朝命：登科。 | 長期而言學習與思考較有發揮；長期而言較有機會承擔職位、被看見 | aptitudeStudy（重思考學習）×1、aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_A_KEQUANLU_05` | combination | natal | general、career、exam | pendingVerification | 未啟用：原文有疑字（兩輪核讀與決議仍無法確定） | CIT_GY_A_KEQUANLU_05 | 命在子午，化祿在遷移（對宮）：文章冠世。 | 長期而言表達與文字較有發揮；長期而言學習與思考較有發揮 | aptitudeExpression（擅長表達）×1、aptitudeStudy（重思考學習）×1 |
 | `GY_A_KEQUANLU_06` | combination | natal | general、career、promotion | verified | 可用 | CIT_GY_A_KEQUANLU_06 | 化科、化權、化祿其中兩種分在兄弟、父母宮夾命：貴格。 | 長期而言較有機會承擔職位、被看見 | aptitudeResponsibility（適合承擔責任）×2 |
 | `GY_A_KEQUANLU_07` | combination | natal | general、career | verified | 可用 | CIT_GY_A_KEQUANLU_07 | 化權、化祿在命宮三方重逢，但煞星湊合：虛有名聲。 | 名義與實質可能落差較大，宜重實質內容 | aptitudeResources（擅長經營資源）×1 |
@@ -1261,7 +1261,7 @@
 | `CIT_QS_STAR_TANLANG` | 卷二・一命宮・貪狼 | p29（27） | 貪狼水北斗化桃花殺貪狼入廟長聳肥胖陷宮形小聲高而量大性格不常心多計較作事急速不耐靜 | 貪狼屬水，屬北斗，化氣為「桃花」殺星。貪狼入廟，身形高大豐滿；落陷時身形小、聲音大而度量大；性格變化不定，心中多所盤算，做事急快、不耐安靜。 | verified | 第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_QS_STAR_JUMEN` | 卷二・一命宮・巨門 | p30（28） | 巨門水北斗化暗主是非入廟身長肥胖敦厚清秀不入廟五短瘦小作事進退疑惑多學少精與人寡合多是多非 | 巨門屬水，屬北斗，化氣為「暗」，主是非。入廟時身形高大豐滿、敦厚清秀；不入廟時身材矮小瘦削。做事進退猶疑，學得多而不精，與人不易相合，口舌是非較多。 | verified | 第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_QS_STAR_TIANXIANG` | 卷二・一命宮・天相 | p30（28） | 天相水南斗化印為官祿主為人相貌敦厚持重清白好酒食衣祿豐足 | 天相屬水，屬南斗，化氣為「印」，是官祿之主。其人相貌敦厚、持重清白，喜好飲食，衣食豐足。 | verified | 第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_QS_STAR_TIANLIANG` | 卷二・一命宮・天梁 | p31（29） | 天梁屬土南斗化蔭主壽星厚重清秀聰明耿直心無私曲好施濟 | 天梁屬土，屬南斗，化氣為「蔭」，是主壽之星。其人厚重清秀，聰明耿直，心無私曲，樂於施捨救濟。 | pendingVerification | 第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_QS_STAR_TIANLIANG` | 卷二・一命宮・天梁 | p31（29） | 天梁屬土南斗化蔭主壽星厚重清秀聰明耿直心無私曲好施濟 | 天梁屬土，屬南斗，化氣為「蔭」，是主壽之星。其人厚重清秀，聰明耿直，心無私曲，樂於施捨救濟。 | verified | 第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_QS_STAR_QISHA` | 卷二・一命宮・七殺 | p31（29） | 七殺火金南斗將星遇帝為權餘宮皆殺目大性急不常 | 七殺屬火金，屬南斗，是將星；遇紫微（帝星）化為權，在其他情況都以殺星論。其人眼大，性急而變化不定。 | verified | 第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_QS_STAR_POJUN` | 卷二・一命宮・破軍 | p31（29） | 破軍水北斗化耗星主妻子奴僕形五短背厚眉寬腰斜性剛寡合爭強 | 破軍屬水，屬北斗，化氣為「耗星」，主妻子與奴僕（部屬）。身形矮短、背厚眉寬、腰身不正；性格剛強、不易與人相合、好爭強。 | verified | 第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_QS_PALACE_MING` | 卷二・一命宮・命宮 | p26（24） | 一命宮 | 「一命宮」：卷二論十二宮的首篇，其下逐星列出入命（男命、女命）與入限的吉凶訣。 | verified | 第一次單次目視轉錄＋v4 兩輪獨立目視轉錄與差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1381,7 +1381,7 @@
 | `CIT_GY_LIANZHEN_L1` | 卷二・一命宮・廉貞 | p28（26） | 廉貞入限旺宮臨喜逢吉曜福駢臻財物自然多蓄積任人得意位高陞 | 大限廉貞在旺宮又逢吉星：財物蓄積、職位上升。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_LIANZHEN_L2` | 卷二・一命宮・廉貞 | p28（26） | 大小二限遇廉貞更有天刑忌雙侵膿血刑災逃不得破軍貪殺赴幽冥 | 大限廉貞逢天刑、化忌：古籍斷為血光、死亡（只保留原文）。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_TIANFU_N1` | 卷二・一命宮・天府 | p28（26） | 喜紫微昌曲左右祿存魁鉞權祿居廟旺必中高第 | 天府廟旺，喜紫微、昌曲、左右、祿存、魁鉞、化權祿：必中高第。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_TIANFU_N2` | 卷二・一命宮・天府 | p28（26） | 命坐寅午戌亥卯未六己生人權貴 | 天府坐命寅午戌、亥卯未宮，己年生人：權貴。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_TIANFU_N2` | 卷二・一命宮・天府 | p28（26） | 命坐寅午戌亥卯未六己生人權貴 | 天府坐命寅午戌、亥卯未宮，己年生人：權貴。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_TIANFU_N3` | 卷二・一命宮・天府 | p28（26） | 若巳酉丑乙丙戊辛人文武財官格 | 天府坐命巳酉丑宮，乙丙戊辛年生人：文武財官格。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_TIANFU_N4` | 卷二・一命宮・天府 | p28（26） | 加亥卯未辰酉上安命者甲庚人不貴先大後小有始無終 | 天府在亥卯未辰酉安命，甲庚年生人：先大後小、有始無終。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_TIANFU_ZIWU` | 卷二・一命宮・天府 | p29（27） | 子午宮旺與武曲同丁己癸生人為福財官格 | 天府坐命在子、午宮，丁、己、癸年生人：古籍評為「為福財官格」。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1455,7 +1455,7 @@
 | `CIT_GY_JUMEN_L1` | 卷二・一命宮・巨門 | p30（28） | 巨門主限化權星最喜求謀大事成雖有官災并口舌凶為吉兆得安寧 | 大限巨門化權：利於求謀大事；即使有口舌也能轉為安寧。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_JUMEN_L2` | 卷二・一命宮・巨門 | p30（28） | 巨門入限動人愁若遇喪門事不周 | 大限巨門遇喪門：多煩憂（喪門屬歲前諸星，本 App 客觀排盤沒有此星）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_JUMEN_L3` | 卷二・一命宮・巨門 | p30（28） | 巨門限陷最乖張無事官非鬧一場 | 大限巨門落陷：容易無端惹上是非（原文另有哭泣喪事之說，不採用）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_TIANXIANG_N1` | 卷二・一命宮・天相 | p30（28） | 紫府昌曲日月嘉會財官雙美位至三公 | 天相與紫微、天府、文昌、文曲、太陽、太陰相會：財官雙美。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_TIANXIANG_N1` | 卷二・一命宮・天相 | p30（28） | 紫府昌曲日月嘉會財官雙美位至三公 | 天相與紫微、天府、文昌、文曲、太陽、太陰相會：財官雙美。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_TIANXIANG_N2` | 卷二・一命宮・天相 | p30（28） | 與武破羊陀同行則為巧藝 | 天相與武曲、破軍、擎羊、陀羅同行：適合巧藝技術。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_TIANXIANG_N3` | 卷二・一命宮・天相 | p30（28） | 更加火鈴巨機則傷刑不善終 | 天相再加火鈴巨機：古籍斷為傷刑、不善終（只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_TIANXIANG_ZIWU` | 卷二・一命宮・天相 | p30（28） | 子午宮廟地廉貞同丁己癸甲人財官格 | 天相坐命在子、午宮，丁、己、癸、甲年生人：古籍評為「財官格」。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1484,7 +1484,7 @@
 | `CIT_GY_TIANLIANG_CHOUWEI_1` | 卷二・一命宮・天梁 | p31（29） | 丑未宮入廟壬乙生人財官格 | 天梁坐命在丑、未宮，壬、乙年生人：古籍評為「財官格」。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_TIANLIANG_CHOUWEI_2` | 卷二・一命宮・天梁 | p31（29） | 六戊生人大貴 | 天梁坐命在丑、未宮，戊年生人：古籍評為「大貴」。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_TIANLIANG_M1` | 卷二・一命宮・天梁 | p31（29） | 天梁之曜數中強形神穩重性溫良左右曲昌來會合管教富貴列朝綱 | 天梁坐命穩重溫良，左右、昌曲會合：富貴。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_TIANLIANG_M2` | 卷二・一命宮・天梁 | p31（29） | 天梁星宿壽星逢機日文昌左右同子午寅申為入廟官資清顯至三公 | 天梁在子午寅申入廟，與天機、太陽、文昌、左右同會：官資清顯。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_TIANLIANG_M2` | 卷二・一命宮・天梁 | p31（29） | 天梁星宿壽星逢機日文昌左右同子午寅申為入廟官資清顯至三公 | 天梁在子午寅申入廟，與天機、太陽、文昌、左右同會：官資清顯。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_TIANLIANG_M3` | 卷二・一命宮・天梁 | p31（29） | 天梁遇火落閑宮陀殺重逢更是凶 | 天梁落閑宮遇火星、陀羅等煞：更凶（原文另有孤刑帶疾之說，不採用）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_TIANLIANG_M4` | 卷二・一命宮・天梁 | p31（29） | 辰戌機梁非小補 | 天梁、天機在辰戌同宮：助益不小。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_TIANLIANG_M5` | 卷二・一命宮・天梁 | p31（29） | 破軍卯酉不為良女人得此為孤獨剋子刑夫守冷房 | 破軍卯酉之訣（刑剋斷語，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1536,12 +1536,12 @@
 | `CIT_GY_WENCHANG_M2` | 卷二・一命宮・文昌 | p32（30） | 文昌守命亦非常限不夭傷福壽長只怕限沖逢火忌須教夭折帶刑傷 | 文昌守命之訣（夭折斷語，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_WENCHANG_F1` | 卷二・一命宮・文昌 | p32（30） | 女人身命值文昌秀麗清奇福更長紫府對沖三合照管教富貴著霞裳 | 女命文昌之訣（只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_WENCHANG_F2` | 卷二・一命宮・文昌 | p32（30） | 文昌女命遇廉軍陷地擎羊火忌星若不為娼終壽夭偏房猶得主人輕 | 女命文昌之訣（性別道德、壽夭斷語，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_WENCHANG_L1` | 卷二・一命宮・文昌 | p32（30） | 文昌之宿最為清斗數之中第二星若遇太歲與二限士人值此占科名 | 大限（或流年）逢文昌：利考試、功名。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_WENCHANG_L1` | 卷二・一命宮・文昌 | p32（30） | 文昌之宿最為清斗數之中第二星若遇太歲與二限士人值此占科名 | 大限（或流年）逢文昌：利考試、功名。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_WENCHANG_A1` | 卷二・一命宮・文昌 | p32（30） | 若遇太歲與二限士人值此占科名 | 流年命宮逢文昌：利考試、功名。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_WENCHANG_L2` | 卷二・一命宮・文昌 | p32（30） | 限遇文昌不得地更有羊陀火鈴忌官非口舌破家財 | 大限文昌不得地又逢羊陀火鈴或化忌：口舌是非、破財（原文另有刑傷之說，不採用）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_WENQU_N1` | 卷二・一命宮・文曲 | p32（30） | 與文昌逢吉主科第 | 文曲與文昌相逢（有吉星）：利科第。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_WENQU_N2` | 卷二・一命宮・文曲 | p32（30） | 單居身命更逢惡殺湊合無名便佞之人 | 文曲單居逢惡殺：古籍斷為便佞之人（品格斷語，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_WENQU_N3` | 卷二・一命宮・文曲 | p32（30） | 喜六甲生人巳酉丑宮侯伯貴 | 文曲在巳酉丑宮，甲年生人：貴。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_WENQU_N3` | 卷二・一命宮・文曲 | p32（30） | 喜六甲生人巳酉丑宮侯伯貴 | 文曲在巳酉丑宮，甲年生人：貴。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_WENQU_N4` | 卷二・一命宮・文曲 | p32（30） | 與貪狼火星同垣三合者將相之命 | 文曲與貪狼、火星同宮或三合：將相之命。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_WENQU_N5` | 卷二・一命宮・文曲 | p32（30） | 武貞羊破殺狼居陷地則喪命夭折 | 文曲陷地逢武貞羊破殺狼：古籍斷為夭折（只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_WENQU_N6` | 卷二・一命宮・文曲 | p32（30） | 若與同梁武曲會旺宮聰明果決 | 文曲在旺宮與天同、天梁、武曲會合：聰明果決。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1620,7 +1620,7 @@
 | `CIT_GY_DIJIE_L1` | 卷二・一命宮・地劫 | p35（33） | 劫星二限若逢之未免當年無禍危 | 大限逢地劫：難免有波折。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_DIKONG_N1` | 卷二・一命宮・地空 | p35（33） | 天空乃空亡之神性重作事虛空不行正道成敗多端不聚財 | 天空（地空）坐命：成敗多端、不聚財（原文另有品格斷語，不採用）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_DIKONG_M1` | 卷二・一命宮・地空 | p35（33） | 命坐天空定出家文昌天相貴堪誇 | 天空坐命之訣（出家斷語，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_DIKONG_L1` | 卷二・一命宮・地空 | p35（33） | 空亡入限破田庄 | 大限逢天空：破耗田產。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_DIKONG_L1` | 卷二・一命宮・地空 | p35（33） | 空亡入限破田庄 | 大限逢天空：破耗田產。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_JIEKONG_L2` | 卷二・一命宮・劫空 | p35（33） | 極居卯酉劫空臨為僧為道福興隆 | 紫微卯酉逢劫空之訣（出家斷語，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_JIEKONG_L3` | 卷二・一命宮・劫空 | p35（33） | 劫空二限最乖張夫子在陳也絕糧 | 大限地空、地劫同臨：最為不順、易斷糧破財（原文另舉項羽、綠珠之死，不採用）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_SHANGSHI_N1` | 卷二・一命宮・天傷天使 | p35（33） | 天傷水乃虛耗之神守臨二限太歲 | 天傷、天使守限、太歲：主耗損（本 App 客觀排盤沒有天傷、天使）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1900,11 +1900,11 @@
 | `CIT_GY_P_FUQI_FUBI` | 卷三・三妻妾・左輔、右弼在夫妻 | p38（36） | 左輔右弼諧老 | 左輔、右弼在夫妻：偕老。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUQI_KUIYUE` | 卷三・三妻妾・天魁天鉞在夫妻 | p38（36） | 天魁天鉞多主夫婦美麗 | 天魁天鉞在夫妻：夫婦美好。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUQI_DOUJUN` | 卷三・三妻妾・斗君過度夫妻宮（本 App 沒有斗君）。 | p38（36） | 斗君過度在妻宮逢吉星妻妾美無災剋 | 斗君過度夫妻宮（本 App 沒有斗君）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_P_XIONGDI_H1` | 卷三・二兄弟・紫微 | p37（35） | 紫微有倚靠年長之兄天府同三人天相同三四人破軍同亦有三人或各胞生加羊陀火鈴空劫剋害有則欠和 | 二兄弟宮紫微條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_P_XIONGDI_H1` | 卷三・二兄弟・紫微 | p37（35） | 紫微有倚靠年長之兄天府同三人天相同三四人破軍同亦有三人或各胞生加羊陀火鈴空劫剋害有則欠和 | 二兄弟宮紫微條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_P_XIONGDI_H2` | 卷三・二兄弟・天機 | p37（35） | 天機廟旺有二人與巨門同二人陷地相背不一心天梁同二人太陰同二三人見羊陀火鈴雖有而剋害 | 二兄弟宮天機條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_XIONGDI_H3` | 卷三・二兄弟・太陽 | p37（35） | 太陽廟旺三人與巨門同無殺加有三人太陰同五人陷地不和欠力加羊陀火鈴空劫更剋減半 | 二兄弟宮太陽條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_XIONGDI_H4` | 卷三・二兄弟・武曲 | p37（35） | 武曲廟旺有二人不合陷宮加殺只一人天相同二人破軍七殺同有一人不和睦加昌曲左右有三人見羊陀火鈴空劫孤軍 | 二兄弟宮武曲條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_P_XIONGDI_H5` | 卷三・二兄弟・天同 | p37（35） | 天同入廟四五人天梁同二三人巨門同無殺三人太陰同四五人陷地只二人見羊陀火鈴空劫忌少宜分居不和 | 二兄弟宮天同條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_P_XIONGDI_H5` | 卷三・二兄弟・天同 | p37（35） | 天同入廟四五人天梁同二三人巨門同無殺三人太陰同四五人陷地只二人見羊陀火鈴空劫忌少宜分居不和 | 二兄弟宮天同條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_P_XIONGDI_H6` | 卷三・二兄弟・廉貞 | p37（35） | 廉貞入廟二人貪狼同招怨天相同二人七殺同一人天府同加左右昌曲有三人見羊陀火鈴空劫有剋且不和 | 二兄弟宮廉貞條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_XIONGDI_H7` | 卷三・二兄弟・天府 | p37（35） | 天府有五人紫微同加左右昌曲有六七人廉貞同三人見羊陀火鈴空劫只二人 | 二兄弟宮天府條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_XIONGDI_H8` | 卷三・二兄弟・太陰 | p37（35） | 太陰入廟兄弟五人太陽同亦五六人天機同二人科權同四五人見羊陀火鈴空劫減半且剋宜分居相背 | 二兄弟宮太陰條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1912,7 +1912,7 @@
 | `CIT_GY_P_XIONGDI_H10` | 卷三・二兄弟・巨門 | p37（35） | 巨門廟旺二人陷地各胞有宜分居太陽同加左右昌曲有三人天機同有二人更乖違不一心天同二三人加羊陀火鈴空劫孤剋 | 二兄弟宮巨門條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_XIONGDI_H11` | 卷三・二兄弟・天相 | p37（35） | 天相和平有二三人見殺全無紫微同有三四人武曲同二人廉貞同二人見羊陀火鈴空劫孤單 | 二兄弟宮天相條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_XIONGDI_H12` | 卷三・二兄弟・天梁 | p37（35） | 天梁廟旺二人和順或多不同胞且不和陷宮全無天同同三人天機同二人見羊陀火鈴空劫少 | 二兄弟宮天梁條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_P_XIONGDI_H13` | 卷三・二兄弟・七殺 | p37（35） | 七殺主孤剋在子午寅申官方有三人也不和宜各人加昌曲左右更好 | 二兄弟宮七殺條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_P_XIONGDI_H13` | 卷三・二兄弟・七殺 | p37（35） | 七殺主孤剋在子午寅申宮方有三人也不和宜各人加昌曲左右更好 | 二兄弟宮七殺條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_P_XIONGDI_H14` | 卷三・二兄弟・紫微 | p37（35） | 紫微斗數卷三一 | 二兄弟宮紫微條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_XIONGDI_H15` | 卷三・二兄弟・左輔 | p37（35） | 左輔有三人同天同昌曲有四五人加羊陀火鈴二人有空劫欠力不和 | 二兄弟宮左輔條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_XIONGDI_H16` | 卷三・二兄弟・右弼 | p37（35） | 右弼三人同府相紫微昌曲有四五人加羊陀火鈴欠力不和睦 | 二兄弟宮右弼條：兄弟人數與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1942,7 +1942,7 @@
 | `CIT_GY_P_FUQI_H19` | 卷三・三妻妾・天魁 | p38（36） | 天魁天鉞多主夫婦美麗坐妻宮必主得妻財加吉星同主貴美夫婦 | 三妻妾宮天魁條：婚配年齡、刑剋、生離與幾度婚姻之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUQI_H20` | 卷三・三妻妾・斗君 | p38（36） | 斗君過度在妻宮逢吉星妻妾美無災剋逢惡星妻妾有災厄又看人本命妻宮若剋妻者的主其年刑傷妻妾若除剋者斷其年有災 | 斗君（流月）過此宮之吉凶；本 App 客觀排盤沒有斗君。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_ZINV_H1` | 卷三・四子女・天機 | p38（36） | 天機廟旺二人或庶生多巨門同一人天梁同在寅宮有三人在申宮女多男少只可一子太陰同二三人加羊火鈴空劫全無子 | 四子女宮天機條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_P_ZINV_H2` | 卷三・四子女・太陽 | p38（36） | 太陽入廟男三女二晚子貴巨門同三人太陰同五人陷地有三子不成蓋再加羊陀火鈴空劫止留一子送終 | 四子女宮太陽條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_P_ZINV_H2` | 卷三・四子女・太陽 | p38（36） | 太陽入廟男三女二晚子貴巨門同三人太陰同五人陷地有三子不成蓋再加羊陀火鈴空劫止留一子送終 | 四子女宮太陽條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_P_ZINV_H3` | 卷三・四子女・廉貞 | p38（36） | 廉貞一人天府同主貴子三人若貪狼破軍七殺同主孤再加羊陀火鈴空劫全無天相同有二子 | 四子女宮廉貞條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_ZINV_H4` | 卷三・四子女・天府 | p38（36） | 天府五人武曲同二人紫微同四五人廉貞同三人加羊陀火鈴空劫止三人 | 四子女宮天府條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_ZINV_H5` | 卷三・四子女・太陰 | p38（36） | 太陰女三男二先女後男廟旺有貴子陷地減半招軟弱之子或虛花不成器太陽同五人天機同二人天同同五人廟地無剋陷地有剋加羊陀火鈴空劫子少 | 四子女宮太陰條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1961,7 +1961,7 @@
 | `CIT_GY_P_ZINV_H18` | 卷三・四子女・羊陀 | p39（37） | 羊陀陷宮孤單加吉星廟旺有一人如對宮有吉星多無殺沖亦有三四人見耗殺忌在本宮絕嗣 | 四子女宮羊陀條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_ZINV_H19` | 卷三・四子女・火星 | p39（37） | 火星逢吉同不孤陷宮加殺刑傷 | 四子女宮火星條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_ZINV_H20` | 卷三・四子女・鈴星 | p39（37） | 鈴星獨守孤單加吉星入廟可許庶出看對宮吉多二三人 | 四子女宮鈴星條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_P_ZINV_H21` | 卷三・四子女・魁鉞 | p39（37） | 魁鉞單守主有貴子 | 四子女宮魁鉞條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_P_ZINV_H21` | 卷三・四子女・魁鉞 | p39（37） | 魁鉞單守主有貴子 | 四子女宮魁鉞條：子女人數、貴賤與刑剋之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_P_ZINV_H22` | 卷三・四子女・斗君 | p39（37） | 斗君在子女宮過度逢吉子女昌盛逢凶刑剋或子破家 | 斗君（流月）過此宮之吉凶；本 App 客觀排盤沒有斗君。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_JIE_H1` | 卷三・六疾厄・紫微 | p40（38） | 紫微災少天府同亦少天相同皮胎勞如加破軍血氣不和同羊鈴主有暗疾加空劫主孤疾心氣疾 | 六疾厄宮紫微條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_JIE_H2` | 卷三・六疾厄・天機 | p40（38） | 天機襁褓多災陷地頭面破相巨門同血氣疾天梁同下部疾太陰同瘡災加羊火陷宮有目疾四肢無力 | 六疾厄宮天機條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1974,7 +1974,7 @@
 | `CIT_GY_P_JIE_H9` | 卷三・六疾厄・巨門 | p40（38） | 巨門少年濃血之厄太陽同有頭瘋疽天同同下部主有瘋症加羊火酒色之疾加忌有耳目之憂 | 六疾厄宮巨門條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_JIE_H10` | 卷三・六疾厄・天相 | p40（38） | 天相災少面皮黃腫血氣之疾紫微同災少武曲同加四殺破相廉貞同加空劫手足傷 | 六疾厄宮天相條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_JIE_H11` | 卷三・六疾厄・七殺 | p40（38） | 七殺幼年多災長主痔疾武曲同加四殺手足傷殘廉貞同主目疾加擎羊四肢有傷殘 | 六疾厄宮七殺條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_P_JIE_H12` | 卷三・六疾厄・文昌 | p40（38） | 文昌獨守災少加羊陀火鈴空劫災多同諸吉星一生無災 | 六疾厄宮文昌條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_P_JIE_H12` | 卷三・六疾厄・文昌 | p40（38） | 文昌獨守災少加羊陀火鈴空劫災多同諸吉星一生無災 | 六疾厄宮文昌條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_P_JIE_H13` | 卷三・六疾厄・文曲 | p40（38） | 文曲災少加吉星一世無災加羊陀火鈴空劫坐陷宮災有 | 六疾厄宮文曲條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_JIE_H14` | 卷三・六疾厄・左輔 | p40（38） | 左輔獨守平和加吉星災少見羊陀火鈴空劫常有災 | 六疾厄宮左輔條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_JIE_H15` | 卷三・六疾厄・右弼 | p40（38） | 右弼獨守逢災有救見羊陀火鈴空劫災多 | 六疾厄宮右弼條：疾病與傷殘（不作醫療判斷）之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -1986,7 +1986,7 @@
 | `CIT_GY_P_FUMU_H1` | 卷三・十二父母・太陽 | p44（42） | 太陽入廟無剋陷地剋父加羊陀火鈴空劫剋父母早太陰同看無羊陀湊父母全遲刑巨門同加四殺空劫剋早喪梁同無刑 | 十二父母宮太陽條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUMU_H2` | 卷三・十二父母・武曲 | p44（42） | 武曲剋早退祖業不刑貪狼同刑剋七殺同有刑天相同加羊陀火鈴空劫刑傷 | 十二父母宮武曲條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUMU_H3` | 卷三・十二父母・天同 | p44（42） | 天同獨守廟旺無刑加四殺重拜父母巨門同欠和太陰同父母雙全天梁同無刑或退祖業加羊陀火鈴空劫父母不全 | 十二父母宮天同條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_P_FUMU_H4` | 卷三・十二父母・廉貞 | p44（42） | 廉貞難為父母棄祖重拜貪狼同早刑七殺孤剋天府同免刑破軍同早刑加羊陀火鈴空父母不周全 | 十二父母宮廉貞條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_P_FUMU_H4` | 卷三・十二父母・廉貞 | p44（42） | 廉貞難為父母棄祖重拜貪狼同早刑七殺孤剋天府同免刑破軍同早刑加羊陀火鈴空父母不周全 | 十二父母宮廉貞條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_P_FUMU_H5` | 卷三・十二父母・天府 | p44（42） | 天府父母雙全紫微同亦無刑廉貞武曲同在廟旺無刑加羊陀火鈴空劫主傷 | 十二父母宮天府條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUMU_H6` | 卷三・十二父母・太陰 | p44（42） | 太陰入廟無剋加羊陀火鈴剋母不然過房棄祖太陽同無四殺父母雙全天機同無刑天同同極美 | 十二父母宮太陰條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUMU_H7` | 卷三・十二父母・貪狼 | p44（42） | 貪狼陷地早棄祖重拜過房入贅廉貞同早刑主孤單紫微同無殺加雙全 | 十二父母宮貪狼條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -2001,7 +2001,7 @@
 | `CIT_GY_P_FUMU_H16` | 卷三・十二父母・右弼 | p45（43） | 右弼獨守無刑加吉星得父母庇蔭見羊陀火鈴湊離祖二姓安居 | 十二父母宮右弼條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUMU_H17` | 卷三・十二父母・祿存 | p45（43） | 祿存無剋加空劫羊陀火鈴早年有所依附且刑傷中不自成家計 | 十二父母宮祿存條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUMU_H18` | 卷三・十二父母・擎羊 | p45（43） | 擎羊刑剋早會日月重重退祖加吉星減免刑 | 十二父母宮擎羊條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_P_FUMU_H19` | 卷三・十二父母・陀羅 | p45（43） | 陀羅幼年刑傷會日月重重退祖二姓安居加吉星入贅過房或重拜二姓延生 | 十二父母宮陀羅條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_P_FUMU_H19` | 卷三・十二父母・陀羅 | p45（43） | 陀羅幼年刑傷會日月重重退祖二姓安居加吉星入贅過房或重拜二姓延生 | 十二父母宮陀羅條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_P_FUMU_H20` | 卷三・十二父母・火星 | p45（43） | 火星獨守孤剋二姓延生加吉星平和 | 十二父母宮火星條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUMU_H21` | 卷三・十二父母・鈴星 | p45（43） | 鈴星刑剋孤單二姓安居重拜父母入贅過房 | 十二父母宮鈴星條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_P_FUMU_H22` | 卷三・十二父母・魁鉞 | p45（43） | 魁鉞主父母榮貴同吉星雙全 | 十二父母宮魁鉞條：父母刑剋、過房、入贅之古代斷語，只保留原文，不作判讀。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -2213,8 +2213,8 @@
 | `CIT_GY_A_ZIWEI_21` | 卷三・論諸星同位垣・紫微 | p50（48） | 紫微七殺加空亡虛名受蔭 | 紫微七殺加空亡：虛名受蔭。空亡不在客觀排盤中。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_ZIWEI_22` | 卷三・論諸星同位垣・紫微 | p50（48） | 紫破命臨于辰戌丑未再加吉曜富貴堪期 | 紫微（與破軍同宮或對照）坐命在辰戌丑未，又加吉星：富貴可期。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_ZIWEI_23` | 卷三・論諸星同位垣・紫微 | p50（48） | 紫破辰戌君臣不義 | 紫破在辰戌：古籍斷為君臣不義（品格斷語，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_ZIWEI_24` | 卷三・論諸星同位垣・紫微 | p50（48） | 女命紫微太陽星早遇賢夫信可憑 | 女命紫微、太陽之訣（女命訣，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_ZIWEI_25` | 卷三・論諸星同位垣・紫微 | p50（48） | 女命紫微在寅午申宮吉貴美旺夫益子 | 女命紫微在寅午申之訣（女命訣，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_A_ZIWEI_24` | 卷三・論諸星同位垣・紫微 | p50（48） | 女命紫微太陽星早遇賢夫信可憑 | 女命紫微、太陽之訣（女命訣，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
+| `CIT_GY_A_ZIWEI_25` | 卷三・論諸星同位垣・紫微 | p50（48） | 女命紫微在寅午申宮吉貴美旺夫益子 | 女命紫微在寅午申之訣（女命訣，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_A_TIANFU_01` | 卷三・論諸星同位垣・天府 | p50（48） | 天府戌宮無殺湊甲巳人腰金又且富 | 天府在戌宮坐命，無煞星湊合，甲、己年生人：富且貴（原文「巳」讀為天干「己」；小注：加四煞有疵）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_TIANFU_02` | 卷三・論諸星同位垣・天府 | p50（48） | 天府天相天梁同君臣慶會 | 天府、天相、天梁同會命宮：君臣慶會。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_TIANFU_03` | 卷三・論諸星同位垣・天府 | p50（48） | 天府居午戌天相來朝甲人一品之貴 | 天府在午戌坐命、天相來朝，甲年生人：貴顯。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -2248,7 +2248,7 @@
 | `CIT_GY_A_TIANJI_05` | 卷三・論諸星同位垣・天機 | p51（49） | 機月同梁作吏人命在寅申方論 | 命在寅申，天機、太陰、天同、天梁在三方：宜作吏職。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_TIANJI_06` | 卷三・論諸星同位垣・天機 | p51（49） | 機梁貪月同機會暮夜經商無眠睡 | 天機、天梁、貪狼、太陰會命：經商奔波、日夜勞碌。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_TIANJI_07` | 卷三・論諸星同位垣・天機 | p51（49） | 天機加惡殺同宮狗偷鼠竊 | 天機加惡煞：古籍斷為盜竊（品格斷語，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_TIANJI_08` | 卷三・論諸星同位垣・天機 | p51（49） | 天機巳宮酉逢好飲離宗奸狡重 | 天機巳酉之訣（品格斷語，只保留原文）。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_A_TIANJI_08` | 卷三・論諸星同位垣・天機 | p51（49） | 天機巳宮酉逢好飲離宗奸狡重 | 天機巳酉之訣（品格斷語，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_A_TIANJI_09` | 卷三・論諸星同位垣・天機 | p51（49） | 巨陷天機為破格 | 巨門落陷又會天機：破格。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_TAIYANG_01` | 卷三・論諸星同位垣・太陽 | p51（49） | 日照雷門丞辰卯地晝生富貴聲揚 | 太陽在卯辰宮坐命，白天出生（本 App 取卯至申時）：富貴聲揚。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_TAIYANG_02` | 卷三・論諸星同位垣・太陽 | p51（49） | 太陽居午庚辛丁巳人富貴雙全 | 太陽在午宮坐命，庚、辛、丁、己年生人：富貴雙全（原文「巳」讀為天干「己」）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -2268,7 +2268,7 @@
 | `CIT_GY_A_RIYUE_03` | 卷三・論諸星同位垣・日月 | p51（49） | 日月同未命安丑侯伯之材 | 太陽、太陰同在未宮，命在丑（對照）：侯伯之材。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_RIYUE_04` | 卷三・論諸星同位垣・日月 | p51（49） | 日月命身居遇未三方無吉反為凶 | 日月在丑未守命，三方無吉星：反為不吉。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_RIYUE_05` | 卷三・論諸星同位垣・日月 | p51（49） | 日月守命不如照合並明 | 日月守命不如日月照合（小注：吉多主吉、凶多主凶）。這是比較原則，沒有獨立的結果詞。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_RIYUE_06` | 卷三・論諸星同位垣・日月 | p51（49） | 日辰月戌並爭耀權祿非淺 | 太陽在辰、太陰在戌（命在辰或戌）：權祿不淺。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_A_RIYUE_06` | 卷三・論諸星同位垣・日月 | p51（49） | 日辰月戌並爭耀權祿非淺 | 太陽在辰、太陰在戌（命在辰或戌）：權祿不淺。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_A_RIYUE_07` | 卷三・論諸星同位垣・日月 | p51（49） | 日月夾命夾財加吉曜不權則富 | 太陽、太陰夾命宮或夾財帛宮，又加吉星：不貴則富（小注：加羊陀沖守宜僧，不採用）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_RIYUE_08` | 卷三・論諸星同位垣・日月 | p51（49） | 日月最嫌反背 | 日月最怕反背（太陽或太陰落陷守命）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_RIYUE_09` | 卷三・論諸星同位垣・日月 | p51（49） | 陰陽左右合為佳 | 太陽或太陰坐命，會左輔、右弼：為佳。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -2328,10 +2328,10 @@
 | `CIT_GY_A_TANLANG_18` | 卷三・論諸星同位垣・貪狼 | p52（50） | 女命貪狼多嫉妒 | 女命貪狼之訣（女命訣，只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_LIANZHEN_01` | 卷三・論諸星同位垣・廉貞 | p52（50） | 貞卯酉宮加殺公人藝人 | 廉貞在卯酉宮坐命加煞：公門或技藝之人（本段多疑字）。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_LIANZHEN_02` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞暗巨曹吏貪婪 | 廉貞暗巨：古籍斷為吏而貪婪（品格斷語，只保留原文）。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_LIANZHEN_03` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞貪殺破軍逢武曲遷移作其戎 | 廉貞坐命，會貪狼、七殺、破軍，武曲在遷移（結果詞有疑字，待確認）。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_A_LIANZHEN_03` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞貪殺破軍逢武曲遷移作具戎 | 廉貞坐命，會貪狼、七殺、破軍，武曲在遷移（結果詞「作具戎」語意待確認）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_A_LIANZHEN_04` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞七殺居廟旺反為積富之人 | 廉貞、七殺同坐命宮而居廟旺：反為積富之人。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_LIANZHEN_05` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞破火居陷地自縊投河 | 廉貞破軍火星居陷：古籍死亡斷語（只保留原文）。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_LIANZHEN_06` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞七殺居巳亥流蕩天涯 | 廉貞或七殺在巳亥坐命、兩星會照：流蕩在外。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_A_LIANZHEN_05` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞破火居陷地自縊投河 | 廉貞破軍火星居陷：古籍死亡斷語（只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
+| `CIT_GY_A_LIANZHEN_06` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞七殺居巳亥流蕩天涯 | 廉貞或七殺在巳亥坐命、兩星會照：流蕩在外。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_A_LIANZHEN_07` | 卷三・論諸星同位垣・廉貞 | p52（50） | 仲由威猛廉貞入廟會將軍 | 廉貞入廟會將軍：威猛。「將軍」屬博士十二神，客觀排盤沒有。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_LIANZHEN_08` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞四殺遭刑戮 | 廉貞四煞：刑戮斷語（只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_LIANZHEN_09` | 卷三・論諸星同位垣・廉貞 | p52（50） | 廉貞白虎刑杖難逃 | 廉貞白虎：刑杖斷語（只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -2374,11 +2374,11 @@
 | `CIT_GY_A_POJUN_02` | 卷三・論諸星同位垣・破軍 | p53（51） | 破軍貪狼逢祿馬男多浪湯女多淫 | 破軍貪狼逢祿馬（品格、性別道德斷語，只保留原文）。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_POJUN_03` | 卷三・論諸星同位垣・破軍 | p53（51） | 破軍暗巨同鄉水中作塚 | 破軍巨門：死亡斷語（只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_POJUN_04` | 卷三・論諸星同位垣・破軍 | p53（51） | 破軍火鈴奔波勞碌 | 破軍坐命會火星、鈴星：奔波勞碌。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_POJUN_05` | 卷三・論諸星同位垣・破軍 | p53（51） | 破軍一曜性難明 | 破軍一曜性難明（小注：男女命論）。沒有盤面條件。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_A_POJUN_05` | 卷三・論諸星同位垣・破軍 | p53（51） | 破軍一曜性難明 | 破軍一曜性難明（小注：男女命論）。沒有盤面條件。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_A_POJUN_06` | 卷三・論諸星同位垣・破軍 | p53（51） | 破耗羊鈴官祿位到處乞求 | 破軍羊鈴在官祿：貧賤斷語（只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_QINGYANG_01` | 卷三・論諸星同位垣・擎羊 | p53（51） | 擎羊入廟富貴聲揚加吉方論 | 擎羊入廟坐命，又加吉星：富貴聲揚。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_A_QINGYANG_01` | 卷三・論諸星同位垣・擎羊 | p53（51） | 擎羊入廟富貴聲揚加吉方論 | 擎羊入廟坐命，又加吉星：富貴聲揚。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_A_QINGYANG_02` | 卷三・論諸星同位垣・擎羊 | p53（51） | 羊火同宮威權壓眾 | 擎羊、火星同坐命宮：威權壓眾（小注：辰戌佳、丑未次之）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_QINGYANG_03` | 卷三・論諸星同位垣・擎羊 | p53（51） | 守身命腰駝背曲之人 | （火星）守身命：傷殘斷語（只保留原文）。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_A_QINGYANG_03` | 卷三・論諸星同位垣・擎羊 | p53（51） | 守身命腰駝背曲之人 | （火星）守身命：傷殘斷語（只保留原文）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_A_QINGYANG_04` | 卷三・論諸星同位垣・擎羊 | p53（51） | 擎羊子午卯酉非夭折而刑傷 | 擎羊子午卯酉：夭折刑傷斷語（只保留原文）。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_QINGYANG_05` | 卷三・論諸星同位垣・擎羊 | p53（51） | 擎羊逢力士李廣難封 | 擎羊逢力士：難得封賞。「力士」屬博士十二神，客觀排盤沒有。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_QINGYANG_06` | 卷三・論諸星同位垣・擎羊 | p53（51） | 羊陀火鈴逢吉發財 | 擎羊、陀羅、火星或鈴星坐命，逢吉星：發財（逢凶則忌）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -2422,7 +2422,7 @@
 | `CIT_GY_A_KEQUANLU_01` | 卷三・論諸星同位垣・科權祿 | p54（52） | 科權祿合富貴雙全 | 化科、化權、化祿在命宮三方會合：富貴雙全。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_KEQUANLU_02` | 卷三・論諸星同位垣・科權祿 | p54（52） | 祿權命逢兼合吉威權壓眾相王朝 | 化祿、化權在命宮又會吉星：威權壓眾。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_KEQUANLU_03` | 卷三・論諸星同位垣・科權祿 | p54（52） | 權祿重逢財官雙美 | 化權、化祿在命宮三方重逢（無煞）：財官雙美（小注：凶聚也不美）。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
-| `CIT_GY_A_KEQUANLU_04` | 卷三・論諸星同位垣・科權祿 | p54（52） | 科命權朝登庸甲第 | 化科在命、化權在三方朝命：登科。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
+| `CIT_GY_A_KEQUANLU_04` | 卷三・論諸星同位垣・科權祿 | p54（52） | 科命權朝登庸甲第 | 化科在命、化權在三方朝命：登科。 | verified | 兩輪獨立目視轉錄＋差異回影像決議＋第二來源佐證（AI，非人工校勘） 2026-10-04 |
 | `CIT_GY_A_KEQUANLU_05` | 卷三・論諸星同位垣・科權祿 | p54（52） | 活祿子午位遷移夫子文章冠世 | 命在子午，化祿在遷移（對宮）：文章冠世。 | pendingVerification | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_KEQUANLU_06` | 卷三・論諸星同位垣・科權祿 | p54（52） | 科權祿夾為貴格 | 化科、化權、化祿其中兩種分在兄弟、父母宮夾命：貴格。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
 | `CIT_GY_A_KEQUANLU_07` | 卷三・論諸星同位垣・科權祿 | p54（52） | 權祿重逢殺湊虛譽之隆 | 化權、化祿在命宮三方重逢，但煞星湊合：虛有名聲。 | verified | 兩輪獨立目視轉錄＋差異回影像決議（AI，非人工校勘） 2026-09-27 |
@@ -2669,7 +2669,7 @@
 | GY-P29-TANLANG | p29 | identical | 兩次轉錄逐字相同。 |
 | GY-P30-JUMEN | p30 | identical | 兩次轉錄逐字相同。 |
 | GY-P30-TIANXIANG | p30 | identical | 兩次轉錄逐字相同。 |
-| GY-P31-TIANLIANG | p31 | differs | 逐字位置相同，但頁面該處仍有疑字：不啟用。 |
+| GY-P31-TIANLIANG | p31 | identical | 兩次轉錄逐字相同。 |
 | GY-P31-QISHA | p31 | identical | 兩次轉錄逐字相同。 |
 | GY-P31-POJUN | p31 | identical | 兩次轉錄逐字相同。 |
 | GY-P26-MING-HEAD | p26 | identical | 頁面欄組未收此章首；與來源包 v4 structureMarker GY-P26-STRUCT-LIFE-PALACE（另一次獨立目視複核）逐字相同。 |
@@ -2712,11 +2712,11 @@ PDF SHA-256 6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6。�
 - 十二宮：noDirectParallel（集文版 PDF p19–25）
 - 論人命入格／論格星數高下／論大限十年禍福何如／論行限分南北斗／論流年太歲逢吉凶星殺：notFound
 
-## 待處理（417 項，依原因分類）
+## 待處理（408 項，依原因分類）
 
 - 宿命或不宜直接顯示的古代斷語（只保留原文）：275
 - 古文沒有足夠成立條件：41
-- 疑字（兩輪核讀＋回影像決議仍無法確定）：31
+- 疑字（兩輪核讀＋回影像決議仍無法確定）：22
 - 需要客觀排盤沒有的資料（小限、斗君、空亡等；不擅自新增排盤）：64
 - 排盤起例等非判讀內容：3
 - 只有 OCR（只能搜尋）：2
@@ -2746,7 +2746,6 @@ PDF SHA-256 6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6。�
 | `GY_LIANZHEN_F2` | historicalOnly | 一命宮・廉貞 | 28 | 女命廉貞之訣（貧賤、刑剋與性別道德斷語，只保留原文）。 |
 | `GY_LIANZHEN_L2` | historicalOnly | 一命宮・廉貞 | 28 | 大限廉貞逢天刑、化忌：古籍斷為血光、死亡（只保留原文）。 |
 | `GY_TIANFU_N1` | unclearGlyph | 一命宮・天府 | 28 | 疑字：〔疑字：喜〕 |
-| `GY_TIANFU_N2` | unclearGlyph | 一命宮・天府 | 28 | 疑字：〔疑字：己〕 |
 | `GY_TIANFU_F1` | historicalOnly | 一命宮・天府 | 29 | 女命天府之訣（只保留原文）。 |
 | `GY_TIANFU_F2` | historicalOnly | 一命宮・天府 | 29 | 女命天府之訣（只保留原文）。 |
 | `GY_TAIYIN_M2` | historicalOnly | 一命宮・太陰 | 29 | 寅宮機昌曲月之訣（貧賤與性別斷語，只保留原文）。 |
@@ -2760,13 +2759,11 @@ PDF SHA-256 6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6。�
 | `GY_JUMEN_F1` | historicalOnly | 一命宮・巨門 | 30 | 女命巨門之訣（只保留原文）。 |
 | `GY_JUMEN_F2` | historicalOnly | 一命宮・巨門 | 30 | 女命巨門之訣（性別道德、壽夭斷語，只保留原文）。 |
 | `GY_JUMEN_L2` | requiresChartExtension | 一命宮・巨門 | 30 | 大限巨門遇喪門：多煩憂（喪門屬歲前諸星，本 App 客觀排盤沒有此星）。 |
-| `GY_TIANXIANG_N1` | unclearGlyph | 一命宮・天相 | 30 | 疑字：〔疑字：雙〕 |
 | `GY_TIANXIANG_N3` | historicalOnly | 一命宮・天相 | 30 | 天相再加火鈴巨機：古籍斷為傷刑、不善終（只保留原文）。 |
 | `GY_TIANXIANG_F1` | historicalOnly | 一命宮・天相 | 30 | 女命天相之訣（只保留原文）。 |
 | `GY_TIANXIANG_F2` | historicalOnly | 一命宮・天相 | 30 | 女命天相之訣（刑剋與性別斷語，只保留原文）。 |
 | `GY_TIANXIANG_L3` | historicalOnly | 一命宮・天相 | 31 | 大限天相遇擎羊諸煞：古籍斷為死亡（只保留原文）。 |
 | `GY_TIANLIANG_N3` | historicalOnly | 一命宮・天梁 | 31 | 天梁陷地遇火羊：古籍斷為下賤孤寒夭折（只保留原文）。 |
-| `GY_TIANLIANG_M2` | unclearGlyph | 一命宮・天梁 | 31 | 疑字：〔疑字：資〕 |
 | `GY_TIANLIANG_M5` | historicalOnly | 一命宮・天梁 | 31 | 破軍卯酉之訣（刑剋斷語，只保留原文）。 |
 | `GY_QISHA_M3` | historicalOnly | 一命宮・七殺 | 31 | 七殺陷地之訣（死亡斷語，只保留原文）。 |
 | `GY_QISHA_M4` | historicalOnly | 一命宮・七殺 | 31 | 七殺閑宮之訣（傷殘斷語，只保留原文）。 |
@@ -2779,9 +2776,7 @@ PDF SHA-256 6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6。�
 | `GY_WENCHANG_M2` | historicalOnly | 一命宮・文昌 | 32 | 文昌守命之訣（夭折斷語，只保留原文）。 |
 | `GY_WENCHANG_F1` | historicalOnly | 一命宮・文昌 | 32 | 女命文昌之訣（只保留原文）。 |
 | `GY_WENCHANG_F2` | historicalOnly | 一命宮・文昌 | 32 | 女命文昌之訣（性別道德、壽夭斷語，只保留原文）。 |
-| `GY_WENCHANG_L1` | unclearGlyph | 一命宮・文昌 | 32 | 疑字：〔疑字：二〕 |
 | `GY_WENQU_N2` | historicalOnly | 一命宮・文曲 | 32 | 文曲單居逢惡殺：古籍斷為便佞之人（品格斷語，只保留原文）。 |
-| `GY_WENQU_N3` | unclearGlyph | 一命宮・文曲 | 32 | 疑字：〔疑字：侯〕 |
 | `GY_WENQU_N5` | historicalOnly | 一命宮・文曲 | 32 | 文曲陷地逢武貞羊破殺狼：古籍斷為夭折（只保留原文）。 |
 | `GY_WENQU_F1` | historicalOnly | 一命宮・文曲 | 32 | 女命文曲之訣（性別道德斷語，只保留原文）。 |
 | `GY_ZUOFU_M2` | historicalOnly | 一命宮・左輔 | 33 | 左輔逢煞之訣（傷殘壽夭斷語，只保留原文）。 |
@@ -3071,9 +3066,7 @@ PDF SHA-256 6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6。�
 | `GY_A_TANLANG_18` | historicalOnly | 論諸星同位垣・貪狼 | 52 | 女命貪狼之訣（女命訣，只保留原文）。 |
 | `GY_A_LIANZHEN_01` | unclearGlyph | 論諸星同位垣・廉貞 | 52 | 疑字：〔疑字：貞〕〔疑字：卯〕〔疑字：酉〕〔疑字：宮〕〔疑字：加〕〔疑字：殺〕〔疑字：公〕〔疑字：人〕〔疑字：藝〕〔疑字：人〕 |
 | `GY_A_LIANZHEN_02` | historicalOnly | 論諸星同位垣・廉貞 | 52 | 廉貞暗巨：古籍斷為吏而貪婪（品格斷語，只保留原文）。 |
-| `GY_A_LIANZHEN_03` | unclearGlyph | 論諸星同位垣・廉貞 | 52 | 疑字：〔疑字：其〕 |
 | `GY_A_LIANZHEN_05` | historicalOnly | 論諸星同位垣・廉貞 | 52 | 廉貞破軍火星居陷：古籍死亡斷語（只保留原文）。 |
-| `GY_A_LIANZHEN_06` | unclearGlyph | 論諸星同位垣・廉貞 | 52 | 疑字：〔疑字：蕩〕 |
 | `GY_A_LIANZHEN_07` | requiresChartExtension | 論諸星同位垣・廉貞 | 52 | 廉貞入廟會將軍：威猛。「將軍」屬博士十二神，客觀排盤沒有。 |
 | `GY_A_LIANZHEN_08` | historicalOnly | 論諸星同位垣・廉貞 | 52 | 廉貞四煞：刑戮斷語（只保留原文）。 |
 | `GY_A_LIANZHEN_09` | historicalOnly | 論諸星同位垣・廉貞 | 52 | 廉貞白虎：刑杖斷語（只保留原文）。 |
@@ -3103,7 +3096,7 @@ PDF SHA-256 6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6。�
 | `GY_A_POJUN_03` | historicalOnly | 論諸星同位垣・破軍 | 53 | 破軍巨門：死亡斷語（只保留原文）。 |
 | `GY_A_POJUN_05` | insufficientConditions | 論諸星同位垣・破軍 | 53 | 破軍一曜性難明（小注：男女命論）。沒有盤面條件。 |
 | `GY_A_POJUN_06` | historicalOnly | 論諸星同位垣・破軍 | 53 | 破軍羊鈴在官祿：貧賤斷語（只保留原文）。 |
-| `GY_A_QINGYANG_01` | unclearGlyph | 論諸星同位垣・擎羊 | 53 | 疑字：〔疑字：擎〕〔疑字：聲〕 |
+| `GY_A_QINGYANG_01` | unclearGlyph | 論諸星同位垣・擎羊 | 53 | 疑字：〔疑字：擎〕 |
 | `GY_A_QINGYANG_03` | historicalOnly | 論諸星同位垣・擎羊 | 53 | （火星）守身命：傷殘斷語（只保留原文）。 |
 | `GY_A_QINGYANG_04` | historicalOnly | 論諸星同位垣・擎羊 | 53 | 擎羊子午卯酉：夭折刑傷斷語（只保留原文）。 |
 | `GY_A_QINGYANG_05` | requiresChartExtension | 論諸星同位垣・擎羊 | 53 | 擎羊逢力士：難得封賞。「力士」屬博士十二神，客觀排盤沒有。 |
@@ -3120,7 +3113,6 @@ PDF SHA-256 6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6。�
 | `GY_A_LUCUN_01` | notInterpretive | 論諸星同位垣・祿存 | 54 | 祿存在各宮皆入廟（文字疑有脫訛，屬廟旺說明，不作判讀，也不寫入廟旺表）。 |
 | `GY_A_LUCUN_04` | requiresChartExtension | 論諸星同位垣・祿存 | 54 | 明祿暗祿：位至公卿。「暗祿」指六合宮之祿，目前的條件格式沒有六合關係。 |
 | `GY_A_TIANMA_03` | requiresChartExtension | 論諸星同位垣・天馬 | 54 | 天馬遇空亡：終身奔走。空亡不在客觀排盤中。 |
-| `GY_A_KEQUANLU_04` | unclearGlyph | 論諸星同位垣・科權祿 | 54 | 疑字：〔疑字：庸〕 |
 | `GY_A_KEQUANLU_05` | unclearGlyph | 論諸星同位垣・科權祿 | 54 | 疑字：〔疑字：子〕 |
 | `GY_A_KEQUANLU_09` | insufficientConditions | 論諸星同位垣・科權祿 | 54 | 祿主纏於弱地：命不主財。祿存沒有廟陷表、化祿星的「弱地」原文未定義，無法落成盤面條件。 |
 | `GY_A_JIEKONG_02` | historicalOnly | 論諸星同位垣・劫空 | 54 | 劫空臨限：喪亡斷語（只保留原文）。 |
@@ -3137,7 +3129,6 @@ PDF SHA-256 6b4c5e00b2b7aa840767a8df19ebc51321acd0bcc38b6f142addca884631c4f6。�
 | `GY_A_NAYIN_02` | requiresChartExtension | 論諸星同位垣・納音 | 54 | 生逢敗地：發也虛花。需要納音五行長生十二位。 |
 | `GY_A_NAYIN_03` | requiresChartExtension | 論諸星同位垣・納音 | 55 | 絕處逢生：花而不敗。需要納音五行長生十二位。 |
 | `GY_A_CAIZHAI_01` | unclearGlyph | 論諸星同位垣・財宅 | 55 | 疑字：〔疑字：賊〕 |
-| `GY-P31-TIANLIANG` | unclearGlyph | 舊版單次轉錄段落複核 | 31 | 逐字位置相同，但頁面該處仍有疑字：不啟用。 |
 | `PEND_GY_STAR_TABLE_48_55` | ocrOnly | 星曜／運限條件表（PDF p48–55） | 48 | 只以機器 OCR 定位，未逐字核對。 |
 | `PEND_JW_WENDA` | secondaryLowResolution | 集文版・十四主星問答（PDF p105–113） | 105 | 與《全書》卷一〈諸星問答論〉平行；集文版掃描原生解析度約 150 dpi、二值化，多數字無法逐字確認，只記大意，不建立異文。 |
 | `PEND_GY_OCR_P17_55` | ocrOnly | 來源包機器 OCR（p17–p55，SHA-256 7d90f2f3…226a） | 17 | 低信度導航稿：禁止作 originalText、禁止 exact citation、禁止評分。 |
