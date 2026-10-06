@@ -75,8 +75,8 @@ function computeHours(n: NatalSet, c: Collected): HourSlot[] {
     const value = Math.round((byDomain.overall + SCORED_DOMAINS.reduce((s, d) => s + (OVERALL_MIX[d] ?? 0) * byDomain[d], 0)) * 100) / 100;
     const reasons: string[] = [];
     if (c.qimen && n.qimen) {
-      const y = evalYongshen(c.qimen.charts[i], n.qimen.nianMing, "overall").self;
-      reasons.push(`奇門：年命${n.qimen.nianMing}落${y.dir}宮（${y.door}、${y.star}、${y.god}${y.kong ? "、空亡" : ""}）`);
+      const y = evalYongshen(c.qimen.charts[i], n.qimen.nianMing, "overall", n.qimen.selfStem).self;
+      reasons.push(`奇門：${n.qimen.selfStem === "day" ? "日干" : "年命"}落${y.dir}宮（${y.door}、${y.star}、${y.god}${y.kong ? "、空亡" : ""}）`);
     }
     for (const e of uniqBy([...ev].sort((a, b) => Math.abs(b.contribution) - Math.abs(a.contribution)), e => e.ruleId).slice(0, 2)) reasons.push(`八字：${e.text.conclusion}`);
     return { index: i, branch: br, range: SHI_RANGE[i], label: hourLabel(i), value, level: value >= HOUR_GOOD ? "good" : value <= HOUR_BAD ? "bad" : "neutral", byDomain, reasons };

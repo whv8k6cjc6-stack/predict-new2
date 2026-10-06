@@ -308,6 +308,12 @@ function SettingsEditor({ s, onSaved }: { s: CalculationSettings; onSaved: () =>
           </select>
         </Field>
 
+        <Field label="奇門：代表自己的天干" hint="年命是傳統命理的看法；擇時常以當天的日干代表求測的人。只影響奇門的時段與事件判斷，不改排盤">
+          <select className="input" value={x.qimen.selfStem ?? "year"} onChange={e => setX({ ...x, qimen: { ...x.qimen, selfStem: e.target.value as "year" | "day" } })}>
+            <option value="year">出生年干（年命，預設）</option><option value="day">當天日干（擇時常用）</option>
+          </select>
+        </Field>
+
         <div className="space-y-2">
           <Field label="紫微斗數排盤體系">
             <select className="input" value={x.ziwei.ruleProfileId} onChange={e => { setX({ ...x, ziwei: { ruleProfileId: e.target.value } }); setChoice(null); }}>

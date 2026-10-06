@@ -108,6 +108,8 @@ export const LIFE_FACTOR_MAPPING: Record<string, FactorMappingEntry> = {
   "qimen.event.fanyin": M(["planDisruptionRisk", "changeRisk"], ["容易反覆、變卦", "預留變更的空間"], "「反覆、變卦」＝計畫易被打亂、變動"),
   "qimen.event.jixing": M(["communicationConflictRisk", "setbackRisk"], ["容易起衝突或受挫"], "「起衝突」＝衝突；「受挫」＝挫折"),
   "qimen.event.rumu": M(["executionResistance"], "事情容易卡住、施展不開", "明寫卡住、施展不開＝推進有阻力"),
+  "qimen.event.sandun": M(["favorableTiming", "supportAvailable"], "時機與助力都比較好", "「時機好」＝有較佳時段；「助力好」＝有人可協助"),
+  "qimen.event.jielu": M(["timingSensitive"], "建議改時間", "明寫出發改時間＝時段影響大", { excluded: "只說此時辰忌出行，未說明行程本身的成敗" }),
   // ── 梅花：體用 ──
   "iching.tiyong.用生體": M(["supportAvailable"], "事情容易得到助力", "明寫得到助力"),
   "iching.tiyong.比和": M(["cooperationSupport", "communicationSupport"], "合作與溝通順暢", "明寫合作與溝通順暢"),

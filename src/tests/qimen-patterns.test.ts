@@ -1,6 +1,10 @@
 /** 奇門格局：五不遇時、伏吟反吟、六儀擊刑、三奇入墓、門制、日空亡；事件模式真太陽時。 */
 import { describe, it, expect } from "vitest";
-import { chartPatterns, computeQimenChart, evalPalace, isWuBuYu, JIXING, QI_MU, scanDay } from "@/core/qimen";
+import { chartPatterns, computeQimenChart, evalPalace, isWuBuYu, JIXING, PALACE_GUA, QI_MU, scanDay, selfStemOf, type QimenChart } from "@/core/qimen";
+// @ts-expect-error 對照組為 ESM 無型別
+import * as Q from "qimen-dunjia";
+import { getSourceText } from "@/kb/sources";
+import { KE_YING } from "@/kb/qimen/classics";
 import { STEMS } from "@/core/calendar/ganzhi";
 import { QIMEN_EVENT_RULES } from "@/kb/rules/qimen";
 import { lifeFactorMappingFor } from "@/kb/advice/lifeFactorMapping";
@@ -15,11 +19,11 @@ describe("五不遇時（時干剋日干、陰陽相同）", () => {
     expect(isWuBuYu(S("甲"), S("辛"))).toBe(false); // 陰陽不同
     expect(isWuBuYu(S("甲"), S("甲"))).toBe(false);
   });
-  it("每一天都有五不遇時，且不會被列為較佳時段", () => {
+  it("每一天最多一個五不遇時（干支定式），且不會被列為較佳時段", () => {
     for (const d of ["2026-01-03", "2026-04-11", "2026-07-19", "2026-10-06"]) {
       const sc = scanDay(d, "Asia/Taipei", "丙", ["career", "investment"]);
       const wby = sc.charts.map((c, i) => c.wuBuYu ? i : -1).filter(i => i >= 0);
-      expect(wby.length, d).toBeGreaterThanOrEqual(1);
+      expect(wby.length, d).toBeLessThanOrEqual(1);
       for (const k of ["career", "investment"] as const) for (const i of sc.byKind[k]!.best) expect(sc.charts[i].wuBuYu).toBe(false);
     }
   });
@@ -35,8 +39,9 @@ describe("伏吟、反吟、空亡", () => {
       if (c.fuyin.star) fu++; if (c.fanyin.star) fan++;
       expect(c.fuyin.star && c.fanyin.star).toBe(false);
       const ps = chartPatterns(c).map(p => p.key);
-      expect(ps.includes("fuyin")).toBe(c.fuyin.star || c.fuyin.door);
-      expect(ps.includes("fanyin")).toBe(c.fanyin.star || c.fanyin.door);
+      expect(ps.includes("fuyin")).toBe(c.fuyin.star);
+      expect(ps.includes("doorFuyin")).toBe(!c.fuyin.star && c.fuyin.door);
+      expect(ps.includes("fanyin")).toBe(c.fanyin.star);
       expect(c.dayKong).toHaveLength(2);
     }
     expect(fu).toBeGreaterThan(0); expect(fan).toBeGreaterThan(0);
@@ -44,7 +49,7 @@ describe("伏吟、反吟、空亡", () => {
 });
 
 describe("宮位格局：六儀擊刑、三奇入墓、門制", () => {
-  it("天盤六儀落相刑之宮、三奇落墓宮就標出；門迫與門制不同時出現", () => {
+  it("天盤六儀落相刑之宮、三奇落墓宮就標出；門迫、宮迫、和義三者互斥", () => {
     let jx = 0, mu = 0, zhi = 0;
     for (let k = 0; k < 300; k++) {
       const d = new Date(Date.UTC(2025, 5, 1) + k * 5 * 3600_000);
@@ -52,10 +57,10 @@ describe("宮位格局：六儀擊刑、三奇入墓、門制", () => {
       for (const pal of [1, 2, 3, 4, 6, 7, 8, 9]) {
         const ev = evalPalace(c, pal), terms = ev.notes.map(n => n.term);
         const stems = c.sky[pal].split("/");
-        expect(terms.includes("六儀擊刑"), `${pal}`).toBe(stems.some(s => JIXING[s] === pal));
-        expect(terms.includes("三奇入墓")).toBe(stems.some(s => QI_MU[s] === pal));
-        expect(terms.includes("門迫") && terms.includes("門制")).toBe(false);
-        jx += +terms.includes("六儀擊刑"); mu += +terms.includes("三奇入墓"); zhi += +terms.includes("門制");
+        expect(terms.includes("六儀擊刑"), `${pal}`).toBe(JIXING[stems[0]] === pal);
+        expect(terms.includes("三奇入墓")).toBe(QI_MU.some(m => m.qi === stems[0] && m.palace === pal));
+        expect(terms.filter(t => ["門迫", "宮迫", "和義"].includes(t)).length).toBeLessThanOrEqual(1);
+        jx += +terms.includes("六儀擊刑"); mu += +terms.includes("三奇入墓"); zhi += +terms.includes("宮迫");
       }
     }
     expect(jx && mu && zhi).toBeTruthy();
@@ -84,5 +89,65 @@ describe("事件規則與生活因素", () => {
     expect(q(std)).not.toBe(q(tst));
     const auto = analyzeEvent(n, "work", "2026-11-03", null, "Asia/Taipei", { trueSolar: { longitude: 120.21 } });
     expect(auto.timeNote).toBeNull();
+  });
+});
+
+const ORDER = [4, 9, 2, 3, 5, 7, 8, 1, 6];
+const lib = (c: QimenChart) => Q.chartToObject(Q.generateQimenChart({ 年柱: c.pillars.year, 月柱: c.pillars.month, 日柱: c.pillars.day, 時柱: c.pillars.hour, 局數: c.ju, 陰陽: c.yang ? "陽" : "陰" }));
+describe("格局判定與對照組（qimen-dunjia，各格附典籍出處）逐格一致", () => {
+  it("600 個隨機時刻：五不遇（兩讀）、伏吟、反吟、門迫宮迫和義、擊刑（嚴寬）、入墓（含異說）、得使、三遁、截路、十干克應", () => {
+    let seed = 11; const rand = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+    const bad: string[] = [];
+    for (let k = 0; k < 600; k++) {
+      const t = new Date(Date.UTC(1960, 0, 1) + Math.floor(rand() * 2.4e12 / 3600000) * 3600000);
+      const c = computeQimenChart(t.toISOString().slice(0, 10), `${String(t.getUTCHours()).padStart(2, "0")}:10`, "Etc/GMT-8");
+      const o = lib(c);
+      const ws = Q.detectWuBuYu(o);
+      if (ws.some((r: { 讀法: string }) => r.讀法.startsWith("干支定式")) !== c.wuBuYu) bad.push(`五不遇定式 ${c.pillars.day}${c.pillars.hour}`);
+      if (ws.some((r: { 讀法: string }) => r.讀法.startsWith("陽克陽")) !== c.wuBuYuLoose) bad.push(`五不遇寬 ${c.pillars.day}${c.pillars.hour}`);
+      if (Q.detectFuYin(o).length > 0 !== c.fuyin.star) bad.push("伏吟");
+      if (Q.detectFanYin(o).length > 0 !== c.fanyin.star) bad.push("反吟");
+      if (Q.detectJieLuKongWang(o).length > 0 !== c.jieLu) bad.push("截路");
+      const ours = (term: string) => [1, 2, 3, 4, 6, 7, 8, 9].flatMap(p => evalPalace(c, p).notes.filter(n => n.term === term && n.kind !== "keying").map(n => `${PALACE_GUA[p]}${n.reading ? "|" + n.reading : ""}`)).sort();
+      const theirs = (rs: { 宮: string; 讀法?: string }[]) => rs.filter(r => r.宮 !== "中").map(r => `${r.宮}${r.讀法 ? "|" + r.讀法 : ""}`).sort();
+      const mp = Q.detectMenPo(o) as { 格: string; 宮: string }[];
+      for (const g of ["門迫", "宮迫", "和義"]) if (JSON.stringify(ours(g).map(x => x.split("|")[0])) !== JSON.stringify(theirs(mp.filter(r => r.格 === g)).map(x => x.split("|")[0]))) bad.push(`${g} ${ours(g)} vs ${theirs(mp.filter(r => r.格 === g))}`);
+      const jx = ours("六儀擊刑"), tj = theirs(Q.detectLiuYiJiXing(o));
+      // 對照組嚴式時寬式也會同時列出；本專案同一宮只標一種（嚴式優先）
+      const tjOne = [...new Map(tj.map((x: string) => [x.split("|")[0], x])).values()].map(x => tj.includes(`${x.split("|")[0]}|嚴式（值符之儀）`) ? `${x.split("|")[0]}|嚴式（值符之儀）` : x).sort();
+      if (JSON.stringify(jx) !== JSON.stringify(tjOne)) bad.push(`擊刑 ${jx} vs ${tjOne}`);
+      if (JSON.stringify(ours("三奇入墓").map(x => x.split("|")[0])) !== JSON.stringify(theirs(Q.detectSanQiRuMu(o)).map(x => x.split("|")[0]))) bad.push("入墓");
+      if (JSON.stringify(ours("三奇得使")) !== JSON.stringify(theirs(Q.detectSanQiDeShi(o)))) bad.push("得使");
+      const dun = ["天遁", "地遁", "人遁"].flatMap(d => ours(d).map(x => d + x)).sort();
+      const tdun = (Q.detectSanDun(o) as { 格: string; 宮: string }[]).filter(r => r.宮 !== "中").map(r => r.格 + r.宮).sort();
+      if (JSON.stringify(dun) !== JSON.stringify(tdun)) bad.push(`三遁 ${dun} vs ${tdun}`);
+      const ky = Q.detectShiGanKeYing(o) as { 格: string; 宮: string }[];
+      for (const p of [1, 2, 3, 4, 6, 7, 8, 9]) {
+        const mine = evalPalace(c, p).notes.find(n => n.kind === "keying");
+        const their = ky.find(r => r.宮 === PALACE_GUA[p]);
+        if ((mine?.term ?? null) !== (their?.格 ?? null)) bad.push(`克應 ${PALACE_GUA[p]} ${mine?.term} vs ${their?.格}`);
+      }
+    }
+    expect([...new Set(bad)].slice(0, 10)).toEqual([]);
+  });
+  it("每則格局都能查到引文（書名、篇名、原文）；81 格十干克應齊全", () => {
+    expect(Object.keys(KE_YING)).toHaveLength(81);
+    const c = computeQimenChart("2026-10-06", "10:30", "Asia/Taipei");
+    for (const p of [1, 2, 3, 4, 6, 7, 8, 9]) for (const n of evalPalace(c, p).notes) for (const id of n.textIds ?? []) {
+      const t = getSourceText(id);
+      expect(t, id).toBeTruthy(); expect(t!.text.length).toBeGreaterThan(3); expect(t!.edition.title.length).toBeGreaterThan(1);
+    }
+    for (const p of chartPatterns(c)) for (const id of p.textIds) expect(getSourceText(id), id).toBeTruthy();
+  });
+  it("代表自己可選日干：甲日取旬首遁儀", () => {
+    const c = computeQimenChart("2026-10-06", "10:30", "Asia/Taipei");
+    expect(selfStemOf(c, "丙", "year")).toBe("丙");
+    const d = c.pillars.day[0];
+    expect(selfStemOf(c, "丙", "day")).toBe(d === "甲" ? expect.any(String) : d);
+    for (let k = 0; k < 60; k++) {
+      const t = new Date(Date.UTC(2026, 0, 1 + k));
+      const cc = computeQimenChart(t.toISOString().slice(0, 10), "10:30", "Asia/Taipei");
+      if (cc.pillars.day[0] === "甲") expect(["戊", "己", "庚", "辛", "壬", "癸"]).toContain(selfStemOf(cc, "丙", "day"));
+    }
   });
 });
