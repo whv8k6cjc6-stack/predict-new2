@@ -113,6 +113,8 @@ export interface Preferences {
   developerMode?: boolean;   // 開發者模式：可檢視規則、版本與 legacy 計分比較（不影響正式結果）
   /** 投資設定：只調整投資建議的用語與檢查清單，不影響判讀 */
   investor?: import("./advice/investor").InvestorProfile;
+  /** 工作角色：只調整建議與時間表的用語 */
+  work?: import("./advice/workRole").WorkProfile;
 }
 
 export const DEFAULT_PREFS: Preferences = { displayMode: "plain", backupReminderDays: 14 };

@@ -122,6 +122,8 @@ export interface StructuredAdvice {
   coverage: { level: TopicCoverage; basisLabel: string; note: string | null };
   notes: string[];                 // 安全說明、紫微建置中等
   noSignal: boolean;
+  /** 臨場應對：「如果…就…」（依當天風險因素挑選，最多 3 句） */
+  responses: string[];
   /** 投資主題才有：今日投資節奏、下單時段與檢查清單 */
   investRhythm?: InvestRhythm;
   sourceRuleIds: string[];

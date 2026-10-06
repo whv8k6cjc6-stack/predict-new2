@@ -25,7 +25,7 @@ function AdviceView() {
   const topic: TopicId = q && q in ADVICE_TOPICS ? q : "general";
   const date = params.get("date") ?? (tz ? todayIn(tz) : null);
   const dayWord = date && tz ? dayWordOf(date, todayIn(tz)) : "今天";
-  const adv = useComputed(natal && key && tz && date ? `advice|${key}|${date}|${tz}|${topic}|${dayWord}|${JSON.stringify(prefs.investor ?? {})}` : null, () => adviseDay(natal!, date!, tz!, [topic], dayWord, prefs.investor).byTopic[topic]!);
+  const adv = useComputed(natal && key && tz && date ? `advice|${key}|${date}|${tz}|${topic}|${dayWord}|${JSON.stringify(prefs.investor ?? {})}|${prefs.work?.role ?? ""}` : null, () => adviseDay(natal!, date!, tz!, [topic], dayWord, prefs.investor, prefs.work).byTopic[topic]!);
   const T = ADVICE_TOPICS[topic];
 
   return (
