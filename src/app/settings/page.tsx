@@ -20,7 +20,7 @@ import { Banner, Button, Confirm, Field, Icon, PageHeader, SectionTitle, Sheet, 
 import { ModeToggle } from "@/ui/interpret";
 import { ExportSheet } from "@/ui/ExportSheet";
 import { BandLegend } from "@/ui/score";
-import { InvestorSettings } from "@/ui/InvestorSettings";
+import { InvestorSettings, WorkSettings } from "@/ui/InvestorSettings";
 
 export default function SettingsPage() {
   const { security, prefs, persons, settingsList, refresh, updatePrefs } = useApp();
@@ -50,8 +50,9 @@ export default function SettingsPage() {
         <span className="text-[15px]">分數區間定義</span><Icon name="chevron" size={16} className="text-[var(--ink-3)]" />
       </button>
 
-      <SectionTitle>投資設定</SectionTitle>
-      <InvestorSettings />
+      <SectionTitle>個人化建議</SectionTitle>
+      <WorkSettings />
+      <div className="mt-2"><InvestorSettings /></div>
 
       <SectionTitle>安全與隱私</SectionTitle>
       <div className="card divide-y divide-[var(--line)]">

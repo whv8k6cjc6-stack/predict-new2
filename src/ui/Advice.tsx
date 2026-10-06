@@ -2,7 +2,7 @@
 /** 具體行動建議（ActionAdviceEngine）的畫面元件。一般模式只顯示白話；命理術語、規則編號與原文放在「為什麼」與專業模式。 */
 import Link from "next/link";
 import { useState } from "react";
-import type { AdviceItem, ConfidenceLevel, DaySummary, InvestRhythm, StructuredAdvice, SystemAgreementStatus } from "@/core/advice";
+import type { AdviceItem, ConfidenceLevel, DaySummary, InvestRhythm, ScheduleSlot, StructuredAdvice, SystemAgreementStatus } from "@/core/advice";
 import { HORIZON_LABEL, factorDef } from "@/core/advice";
 import { ADVICE_TOPICS, type TopicId } from "@/kb/advice/topics";
 import { getSourceText } from "@/kb/sources";
@@ -41,6 +41,41 @@ const Line = ({ it }: { it: AdviceItem }) => (
     <span>{it.short}</span>
   </li>
 );
+
+/** 臨場應對：「如果…就…」 */
+export function Responses({ items, title = "遇到狀況時" }: { items: string[]; title?: string }) {
+  if (!items.length) return null;
+  return (
+    <div data-testid="responses">
+      <p className="mb-1 text-[12px] text-[var(--ink-3)]">{title}</p>
+      <ul className="space-y-1.5 text-[14px] leading-relaxed">{items.map(t => <li key={t} className="flex gap-2"><span aria-hidden className="shrink-0 text-[var(--accent)]">→</span><span>{t}</span></li>)}</ul>
+    </div>
+  );
+}
+
+const SLOT_TONE: Record<ScheduleSlot["tone"], { c: string; t: string }> = {
+  good: { c: "var(--sig-pos)", t: "宜" }, avoid: { c: "var(--sig-neg)", t: "避" }, careful: { c: "var(--accent)", t: "緩" }, plain: { c: "var(--ink-3)", t: "・" },
+};
+/** 今日時間表：幾點做什麼 */
+export function ScheduleCard({ slots, dayWord }: { slots: ScheduleSlot[]; dayWord: string }) {
+  const { prefs } = useApp();
+  if (!slots.length) return null;
+  return (
+    <section className="card p-5" aria-label={`${dayWord}時間表`} data-testid="day-schedule">
+      <p className="text-[12px] tracking-wide text-[var(--ink-3)]">{dayWord}時間表</p>
+      <ul className="mt-2 divide-y divide-[var(--line)]">
+        {slots.map(s => (
+          <li key={s.index} className="flex gap-3 py-2 text-[14px] leading-relaxed">
+            <span className="num w-[4.5rem] shrink-0 text-[var(--ink-2)]">{s.hour}</span>
+            <span aria-hidden className="w-4 shrink-0 font-medium" style={{ color: SLOT_TONE[s.tone].c }}>{SLOT_TONE[s.tone].t}</span>
+            <span className="min-w-0">{s.text}{s.notes.length > 0 && <span className="mt-0.5 block text-[12px] text-[var(--ink-3)]">{s.notes.join("；")}</span>}{prefs.displayMode === "pro" && s.terms.length > 0 && <span className="mt-0.5 block text-[11px] text-[var(--ink-3)]">奇門：{s.terms.join("、")}</span>}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-2 text-[11px] leading-relaxed text-[var(--ink-3)]">依奇門白天各時辰的判讀排出先後；時段只影響安排順序，不代表不能做。</p>
+    </section>
+  );
+}
 
 /** 今日總結：各主題一行重點＋一句《周易》原句與打氣話 */
 export function DaySummaryCard({ s, dayWord, onTopic }: { s: DaySummary; dayWord: string; onTopic?: (t: TopicId) => void }) {
@@ -143,6 +178,8 @@ export function TodayFocus({ a, detailHref }: { a: StructuredAdvice; detailHref:
         </div>
       )}
 
+      {a.responses.length > 0 && <div className="mt-3"><Responses items={a.responses.slice(0, 2)} /></div>}
+
       <div className="mt-4 border-t border-[var(--line)] pt-3">
         <p className="mb-1 text-[12px] text-[var(--ink-3)]">為什麼</p>
         <p className="text-[14px] leading-relaxed">{a.headline}</p>
@@ -190,6 +227,7 @@ export function AdviceDetail({ a }: { a: StructuredAdvice }) {
 
       <Items title="具體怎麼做" items={a.doNow} empty={a.noSignal ? "沒有需要特別調整的做法。" : undefined} />
       <Items title="不建議怎麼做" items={a.avoidNow} />
+      {a.responses.length > 0 && <section className="card p-4"><Responses items={a.responses} title="遇到狀況時怎麼應對" /></section>}
 
       {a.timing && (
         <section className="card p-4 text-[14px] leading-relaxed">
@@ -207,7 +245,7 @@ export function AdviceDetail({ a }: { a: StructuredAdvice }) {
         </section>
       )}
 
-      {a.otherHorizons.map(h => (
+      {a.otherHorizons.filter(h => h.horizon === "next3Days" || h.horizon === "thisMonth").map(h => (
         <section key={h.horizon} className="card p-4">
           <p className="text-[13px] text-[var(--ink-3)]">{HORIZON_LABEL[h.horizon]}</p>
           <p className="mt-1 text-[14px] leading-relaxed">{h.headline}</p>
@@ -216,6 +254,20 @@ export function AdviceDetail({ a }: { a: StructuredAdvice }) {
           ))}</ul>
         </section>
       ))}
+      {a.otherHorizons.some(h => h.horizon === "thisYear" || h.horizon === "longTerm") && (
+        <details className="card p-4" data-testid="long-horizons">
+          <summary className="cursor-pointer text-[13px] text-[var(--ink-3)]">今年與長期的方向（每天大致相同，不是今天的重點）</summary>
+          {a.otherHorizons.filter(h => h.horizon === "thisYear" || h.horizon === "longTerm").map(h => (
+            <div key={h.horizon} className="mt-3">
+              <p className="text-[13px] text-[var(--ink-3)]">{HORIZON_LABEL[h.horizon]}</p>
+              <p className="mt-1 text-[14px] leading-relaxed">{h.headline}</p>
+              <ul className="mt-2 space-y-2">{[...h.doNow, ...h.avoidNow].map(it => (
+                <li key={it.id} className="flex gap-2 text-[14px] leading-relaxed"><span aria-hidden style={{ color: it.kind === "do" ? "var(--sig-pos)" : "var(--sig-neg)" }}>{it.kind === "do" ? "✓" : "✕"}</span><span>{it.kind === "avoid" ? `避免${it.text}` : it.text}</span></li>
+              ))}</ul>
+            </div>
+          ))}
+        </details>
+      )}
 
       <section className="card p-4 text-[14px] leading-relaxed">
         <p className="mb-2 text-[13px] text-[var(--ink-3)]">判斷依據與信心</p>

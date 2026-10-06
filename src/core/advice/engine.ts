@@ -5,6 +5,9 @@ import { ADVICE_TEMPLATES, type TemplateId } from "@/kb/advice/templates";
 import { rulesForTopic } from "@/kb/advice/rules";
 import { INVEST_VARIANTS, TEMPLATE_STEPS } from "@/kb/advice/steps";
 import type { InvestorProfile } from "./investor";
+import { roleKeys, type WorkProfile, type WorkRole } from "./workRole";
+import { ROLE_VARIANTS } from "@/kb/advice/roleVariants";
+import { RESPONSES } from "@/kb/advice/responses";
 import { investRhythmOf } from "./investRhythm";
 import { SCORED_SYSTEMS, type ScoredSystem } from "@/kb/weights";
 import type { DomainKey } from "../domains";
@@ -32,6 +35,8 @@ export interface AdviceContext {
   dayWord?: string;
   /** 使用者的投資設定：只調整投資建議的用語、步驟與檢查清單，不影響判讀與觸發條件 */
   investor?: InvestorProfile;
+  /** 使用者的工作角色：只調整用語 */
+  work?: WorkProfile;
 }
 
 // ───────── 主題判讀：取出與主題相關的判讀，換算因素強度 ─────────
@@ -153,9 +158,10 @@ function confidence(
 }
 
 // ───────── 模板 ─────────
-function render(id: TemplateId, h: Horizon, timing: AdviceContext["timing"], dayWord = "今天", investor?: InvestorProfile): { text: string; short: string; steps: string[] } | null {
+function render(id: TemplateId, h: Horizon, timing: AdviceContext["timing"], dayWord = "今天", investor?: InvestorProfile, role?: WorkRole): { text: string; short: string; steps: string[] } | null {
   const base = ADVICE_TEMPLATES[id];
-  const v = investor?.style ? INVEST_VARIANTS[id]?.[investor.style] : undefined;
+  const rv = roleKeys(role).map(k => ROLE_VARIANTS[id]?.[k]).find(Boolean);
+  const v = (investor?.style ? INVEST_VARIANTS[id]?.[investor.style] : undefined) ?? rv;
   const t = { text: v?.text ?? base.text, short: v?.short ?? base.short, steps: v?.steps ?? TEMPLATE_STEPS[id] ?? [] };
   const need = (s: string) => t.text.includes(s) || t.short.includes(s);
   if (need("{較佳時段}") && !timing?.best.length) return null;
@@ -184,7 +190,7 @@ function candidatesFor(topic: TopicId, h: Horizon, ev: Map<FactorId, FactorEvide
     const conf = confidence(topic, ADVICE_TOPICS[topic].coverage, agreement, instances, results, rule.baseConfidence).level;
     for (const [kind, tid] of [["do", rule.action], ["avoid", rule.avoid]] as const) {
       if (!tid) continue;
-      const r = render(tid, h, ctx.timing, ctx.dayWord, ctx.topic === "investment" ? ctx.investor : undefined);
+      const r = render(tid, h, ctx.timing, ctx.dayWord, ctx.topic === "investment" ? ctx.investor : undefined, ctx.work?.role);
       if (!r) continue;
       out.push({
         item: {
@@ -227,6 +233,19 @@ function dedupe(cands: Candidate[]): Candidate[] {
 
 const topN = (cs: Candidate[], kind: "do" | "avoid", n: number) =>
   cs.filter(c => c.item.kind === kind).sort((a, b) => b.item.score - a.item.score || (a.item.id < b.item.id ? -1 : 1)).slice(0, n);
+
+/** 臨場應對：依當天出現的風險因素（強者優先）挑最多 3 句，套用角色說法 */
+function responsesFor(topic: TopicId, ev: Map<FactorId, FactorEvidence>, role?: WorkRole): string[] {
+  const risks = [...ev.values()].filter(e => e.score >= PRESENT && topicNature(topic, e.factorId) === "risk").sort((a, b) => b.score - a.score);
+  const out: string[] = [];
+  for (const r of risks) for (const d of RESPONSES) {
+    if (out.length >= 3) return out;
+    if (!d.factors.includes(r.factorId) || (d.topics !== "all" && !d.topics.includes(topic))) continue;
+    const t = roleKeys(role).map(k => d.roles?.[k]).find(Boolean) ?? d.text;
+    if (!out.includes(t)) out.push(t);
+  }
+  return out;
+}
 
 export function buildStructuredAdvice(ctx: AdviceContext): StructuredAdvice {
   const T = ADVICE_TOPICS[ctx.topic];
@@ -313,7 +332,7 @@ export function buildStructuredAdvice(ctx: AdviceContext): StructuredAdvice {
     confidence: conf,
     systemAgreement: { status: m.agreement, note: m.findings.length ? AGREEMENT_NOTE[m.agreement] : "本次沒有相關訊號。", systems },
     coverage: { level: coverageLevel, basisLabel: T.basisLabel, note: T.coverageNote ?? (coverageLevel === "insufficient" ? "本次沒有足夠的相關訊號，不產生肯定結論。" : null) },
-    notes, noSignal,
+    notes, noSignal, responses: responsesFor(ctx.topic, m.ev, ctx.work?.role),
     ...(ctx.topic === "investment" ? { investRhythm: investRhythmOf({ ev: m.ev, agreement: m.agreement, findings: m.findings.length, timing: ctx.timing, investor: ctx.investor, dayWord: ctx.mode === "event" ? "這個時段" : ctx.dayWord ?? "今天",
       month: otherHorizons.find(x => x.horizon === "thisMonth"), nature: id => topicNature(ctx.topic, id) }) } : {}),
     sourceRuleIds: [...new Set(trace.flatMap(t => t.findings.map(f => f.ruleId)))].sort(),

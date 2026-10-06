@@ -8,6 +8,8 @@ import { interpretationResults } from "./fromRules";
 import type { InterpretationResult } from "./interpretation";
 import type { StructuredAdvice } from "./types";
 import type { InvestorProfile } from "./investor";
+import type { WorkProfile } from "./workRole";
+import { daySchedule, type ScheduleSlot } from "./schedule";
 
 export * from "./types";
 export * from "./factors";
@@ -15,6 +17,8 @@ export type { InterpretationResult, InterpretationFinding, LifeFactorInstance } 
 export { interpretationResults, ZIWEI_ADVICE_PENDING } from "./fromRules";
 export { lintAdviceText } from "./lint";
 export * from "./investor";
+export * from "./workRole";
+export type { ScheduleSlot, SlotTone } from "./schedule";
 export { summarizeDay, type DaySummary } from "./daySummary";
 
 const addDays = (date: string, k: number) => { const d = new Date(`${date}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + k); return d.toISOString().slice(0, 10); };
@@ -27,10 +31,12 @@ export interface DayAdvice {
   date: string;
   interpretations: InterpretationResult[];
   byTopic: Partial<Record<TopicId, StructuredAdvice>>;
+  /** 今日時間表（奇門白天各時辰；沒有奇門資料時為空） */
+  schedule: ScheduleSlot[];
 }
 
 /** 每日建議：當日（含各時間層）＋之後兩天的流日層（近 3 天彙整用）。 */
-export function adviseDay(n: NatalSet, date: string, timeZone: string, topics: TopicId[] = TOPIC_IDS, dayWord = "今天", investor?: InvestorProfile): DayAdvice {
+export function adviseDay(n: NatalSet, date: string, timeZone: string, topics: TopicId[] = TOPIC_IDS, dayWord = "今天", investor?: InvestorProfile, work?: WorkProfile): DayAdvice {
   const dates = [date, addDays(date, 1), addDays(date, 2)];
   const days = dates.map(d => collect(n, { civilDate: d, civilTime: "12:00", timeZone }, "day"));
   const interps = days.map((c, i) => interpretationResults(n, c.fired, dates[i], c.ziwei));
@@ -39,11 +45,11 @@ export function adviseDay(n: NatalSet, date: string, timeZone: string, topics: T
     const kind = ADVICE_TOPICS[topic].timingKind as EventKind;
     const q = days[0].qimen?.byKind[kind];
     byTopic[topic] = buildStructuredAdvice({
-      topic, date, mode: "day", interpretations: interps[0], nextDays: interps.slice(1), dayWord, investor,
+      topic, date, mode: "day", interpretations: interps[0], nextDays: interps.slice(1), dayWord, investor, work,
       timing: q ? { best: q.best.map(plainHour), avoid: q.avoid.map(plainHour), basis: "依奇門白天各時段的判讀" } : null,
     });
   }
-  return { date, interpretations: interps[0], byTopic };
+  return { date, interpretations: interps[0], byTopic, schedule: days[0].qimen ? daySchedule(days[0].qimen, work?.role) : [] };
 }
 
 /** 擇時事件：指定時刻（時辰層＋當日流日層）的建議；較佳／避開時段由呼叫端依各時辰事件分數提供。 */

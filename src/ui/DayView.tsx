@@ -8,7 +8,7 @@ import { Busy, Compass, DivergenceNote, DomainLine, HourTimeline } from "./analy
 import { Term } from "./interpret";
 import { todayIn, useComputed } from "./useAnalysis";
 import { ScoringNote } from "./ZiweiSystem";
-import { TodayFocus, InvestRhythmCard, TopicChips, DaySummaryCard } from "./Advice";
+import { TodayFocus, InvestRhythmCard, TopicChips, DaySummaryCard, ScheduleCard } from "./Advice";
 import { adviseDay, dayWordOf, summarizeDay } from "@/core/advice";
 import type { TopicId } from "@/kb/advice/topics";
 import { useApp } from "@/app/providers";
@@ -22,8 +22,8 @@ export function DayView({ natal, natalKey, date, tz }: { natal: NatalSet; natalK
   const [legend, setLegend] = useState(false);
   const [topic, setTopic] = useState<TopicId>("general");
   const { prefs } = useApp();
-  const inv = prefs.investor;
-  const adv = useComputed(`advice|${natalKey}|${date}|${tz}|${dayWord}|${JSON.stringify(inv ?? {})}`, () => adviseDay(natal, date, tz, HOME_TOPICS, dayWord, inv));
+  const inv = prefs.investor, work = prefs.work;
+  const adv = useComputed(`advice|${natalKey}|${date}|${tz}|${dayWord}|${JSON.stringify(inv ?? {})}|${work?.role ?? ""}`, () => adviseDay(natal, date, tz, HOME_TOPICS, dayWord, inv, work));
   if (error) return <Banner tone="danger" title="計算失敗">{error}</Banner>;
   if (busy || !a) return <Busy label="排盤與規則計算中…" />;
   const ov = a.overall;
@@ -34,6 +34,7 @@ export function DayView({ natal, natalKey, date, tz }: { natal: NatalSet; natalK
         <div className="mb-3"><Banner tone="warn" title="部分系統未納入">{a.unavailable.map(u => u.reason).join(" ")} 確定度會相應降低。</Banner></div>
       )}
       {adv.data && <div className="mb-3"><DaySummaryCard s={summarizeDay(date, adv.data.byTopic)} dayWord={dayWord} onTopic={setTopic} /></div>}
+      {adv.data && adv.data.schedule.length > 0 && <div className="mb-3"><ScheduleCard slots={adv.data.schedule} dayWord={dayWord} /></div>}
       <div className="mb-3"><TopicChips value={topic} topics={HOME_TOPICS} onChange={setTopic} /></div>
       {adv.error ? <Banner tone="danger" title="建議產生失敗">{adv.error}</Banner> : !adv.data?.byTopic[topic] ? <Busy label="整理今天的建議…" /> : (
         <>

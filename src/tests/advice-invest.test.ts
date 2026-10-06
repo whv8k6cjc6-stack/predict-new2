@@ -125,8 +125,8 @@ describe("今日總結與每日一句", () => {
       const s = summarizeDay(d, adv.byTopic), again = summarizeDay(d, adv.byTopic);
       expect(again.quote).toEqual(s.quote);
       seen.add(s.quote.textId);
-      expect(s.lines.length).toBeLessThanOrEqual(7);
-      const shorts = Object.values(adv.byTopic).flatMap(a => [a!.primaryAdvice, ...a!.doNow, ...a!.avoidNow]).filter(Boolean).map(i => i!.short);
+      expect(s.lines.length).toBeLessThanOrEqual(8);
+      const shorts = Object.values(adv.byTopic).flatMap(a => [a!.primaryAdvice, ...a!.doNow, ...a!.avoidNow, ...a!.otherHorizons.flatMap(h => [...h.doNow, ...h.avoidNow])]).filter(Boolean).map(i => i!.short);
       for (const l of s.lines) if (l.kind !== "info") expect(shorts.some(x => l.text.endsWith(x)), l.text).toBe(true);
       for (const t of [s.overview, ...s.lines.map(l => l.text), s.quote.plain]) expect(lintAdviceText(t), t).toEqual([]);
     }

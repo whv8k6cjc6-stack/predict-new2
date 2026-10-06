@@ -65,11 +65,17 @@ export function summarizeDay(date: string, byTopic: Partial<Record<TopicId, Stru
     seen.add(l.text);
     lines.push({ label: ADVICE_TOPICS[t].label, ...l, topic: t });
   }
+  // 長期方向每天大致相同：只在每月 1 日與每週一提醒一次
+  const monthStart = date.endsWith("-01"), monday = new Date(`${date}T00:00:00Z`).getUTCDay() === 1;
+  if ((monthStart || monday) && g) {
+    const long = ["thisMonth", "thisYear", "longTerm"].map(h => g.otherHorizons.find(x => x.horizon === h)).flatMap(x => x ? [...x.doNow, ...x.avoidNow] : [])[0];
+    if (long) lines.push({ label: monthStart ? "本月提醒" : "本週提醒", text: long.kind === "avoid" ? `避免${long.short}` : long.short, kind: long.kind, topic: "general" });
+  }
   const q = pickQuote(date, mood);
   const src = getSourceText(q.textId);
   return {
     overview: g?.headline ?? "今天沒有特別突出的訊號，照原本計畫進行即可。",
-    mood, lines: lines.slice(0, 7),
+    mood, lines: lines.slice(0, 8),
     quote: { excerpt: q.excerpt, source: `《周易》${src?.chapter ?? ""}`, plain: q.plain, textId: q.textId },
   };
 }
