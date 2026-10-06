@@ -3,8 +3,9 @@ import type { DomainKey } from "@/core/domains";
 import type { RuleDefinition } from "@/core/sources";
 import { YONGSHEN, type EventKind } from "@/core/qimen";
 import { EVENT_TYPES } from "@/core/events";
+import { qimenTextId as T } from "@/kb/qimen/classics";
 
-export const QIMEN_RULE_VERSION = "3.0.0";
+export const QIMEN_RULE_VERSION = "3.2.0";
 const DOMAIN_KINDS: DomainKey[] = ["overall", "career", "wealth", "investment", "social", "love", "travel", "health", "decision"];
 
 const base = (id: string, p: Partial<RuleDefinition> & Pick<RuleDefinition, "condition" | "effects" | "templates" | "slots">): RuleDefinition => ({
@@ -46,17 +47,23 @@ export const QIMEN_RULES: RuleDefinition[] = DOMAIN_KINDS.flatMap(k => {
 });
 
 /** 事件時辰的整盤格局與用神宮格局（只作「時段影響」與「做法」的提醒，不判定事情成敗） */
-const PATTERNS: { key: string; when: string; principle: string; conclusion: string; plain: string; pro: string; terms: string[]; strength: 1 | 2; legacy: string }[] = [
+const PATTERNS: { key: string; when: string; principle: string; conclusion: string; plain: string; pro: string; terms: string[]; strength: 1 | 2; legacy: string; texts: string[]; polarity?: 1 | -1; onlyKinds?: string[] }[] = [
   { key: "wubuyu", when: "為五不遇時", principle: "五不遇時：時干剋日干且陰陽相同，傳統擇時避開的時辰", conclusion: "逢五不遇時，是傳統擇時避開的時辰。",
-    plain: "{時辰}的天干剋當天的天干，是傳統擇時避開的時辰；事情可以做，但重要的開始建議改時間。", pro: "五不遇時：{依據}。", terms: ["五不遇時"], strength: 2 , legacy: "重要的開始避開{時辰}" },
+    plain: "{時辰}的天干剋當天的天干，是傳統擇時避開的時辰；事情可以做，但重要的開始建議改時間。", pro: "五不遇時：{依據}。", terms: ["五不遇時"], strength: 2 , legacy: "重要的開始避開{時辰}", texts: [T("釣叟_五不遇"), T("演義_五不遇"), T("寶鑑_五不遇")] },
   { key: "fuyin", when: "逢伏吟", principle: "伏吟：值符或值使仍在本位，主遲滯，宜守不宜動", conclusion: "逢伏吟，事情進展慢。",
-    plain: "{時辰}的盤面停在原位（伏吟），事情進展慢、容易拖延；適合守成與準備，急著推進效果有限。", pro: "伏吟：{依據}。", terms: ["伏吟"], strength: 1 , legacy: "{時辰}以守成與準備為主" },
+    plain: "{時辰}的盤面停在原位（伏吟），事情進展慢、容易拖延；適合守成與準備，急著推進效果有限。", pro: "伏吟：{依據}。", terms: ["伏吟"], strength: 1 , legacy: "{時辰}以守成與準備為主", texts: [T("旨歸_伏吟")] },
   { key: "fanyin", when: "逢反吟", principle: "反吟：值符或值使落到對宮，主反覆、變卦", conclusion: "逢反吟，事情容易反覆、變卦。",
-    plain: "{時辰}的盤面落到對面（反吟），事情容易反覆、變卦；談定的內容要寫清楚，並預留變更的空間。", pro: "反吟：{依據}。", terms: ["反吟"], strength: 1 , legacy: "{時辰}談定的內容寫成文字" },
+    plain: "{時辰}的盤面落到對面（反吟），事情容易反覆、變卦；談定的內容要寫清楚，並預留變更的空間。", pro: "反吟：{依據}。", terms: ["反吟"], strength: 1 , legacy: "{時辰}談定的內容寫成文字", texts: [T("釣叟_反吟")] },
   { key: "jixing", when: "用神或年命宮逢六儀擊刑", principle: "六儀擊刑：天盤六儀落入相刑之宮，主衝突、刑傷與受挫", conclusion: "用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。",
-    plain: "代表{事件}或代表你的宮位逢「擊刑」，事情容易起衝突或受挫；溝通時先談事情本身，避免硬碰硬。", pro: "擊刑：{依據}。", terms: ["六儀擊刑", "用神", "年命"], strength: 2 , legacy: "{時辰}溝通先談事情本身，避免硬碰硬" },
+    plain: "代表{事件}或代表你的宮位逢「擊刑」，事情容易起衝突或受挫；溝通時先談事情本身，避免硬碰硬。", pro: "擊刑：{依據}。", terms: ["六儀擊刑", "用神", "年命"], strength: 2 , legacy: "{時辰}溝通先談事情本身，避免硬碰硬", texts: [T("法竅_擊刑"), T("寶鑑_擊刑")] },
   { key: "rumu", when: "用神或年命宮逢三奇入墓", principle: "三奇入墓：乙丙丁奇落入墓宮，奇氣受困", conclusion: "用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。",
-    plain: "代表{事件}或代表你的宮位逢「入墓」，事情容易卡住、施展不開；先把阻礙找出來，再決定要不要推進。", pro: "入墓：{依據}（三奇入墓宮位各家說法略有不同）。", terms: ["三奇入墓", "用神"], strength: 1 , legacy: "{時辰}先找出阻礙再推進" },
+    plain: "代表{事件}或代表你的宮位逢「入墓」，事情容易卡住、施展不開；先把阻礙找出來，再決定要不要推進。", pro: "入墓：{依據}（三奇入墓宮位各家說法略有不同）。", terms: ["三奇入墓", "用神"], strength: 1 , legacy: "{時辰}先找出阻礙再推進", texts: [T("統宗_四十格"), T("旨歸_入墓")] },
+  { key: "sandun", when: "用神或年命宮逢三遁或三奇得使", principle: "天遁、地遁、人遁與三奇得使：三奇、吉門與地盤或八神相合", conclusion: "用神或代表你的宮位逢三遁或三奇得使，時機與助力都比較好。",
+    plain: "代表{事件}或代表你的宮位逢「三遁」或「三奇得使」，時機與助力都比較好；準備好的事可以在{時辰}推進。", pro: "三遁／得使：{依據}。", terms: ["三遁", "三奇得使", "用神"], strength: 2, legacy: "準備好的事排在{時辰}推進",
+    texts: [T("法竅_三遁"), T("統宗_得使")], polarity: 1 },
+  { key: "jielu", when: "逢截路空亡", principle: "截路空亡：該日特定時辰忌出行", conclusion: "逢截路空亡，傳統上此時辰忌出行。",
+    plain: "{時辰}逢「截路空亡」，傳統上此時辰忌出行；出發時間可以調整的話，建議改時間。", pro: "截路空亡：{依據}。", terms: ["截路空亡"], strength: 2, legacy: "出發時間避開{時辰}",
+    texts: [T("元靈經_截路")], onlyKinds: ["trip", "move", "travel"] },
 ];
 
 /** 事件模式（時辰層級）：指定時刻事件用神的吉凶 */
@@ -93,12 +100,12 @@ export const QIMEN_EVENT_RULES: RuleDefinition[] = EVENT_TYPES.flatMap(ev => {
       },
       slots, terms: ["用神", "年命", "空亡"], priority: 65,
     }),
-    ...PATTERNS.map(pt => base(`qimen.event.${ev.key}.${pt.key}`, {
+    ...PATTERNS.filter(pt => !pt.onlyKinds || pt.onlyKinds.includes(ev.qimen)).map(pt => base(`qimen.event.${ev.key}.${pt.key}`, {
       timescale: "hour",
-      based_on: { text_ids: [], commentary_ids: [], principle: pt.principle },
+      based_on: { text_ids: pt.texts, commentary_ids: [], principle: pt.principle },
       applies_when: `${ev.label}所選時辰${pt.when}`,
       condition: { all: [{ fact: "qimen.event.kind", op: "eq" as const, value: ev.qimen }, { fact: `qimen.event.${pt.key}`, op: "eq" as const, value: true }] },
-      effects: [{ domain: ev.domain, polarity: -1 as const, strength: pt.strength }],
+      effects: [{ domain: ev.domain, polarity: pt.polarity ?? -1, strength: pt.strength }],
       templates: {
         conclusion: `{時辰}做「{事件}」，奇門盤${pt.conclusion}`,
         plain: pt.plain,

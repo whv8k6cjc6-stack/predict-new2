@@ -2,6 +2,7 @@
 import type { SourceEdition, SourceText } from "@/core/sources";
 import { PLANNED_SOURCES } from "@/core/sources";
 import data from "./zhouyi.generated.json";
+import { QIMEN_CITATIONS, qimenEdition, qimenText } from "@/kb/qimen/classics";
 
 export interface ZhouyiHex {
   no: number; name: string; full: string; symbol: string; bits: string;
@@ -21,12 +22,18 @@ const TEXTS = data.texts as Record<string, { chapter: string; text: string; revi
 export type SourceTextView = SourceText & { review: string[]; edition: SourceEdition };
 
 export function getSourceText(id: string): SourceTextView | null {
+  if (id.startsWith("qimen.")) {
+    const q = qimenText(id);
+    if (!q) return null;
+    const ed = qimenEdition(q.book);
+    return { id, source_id: ed.source_id, chapter: q.chapter, text: q.text, verification: "machine_imported", review: ["依軟體錄文，未對照原刊影像"], edition: ed };
+  }
   const t = TEXTS[id];
   if (!t) return null;
   return { id, source_id: ZHOUYI_EDITION.source_id, chapter: t.chapter, text: t.text, verification: "machine_imported", review: t.review, edition: ZHOUYI_EDITION };
 }
 
-export const SOURCE_EDITIONS: SourceEdition[] = [ZHOUYI_EDITION, ...PLANNED_SOURCES];
+export const SOURCE_EDITIONS: SourceEdition[] = [ZHOUYI_EDITION, ...[...new Set([...QIMEN_CITATIONS.map(c => c.book), "奇門旨歸"])].map(qimenEdition), ...PLANNED_SOURCES];
 
 /** 《繫辭》中本系統規則引用的段落 */
 export const XICI = {

@@ -95,8 +95,8 @@ export function collect(n: NatalSet, at: Moment, level: Level, opts: CollectOpti
     else facts.push(...f);
   }
   if (level === "day" && n.qimen) {
-    scan = scanDay(at.civilDate, at.timeZone, n.qimen.nianMing, QIMEN_KINDS);
-    const f = qimenFacts(scan, QIMEN_KINDS, n.qimen.nianMing);
+    scan = scanDay(at.civilDate, at.timeZone, n.qimen.nianMing, QIMEN_KINDS, "modern", n.qimen.selfStem);
+    const f = qimenFacts(scan, QIMEN_KINDS, n.qimen.nianMing, n.qimen.selfStem);
     push("qimen", f, runRules(QIMEN_RULES, f));
   }
   if (level === "day" && n.iching) {
@@ -123,7 +123,7 @@ export function collectHour(n: NatalSet, date: string, time: string, timeZone: s
   let reading: IchingReading | null = null;
   if (eventKind && n.qimen) {
     const c = computeQimenChart(date, time, timeZone, "modern", { trueSolar });
-    const f = qimenEventFacts(c, n.qimen.nianMing, eventKind, hourLabel(c.hourGz.branch));
+    const f = qimenEventFacts(c, n.qimen.nianMing, eventKind, hourLabel(c.hourGz.branch), n.qimen.selfStem);
     facts.push(...f);
     for (const x of runRules(QIMEN_EVENT_RULES, f).fired) fired.push({ system: "qimen", fired: x });
   }

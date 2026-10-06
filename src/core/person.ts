@@ -74,7 +74,8 @@ export interface CalculationSettings {
   origin: "builtin" | "user" | "migrated-v1";
   bazi: { school: string; ziHour: "lateZiSameDay" | "earlyZiNextDay" };
   ziwei: { ruleProfileId: string };
-  qimen: { school: string; method: "chaibu"; plate: "rotating" };
+  /** selfStem：代表自己的天干；year＝年命（出生年干，預設）、day＝當日日干（擇時常用） */
+  qimen: { school: string; method: "chaibu"; plate: "rotating"; selfStem?: "year" | "day" };
   iching: { dailyMethod: "meihua_date_birthhour" };
   /** 由 schema v1 轉換時保留的原始設定（稽核用） */
   migratedFrom?: { schemaVersion: 1; raw: unknown };
