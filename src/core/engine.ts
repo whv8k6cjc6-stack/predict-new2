@@ -27,6 +27,8 @@ export interface Moment {
   civilTime: string;     // HH:mm
   timeZone: string;      // IANA
   location?: { lat: number; lng: number };
+  /** 以真太陽時判斷時辰（只用在指定時刻的擇時事件） */
+  trueSolar?: { longitude: number } | null;
 }
 
 export interface ChartInput {

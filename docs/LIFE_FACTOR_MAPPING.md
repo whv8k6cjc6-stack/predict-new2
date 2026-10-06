@@ -139,6 +139,11 @@
 | `qimen.domain.bad` | executionResistance、timingSensitive | 則事多阻滯／事情可以做，但建議改時間 | 原則「事多阻滯」＝推進有阻力；「建議改時間」＝時段影響大 | 依規則 |  |
 | `qimen.event.good` | favorableTiming | 時機站在你這邊 | 明寫時機有利 | 依規則 |  |
 | `qimen.event.bad` | timingSensitive | 事情可以做，但建議改時間 | 明寫建議改時間 | 依規則 | 規則只說此時辰不宜，未說明事情本身的成敗，不映射為推進阻力 |
+| `qimen.event.wubuyu` | timingSensitive | 重要的開始建議改時間 | 明寫重要的開始改時間＝時段影響大 | 依規則 | 傳統只說此時辰避開，未說明事情成敗，不映射為推進阻力 |
+| `qimen.event.fuyin` | delayRisk | 事情進展慢、容易拖延 | 明寫進展慢、容易拖延 | 依規則 |  |
+| `qimen.event.fanyin` | planDisruptionRisk、changeRisk | 容易反覆、變卦／預留變更的空間 | 「反覆、變卦」＝計畫易被打亂、變動 | 依規則 |  |
+| `qimen.event.jixing` | communicationConflictRisk、setbackRisk | 容易起衝突或受挫 | 「起衝突」＝衝突；「受挫」＝挫折 | 依規則 |  |
+| `qimen.event.rumu` | executionResistance | 事情容易卡住、施展不開 | 明寫卡住、施展不開＝推進有阻力 | 依規則 |  |
 | `iching.tiyong.用生體` | supportAvailable | 事情容易得到助力 | 明寫得到助力 | 依規則 |  |
 | `iching.tiyong.比和` | cooperationSupport、communicationSupport | 合作與溝通順暢 | 明寫合作與溝通順暢 | 依規則 |  |
 | `iching.tiyong.體克用` | progressOpportunity、workloadIncrease（context） | 事情可以辦成，只是要親自投入 | 「可以辦成」＝推進機會；「要親自投入」＝負荷（中性脈絡） | 依規則 |  |
@@ -158,7 +163,7 @@
 | `iching.linepos.4` | hierarchyFriction | 與上位者互動要格外謹慎 | 與上位者互動需謹慎＝與上級互動易生摩擦 | 依規則 |  |
 | `iching.linepos.5` | leadershipOpportunity、progressOpportunity | 容易有成果、主導權 | 「主導權」＝主導的機會；「有成果」＝推進機會 | 依規則 |  |
 
-## 逐條對照（357 條）
+## 逐條對照（427 條）
 
 | 規則 | 原本結論 | 生活因素 | 可靠度 |
 |---|---|---|---|
@@ -475,32 +480,102 @@
 | `qimen.decision.bad` | 奇門盤上，今天白天「決策」的用神{用神}多落在不利位置，宜避開{避開}。 | executionResistance、timingSensitive | 命理原則 |
 | `qimen.event.work.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.work.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.work.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.work.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.work.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.work.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.work.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.investment.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.investment.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.investment.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.investment.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.investment.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.investment.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.investment.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.interview.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.interview.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.interview.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.interview.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.interview.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.interview.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.interview.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.jobchange.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.jobchange.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.jobchange.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.jobchange.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.jobchange.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.jobchange.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.jobchange.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.trip.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.trip.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.trip.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.trip.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.trip.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.trip.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.trip.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.contract.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.contract.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.contract.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.contract.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.contract.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.contract.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.contract.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.house.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.house.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.house.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.house.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.house.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.house.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.house.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.car.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.car.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.car.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.car.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.car.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.car.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.car.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.negotiation.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.negotiation.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.negotiation.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.negotiation.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.negotiation.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.negotiation.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.negotiation.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.confession.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.confession.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.confession.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.confession.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.confession.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.confession.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.confession.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.move.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.move.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.move.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.move.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.move.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.move.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.move.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.medical.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.medical.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.medical.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.medical.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.medical.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.medical.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.medical.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.meeting.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.meeting.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.meeting.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.meeting.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.meeting.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.meeting.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.meeting.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `qimen.event.other.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.other.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.other.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 命理原則 |
+| `qimen.event.other.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 命理原則 |
+| `qimen.event.other.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 命理原則 |
+| `qimen.event.other.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 命理原則 |
+| `qimen.event.other.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 命理原則 |
 | `iching.tiyong.用生體` | 今日卦{本卦}：外在條件主動來幫你（{體用}）。 | supportAvailable | 命理原則 |
 | `iching.tiyong.比和` | 今日卦{本卦}：你和環境同步（{體用}）。 | cooperationSupport、communicationSupport | 命理原則 |
 | `iching.tiyong.體克用` | 今日卦{本卦}：你能掌控局面，但要自己出力（{體用}）。 | progressOpportunity、workloadIncrease | 命理原則 |

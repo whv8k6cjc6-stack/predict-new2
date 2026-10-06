@@ -39,7 +39,15 @@ export interface QimenChart {
   doors: Record<number, string>; stars: Record<number, string>; gods: Record<number, string>;
   zhiFu: string; zhiShi: string; zhiFuPalace: number; zhiShiPalace: number;
   kong: number[]; yima: number; yimaPalace: number;
+  /** 日空亡（日柱所在旬的空亡地支） */
+  dayKong: number[];
+  /** 伏吟：值符（星）或值使（門）仍在本位；反吟：落到對宮 */
+  fuyin: { star: boolean; door: boolean }; fanyin: { star: boolean; door: boolean };
+  /** 五不遇時：時干剋日干且陰陽相同 */
+  wuBuYu: boolean;
   method: "chaibu"; godNaming: QimenGodNaming;
+  /** 排盤時間基準：standard＝標準時間；trueSolar＝真太陽時 */
+  timeBasis: "standard" | "trueSolar";
 }
 
 export function xunYi(index: number) {
@@ -56,8 +64,14 @@ function preciseTerm(jdUT: number) {
   return SOLAR_TERMS[((i % 24) + 24) % 24];
 }
 
-export function computeQimenChart(date: string, time: string, timeZone: string, godNaming: QimenGodNaming = "modern"): QimenChart {
-  const r = resolveCivil({ date, time, timeZone });
+/** 時干剋日干、陰陽相同（陽剋陽、陰剋陰）＝五不遇時 */
+export function isWuBuYu(dayStem: number, hourStem: number) {
+  const el = (i: number) => Math.floor(i / 2); // 木火土金水
+  return hourStem % 2 === dayStem % 2 && (el(hourStem) + 2) % 5 === el(dayStem);
+}
+
+export function computeQimenChart(date: string, time: string, timeZone: string, godNaming: QimenGodNaming = "modern", opts: { trueSolar?: { longitude: number } | null } = {}): QimenChart {
+  const r = resolveCivil({ date, time, timeZone, trueSolar: opts.trueSolar ?? null });
   const p = fourPillars(r, "earlyZiNextDay");
   const dp = p.day, hp = p.hour!;
   const term = preciseTerm(r.jdUT);
@@ -100,11 +114,16 @@ export function computeQimenChart(date: string, time: string, timeZone: string, 
   const kong = [(hb0 + 10) % 12, (hb0 + 11) % 12];
   const yimaB = [2, 8, 11, 5][[8, 0, 4].includes(hp.branch) ? 0 : [2, 6, 10].includes(hp.branch) ? 1 : [5, 9, 1].includes(hp.branch) ? 2 : 3];
   const yimaPalace = Number(Object.entries(PALACE_BRANCHES).find(([, bs]) => bs.includes(yimaB))![0]);
+  const dh = (dp.index - (dp.index % 10)) % 12;
+  const dayKong = [(dh + 10) % 12, (dh + 11) % 12];
+  const sh = ((shift % 8) + 8) % 8, dsh = ((dShift % 8) + 8) % 8;
   return {
     term, yang, ju, yuan: (["上元", "中元", "下元"] as const)[yuanIdx],
     pillars: { year: p.year.text, month: p.month.text, day: dp.text, hour: hp.text },
     hourGz: hp, xunHead: headText, fuShou: yi, ground, sky, doors, stars, gods,
     zhiFu, zhiShi, zhiFuPalace: p1, zhiShiPalace: pd, kong, yima: yimaB, yimaPalace, method: "chaibu", godNaming,
+    dayKong, fuyin: { star: sh === 0, door: dsh === 0 }, fanyin: { star: sh === 4, door: dsh === 4 }, wuBuYu: isWuBuYu(dp.stem, hp.stem),
+    timeBasis: r.chartLocal.basis,
   };
 }
 
@@ -120,6 +139,11 @@ const STEM_PATTERNS: { sky: string; ground: string; name: string; delta: number;
   { sky: "庚", ground: "己", name: "刑格", delta: -2, plain: "凶格，易有官非口角、事多刑剋。" },
 ];
 
+/** 六儀擊刑：天盤六儀落入與其旬首地支相刑之宮 */
+export const JIXING: Record<string, number> = { 戊: 3, 己: 2, 庚: 8, 辛: 9, 壬: 4, 癸: 4 };
+/** 三奇入墓（通行說法：乙奇臨坤、丙奇臨乾、丁奇臨艮；另有乙奇臨乾之說） */
+export const QI_MU: Record<string, number> = { 乙: 2, 丙: 6, 丁: 8 };
+
 export interface PalaceNote { term: string; plain: string; delta: number }
 export interface PalaceEval { palace: number; dir: string; door: string; star: string; god: string; sky: string; ground: string; score: number; kong: boolean; yima: boolean; notes: PalaceNote[] }
 
@@ -134,15 +158,25 @@ export function evalPalace(c: QimenChart, palIn: number): PalaceEval {
   if (GOOD_GODS.includes(god)) notes.push({ term: god, plain: "吉神臨宮", delta: 1 });
   else if (BAD_GODS.includes(god)) notes.push({ term: god, plain: "凶神臨宮", delta: -1 });
   if (KE[DOOR_EL[door]] === PALACE_ELEMENT[pal]) notes.push({ term: "門迫", plain: `${door}剋宮，吉門減吉、凶門更凶`, delta: -1 });
+  else if (KE[PALACE_ELEMENT[pal]] === DOOR_EL[door]) notes.push(GOOD_DOORS.includes(door)
+    ? { term: "門制", plain: `宮剋${door}，吉門受制、吉減`, delta: -0.5 }
+    : { term: "門制", plain: `宮剋${door}，凶門受制、凶減`, delta: BAD_DOORS.includes(door) ? 0.5 : 0 });
+  for (const s of sky.split("/")) {
+    if (JIXING[s] === pal) notes.push({ term: "六儀擊刑", plain: `天盤${s}落${PALACE_GUA[pal]}宮相刑，主衝突、刑傷與受挫`, delta: -2 });
+    if (QI_MU[s] === pal) notes.push({ term: "三奇入墓", plain: `${s}奇落${PALACE_GUA[pal]}宮入墓，奇氣受困、施展不開`, delta: -1 });
+  }
   for (const s of sky.split("/")) {
     const pt = STEM_PATTERNS.find(x => x.sky === s && x.ground === ground);
     if (pt) notes.push({ term: pt.name, plain: pt.plain, delta: pt.delta });
   }
   if (["乙", "丙", "丁"].some(q => sky.startsWith(q)) && GOOD_DOORS.includes(door)) notes.push({ term: "三奇得門", plain: "三奇與吉門同宮，事情有轉機與貴氣", delta: 1 });
-  const kong = PALACE_BRANCHES[pal].some(b => c.kong.includes(b));
+  const kong = PALACE_BRANCHES[pal].some(b => c.kong.includes(b) || c.dayKong.includes(b));
   const yima = c.yimaPalace === pal;
   let score = notes.reduce((s, n) => s + n.delta, 0);
-  if (kong) { notes.push({ term: "空亡", plain: "所臨宮位逢旬空，吉凶皆減半、事多落空待時", delta: 0 }); score *= 0.5; }
+  if (kong) {
+    const which = [PALACE_BRANCHES[pal].some(b => c.kong.includes(b)) ? "時" : "", PALACE_BRANCHES[pal].some(b => c.dayKong.includes(b)) ? "日" : ""].filter(Boolean).join("、");
+    notes.push({ term: "空亡", plain: `所臨宮位逢${which}旬空，吉凶皆減半、事多落空待時`, delta: 0 }); score *= 0.5;
+  }
   if (yima) notes.push({ term: "驛馬", plain: "時辰驛馬臨宮，主動、主速、主遠行", delta: 0 });
   return { palace: pal, dir: PALACE_DIR[pal], door, star, god, sky, ground, score, kong, yima, notes };
 }
@@ -193,7 +227,8 @@ export const YONGSHEN: Record<EventKind, { label: string; use: { kind: "door" | 
 export interface YongshenEval { label: string; palace: number | null; eval: PalaceEval | null; relation: string; score: number; detail: string }
 
 /** 某時辰盤中，某事件用神對年命（自身）的吉凶 */
-export function evalYongshen(c: QimenChart, nianMing: string, kind: EventKind): { self: PalaceEval; items: YongshenEval[]; score: number } {
+/** score：含整盤時辰格局（排時段先後、事件時刻用）；base：不含（白天整體態勢用，避免每天固定出現的時辰格局讓整體系統性偏低） */
+export function evalYongshen(c: QimenChart, nianMing: string, kind: EventKind): { self: PalaceEval; items: YongshenEval[]; score: number; base: number; patterns: ChartPattern[] } {
   const sp = findPalace(c, "sky", nianMing) ?? 2;
   const self = evalPalace(c, sp);
   const items: YongshenEval[] = YONGSHEN[kind].use.map(u => {
@@ -206,7 +241,20 @@ export function evalYongshen(c: QimenChart, nianMing: string, kind: EventKind): 
   let score = items.length ? items.reduce((s, x) => s + x.score, 0) / items.length : self.score;
   if (kind === "health" || kind === "medical") { const rui = findPalace(c, "star", "天芮"); if (rui === self.palace) score -= 2; }
   if (kind === "overall") score = self.score;
-  return { self, items, score };
+  const patterns = chartPatterns(c);
+  const base = score;
+  for (const p of patterns) score += p.delta;
+  return { self, items, score, base, patterns };
+}
+
+export interface ChartPattern { key: "wubuyu" | "fuyin" | "fanyin"; term: string; plain: string; delta: number }
+/** 整張盤（時辰）層級的格局：五不遇時、伏吟、反吟。只影響時段先後，不單獨決定吉凶。 */
+export function chartPatterns(c: QimenChart): ChartPattern[] {
+  const out: ChartPattern[] = [];
+  if (c.wuBuYu) out.push({ key: "wubuyu", term: "五不遇時", plain: "時干剋日干，傳統擇時避開的時辰", delta: -2 });
+  if (c.fuyin.star || c.fuyin.door) out.push({ key: "fuyin", term: c.fuyin.star && c.fuyin.door ? "星門伏吟" : c.fuyin.star ? "星伏吟" : "門伏吟", plain: "值符或值使仍在本位，事情進展慢、宜守不宜急進", delta: -1 });
+  if (c.fanyin.star || c.fanyin.door) out.push({ key: "fanyin", term: c.fanyin.star && c.fanyin.door ? "星門反吟" : c.fanyin.star ? "星反吟" : "門反吟", plain: "值符或值使落到對宮，事情容易反覆、變卦", delta: -1 });
+  return out;
 }
 
 export const SHI_CHEN = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
@@ -217,6 +265,8 @@ export interface DayScan {
   charts: QimenChart[];
   byKind: Partial<Record<EventKind, { hourScores: number[]; best: number[]; avoid: number[]; daytimeAvg: number; bestDetail: string }>>;
   goodDirs: string[]; badDirs: string[];
+  /** 各時辰的整盤格局（五不遇時、伏吟、反吟） */
+  hourPatterns: ChartPattern[][];
 }
 
 /** 掃描一日 12 時辰：各事件用神分數、最佳與應避開時辰、吉方與不利方 */
@@ -228,13 +278,16 @@ export function scanDay(date: string, timeZone: string, nianMing: string, kinds:
   for (const k of kinds) {
     const evs = charts.map(c => evalYongshen(c, nianMing, k));
     const hs = evs.map(e => Math.round(e.score * 10) / 10);
+    const hb = evs.map(e => Math.round(e.base * 10) / 10);
     const sorted = ACTIVE.slice().sort((a, b) => hs[b] - hs[a]);
-    const best = sorted.filter(i => hs[i] >= 1.5).slice(0, 2);
-    const avoid = ACTIVE.slice().sort((a, b) => hs[a] - hs[b]).filter(i => hs[i] <= -1.5).slice(0, 2);
+    // 五不遇時不列為較佳時段，並優先列入應避開
+    const best = sorted.filter(i => hs[i] >= 1.5 && !charts[i].wuBuYu).slice(0, 2);
+    const wby = ACTIVE.filter(i => charts[i].wuBuYu);
+    const avoid = [...new Set([...wby, ...ACTIVE.slice().sort((a, b) => hs[a] - hs[b]).filter(i => hs[i] <= -1.5)])].slice(0, 2);
     const bi = sorted[0];
     const e = evs[bi];
     byKind[k] = {
-      hourScores: hs, best, avoid, daytimeAvg: DAY.reduce((s, i) => s + hs[i], 0) / DAY.length,
+      hourScores: hs, best, avoid, daytimeAvg: DAY.reduce((s, i) => s + hb[i], 0) / DAY.length,
       bestDetail: `${SHI_CHEN[bi]}時：${e.items.map(x => x.detail).join("；") || `年命落${e.self.dir}宮（${e.self.god}、${e.self.star}、${e.self.door}）`}`,
     };
   }
@@ -243,7 +296,7 @@ export function scanDay(date: string, timeZone: string, nianMing: string, kinds:
     for (const pal of RING) { const ev = evalPalace(charts[i], pal); tally[ev.dir] = (tally[ev.dir] ?? 0) + ev.score; }
   });
   const dirs = Object.entries(tally).sort((a, b) => b[1] - a[1]);
-  return { charts, byKind, goodDirs: dirs.filter(d => d[1] > 2).slice(0, 2).map(d => d[0]), badDirs: dirs.reverse().filter(d => d[1] < -2).slice(0, 2).map(d => d[0]) };
+  return { charts, byKind, goodDirs: dirs.filter(d => d[1] > 2).slice(0, 2).map(d => d[0]), badDirs: dirs.reverse().filter(d => d[1] < -2).slice(0, 2).map(d => d[0]), hourPatterns: charts.map(chartPatterns) };
 }
 
 /** 年命：出生年干（甲年遁於旬首六儀） */
@@ -257,6 +310,9 @@ export function qimenFacts(scan: DayScan, kinds: EventKind[], nianMing: string):
   add("qimen.term", `${c.term}${c.yuan}${c.yang ? "陽" : "陰"}遁${c.ju}局`, "定局", `拆補法：${c.term}${c.yuan}，${c.yang ? "陽" : "陰"}遁${c.ju}局`);
   add("qimen.goodDirs", scan.goodDirs, "吉方", "白天各時辰各宮門星神格局積分");
   add("qimen.badDirs", scan.badDirs, "不利方位", "白天各時辰各宮門星神格局積分");
+  const ACT = [3, 4, 5, 6, 7, 8, 9, 10];
+  const pat = ACT.flatMap(i => scan.hourPatterns[i].map(p => `${SHI_CHEN[i]}時（${SHI_RANGE[i]}）${p.term}`));
+  add("qimen.hourPatterns", pat.length ? pat : ["白天沒有五不遇時、伏吟或反吟的時辰"], "白天整盤格局", "五不遇時（時干剋日干、陰陽相同）、星門伏吟（值符值使在本位）、反吟（落對宮）");
   for (const k of kinds) {
     const x = scan.byKind[k]!;
     const lvl = x.daytimeAvg >= 1.5 ? "good" : x.daytimeAvg <= -1 ? "bad" : "mixed";
@@ -264,7 +320,7 @@ export function qimenFacts(scan: DayScan, kinds: EventKind[], nianMing: string):
     add(`qimen.${k}.avg`, Math.round(x.daytimeAvg * 10) / 10, `${YONGSHEN[k].label}白天平均`, "辰至酉六個時辰平均");
     const hrs = (a: number[], none: string) => a.length ? a.map(i => `${SHI_CHEN[i]}時（${SHI_RANGE[i]}）`) : [none];
     add(`qimen.${k}.best`, hrs(x.best, "無特別突出的時辰"), `${YONGSHEN[k].label}最佳時辰`, x.bestDetail);
-    add(`qimen.${k}.avoid`, hrs(x.avoid, "無特別需避開的時辰"), `${YONGSHEN[k].label}應避開時辰`, "用神落凶門凶神、剋年命或逢凶格");
+    add(`qimen.${k}.avoid`, hrs(x.avoid, "無特別需避開的時辰"), `${YONGSHEN[k].label}應避開時辰`, "五不遇時優先；其次用神落凶門凶神、剋年命、擊刑入墓或逢凶格");
     add(`qimen.${k}.bestDetail`, x.bestDetail, `${YONGSHEN[k].label}最佳時辰盤面`, x.bestDetail);
     add(`qimen.${k}.yongshen`, YONGSHEN[k].use.map(u => u.name).join("、") || "年命", `${YONGSHEN[k].label}用神`, YONGSHEN[k].plain);
   }
@@ -273,8 +329,8 @@ export function qimenFacts(scan: DayScan, kinds: EventKind[], nianMing: string):
 
 export const QIMEN_META: EngineMeta = {
   id: "qimen", name: "奇門遁甲", phase: 5, status: "verified",
-  stamp: { school: "時家轉盤・拆補法", engine_version: "3.0.0", rule_version: "3.0.0", source_version: "通行格局表" },
-  summary: "九宮八門九星八神、值符值使、空亡、驛馬、事件用神與吉時方位",
+  stamp: { school: "時家轉盤・拆補法", engine_version: "3.1.0", rule_version: "3.1.0", source_version: "通行格局表" },
+  summary: "九宮八門九星八神、值符值使、時日空亡、驛馬、五不遇時、伏吟反吟、擊刑入墓、事件用神與吉時方位",
 };
 
 export const QIMEN_KINDS: EventKind[] = ["overall", "career", "wealth", "investment", "social", "love", "travel", "health", "decision"];
@@ -310,7 +366,22 @@ export function qimenEventFacts(c: QimenChart, nianMing: string, kind: EventKind
   const level = s >= 1.5 ? "good" : s <= -1.5 ? "bad" : "mixed";
   const detail = e.items.map(x => x.detail).join("；") || `年命落${e.self.dir}宮（${e.self.god}、${e.self.star}、${e.self.door}）`;
   const add = (key: string, value: unknown, label: string, derivation: string): Fact => ({ key: `qimen.event.${key}`, value, label, derivation, system: "qimen" });
+  const pal = [e.self, ...e.items.map(x => x.eval).filter((x): x is PalaceEval => !!x)];
+  const noteIn = (t: string) => pal.find(p => p.notes.some(n => n.term === t));
+  const pt = (k: ChartPattern["key"]) => e.patterns.find(p => p.key === k);
+  const jx = noteIn("六儀擊刑"), rm = noteIn("三奇入墓");
   return [
+    add("wubuyu", !!pt("wubuyu"), "五不遇時", pt("wubuyu") ? "是" : "否"),
+    add("wubuyuDetail", `${c.pillars.day}日${c.pillars.hour}時${pt("wubuyu") ? "，時干剋日干、陰陽相同" : "，不是五不遇時"}`, "五不遇時依據", "時干與日干的生剋與陰陽"),
+    add("fuyin", !!pt("fuyin"), "伏吟", pt("fuyin") ? "是" : "否"),
+    add("fuyinDetail", pt("fuyin") ? `${pt("fuyin")!.term}（值符${c.zhiFu}、值使${c.zhiShi}）` : "無伏吟", "伏吟依據", "值符、值使是否仍在本位"),
+    add("fanyin", !!pt("fanyin"), "反吟", pt("fanyin") ? "是" : "否"),
+    add("fanyinDetail", pt("fanyin") ? `${pt("fanyin")!.term}（值符${c.zhiFu}、值使${c.zhiShi}）` : "無反吟", "反吟依據", "值符、值使是否落到對宮"),
+    add("jixing", !!jx, "用神或年命宮六儀擊刑", jx ? "是" : "否"),
+    add("jixingDetail", jx ? `${jx.dir}宮：${jx.notes.find(n => n.term === "六儀擊刑")!.plain}` : "無擊刑", "擊刑依據", "天盤六儀落宮"),
+    add("rumu", !!rm, "用神或年命宮三奇入墓", rm ? "是" : "否"),
+    add("rumuDetail", rm ? `${rm.dir}宮：${rm.notes.find(n => n.term === "三奇入墓")!.plain}` : "無入墓", "入墓依據", "天盤三奇落宮"),
+    add("timeBasis", c.timeBasis === "trueSolar" ? "真太陽時" : "標準時間", "排盤時間基準", c.timeBasis === "trueSolar" ? "依所在地經度與均時差換算真太陽時判斷時辰" : "依標準時間判斷時辰"),
     add("kind", kind, "事件類型", YONGSHEN[kind].label),
     add("label", YONGSHEN[kind].label, "事件", YONGSHEN[kind].plain),
     add("level", level, "事件用神態勢", `分數 ${s}（≥1.5 有利、≤−1.5 不利）`),

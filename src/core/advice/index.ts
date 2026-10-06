@@ -47,10 +47,10 @@ export function adviseDay(n: NatalSet, date: string, timeZone: string, topics: T
 }
 
 /** 擇時事件：指定時刻（時辰層＋當日流日層）的建議；較佳／避開時段由呼叫端依各時辰事件分數提供。 */
-export function adviseEvent(n: NatalSet, typeKey: string, date: string, time: string, timeZone: string, timing: { best: string[]; avoid: string[] } | null, investor?: InvestorProfile): StructuredAdvice {
+export function adviseEvent(n: NatalSet, typeKey: string, date: string, time: string, timeZone: string, timing: { best: string[]; avoid: string[] } | null, investor?: InvestorProfile, trueSolar: { longitude: number } | null = null): StructuredAdvice {
   const type = eventTypeOf(typeKey);
   const c = collect(n, { civilDate: date, civilTime: "12:00", timeZone }, "day");
-  const h = collectHour(n, date, time, timeZone, type.qimen);
+  const h = collectHour(n, date, time, timeZone, type.qimen, trueSolar);
   const fired = [...c.fired.filter(f => f.system !== "iching"), ...h.fired]; // 事件改用提問時刻起卦，不重複計入每日卦
   return buildStructuredAdvice({
     topic: EVENT_TOPIC[type.key] ?? "general", date, mode: "event", interpretations: interpretationResults(n, fired, date, c.ziwei), investor,
