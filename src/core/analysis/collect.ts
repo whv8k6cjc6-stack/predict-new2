@@ -5,7 +5,7 @@ import type { ZiweiRuleProfile } from "../ziwei/profile";
 import type { VersionStamp } from "../versioning";
 import { BaziEngine, computeBaziTransit, baziFacts, type BaziNatal, type BaziTransit } from "../bazi";
 import { ZiweiEngine, computeZiweiTransit, ziweiFacts, type ZiweiNatal, type ZiweiTransit } from "../ziwei";
-import { QimenEngine, QIMEN_KINDS, scanDay, qimenFacts, qimenEventFacts, computeQimenChart, SHI_CHEN, SHI_RANGE, type QimenNatal, type DayScan, type EventKind } from "../qimen";
+import { QimenEngine, QIMEN_KINDS, QIMEN_SCAN_KINDS, scanDay, qimenFacts, qimenEventFacts, computeQimenChart, SHI_CHEN, SHI_RANGE, type QimenNatal, type DayScan, type EventKind } from "../qimen";
 import { IchingEngine, castDaily, castAtTime, ichingFacts, type IchingNatal, type IchingReading } from "../iching";
 import { hourBranch } from "../calendar/ganzhi";
 import { runRules, type FiredRule } from "../rules/engine";
@@ -95,7 +95,7 @@ export function collect(n: NatalSet, at: Moment, level: Level, opts: CollectOpti
     else facts.push(...f);
   }
   if (level === "day" && n.qimen) {
-    scan = scanDay(at.civilDate, at.timeZone, n.qimen.nianMing, QIMEN_KINDS, "modern", n.qimen.selfStem);
+    scan = scanDay(at.civilDate, at.timeZone, n.qimen.nianMing, QIMEN_SCAN_KINDS, "modern", n.qimen.selfStem);
     const f = qimenFacts(scan, QIMEN_KINDS, n.qimen.nianMing, n.qimen.selfStem);
     push("qimen", f, runRules(QIMEN_RULES, f));
   }

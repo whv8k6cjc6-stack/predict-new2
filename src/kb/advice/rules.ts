@@ -115,6 +115,25 @@ export const ADVICE_RULES: AdviceRule[] = [
   R("JOBC_INSIDER_001", ["jobChange"], SHORT, { any: SUPPORT }, 58, { action: "JOBC_ASK_INSIDER" }, "有人可以協助", "ask-help"),
   R("JOBC_MID_001", ["jobChange"], MID, { any: [...CHANGE, "changeOpportunity", ...DECISION_RISK, ...OPP] }, 62, { action: "JOBC_MID" }, "這段時間工作方向可能有變化", "mid-plan"),
 
+  // ───────── 請假 ─────────
+  R("LEAVE_APPLY_001", ["leave"], [...SHORT, ...MID], { any: [...LOAD, "hierarchyPressure", "responsibilityOpportunity", "delayRisk"] }, 70, { action: "LEAVE_APPLY", avoid: "LEAVE_AVOID_KEY_DAY" }, "工作上有待處理或需要你在場的事", "leave-apply"),
+  R("LEAVE_REST_001", ["leave"], SHORT, { any: FATIGUE }, 74, { action: "LEAVE_REST", avoid: "LEAVE_AVOID_WORK_CHECK" }, "體力與精神較需要恢復", "leave-rest"),
+  R("LEAVE_GO_001", ["leave"], SHORT, { any: ["movementIncrease", "travelSupport", "energySupport"], none: ["trafficDelayRisk", "scheduleDisruptionRisk", ...FATIGUE] }, 66, { action: "LEAVE_GO_OUT" }, "出行與精神條件不錯", "leave-go", { conflictPolicy: "suppressOnConflict" }),
+  R("LEAVE_FAMILY_001", ["leave"], SHORT, { any: ["relationshipWarmth", "cooperationSupport", "communicationSupport"], none: COMM_RISK }, 62, { action: "LEAVE_FAMILY" }, "與家人伴侶互動較順", "leave-family"),
+  R("LEAVE_ERRANDS_001", ["leave"], SHORT, { any: ["executionClarity", "resourceStability", "decisionClarity"] }, 56, { action: "LEAVE_ERRANDS", avoid: "LEAVE_AVOID_OVERPLAN" }, "處理事情較有條理", "leave-errands"),
+  R("LEAVE_HOURS_001", ["leave"], NOW, { any: ["favorableTiming", "hierarchySupport"] }, 52, { action: "LEAVE_BEST_HOURS" }, "有較佳的時段開口", "best-hours"),
+  R("CONFLICT_LEAVE_001", ["leave"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_LEAVE", avoid: "LEAVE_AVOID_OVERPLAN" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+
+  // ───────── 辭職 ─────────
+  R("RESIGN_PREP_001", ["resign"], [...SHORT, ...MID], { any: [...DECISION_RISK, ...RES_DOWN, ...SETBACK, "changeRisk", "instability"] }, 74, { action: "RESIGN_PREPARE", avoid: "RESIGN_AVOID_IMPULSE" }, "判斷條件或財務狀況還不夠穩", "resign-prepare"),
+  R("RESIGN_TALK_001", ["resign"], SHORT, { any: ["hierarchySupport", "communicationSupport", "decisionClarity", "changeOpportunity"], none: [...COMM_RISK, "hierarchyFriction"] }, 64, { action: "RESIGN_TALK" }, "溝通與判斷條件較好", "resign-talk", { conflictPolicy: "suppressOnConflict" }),
+  R("RESIGN_HANDOVER_001", ["resign"], [...SHORT, ...MID], { any: [...ERRORS, "delayRisk", "workloadIncrease"] }, 62, { action: "RESIGN_HANDOVER" }, "交接與細節較容易出狀況", "resign-handover"),
+  R("RESIGN_BRIDGE_001", ["resign"], SHORT, { any: [...COMM_RISK, "hierarchyFriction", "impulsivityRisk"] }, 70, { avoid: "JOBC_AVOID_BURN_BRIDGE" }, "與主管或同事較容易有摩擦", "public-challenge"),
+  R("RESIGN_WRITTEN_001", ["resign"], SHORT, { any: [...COMM_RISK, "trustRisk", "changeRisk"] }, 60, { avoid: "RESIGN_AVOID_VERBAL" }, "說法較容易出現落差", "written-confirm"),
+  R("RESIGN_HOURS_001", ["resign"], NOW, { any: ["favorableTiming"] }, 52, { action: "RESIGN_BEST_HOURS" }, "有較佳的時段開口", "best-hours"),
+  R("RESIGN_MID_001", ["resign"], MID, { any: [...CHANGE, "changeOpportunity", ...DECISION_RISK] }, 60, { action: "JOBC_MID" }, "這段時間適合先累積選項", "mid-jobchange"),
+  R("CONFLICT_RESIGN_001", ["resign"], [...SHORT, ...MID], {}, 74, { action: "CONFLICT_RESIGN", avoid: "RESIGN_AVOID_IMPULSE" }, "不同系統的訊號不一致", "conflict-method", { conflictPolicy: "conflictOnly", baseConfidence: "medium" }),
+
   // ───────── 財運 ─────────
   R("WEALTH_COLLECT_001", ["wealth"], SHORT, { any: RES_UP }, 66, { action: "WEALTH_COLLECT" }, "財務處理較穩、有實際收穫的機會", "collect"),
   R("WEALTH_NEGOTIATE_001", ["wealth"], SHORT, { all: ["resourceIncrease"], none: SETBACK }, 60, { action: "WEALTH_NEGOTIATE" }, "有實際收穫的機會", "negotiate", { conflictPolicy: "suppressOnConflict" }),

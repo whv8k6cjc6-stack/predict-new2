@@ -165,7 +165,7 @@
 | `iching.linepos.4` | hierarchyFriction | 與上位者互動要格外謹慎 | 與上位者互動需謹慎＝與上級互動易生摩擦 | 依規則 |  |
 | `iching.linepos.5` | leadershipOpportunity、progressOpportunity | 容易有成果、主導權 | 「主導權」＝主導的機會；「有成果」＝推進機會 | 依規則 |  |
 
-## 逐條對照（443 條）
+## 逐條對照（459 條）
 
 | 規則 | 原本結論 | 生活因素 | 可靠度 |
 |---|---|---|---|
@@ -512,6 +512,22 @@
 | `qimen.event.jobchange.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 引用原文 |
 | `qimen.event.jobchange.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 引用原文 |
 | `qimen.event.jobchange.sandun` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三遁或三奇得使，時機與助力都比較好。 | favorableTiming、supportAvailable | 引用原文 |
+| `qimen.event.leave.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
+| `qimen.event.leave.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.leave.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 引用原文 |
+| `qimen.event.leave.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 引用原文 |
+| `qimen.event.leave.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 引用原文 |
+| `qimen.event.leave.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 引用原文 |
+| `qimen.event.leave.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 引用原文 |
+| `qimen.event.leave.sandun` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三遁或三奇得使，時機與助力都比較好。 | favorableTiming、supportAvailable | 引用原文 |
+| `qimen.event.resign.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
+| `qimen.event.resign.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
+| `qimen.event.resign.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 引用原文 |
+| `qimen.event.resign.fuyin` | {時辰}做「{事件}」，奇門盤逢伏吟，事情進展慢。 | delayRisk | 引用原文 |
+| `qimen.event.resign.fanyin` | {時辰}做「{事件}」，奇門盤逢反吟，事情容易反覆、變卦。 | planDisruptionRisk、changeRisk | 引用原文 |
+| `qimen.event.resign.jixing` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢六儀擊刑，事情容易起衝突或受挫。 | communicationConflictRisk、setbackRisk | 引用原文 |
+| `qimen.event.resign.rumu` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三奇入墓，事情容易卡住、施展不開。 | executionResistance | 引用原文 |
+| `qimen.event.resign.sandun` | {時辰}做「{事件}」，奇門盤用神或代表你的宮位逢三遁或三奇得使，時機與助力都比較好。 | favorableTiming、supportAvailable | 引用原文 |
 | `qimen.event.trip.good` | {時辰}做「{事件}」，奇門用神{用神}落在有利位置。 | favorableTiming | 命理原則 |
 | `qimen.event.trip.bad` | {時辰}做「{事件}」，奇門用神{用神}落在不利位置，建議改時間。 | timingSensitive | 命理原則 |
 | `qimen.event.trip.wubuyu` | {時辰}做「{事件}」，奇門盤逢五不遇時，是傳統擇時避開的時辰。 | timingSensitive | 引用原文 |

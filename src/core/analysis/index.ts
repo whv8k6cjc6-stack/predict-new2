@@ -61,6 +61,10 @@ export interface DayAnalysis {
 
 const HOUR_GOOD = 1.2, HOUR_BAD = -1.2;
 const ACTIVE_HOURS = [3, 4, 5, 6, 7, 8, 9, 10];
+/** 需要在上班時間進行的事件（向主管請假、提辭職、面試、會議等）只在 07–17 點挑時段 */
+const OFFICE_EVENTS = ["work", "interview", "jobchange", "resign", "leave", "meeting"];
+const OFFICE_HOURS = [4, 5, 6, 7, 8];
+const hoursFor = (key: string) => OFFICE_EVENTS.includes(key) ? OFFICE_HOURS : ACTIVE_HOURS;
 
 function computeHours(n: NatalSet, c: Collected): HourSlot[] {
   return SHI_CHEN.map((br, i) => {
@@ -152,6 +156,28 @@ export interface EventAnalysis {
   advice: StructuredAdvice;         // 具體行動建議（ActionAdviceEngine）
   /** 以真太陽時判斷時辰時的說明（例：10:00 → 真太陽時 09:47，辰時） */
   timeNote: string | null;
+  /** 請假才有：請假當天適合做什麼（依當天奇門各類用神白天態勢排序） */
+  leavePlan: LeavePlanItem[] | null;
+}
+
+export interface LeavePlanItem { activity: string; level: "good" | "ok" | "notIdeal"; hours: string[]; note: string }
+const LEAVE_OPTIONS: { kind: EventKind; activity: string }[] = [
+  { kind: "travel", activity: "出門走走、看風景" },
+  { kind: "love", activity: "陪家人或伴侶" },
+  { kind: "social", activity: "和朋友見面聊聊" },
+  { kind: "health", activity: "在家休息、運動或預約健康檢查" },
+  { kind: "wealth", activity: "處理私事（銀行、戶政、繳費）" },
+];
+function leavePlanOf(scan: Collected["qimen"]): LeavePlanItem[] | null {
+  if (!scan) return null;
+  return LEAVE_OPTIONS.map(o => {
+    const x = scan.byKind[o.kind];
+    const avg = x?.daytimeAvg ?? 0;
+    const level: LeavePlanItem["level"] = avg >= 1.5 ? "good" : avg > -1 ? "ok" : "notIdeal";
+    const hours = (x?.best ?? []).map(plainHour);
+    const note = level === "good" ? "當天這類安排的時機較好" : level === "ok" ? "條件普通，照自己的步調安排即可" : "當天這類安排條件較差，可以改天或縮短";
+    return { activity: o.activity, level, hours: level === "notIdeal" ? [] : hours, note, avg };
+  }).sort((a, b) => b.avg - a.avg).map(({ avg: _a, ...r }) => r);
 }
 
 export interface EventOptions { trueSolar?: { longitude: number; placeName?: string } | null }
@@ -169,7 +195,7 @@ export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: s
   const type = eventTypeOf(typeKey);
   const c = collect(n, { civilDate: date, civilTime: "12:00", timeZone }, "day");
   const base = toEvidence(c.fired.filter(f => f.system !== "iching")); // 事件改用提問時刻起卦，不重複計入每日卦
-  const slots = ACTIVE_HOURS.map(i => { const t = hourTimeOf(i); const { r } = eventAt(n, base, type, date, t, timeZone); return { i, t, r }; });
+  const slots = hoursFor(type.key).map(i => { const t = hourTimeOf(i); const { r } = eventAt(n, base, type, date, t, timeZone); return { i, t, r }; });
   const ranked = [...slots].sort((a, b) => b.r.score - a.r.score);
   const chosen = time ?? ranked[0].t;
   // 自動挑選的時段取時辰中點，不受真太陽時影響；使用者指定的時刻才換算真太陽時
@@ -195,7 +221,7 @@ export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: s
     bestHours, avoidHours,
     slots: slots.map(s => ({ date, time: s.t, hour: hourLabel(s.i), score: s.r.score, band: s.r.band, top: s.r.evidence[0]?.text.conclusion ?? "" })),
     reading: h.reading, facts: [...c.facts, ...h.facts],
-    scoring: scoringComposition(n), timeNote,
+    scoring: scoringComposition(n), timeNote, leavePlan: type.key === "leave" ? leavePlanOf(c.qimen) : null,
   };
 }
 
@@ -208,7 +234,7 @@ export function findEventTimes(n: NatalSet, typeKey: string, fromDate: string, d
     const date = d.toISOString().slice(0, 10);
     const c = collect(n, { civilDate: date, civilTime: "12:00", timeZone }, "day");
     const base = toEvidence(c.fired.filter(f => f.system !== "iching"));
-    for (const i of ACTIVE_HOURS) {
+    for (const i of hoursFor(type.key)) {
       const t = hourTimeOf(i);
       const { r } = eventAt(n, base, type, date, t, timeZone);
       out.push({ date, time: t, hour: hourLabel(i), score: r.score, band: r.band, top: r.positives[0]?.text.conclusion ?? r.evidence[0]?.text.conclusion ?? "" });

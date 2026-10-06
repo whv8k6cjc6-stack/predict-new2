@@ -45,6 +45,8 @@
 | 訴訟（lawsuit） | partial | 22 | 21 | 21 | 1 | decade、annual | ziwei-doushu-quanshu-guangyi-scan |
 | 考試（exam） | dedicated | 35 | 33 | 33 | 2 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
 | 不動產（property） | partial | 30 | 30 | 30 | 0 | natal | ziwei-doushu-quanshu-guangyi-scan |
+| 請假（leave） | generalOnly | 0 | 0 | 0 | 0 | — | — |
+| 辭職（resign） | generalOnly | 0 | 0 | 0 | 0 | — | — |
 | 決策（decision） | dedicated | 49 | 49 | 49 | 0 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
 
 ## 判讀規則（1194 條）
