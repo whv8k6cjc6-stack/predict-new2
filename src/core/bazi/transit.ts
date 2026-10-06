@@ -73,7 +73,7 @@ function flowInfo(n: BaziNatal, scope: Scope, g: GanZhi): FlowInfo {
 }
 
 export function computeBaziTransit(n: BaziNatal, at: Moment): BaziTransit {
-  const r = resolveCivil({ date: at.civilDate, time: at.civilTime, timeZone: at.timeZone });
+  const r = resolveCivil({ date: at.civilDate, time: at.civilTime, timeZone: at.timeZone, trueSolar: at.trueSolar ?? null });
   const p = fourPillars(r, "lateZiSameDay");
   const age = (r.instantMs - n.resolved.instantMs) / (365.2422 * 86_400_000);
   const cyc = [...n.luck.cycles].reverse().find(c => age >= c.startAge) ?? null;

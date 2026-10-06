@@ -10,6 +10,7 @@ import { ScoringNote } from "@/ui/ZiweiSystem";
 import { AdviceDetail, TodayFocus } from "@/ui/Advice";
 import { NoPersonBanner } from "@/ui/Scales";
 import { dateTitle, deviceTimeZone, todayIn, useComputed, useNatal, weekday } from "@/ui/useAnalysis";
+import { PLACES } from "@/kb/places";
 
 export default function EventPage() {
   const { active, prefs } = useApp();
@@ -20,9 +21,14 @@ export default function EventPage() {
   const [time, setTime] = useState("10:00");
   const [req, setReq] = useState<{ type: string; date: string; time: string | null } | null>(null);
   const [findDays, setFindDays] = useState<number | null>(null);
+  const [tst, setTst] = useState(true);
+  const birthPlace = active?.birth.place;
+  const [placeName, setPlaceName] = useState<string | null>(null);
+  const place = PLACES.find(p => p.name === (placeName ?? birthPlace?.name)) ?? (birthPlace ? { name: birthPlace.name, lng: birthPlace.lng } : PLACES[0]);
   useEffect(() => { const z = deviceTimeZone(); setTz(z); setDate(todayIn(z)); }, []);
   const { natal, key } = useNatal(active);
-  const ev = useComputed(req && natal && key && tz ? `event|${key}|${req.type}|${req.date}|${req.time}|${tz}` : null, () => analyzeEvent(natal!, req!.type, req!.date, req!.time, tz!));
+  const tsOpt = tst ? { trueSolar: { longitude: place.lng, placeName: place.name } } : {};
+  const ev = useComputed(req && natal && key && tz ? `event|${key}|${req.type}|${req.date}|${req.time}|${tz}|${tst ? place.lng : "std"}` : null, () => analyzeEvent(natal!, req!.type, req!.date, req!.time, tz!, tsOpt));
   const find = useComputed(findDays && natal && key && tz ? `find|${key}|${type}|${date}|${findDays}|${tz}` : null, () => findEventTimes(natal!, type, date, findDays!, tz!, 6));
   const t = eventTypeOf(type);
   const e = ev.data;
@@ -41,6 +47,15 @@ export default function EventPage() {
             <Field label="日期"><input type="date" className="input" value={date} onChange={x => { setDate(x.target.value); setFindDays(null); }} /></Field>
             <Toggle checked={auto} onChange={setAuto} label="幫我挑當天最佳時辰" desc="關閉後可指定確切時間" />
             {!auto && <Field label="時間"><input type="time" className="input" value={time} onChange={x => setTime(x.target.value)} /></Field>}
+            {!auto && (
+              <div className="space-y-2" data-testid="event-tst">
+                <Toggle checked={tst} onChange={setTst} label="用真太陽時判斷時辰" desc="時鐘時間和太陽實際位置最多差十幾分鐘；接近時辰交界時，會影響排到哪一個時辰" />
+                {tst && <Field label="所在地"><select className="input" value={place.name} onChange={x => setPlaceName(x.target.value)}>
+                  {!PLACES.some(p => p.name === place.name) && <option value={place.name}>{place.name}</option>}
+                  {PLACES.map(p => <option key={p.name} value={p.name}>{p.region}・{p.name}</option>)}
+                </select></Field>}
+              </div>
+            )}
             <div className="grid grid-cols-2 gap-2">
               <Button variant="primary" disabled={!date} onClick={() => { setReq({ type, date, time: auto ? null : time }); setFindDays(null); }}>分析這一天</Button>
               <Button disabled={!date} onClick={() => { setFindDays(14); setReq(null); }}>幫我找時間</Button>
@@ -76,6 +91,7 @@ export default function EventPage() {
               <section className="card p-5">
                 <ScoreHeader score={e.result.score} confidence={e.result.confidence}>
                   <p className="mt-2 text-[13px] text-[var(--ink-3)]">時間：{e.time}{e.chosenBy === "best" ? "（系統挑選的當日最佳時辰）" : ""}</p>
+                  {e.timeNote && <p className="mt-0.5 text-[12px] text-[var(--ink-3)]" data-testid="event-time-note">{e.timeNote}</p>}
                 </ScoreHeader>
                 <p className="font-serif mt-3 text-[17px] leading-snug">{e.interp.oneLine}</p>
                 <DivergenceNote d={e.result.divergence} />

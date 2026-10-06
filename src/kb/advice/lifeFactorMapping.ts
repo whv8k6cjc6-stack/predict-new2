@@ -103,6 +103,11 @@ export const LIFE_FACTOR_MAPPING: Record<string, FactorMappingEntry> = {
   // ── 奇門：事件時辰 ──
   "qimen.event.good": M(["favorableTiming"], "時機站在你這邊", "明寫時機有利"),
   "qimen.event.bad": M(["timingSensitive"], "事情可以做，但建議改時間", "明寫建議改時間", { excluded: "規則只說此時辰不宜，未說明事情本身的成敗，不映射為推進阻力" }),
+  "qimen.event.wubuyu": M(["timingSensitive"], "重要的開始建議改時間", "明寫重要的開始改時間＝時段影響大", { excluded: "傳統只說此時辰避開，未說明事情成敗，不映射為推進阻力" }),
+  "qimen.event.fuyin": M(["delayRisk"], "事情進展慢、容易拖延", "明寫進展慢、容易拖延"),
+  "qimen.event.fanyin": M(["planDisruptionRisk", "changeRisk"], ["容易反覆、變卦", "預留變更的空間"], "「反覆、變卦」＝計畫易被打亂、變動"),
+  "qimen.event.jixing": M(["communicationConflictRisk", "setbackRisk"], ["容易起衝突或受挫"], "「起衝突」＝衝突；「受挫」＝挫折"),
+  "qimen.event.rumu": M(["executionResistance"], "事情容易卡住、施展不開", "明寫卡住、施展不開＝推進有阻力"),
   // ── 梅花：體用 ──
   "iching.tiyong.用生體": M(["supportAvailable"], "事情容易得到助力", "明寫得到助力"),
   "iching.tiyong.比和": M(["cooperationSupport", "communicationSupport"], "合作與溝通順暢", "明寫合作與溝通順暢"),

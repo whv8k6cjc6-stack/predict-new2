@@ -3,6 +3,7 @@
 import { DOMAINS, type DomainKey } from "../domains";
 import { bandOf, CONFIDENCE_LEVELS, type ConfidenceLevel, type ScoreBand } from "../score";
 import type { Fact, Moment } from "../engine";
+import { resolveCivil } from "../calendar/resolve";
 import { hourTimeOf, SHI_CHEN, SHI_RANGE, evalYongshen, type EventKind } from "../qimen";
 import type { IchingReading } from "../iching";
 import { eventTypeOf, type EventType } from "../events";
@@ -149,31 +150,43 @@ export interface EventAnalysis {
   facts: Fact[];
   scoring: ScoringComposition;
   advice: StructuredAdvice;         // 具體行動建議（ActionAdviceEngine）
+  /** 以真太陽時判斷時辰時的說明（例：10:00 → 真太陽時 09:47，辰時） */
+  timeNote: string | null;
 }
 
-function eventAt(n: NatalSet, base: Evidence[], type: EventType, date: string, time: string, tz: string) {
-  const h = collectHour(n, date, time, tz, type.qimen);
+export interface EventOptions { trueSolar?: { longitude: number; placeName?: string } | null }
+
+function eventAt(n: NatalSet, base: Evidence[], type: EventType, date: string, time: string, tz: string, tst: { longitude: number } | null = null) {
+  const h = collectHour(n, date, time, tz, type.qimen, tst);
   const ev = [...base, ...toEvidence(h.fired, true)];
   const r = scoreDomain(type.domain, ev, n, "day", null);
   return { r, h };
 }
 
 /** 事件分析：time 為 null 時自動找當日最佳時辰 */
-export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: string | null, timeZone: string): EventAnalysis {
+export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: string | null, timeZone: string, opts: EventOptions = {}): EventAnalysis {
+  const tst = opts.trueSolar ? { longitude: opts.trueSolar.longitude } : null;
   const type = eventTypeOf(typeKey);
   const c = collect(n, { civilDate: date, civilTime: "12:00", timeZone }, "day");
   const base = toEvidence(c.fired.filter(f => f.system !== "iching")); // 事件改用提問時刻起卦，不重複計入每日卦
   const slots = ACTIVE_HOURS.map(i => { const t = hourTimeOf(i); const { r } = eventAt(n, base, type, date, t, timeZone); return { i, t, r }; });
   const ranked = [...slots].sort((a, b) => b.r.score - a.r.score);
   const chosen = time ?? ranked[0].t;
-  const { r, h } = eventAt(n, base, type, date, chosen, timeZone);
+  // 自動挑選的時段取時辰中點，不受真太陽時影響；使用者指定的時刻才換算真太陽時
+  const { r, h } = eventAt(n, base, type, date, chosen, timeZone, time ? tst : null);
   const bestHours = ranked.filter(s => s.r.score >= 55).slice(0, 2).map(s => hourLabel(s.i));
   const avoidHours = [...ranked].reverse().filter(s => s.r.score < 50).slice(0, 2).map(s => hourLabel(s.i));
   const interp = interpret(r);
   const advice = adviseEvent(n, typeKey, date, chosen, timeZone, {
     best: ranked.filter(s => s.r.score >= 55).slice(0, 2).map(s => plainHour(s.i)),
     avoid: [...ranked].reverse().filter(s => s.r.score < 50).slice(0, 2).map(s => plainHour(s.i)),
-  });
+  }, undefined, time ? tst : null);
+  let timeNote: string | null = null;
+  if (time && tst) {
+    const rr = resolveCivil({ date, time, timeZone, trueSolar: tst });
+    const L = rr.chartLocal, hh = String(L.h).padStart(2, "0"), mm = String(L.mi).padStart(2, "0");
+    timeNote = `以${opts.trueSolar!.placeName ?? `東經 ${tst.longitude}°`}的真太陽時判斷時辰：${time} → ${hh}:${mm}（${SHI_CHEN[Math.floor(((L.h + 1) % 24) / 2)]}時）`;
+  }
   return {
     type, date, time: chosen, chosenBy: time ? "user" : "best",
     result: r, interp, advice,
@@ -182,7 +195,7 @@ export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: s
     bestHours, avoidHours,
     slots: slots.map(s => ({ date, time: s.t, hour: hourLabel(s.i), score: s.r.score, band: s.r.band, top: s.r.evidence[0]?.text.conclusion ?? "" })),
     reading: h.reading, facts: [...c.facts, ...h.facts],
-    scoring: scoringComposition(n),
+    scoring: scoringComposition(n), timeNote,
   };
 }
 

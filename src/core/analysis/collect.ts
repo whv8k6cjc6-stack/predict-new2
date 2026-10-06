@@ -112,18 +112,18 @@ const BAZI_HOUR_RULES = BAZI_RULES.filter(r => r.timescale === "hour");
 export const hourLabel = (i: number) => `${SHI_CHEN[i]}時（${SHI_RANGE[i]}）`;
 
 /** 某一時刻的時辰層級規則：八字流時、奇門事件用神（事件模式）、易經時間起卦（事件模式） */
-export function collectHour(n: NatalSet, date: string, time: string, timeZone: string, eventKind: EventKind | null): { fired: SystemFired[]; facts: Fact[]; reading: IchingReading | null } {
+export function collectHour(n: NatalSet, date: string, time: string, timeZone: string, eventKind: EventKind | null, trueSolar: { longitude: number } | null = null): { fired: SystemFired[]; facts: Fact[]; reading: IchingReading | null } {
   const fired: SystemFired[] = [], facts: Fact[] = [];
   if (n.bazi) {
-    const t = computeBaziTransit(n.bazi, { civilDate: date, civilTime: time, timeZone });
+    const t = computeBaziTransit(n.bazi, { civilDate: date, civilTime: time, timeZone, trueSolar });
     const f = baziFacts(n.bazi, t).filter(x => x.key.startsWith("bazi.hour.") || x.key.startsWith("bazi.natal."));
     facts.push(...f.filter(x => x.key.startsWith("bazi.hour.")));
     for (const x of runRules(BAZI_HOUR_RULES, f, BAZI_GLOBAL_SLOTS).fired) fired.push({ system: "bazi", fired: x });
   }
   let reading: IchingReading | null = null;
   if (eventKind && n.qimen) {
-    const c = computeQimenChart(date, time, timeZone);
-    const f = qimenEventFacts(c, n.qimen.nianMing, eventKind, hourLabel(hourBranch(Number(time.split(":")[0]))));
+    const c = computeQimenChart(date, time, timeZone, "modern", { trueSolar });
+    const f = qimenEventFacts(c, n.qimen.nianMing, eventKind, hourLabel(c.hourGz.branch));
     facts.push(...f);
     for (const x of runRules(QIMEN_EVENT_RULES, f).fired) fired.push({ system: "qimen", fired: x });
   }
