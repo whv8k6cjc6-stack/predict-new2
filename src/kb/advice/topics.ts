@@ -6,7 +6,7 @@ import type { FactorId, FactorNature } from "@/core/advice/factors";
 export type TopicId =
   | "general" | "career" | "promotion" | "jobSearch" | "jobChange" | "wealth" | "investment"
   | "relationship" | "marriage" | "social" | "health" | "travel" | "cooperation" | "lawsuit" | "exam" | "property" | "decision"
-  | "leave" | "resign";
+  | "leave" | "resign" | "stopLoss" | "takeProfit";
 
 /** dedicated：有該主題的判讀規則；partial：只有相近領域或部分規則；generalOnly：只有一般生活因素延伸；insufficient：本次沒有可用訊號 */
 export type TopicCoverage = "dedicated" | "partial" | "generalOnly" | "insufficient";
@@ -79,6 +79,15 @@ export const ADVICE_TOPICS: Record<TopicId, TopicDef> = {
     coverageNote: "目前此主題尚未建立完整專屬命理判讀規則，本建議依工作與決策判讀整理；預告期、特休與年資結算、離職手續請依勞動法令、公務人員相關規定或你的聘約辦理，必要時先問人事單位。",
     natureOverrides: { changeRisk: "context", instability: "context", movementIncrease: "context" },
   }),
+  stopLoss: T({
+    id: "stopLoss", label: "主觀停損", question: "依自己的判斷處理虧損部位", domains: ["investment", "decision"], coverage: "partial", basisLabel: "投資與決策判讀延伸", timingKind: "stopLoss", safety: "investment",
+    coverageNote: "目前此主題尚未建立完整專屬命理判讀規則，本建議依投資與決策判讀整理。要不要停損以你事先設定的投資紀律為準，這裡只談處理的時段、心態與做法，不判斷任何標的的漲跌。",
+    natureOverrides: { changeRisk: "context", instability: "context" },
+  }),
+  takeProfit: T({
+    id: "takeProfit", label: "主觀停利", question: "依自己的判斷處理獲利部位", domains: ["investment", "decision"], coverage: "partial", basisLabel: "投資與決策判讀延伸", timingKind: "takeProfit", safety: "investment",
+    coverageNote: "目前此主題尚未建立完整專屬命理判讀規則，本建議依投資與決策判讀整理。要不要停利以你事先設定的投資紀律為準，這裡只談處理的時段、心態與做法，不判斷任何標的的漲跌。",
+  }),
   decision: T({ id: "decision", label: "決策", question: "重要決定怎麼做", domains: ["decision"], coverage: "dedicated", basisLabel: "專屬決策判讀", timingKind: "decision" }),
 };
 
@@ -93,7 +102,7 @@ export const DOMAIN_TOPIC: Record<DomainKey, TopicId> = {
 /** 擇時事件 → 主題 */
 export const EVENT_TOPIC: Record<string, TopicId> = {
   work: "career", investment: "investment", interview: "jobSearch", jobchange: "jobChange", trip: "travel", contract: "cooperation",
-  leave: "leave", resign: "resign", house: "property", car: "wealth", negotiation: "cooperation", confession: "relationship", move: "travel", medical: "health", meeting: "career", other: "general",
+  leave: "leave", resign: "resign", stoploss: "stopLoss", takeprofit: "takeProfit", house: "property", car: "wealth", negotiation: "cooperation", confession: "relationship", move: "travel", medical: "health", meeting: "career", other: "general",
 };
 
 /** 安全類別的固定說明（在詳細頁統一顯示一次，不在每一條建議重複） */

@@ -150,6 +150,7 @@ export default function EventPage() {
               <div className="card p-4"><EvidenceList evidence={e.result.evidence} facts={e.facts} /></div>
               {t.key === "medical" && <div className="mt-4"><Banner tone="warn" title="醫療提醒">命理分析只供安排時間參考；是否就醫、治療方式請以醫師專業判斷為準。</Banner></div>}
               {t.key === "resign" && <div className="mt-4"><Banner title="辭職提醒">命理分析只供安排時機參考；預告期、特休與年資結算、離職手續請依勞動法令、公務人員相關規定或你的聘約辦理，必要時先問人事單位。</Banner></div>}
+              {(t.key === "stoploss" || t.key === "takeprofit") && <div className="mt-4"><Banner title={t.key === "stoploss" ? "停損提醒" : "停利提醒"}>分數只看「這個時段適不適合冷靜處理部位」，不是市場預測，也不判斷標的漲跌。要不要{t.key === "stoploss" ? "停損" : "停利"}，以你事先寫好的條件與資金規劃為準；已經碰到停損條件時，不要因為分數低就延後處理。</Banner></div>}
               {t.key === "investment" && <div className="mt-4"><Banner title="投資提醒">分數反映命理因素，不是市場預測；投資決定仍應依你的資金規劃與停損紀律。</Banner></div>}
             </>
           ))}
