@@ -36,7 +36,9 @@ export function lintAdviceText(text: string, opts: { kind?: "do" | "avoid" | "no
   const errs: string[] = [];
   const bare = text.replace(/[{}「」『』（）()，。；：、！？\s]/g, "");
   for (const j of JARGON) if (text.includes(j)) errs.push(`含命理術語「${j}」`);
-  for (const f of FATALISTIC) if (text.includes(f)) errs.push(`宿命或誇大的說法「${f}」`);
+  // 「保證金」是金融名詞，不是「保證會…」的誇大說法
+  const claimText = text.replaceAll("保證金", "");
+  for (const f of FATALISTIC) if (claimText.includes(f)) errs.push(`宿命或誇大的說法「${f}」`);
   for (const f of FEAR) if (text.includes(f)) errs.push(`製造恐懼的說法「${f}」`);
   for (const p of ALL_SAFETY) if (has(text, p)) errs.push(`違反安全規則「${String(p)}」`);
   const vague = VAGUE.filter(v => text.includes(v));

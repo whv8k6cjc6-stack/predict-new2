@@ -94,7 +94,7 @@ describe("事件模式、找時間、日期比較、時間尺度", () => {
     for (const t of EVENT_TYPES) {
       const e = analyzeEvent(n, t.key, "2026-10-05", null, TZ);
       expect(e.chosenBy).toBe("best");
-      expect(e.slots).toHaveLength(["work", "interview", "jobchange", "resign", "leave", "meeting"].includes(t.key) ? 5 : 8);
+      expect(e.slots).toHaveLength(["work", "interview", "jobchange", "resign", "leave", "meeting"].includes(t.key) ? 5 : ["stoploss", "takeprofit", "leverage", "liquidate"].includes(t.key) ? 3 : 8);
       expect(Math.max(...e.slots.map(s => s.score))).toBe(e.result.score);
       expect(e.advice.primaryAdvice).toBeTruthy();
       expect(e.advice.timeHorizon).toBe("atTime");

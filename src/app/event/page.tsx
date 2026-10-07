@@ -12,6 +12,22 @@ import { AdviceDetail, TodayFocus } from "@/ui/Advice";
 import { NoPersonBanner } from "@/ui/Scales";
 import { dateTitle, deviceTimeZone, todayIn, useComputed, useNatal, weekday } from "@/ui/useAnalysis";
 import { PLACES } from "@/kb/places";
+import { leverageRisk, LEVERAGE_MAX, LEVERAGE_MIN, type LeverageRisk } from "@/core/advice/leverage";
+
+const LEVEL_COLOR: Record<LeverageRisk["level"], string> = { none: "var(--ink-3)", low: "var(--ink-2)", mid: "var(--accent)", high: "var(--sig-neg)", extreme: "var(--sig-neg)" };
+
+function LeverageCard({ r }: { r: LeverageRisk }) {
+  return (
+    <section className="card mt-3 p-5" data-testid="leverage-risk">
+      <p className="text-[12px] tracking-wide text-[var(--ink-3)]">槓桿風險試算・{r.multiple} 倍</p>
+      <p className="mt-1.5 text-[15px] font-medium leading-relaxed" style={{ color: LEVEL_COLOR[r.level] }}>{r.headline}</p>
+      <ul className="mt-2 space-y-1 text-[14px] leading-relaxed">{r.lines.map(x => <li key={x}>・{x}</li>)}</ul>
+      <p className="mt-3 text-[13px] text-[var(--ink-2)]">加之前先做到：</p>
+      <ol className="mt-1 list-decimal space-y-0.5 pl-5 text-[14px] leading-relaxed">{r.checklist.map(x => <li key={x}>{x}</li>)}</ol>
+      <p className="mt-2 text-[11px] leading-relaxed text-[var(--ink-3)]">倍數是你自己填的計畫，本 App 不建議該用幾倍；試算只是算術，不是行情預測。</p>
+    </section>
+  );
+}
 
 export default function EventPage() {
   const { active, prefs } = useApp();
@@ -20,7 +36,8 @@ export default function EventPage() {
   const [date, setDate] = useState("");
   const [auto, setAuto] = useState(true);
   const [time, setTime] = useState("10:00");
-  const [req, setReq] = useState<{ type: string; date: string; time: string | null } | null>(null);
+  const [lev, setLev] = useState("2");
+  const [req, setReq] = useState<{ type: string; date: string; time: string | null; lev?: number } | null>(null);
   const [findDays, setFindDays] = useState<number | null>(null);
   const [tst, setTst] = useState(true);
   const birthPlace = active?.birth.place;
@@ -45,6 +62,11 @@ export default function EventPage() {
               <div className="flex flex-wrap gap-2">{EVENT_TYPES.map(x => <Chip key={x.key} active={type === x.key} onClick={() => { setType(x.key); setFindDays(null); }}>{x.label}</Chip>)}</div>
               <p className="mt-1.5 text-[12px] text-[var(--ink-3)]">{t.hint}</p>
             </div>
+            {type === "leverage" && (
+              <Field label="計畫的槓桿倍數（加大後）" hint={leverageRisk(Number(lev))?.headline} error={leverageRisk(Number(lev)) ? undefined : `請填 ${LEVERAGE_MIN}～${LEVERAGE_MAX} 之間的數字`}>
+                <input type="number" inputMode="decimal" className="input" data-testid="leverage-input" min={LEVERAGE_MIN} max={LEVERAGE_MAX} step={0.5} value={lev} onChange={x => setLev(x.target.value)} />
+              </Field>
+            )}
             <Field label="日期"><input type="date" className="input" value={date} onChange={x => { setDate(x.target.value); setFindDays(null); }} /></Field>
             <Toggle checked={auto} onChange={setAuto} label="幫我挑當天最佳時辰" desc="關閉後可指定確切時間" />
             {!auto && <Field label="時間"><input type="time" className="input" value={time} onChange={x => setTime(x.target.value)} /></Field>}
@@ -58,7 +80,7 @@ export default function EventPage() {
               </div>
             )}
             <div className="grid grid-cols-2 gap-2">
-              <Button variant="primary" disabled={!date} onClick={() => { setReq({ type, date, time: auto ? null : time }); setFindDays(null); }}>分析這一天</Button>
+              <Button variant="primary" disabled={!date || (type === "leverage" && !leverageRisk(Number(lev)))} onClick={() => { setReq({ type, date, time: auto ? null : time, lev: type === "leverage" ? Number(lev) : undefined }); setFindDays(null); }}>分析這一天</Button>
               <Button disabled={!date} onClick={() => { setFindDays(14); setReq(null); }}>幫我找時間</Button>
             </div>
             <Link href="/group/" className="block text-center text-[13px] text-[var(--accent)]" data-testid="to-group">好幾個人一起？多人擇時・選日子</Link>
@@ -89,6 +111,7 @@ export default function EventPage() {
             <>
               <SectionTitle>{dateTitle(e.date)} {e.type.label}</SectionTitle>
               <TodayFocus a={e.advice} detailHref="#event-advice" />
+              {req.type === "leverage" && req.lev !== undefined && leverageRisk(req.lev) && <LeverageCard r={leverageRisk(req.lev)!} />}
               {e.leavePlan && (
                 <section className="card mt-3 p-5" data-testid="leave-plan">
                   <p className="text-[12px] tracking-wide text-[var(--ink-3)]">請假這天適合做什麼</p>
@@ -150,6 +173,8 @@ export default function EventPage() {
               <div className="card p-4"><EvidenceList evidence={e.result.evidence} facts={e.facts} /></div>
               {t.key === "medical" && <div className="mt-4"><Banner tone="warn" title="醫療提醒">命理分析只供安排時間參考；是否就醫、治療方式請以醫師專業判斷為準。</Banner></div>}
               {t.key === "resign" && <div className="mt-4"><Banner title="辭職提醒">命理分析只供安排時機參考；預告期、特休與年資結算、離職手續請依勞動法令、公務人員相關規定或你的聘約辦理，必要時先問人事單位。</Banner></div>}
+              {(t.key === "leverage" || t.key === "liquidate") && <div className="mt-4"><Banner tone="warn" title={t.key === "leverage" ? "槓桿提醒" : "清空持股提醒"}>分數只看「這個時段適不適合冷靜處理」，不是市場預測，也不判斷標的漲跌；分數高不代表{t.key === "leverage" ? "應該加大槓桿或提高倍數" : "應該清空"}。要不要做，以你的資金規劃與事先寫好的紀律為準。</Banner></div>}
+              {(t.key === "stoploss" || t.key === "takeprofit") && <div className="mt-4"><Banner title={t.key === "stoploss" ? "停損提醒" : "停利提醒"}>分數只看「這個時段適不適合冷靜處理部位」，不是市場預測，也不判斷標的漲跌。要不要{t.key === "stoploss" ? "停損" : "停利"}，以你事先寫好的條件與資金規劃為準；已經碰到停損條件時，不要因為分數低就延後處理。</Banner></div>}
               {t.key === "investment" && <div className="mt-4"><Banner title="投資提醒">分數反映命理因素，不是市場預測；投資決定仍應依你的資金規劃與停損紀律。</Banner></div>}
             </>
           ))}
