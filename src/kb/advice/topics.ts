@@ -6,7 +6,7 @@ import type { FactorId, FactorNature } from "@/core/advice/factors";
 export type TopicId =
   | "general" | "career" | "promotion" | "jobSearch" | "jobChange" | "wealth" | "investment"
   | "relationship" | "marriage" | "social" | "health" | "travel" | "cooperation" | "lawsuit" | "exam" | "property" | "decision"
-  | "leave" | "resign" | "stopLoss" | "takeProfit";
+  | "leave" | "resign" | "stopLoss" | "takeProfit" | "leverage" | "liquidate";
 
 /** dedicated：有該主題的判讀規則；partial：只有相近領域或部分規則；generalOnly：只有一般生活因素延伸；insufficient：本次沒有可用訊號 */
 export type TopicCoverage = "dedicated" | "partial" | "generalOnly" | "insufficient";
@@ -88,6 +88,15 @@ export const ADVICE_TOPICS: Record<TopicId, TopicDef> = {
     id: "takeProfit", label: "主觀停利", question: "依自己的判斷處理獲利部位", domains: ["investment", "decision"], coverage: "partial", basisLabel: "投資與決策判讀延伸", timingKind: "takeProfit", safety: "investment",
     coverageNote: "目前此主題尚未建立完整專屬命理判讀規則，本建議依投資與決策判讀整理。要不要停利以你事先設定的投資紀律為準，這裡只談處理的時段、心態與做法，不判斷任何標的的漲跌。",
   }),
+  leverage: T({
+    id: "leverage", label: "投資加大槓桿", question: "要不要、什麼時候加大槓桿", domains: ["investment", "decision"], coverage: "partial", basisLabel: "投資與決策判讀延伸", timingKind: "leverage", safety: "investment",
+    coverageNote: "目前此主題尚未建立完整專屬命理判讀規則，本建議依投資與決策判讀整理。要不要加大槓桿、加到幾倍以你的資金規劃與風險承受度為準，這裡只談處理的時段、心態與風險控管，不判斷任何標的的漲跌。",
+  }),
+  liquidate: T({
+    id: "liquidate", label: "清空持股", question: "要不要、什麼時候把持股全部處理掉", domains: ["investment", "decision"], coverage: "partial", basisLabel: "投資與決策判讀延伸", timingKind: "liquidate", safety: "investment",
+    coverageNote: "目前此主題尚未建立完整專屬命理判讀規則，本建議依投資與決策判讀整理。要不要清空以你的資金規劃為準，這裡只談處理的時段、心態與做法，不判斷任何標的的漲跌。",
+    natureOverrides: { changeRisk: "context", instability: "context" },
+  }),
   decision: T({ id: "decision", label: "決策", question: "重要決定怎麼做", domains: ["decision"], coverage: "dedicated", basisLabel: "專屬決策判讀", timingKind: "decision" }),
 };
 
@@ -102,7 +111,7 @@ export const DOMAIN_TOPIC: Record<DomainKey, TopicId> = {
 /** 擇時事件 → 主題 */
 export const EVENT_TOPIC: Record<string, TopicId> = {
   work: "career", investment: "investment", interview: "jobSearch", jobchange: "jobChange", trip: "travel", contract: "cooperation",
-  leave: "leave", resign: "resign", stoploss: "stopLoss", takeprofit: "takeProfit", house: "property", car: "wealth", negotiation: "cooperation", confession: "relationship", move: "travel", medical: "health", meeting: "career", other: "general",
+  leave: "leave", resign: "resign", stoploss: "stopLoss", takeprofit: "takeProfit", leverage: "leverage", liquidate: "liquidate", house: "property", car: "wealth", negotiation: "cooperation", confession: "relationship", move: "travel", medical: "health", meeting: "career", other: "general",
 };
 
 /** 安全類別的固定說明（在詳細頁統一顯示一次，不在每一條建議重複） */

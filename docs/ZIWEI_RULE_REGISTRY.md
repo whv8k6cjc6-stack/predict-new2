@@ -49,6 +49,8 @@
 | 辭職（resign） | generalOnly | 0 | 0 | 0 | 0 | — | — |
 | 主觀停損（stopLoss） | generalOnly | 0 | 0 | 0 | 0 | — | — |
 | 主觀停利（takeProfit） | generalOnly | 0 | 0 | 0 | 0 | — | — |
+| 投資加大槓桿（leverage） | generalOnly | 0 | 0 | 0 | 0 | — | — |
+| 清空持股（liquidate） | generalOnly | 0 | 0 | 0 | 0 | — | — |
 | 決策（decision） | dedicated | 49 | 49 | 49 | 0 | natal、decade、annual | ziwei-doushu-quanshu-guangyi-scan |
 
 ## 判讀規則（1194 條）

@@ -9,6 +9,8 @@ export const EVENT_TYPES: EventType[] = [
   { key: "investment", label: "投資", domain: "investment", qimen: "investment", hint: "進場、加碼、減碼等投資決定" },
   { key: "stoploss", label: "主觀停損", domain: "investment", qimen: "stopLoss", hint: "依自己的判斷處理虧損部位：看這天適不適合下決定、怎麼處理（以台股交易時段 09–15 點挑時段；停損與否以你事先設定的投資紀律為準）" },
   { key: "takeprofit", label: "主觀停利", domain: "investment", qimen: "takeProfit", hint: "依自己的判斷處理獲利部位：看這天適不適合了結、怎麼分批（以台股交易時段 09–15 點挑時段；停利與否以你事先設定的投資紀律為準）" },
+  { key: "leverage", label: "投資加大槓桿", domain: "investment", qimen: "leverage", hint: "提高融資、期貨或槓桿型商品的槓桿：填寫計畫的槓桿倍數，會一併列出風險試算（台股交易時段 09–15 點；要不要加以你的資金規劃為準）" },
+  { key: "liquidate", label: "清空持股", domain: "investment", qimen: "liquidate", hint: "把手上的持股全部處理掉：看這天適不適合處理、怎麼分批（台股交易時段 09–15 點；要不要清空以你的資金規劃為準）" },
   { key: "interview", label: "面試", domain: "career", qimen: "interview", hint: "求職或升遷面談" },
   { key: "jobchange", label: "換工作", domain: "career", qimen: "jobchange", hint: "報到、接新職" },
   { key: "leave", label: "請假", domain: "health", qimen: "leave", hint: "請假、休假、補休：看這天適不適合請假，以及請假當天適合做什麼" },

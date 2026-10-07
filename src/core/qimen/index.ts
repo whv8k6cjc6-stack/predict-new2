@@ -219,7 +219,7 @@ const REL = (self: string, other: string) => {
 // ───────── 事件用神 ─────────
 export type EventKind = "overall" | "career" | "wealth" | "investment" | "social" | "love" | "travel" | "health" | "decision"
   | "interview" | "jobchange" | "trip" | "contract" | "house" | "car" | "negotiation" | "confession" | "move" | "medical" | "meeting" | "visitBoss" | "apply"
-  | "leave" | "resign" | "stopLoss" | "takeProfit";
+  | "leave" | "resign" | "stopLoss" | "takeProfit" | "leverage" | "liquidate";
 export const YONGSHEN: Record<EventKind, { label: string; use: { kind: "door" | "god" | "star"; name: string }[]; plain: string }> = {
   overall: { label: "整體", use: [], plain: "以年命代表自身" },
   career: { label: "工作", use: [{ kind: "door", name: "開門" }], plain: "開門主事業、公務與開展" },
@@ -244,9 +244,11 @@ export const YONGSHEN: Record<EventKind, { label: string; use: { kind: "door" | 
   visitBoss: { label: "拜訪主管", use: [{ kind: "god", name: "值符" }], plain: "值符主上司與貴人" },
   leave: { label: "請假", use: [{ kind: "door", name: "休門" }, { kind: "god", name: "值符" }], plain: "休門主休息與休假、值符主上司（准假）" },
   resign: { label: "辭職", use: [{ kind: "door", name: "開門" }, { kind: "god", name: "值符" }, { kind: "god", name: "六合" }], plain: "開門主職位、值符主上司、六合主交接與協議" },
-  // 停損、停利：本 App 依各門神的常見取象組合（非典籍定例）；看的是「做決定、處理部位」這個時段的態勢，不判斷行情
+  // 停損、停利、加大槓桿、清空持股：本 App 依各門神的常見取象組合（非典籍定例）；看的是「做決定、處理部位」這個時段的態勢，不判斷行情
   stopLoss: { label: "主觀停損", use: [{ kind: "god", name: "值符" }, { kind: "door", name: "杜門" }], plain: "值符主主導與決斷、杜門主關閉與收束（把損失關住）" },
   takeProfit: { label: "主觀停利", use: [{ kind: "door", name: "生門" }, { kind: "god", name: "六合" }], plain: "生門主利潤、六合主成交與了結" },
+  leverage: { label: "投資加大槓桿", use: [{ kind: "door", name: "生門" }, { kind: "god", name: "九天" }], plain: "生門主利潤、九天主擴張與放大" },
+  liquidate: { label: "清空持股", use: [{ kind: "door", name: "杜門" }, { kind: "god", name: "六合" }], plain: "杜門主收束、六合主成交與了結" },
   apply: { label: "提出申請", use: [{ kind: "door", name: "開門" }, { kind: "door", name: "景門" }], plain: "開門主公門、景門主文書" },
 };
 
@@ -376,8 +378,8 @@ export const QIMEN_META: EngineMeta = {
 };
 
 export const QIMEN_KINDS: EventKind[] = ["overall", "career", "wealth", "investment", "social", "love", "travel", "health", "decision"];
-/** 每日掃描另含請假、辭職、停損、停利（供建議的較佳時段使用；不另設領域規則） */
-export const QIMEN_SCAN_KINDS: EventKind[] = [...QIMEN_KINDS, "leave", "resign", "stopLoss", "takeProfit"];
+/** 每日掃描另含請假、辭職、停損、停利、加大槓桿、清空持股（供建議的較佳時段使用；不另設領域規則） */
+export const QIMEN_SCAN_KINDS: EventKind[] = [...QIMEN_KINDS, "leave", "resign", "stopLoss", "takeProfit", "leverage", "liquidate"];
 
 export interface QimenNatal { nianMing: string; birthYearGz: string; selfStem: QimenSelfStem }
 export interface QimenTransit { date: string; scan: DayScan; kinds: EventKind[] }

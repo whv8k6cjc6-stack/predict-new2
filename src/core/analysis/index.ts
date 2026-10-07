@@ -64,8 +64,8 @@ const ACTIVE_HOURS = [3, 4, 5, 6, 7, 8, 9, 10];
 /** 需要在上班時間進行的事件（向主管請假、提辭職、面試、會議等）只在 07–17 點挑時段 */
 const OFFICE_EVENTS = ["work", "interview", "jobchange", "resign", "leave", "meeting"];
 const OFFICE_HOURS = [4, 5, 6, 7, 8];
-/** 停損、停利以台股交易時段（09–15 點：巳、午、未時）挑時段 */
-const MARKET_EVENTS = ["stoploss", "takeprofit"];
+/** 停損、停利、加大槓桿、清空持股以台股交易時段（09–15 點：巳、午、未時）挑時段 */
+const MARKET_EVENTS = ["stoploss", "takeprofit", "leverage", "liquidate"];
 const MARKET_HOURS = [5, 6, 7];
 const hoursFor = (key: string) => OFFICE_EVENTS.includes(key) ? OFFICE_HOURS : MARKET_EVENTS.includes(key) ? MARKET_HOURS : ACTIVE_HOURS;
 
