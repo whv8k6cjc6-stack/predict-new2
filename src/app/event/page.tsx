@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useApp } from "../providers";
 import { analyzeEvent, findEventTimes } from "@/core/analysis";
@@ -60,6 +61,7 @@ export default function EventPage() {
               <Button variant="primary" disabled={!date} onClick={() => { setReq({ type, date, time: auto ? null : time }); setFindDays(null); }}>分析這一天</Button>
               <Button disabled={!date} onClick={() => { setFindDays(14); setReq(null); }}>幫我找時間</Button>
             </div>
+            <Link href="/group/" className="block text-center text-[13px] text-[var(--accent)]" data-testid="to-group">好幾個人一起？多人擇時・選日子</Link>
           </div>
 
           {findDays && (

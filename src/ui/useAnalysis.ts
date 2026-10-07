@@ -38,6 +38,22 @@ export function useNatal(bundle: PersonBundle | null | undefined, timeBasisOverr
   return { natal, key };
 }
 
+/** 多人：每位人物各自的本命（與 useNatal 共用快取；鍵依人物、出生資料與計算設定） */
+export function useNatals(bundles: PersonBundle[]): { members: { id: string; name: string; natal: NatalSet }[]; key: string } {
+  const { settingsList, ziweiProfiles } = useApp();
+  return useMemo(() => {
+    const members = bundles.map(b => {
+      const calc = resolveCalculation(b.birth, settingsList, ziweiProfiles);
+      const tst = !!b.birth.useTrueSolarTime;
+      const key = `${b.person.id}|${b.person.gender}|${b.birth.updatedAt}|${calc.settings.id}|${calc.settings.updatedAt}|${calc.ziweiProfile?.id ?? "unresolved"}|tst:${tst}`;
+      let n = natalCache.get(key);
+      if (!n) { n = buildNatal({ person: b.person, birth: { ...b.birth, useTrueSolarTime: tst }, ...calc }); natalCache.set(key, n); }
+      return { id: b.person.id, name: b.person.displayName, natal: n, key };
+    });
+    return { members: members.map(({ key: _k, ...m }) => m), key: members.map(m => m.key).join("~") };
+  }, [bundles, settingsList, ziweiProfiles]);
+}
+
 const resultCache = new Map<string, unknown>();
 const MAX = 60;
 

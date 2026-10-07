@@ -225,8 +225,8 @@ export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: s
   };
 }
 
-/** 幫我找時間：未來數日內各時辰排序 */
-export function findEventTimes(n: NatalSet, typeKey: string, fromDate: string, days: number, timeZone: string, top = 5): EventSlot[] {
+/** 未來數日內每個可選時辰的事件分數（不排序、不截斷） */
+export function eventSlotsAll(n: NatalSet, typeKey: string, fromDate: string, days: number, timeZone: string): EventSlot[] {
   const type = eventTypeOf(typeKey);
   const out: EventSlot[] = [];
   for (let k = 0; k < days; k++) {
@@ -240,7 +240,12 @@ export function findEventTimes(n: NatalSet, typeKey: string, fromDate: string, d
       out.push({ date, time: t, hour: hourLabel(i), score: r.score, band: r.band, top: r.positives[0]?.text.conclusion ?? r.evidence[0]?.text.conclusion ?? "" });
     }
   }
-  return out.sort((a, b) => b.score - a.score || (a.date + a.time < b.date + b.time ? -1 : 1)).slice(0, top);
+  return out;
+}
+
+/** 幫我找時間：未來數日內各時辰排序 */
+export function findEventTimes(n: NatalSet, typeKey: string, fromDate: string, days: number, timeZone: string, top = 5): EventSlot[] {
+  return eventSlotsAll(n, typeKey, fromDate, days, timeZone).sort((a, b) => b.score - a.score || (a.date + a.time < b.date + b.time ? -1 : 1)).slice(0, top);
 }
 
 // ───────── 日期比較 ─────────
@@ -301,3 +306,5 @@ export function lifeTimeline(n: NatalSet, timeZone: string, fromYear: number, to
 }
 
 export { toScore, K, SCORED_DOMAINS };
+
+export * from "./group";
