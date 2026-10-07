@@ -222,7 +222,7 @@ const outputs: { n: number; date: string; a: StructuredAdvice }[] = [];
 for (const [i, n] of natals.entries()) for (const d of dates) for (const a of Object.values(adviseDay(n, d, TZ).byTopic)) outputs.push({ n: i, date: d, a: a! });
 const texts = (a: StructuredAdvice) => [a.primaryAdvice, ...a.doNow, ...a.avoidNow, ...a.otherHorizons.flatMap(h => [...h.doNow, ...h.avoidNow])].filter(Boolean).map(i => i!);
 
-describe("驗收標準（6 組命例 × 6 天 × 17 主題）", () => {
+describe("驗收標準（6 組命例 × 6 天 × 全部主題）", () => {
   it("A/B/I：一般人看得懂、可執行：主要建議、清單、結論都沒有命理術語，也不是空泛口號", () => {
     for (const { a } of outputs) {
       for (const it of texts(a)) {

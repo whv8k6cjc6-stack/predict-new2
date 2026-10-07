@@ -87,3 +87,31 @@ describe("實際命例輸出", () => {
     }
   });
 });
+
+describe("事件類型：請假、辭職", () => {
+  const n = buildNatal(SAMPLES[5]);
+  it("請假：有分數、具體建議與「請假當天適合做什麼」（五類活動，依態勢排序），文字都通過檢查", async () => {
+    const { analyzeEvent } = await import("@/core/analysis");
+    for (const d of ["2026-10-09", "2026-10-16", "2026-12-24"]) {
+      const e = analyzeEvent(n, "leave", d, null, "Asia/Taipei");
+      expect(e.advice.topic).toBe("leave");
+      expect(e.leavePlan).toHaveLength(5);
+      const order = { good: 0, ok: 1, notIdeal: 2 };
+      for (let i = 1; i < e.leavePlan!.length; i++) expect(order[e.leavePlan![i].level]).toBeGreaterThanOrEqual(order[e.leavePlan![i - 1].level]);
+      for (const x of e.leavePlan!) for (const t of [x.activity, x.note]) expect(lintAdviceText(t), t).toEqual([]);
+      for (const it of [e.advice.primaryAdvice!, ...e.advice.doNow, ...e.advice.avoidNow]) for (const t of [it.text, it.short, ...(it.steps ?? [])]) expect(lintAdviceText(t, { kind: it.kind }), t).toEqual([]);
+      expect(e.facts.some(f => f.key === "qimen.event.yongshen" && String(f.value).includes("休門"))).toBe(true);
+    }
+  });
+  it("辭職：用神為開門、值符、六合；建議談準備、書面與交接，不給宿命式結論；非請假事件沒有請假清單", async () => {
+    const { analyzeEvent } = await import("@/core/analysis");
+    for (const d of ["2026-10-09", "2026-11-20"]) {
+      const e = analyzeEvent(n, "resign", d, null, "Asia/Taipei");
+      expect(e.advice.topic).toBe("resign");
+      expect(e.leavePlan).toBeNull();
+      expect(String(e.facts.find(f => f.key === "qimen.event.yongshen")!.value)).toBe("開門、值符、六合");
+      for (const it of [e.advice.primaryAdvice!, ...e.advice.doNow, ...e.advice.avoidNow]) for (const t of [it.text, it.short, ...(it.steps ?? [])]) expect(lintAdviceText(t, { kind: it.kind }), t).toEqual([]);
+      expect(e.advice.coverage.note).toMatch(/預告期/);
+    }
+  });
+});

@@ -87,6 +87,20 @@ export default function EventPage() {
             <>
               <SectionTitle>{dateTitle(e.date)} {e.type.label}</SectionTitle>
               <TodayFocus a={e.advice} detailHref="#event-advice" />
+              {e.leavePlan && (
+                <section className="card mt-3 p-5" data-testid="leave-plan">
+                  <p className="text-[12px] tracking-wide text-[var(--ink-3)]">請假這天適合做什麼</p>
+                  <ul className="mt-2 divide-y divide-[var(--line)]">
+                    {e.leavePlan.map(x => (
+                      <li key={x.activity} className="flex gap-2 py-2 text-[14px] leading-relaxed">
+                        <span aria-hidden className="w-6 shrink-0 font-medium" style={{ color: x.level === "good" ? "var(--sig-pos)" : x.level === "ok" ? "var(--ink-3)" : "var(--sig-neg)" }}>{x.level === "good" ? "宜" : x.level === "ok" ? "可" : "緩"}</span>
+                        <span className="min-w-0">{x.activity}{x.hours.length > 0 && <span className="text-[var(--ink-3)]">（較佳 {x.hours.join("、")}）</span>}<span className="block text-[12px] text-[var(--ink-3)]">{x.note}</span></span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-2 text-[11px] leading-relaxed text-[var(--ink-3)]">依奇門當天白天各類用神的態勢排序；准假與否以單位規定與主管決定為準。</p>
+                </section>
+              )}
               <SectionTitle right="分數代表命理因素的方向與強度">事件指數</SectionTitle>
               <section className="card p-5">
                 <ScoreHeader score={e.result.score} confidence={e.result.confidence}>
@@ -133,6 +147,7 @@ export default function EventPage() {
               <SectionTitle right={`${e.result.evidence.length} 條`}>證據鏈</SectionTitle>
               <div className="card p-4"><EvidenceList evidence={e.result.evidence} facts={e.facts} /></div>
               {t.key === "medical" && <div className="mt-4"><Banner tone="warn" title="醫療提醒">命理分析只供安排時間參考；是否就醫、治療方式請以醫師專業判斷為準。</Banner></div>}
+              {t.key === "resign" && <div className="mt-4"><Banner title="辭職提醒">命理分析只供安排時機參考；預告期、特休與年資結算、離職手續請依勞動法令、公務人員相關規定或你的聘約辦理，必要時先問人事單位。</Banner></div>}
               {t.key === "investment" && <div className="mt-4"><Banner title="投資提醒">分數反映命理因素，不是市場預測；投資決定仍應依你的資金規劃與停損紀律。</Banner></div>}
             </>
           ))}

@@ -1,3 +1,4 @@
+import { TOPIC_IDS } from "@/kb/advice/topics";
 /** 跨系統隔離、真太陽時、評分組成（紫微暫不計分、不放大其他系統權重）。 */
 import { ziweiInterpretationStatus } from "@/core/ziwei/interp/engine";
 import { describe, it, expect } from "vitest";
@@ -168,7 +169,7 @@ describe("Final Audit：紫微完全退出正式計分、不補償、pending 不
     const base = adv(n);
     expect(adv(noZw)).toEqual(base);
     expect(adv(swapped)).toEqual(base);
-    expect(base.length).toBe(17 - covered.length);
+    expect(base.length).toBe(TOPIC_IDS.length - covered.length);
   });
   it("尺度 K 不分組、固定為四術參考；時辰已知／不詳與 legacy 比較模式都用同一個 K（不縮小 K 來放大三術）", () => {
     expect(Object.keys(K)).toEqual(["day", "month", "year", "decade"]);

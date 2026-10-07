@@ -5,7 +5,8 @@ import type { FactorId, FactorNature } from "@/core/advice/factors";
 
 export type TopicId =
   | "general" | "career" | "promotion" | "jobSearch" | "jobChange" | "wealth" | "investment"
-  | "relationship" | "marriage" | "social" | "health" | "travel" | "cooperation" | "lawsuit" | "exam" | "property" | "decision";
+  | "relationship" | "marriage" | "social" | "health" | "travel" | "cooperation" | "lawsuit" | "exam" | "property" | "decision"
+  | "leave" | "resign";
 
 /** dedicated：有該主題的判讀規則；partial：只有相近領域或部分規則；generalOnly：只有一般生活因素延伸；insufficient：本次沒有可用訊號 */
 export type TopicCoverage = "dedicated" | "partial" | "generalOnly" | "insufficient";
@@ -68,6 +69,16 @@ export const ADVICE_TOPICS: Record<TopicId, TopicDef> = {
     id: "property", label: "不動產", question: "看屋、買房、租屋", domains: ["wealth", "decision"], coverage: "partial", basisLabel: "財運與決策判讀延伸", timingKind: "wealth",
     coverageNote: "目前此主題尚未建立完整專屬命理判讀規則，本建議依財運與決策判讀整理；簽約時段可在擇時功能另外查。",
   }),
+  leave: T({
+    id: "leave", label: "請假", question: "要不要請假、請假當天怎麼安排", domains: ["career", "health", "travel", "love"], coverage: "partial", basisLabel: "工作、作息、出行與感情判讀延伸", timingKind: "leave",
+    coverageNote: "目前此主題尚未建立完整專屬命理判讀規則，本建議依工作、作息、出行與感情判讀整理；准假與否以單位規定與主管決定為準。",
+    natureOverrides: { movementIncrease: "support" },
+  }),
+  resign: T({
+    id: "resign", label: "辭職", question: "提出辭職與離職安排", domains: ["career", "decision"], coverage: "partial", basisLabel: "工作與決策判讀延伸", timingKind: "resign",
+    coverageNote: "目前此主題尚未建立完整專屬命理判讀規則，本建議依工作與決策判讀整理；預告期、特休與年資結算、離職手續請依勞動法令、公務人員相關規定或你的聘約辦理，必要時先問人事單位。",
+    natureOverrides: { changeRisk: "context", instability: "context", movementIncrease: "context" },
+  }),
   decision: T({ id: "decision", label: "決策", question: "重要決定怎麼做", domains: ["decision"], coverage: "dedicated", basisLabel: "專屬決策判讀", timingKind: "decision" }),
 };
 
@@ -82,7 +93,7 @@ export const DOMAIN_TOPIC: Record<DomainKey, TopicId> = {
 /** 擇時事件 → 主題 */
 export const EVENT_TOPIC: Record<string, TopicId> = {
   work: "career", investment: "investment", interview: "jobSearch", jobchange: "jobChange", trip: "travel", contract: "cooperation",
-  house: "property", car: "wealth", negotiation: "cooperation", confession: "relationship", move: "travel", medical: "health", meeting: "career", other: "general",
+  leave: "leave", resign: "resign", house: "property", car: "wealth", negotiation: "cooperation", confession: "relationship", move: "travel", medical: "health", meeting: "career", other: "general",
 };
 
 /** 安全類別的固定說明（在詳細頁統一顯示一次，不在每一條建議重複） */
