@@ -192,23 +192,31 @@ function eventAt(n: NatalSet, base: Evidence[], type: EventType, date: string, t
   return { r, h };
 }
 
+/** 當日各可選時辰的事件分數（高到低排序）與較佳、避開時段；單日分析與批次匯出共用，確保兩邊一致 */
+function rankDaySlots(n: NatalSet, base: Evidence[], type: EventType, date: string, timeZone: string) {
+  const slots = hoursFor(type.key).map(i => { const t = hourTimeOf(i); const { r } = eventAt(n, base, type, date, t, timeZone); return { i, t, r }; });
+  const ranked = [...slots].sort((a, b) => b.r.score - a.r.score);
+  const best = ranked.filter(s => s.r.score >= 55).slice(0, 2);
+  const avoid = [...ranked].reverse().filter(s => s.r.score < 50).slice(0, 2);
+  return { slots, ranked, best, avoid };
+}
+
 /** 事件分析：time 為 null 時自動找當日最佳時辰 */
 export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: string | null, timeZone: string, opts: EventOptions = {}): EventAnalysis {
   const tst = opts.trueSolar ? { longitude: opts.trueSolar.longitude } : null;
   const type = eventTypeOf(typeKey);
   const c = collect(n, { civilDate: date, civilTime: "12:00", timeZone }, "day");
   const base = toEvidence(c.fired.filter(f => f.system !== "iching")); // 事件改用提問時刻起卦，不重複計入每日卦
-  const slots = hoursFor(type.key).map(i => { const t = hourTimeOf(i); const { r } = eventAt(n, base, type, date, t, timeZone); return { i, t, r }; });
-  const ranked = [...slots].sort((a, b) => b.r.score - a.r.score);
+  const { slots, ranked, best, avoid } = rankDaySlots(n, base, type, date, timeZone);
   const chosen = time ?? ranked[0].t;
   // 自動挑選的時段取時辰中點，不受真太陽時影響；使用者指定的時刻才換算真太陽時
   const { r, h } = eventAt(n, base, type, date, chosen, timeZone, time ? tst : null);
-  const bestHours = ranked.filter(s => s.r.score >= 55).slice(0, 2).map(s => hourLabel(s.i));
-  const avoidHours = [...ranked].reverse().filter(s => s.r.score < 50).slice(0, 2).map(s => hourLabel(s.i));
+  const bestHours = best.map(s => hourLabel(s.i));
+  const avoidHours = avoid.map(s => hourLabel(s.i));
   const interp = interpret(r);
   const advice = adviseEvent(n, typeKey, date, chosen, timeZone, {
-    best: ranked.filter(s => s.r.score >= 55).slice(0, 2).map(s => plainHour(s.i)),
-    avoid: [...ranked].reverse().filter(s => s.r.score < 50).slice(0, 2).map(s => plainHour(s.i)),
+    best: best.map(s => plainHour(s.i)),
+    avoid: avoid.map(s => plainHour(s.i)),
   }, undefined, time ? tst : null);
   let timeNote: string | null = null;
   if (time && tst) {
@@ -225,6 +233,26 @@ export function analyzeEvent(n: NatalSet, typeKey: string, date: string, time: s
     slots: slots.map(s => ({ date, time: s.t, hour: hourLabel(s.i), score: s.r.score, band: s.r.band, top: s.r.evidence[0]?.text.conclusion ?? "" })),
     reading: h.reading, facts: [...c.facts, ...h.facts],
     scoring: scoringComposition(n), timeNote, leavePlan: type.key === "leave" ? leavePlanOf(c.qimen) : null,
+  };
+}
+
+/** 批次匯出的一天：事件指數（當日最佳時辰）、較佳與避開時段、各時辰分數；與「分析這一天」同一套算法，但不產生建議文字，速度較快 */
+export interface EventDayRow {
+  date: string; time: string; hour: string;
+  score: number; band: ScoreBand; confidenceLabel: string;
+  bestHours: string[]; avoidHours: string[];
+  slots: { hour: string; score: number }[];
+}
+export function eventDayRow(n: NatalSet, typeKey: string, date: string, timeZone: string): EventDayRow {
+  const type = eventTypeOf(typeKey);
+  const c = collect(n, { civilDate: date, civilTime: "12:00", timeZone }, "day");
+  const base = toEvidence(c.fired.filter(f => f.system !== "iching"));
+  const { slots, ranked, best, avoid } = rankDaySlots(n, base, type, date, timeZone);
+  const top = ranked[0];
+  return {
+    date, time: top.t, hour: hourLabel(top.i), score: top.r.score, band: top.r.band, confidenceLabel: top.r.confidenceLabel,
+    bestHours: best.map(s => hourLabel(s.i)), avoidHours: avoid.map(s => hourLabel(s.i)),
+    slots: slots.map(s => ({ hour: hourLabel(s.i), score: s.r.score })),
   };
 }
 
@@ -311,3 +339,4 @@ export function lifeTimeline(n: NatalSet, timeZone: string, fromYear: number, to
 export { toScore, K, SCORED_DOMAINS };
 
 export * from "./group";
+export * from "./csv";

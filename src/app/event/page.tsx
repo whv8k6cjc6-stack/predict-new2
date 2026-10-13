@@ -84,6 +84,7 @@ export default function EventPage() {
               <Button disabled={!date} onClick={() => { setFindDays(14); setReq(null); }}>幫我找時間</Button>
             </div>
             <Link href="/group/" className="block text-center text-[13px] text-[var(--accent)]" data-testid="to-group">好幾個人一起？多人擇時・選日子</Link>
+            <Link href="/export/" className="block text-center text-[13px] text-[var(--accent)]" data-testid="to-export">想一次算一段日期？批次計算・匯出 CSV</Link>
           </div>
 
           {findDays && (
