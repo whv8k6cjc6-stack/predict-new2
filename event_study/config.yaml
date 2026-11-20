@@ -1,0 +1,82 @@
+# 事件驅動策略設定。成本參數請使用者自行核對（費率可能調整）。
+project:
+  timezone: Asia/Taipei
+
+calendar:
+  # 每年固定休市的 MM-DD（週末另計）。農曆春節/端午/中秋等浮動假日、補假、颱風假
+  # 須使用者核對後加入 holidays（YYYY-MM-DD）。此處預設僅為近似。
+  fixed_holidays_md: ["01-01", "02-28", "04-04", "04-05", "05-01", "10-10"]
+  holidays: []
+
+costs:
+  commission_rate: 0.001425        # 買賣各
+  securities_tax_sell: 0.003       # 賣出證交稅
+  short_borrow_fee: 0.0008         # 融券借券費
+  stock_lending_annual: 0.03       # 借券年化
+  futures_tax_per_side: 0.00002    # 個股期貨期交稅每邊
+  slippage_base_bp: 10             # 每邊
+  slippage_k: 0.1                  # k * sqrt(下單額/ADV)
+  disposition_slippage_mult: 3
+  max_order_adv_frac: 0.05         # 單筆<=20日均成交額5%
+  capital_scales: [10000000, 100000000, 1000000000]
+
+holding_periods: [10, 20, 21, 42, 63]   # 20與21視為同一檢定
+
+thresholds:
+  estimation_window: [-250, -31]
+  min_estimation_obs: 120
+  min_n_report: 30
+  min_n_strategy: 100
+  min_years_strategy: 3
+  max_single_year_share: 0.5
+  fdr_q: 0.10
+  strategy_min_abs_t: 3.0
+  universe_min_listed_days: 250
+  universe_min_adv20_twd: 30000000
+  jaccard_dedup: 0.8
+  dedup_hours: 24
+  merge_trading_days: 3
+  confound_days: 2
+  max_tickers_per_article: 5
+  negation_window_chars: 6
+
+strategy:
+  stop_atr_mult: 2.5
+  stop_pct: 0.10
+  max_weight_single: 0.05
+  max_weight_industry: 0.20
+  max_gross_exposure: 1.0
+  walk_forward: {train_years: 3, test_years: 1, embargo_days: 63}
+
+propagation_expected_sign:      # 事前寫入，不得事後改
+  supplier: "+"
+  customer: "+"
+  peer_competition: "-"
+  peer_contagion: "+"
+
+domain_whitelist:
+  - www.twse.com.tw
+  - openapi.twse.com.tw
+  - mops.twse.com.tw
+  - mopsov.twse.com.tw
+  - www.tpex.org.tw
+  - openapi.tpex.org.tw
+  - www.taifex.com.tw
+  - query1.finance.yahoo.com
+  - query2.finance.yahoo.com
+  - news.google.com
+
+fetch:
+  min_interval_sec: 1.0
+  backoff_base_sec: 2.0
+  backoff_max_sec: 120.0
+  max_retries: 6
+  timeout_sec: 30
+  cache_dir: data/raw/_cache
+  resume: true
+
+synthetic:
+  seed: 42
+  n_tickers: 60
+  years: 7
+  start_date: "2017-01-03"
