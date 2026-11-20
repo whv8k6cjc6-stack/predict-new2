@@ -1,0 +1,1 @@
+{"chart": {"result": [{"meta": {"gmtoffset": 28800, "symbol": "2330.TW"}, "timestamp": [1709254800, 1709514000, 1709600400], "indicators": {"quote": [{"open": [697.0, 714.0, null], "high": [697.0, 725.0, null], "low": [688.0, 711.0, null], "close": [689.0, 725.0, null], "volume": [23390635, 88861397, null]}], "adjclose": [{"adjclose": [660.8, 695.3, null]}]}}], "error": null}}
